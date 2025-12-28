@@ -1,0 +1,140 @@
+name: 자동 브랜치 생성
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  create-branch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Extract branch name from issue form
+        id: extract
+        run: |
+          # issue body를 파일로 저장 (특수문자 처리)
+          cat << 'EOF' > issue_body.txt
+          ${{ github.event.issue.body }}
+          EOF
+
+          # GitHub 기본 제목 사용
+          ISSUE_TITLE="${{ github.event.issue.title }}"
+          echo "현재 이슈 제목: $ISSUE_TITLE"
+
+          # "브랜치명" 또는 "Branch" 섹션에서 값 추출
+          BRANCH_NAME=$(grep -A 2 "브랜치명\|Branch" issue_body.txt | tail -1 | xargs)
+
+          # 빈 줄이나 헤더가 추출되었을 경우 재시도
+          if [ -z "$BRANCH_NAME" ] || [[ "$BRANCH_NAME" == "###"* ]] || [[ "$BRANCH_NAME" == "🌳"* ]]; then
+            # 다른 패턴으로 재시도: "Branch" 다음 첫 번째 비어있지 않은 줄
+            BRANCH_NAME=$(sed -n '/Branch/,/###/{/Branch/n; /###/!p;}' issue_body.txt | grep -v "^$" | head -1 | xargs)
+          fi
+
+          # 브랜치 타입 추출
+          BRANCH_TYPE=$(grep -A 2 "브랜치 타입\|branchType" issue_body.txt | tail -1 | xargs)
+
+          # 빈 줄이나 헤더가 추출되었을 경우 재시도
+          if [ -z "$BRANCH_TYPE" ] || [[ "$BRANCH_TYPE" == "###"* ]] || [[ "$BRANCH_TYPE" == "📂"* ]]; then
+            BRANCH_TYPE=$(sed -n '/브랜치 타입/,/###/{/브랜치 타입/n; /###/!p;}' issue_body.txt | grep -v "^$" | head -1 | xargs)
+          fi
+
+          echo "추출된 브랜치 타입: $BRANCH_TYPE"
+
+          # 이슈 제목에 브랜치 타입 추가 (이슈 제목만 대문자)
+          if [ -n "$BRANCH_TYPE" ] && [ -n "$ISSUE_TITLE" ]; then
+            # 이미 타입이 포함되어 있지 않은 경우에만 추가
+            if [[ ! "$ISSUE_TITLE" =~ ^\[.*\] ]]; then
+              BRANCH_TYPE_UPPER=$(echo "$BRANCH_TYPE" | tr '[:lower:]' '[:upper:]')
+              NEW_ISSUE_TITLE="[${BRANCH_TYPE_UPPER}] ${ISSUE_TITLE}"
+              echo "새로운 이슈 제목: $NEW_ISSUE_TITLE"
+            else
+              NEW_ISSUE_TITLE="$ISSUE_TITLE"
+              echo "이슈 제목에 이미 타입이 포함되어 있습니다."
+            fi
+          else
+            NEW_ISSUE_TITLE="$ISSUE_TITLE"
+          fi
+
+          if [ -z "$BRANCH_NAME" ]; then
+            echo "브랜치명을 찾을 수 없습니다. 기본값 사용."
+            BRANCH_NAME="issue-${{ github.event.issue.number }}"
+          else
+            # 🔧 Git 브랜치명 규칙에 맞게 정제 (한글 허용)
+            # 1. 공백 -> 하이픈(-)으로 변경
+            BRANCH_NAME=$(echo "$BRANCH_NAME" | sed 's/ /-/g')
+
+            # 2. Git에서 허용하지 않는 특수문자만 제거 (한글 포함 유니코드 허용)
+            # 제거 대상: :, ^, ~, ?, *, [, \, .., @{, 연속된 점 등
+            BRANCH_NAME=$(echo "$BRANCH_NAME" | sed 's/[:^~?*\[\\]//g; s/\.\.//g; s/@{//g')
+
+            # 3. 연속된 하이픈/슬래시 제거
+            BRANCH_NAME=$(echo "$BRANCH_NAME" | sed 's/--*/-/g; s/\/\/*\//\//g')
+
+            # 4. 앞뒤 하이픈/슬래시/점 제거
+            BRANCH_NAME=$(echo "$BRANCH_NAME" | sed 's/^[-\/\.]*//; s/[-\/\.]*$//')
+
+            # 5. 빈 문자열 체크
+            if [ -z "$BRANCH_NAME" ]; then
+              echo "정제 후 브랜치명이 비어있습니다. 기본값 사용."
+              BRANCH_NAME="issue-${{ github.event.issue.number }}"
+            else
+              # ✨ 브랜치 타입을 브랜치명 맨 앞에 붙이기
+              if [ -n "$BRANCH_TYPE" ]; then
+                # 브랜치명에 이미 타입이 포함되어 있지 않은 경우에만 추가
+                if [[ ! "$BRANCH_NAME" =~ ^$BRANCH_TYPE/ ]]; then
+                  BRANCH_NAME="${BRANCH_TYPE}/${BRANCH_NAME}"
+                fi
+              fi
+
+              # ✨ 이슈번호를 브랜치명 앞에 자동으로 붙이기
+              BRANCH_NAME="${{ github.event.issue.number }}-$BRANCH_NAME"
+            fi
+          fi
+
+          echo "최종 브랜치명: $BRANCH_NAME"
+          echo "branch_name=$BRANCH_NAME" >> $GITHUB_OUTPUT
+          echo "new_issue_title=$NEW_ISSUE_TITLE" >> $GITHUB_OUTPUT
+          echo "branch_type=$BRANCH_TYPE" >> $GITHUB_OUTPUT
+
+          # 임시 파일 삭제
+          rm -f issue_body.txt
+
+      - name: Update issue title and labels
+        run: |
+          NEW_TITLE="${{ steps.extract.outputs.new_issue_title }}"
+          BRANCH_TYPE="${{ steps.extract.outputs.branch_type }}"
+
+          if [ -n "$NEW_TITLE" ] && [ -n "$BRANCH_TYPE" ]; then
+            curl -X PATCH \
+              -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              -H "Accept: application/vnd.github.v3+json" \
+              https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }} \
+              -d "{\"title\":\"$NEW_TITLE\",\"labels\":[\"$BRANCH_TYPE\"]}"
+
+            echo "이슈 제목 업데이트: $NEW_TITLE"
+            echo "라벨 설정: $BRANCH_TYPE"
+          fi
+
+      - name: Create branch
+        run: |
+          BRANCH_NAME="${{ steps.extract.outputs.branch_name }}"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # 기본 브랜치에서 새 브랜치 생성
+          git checkout main
+          git pull origin main
+
+          git checkout -b "$BRANCH_NAME"
+          git push origin "$BRANCH_NAME"
+
+          echo "브랜치 '$BRANCH_NAME' 생성 완료"
