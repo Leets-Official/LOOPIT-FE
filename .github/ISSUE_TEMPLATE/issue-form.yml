@@ -20,6 +20,7 @@ body:
         - fix
         - hotfix
         - refactor
+        - test
         - docs
         - chore
     validations:

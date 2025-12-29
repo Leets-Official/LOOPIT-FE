@@ -112,15 +112,29 @@ jobs:
           NEW_TITLE="${{ steps.extract.outputs.new_issue_title }}"
           BRANCH_TYPE="${{ steps.extract.outputs.branch_type }}"
 
-          if [ -n "$NEW_TITLE" ] && [ -n "$BRANCH_TYPE" ]; then
+          # 브랜치 타입을 이모지 라벨로 매핑
+          case "$BRANCH_TYPE" in
+            "feat")     LABEL="✨Feature" ;;
+            "fix")      LABEL="🐛BugFix" ;;
+            "hotfix")   LABEL="🚨Hotfix" ;;
+            "refactor") LABEL="♻️Refactor" ;;
+            "test")     LABEL="✅Test" ;;
+            "docs")     LABEL="📝Docs" ;;
+            "chore")    LABEL="🛠️ Chore" ;;
+            *)          LABEL="$BRANCH_TYPE" ;;
+          esac
+
+          if [ -n "$NEW_TITLE" ] && [ -n "$LABEL" ]; then
+            # 이슈 제목, 라벨, 담당자 업데이트
             curl -X PATCH \
               -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
               -H "Accept: application/vnd.github.v3+json" \
               https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }} \
-              -d "{\"title\":\"$NEW_TITLE\",\"labels\":[\"$BRANCH_TYPE\"]}"
+              -d "{\"title\":\"$NEW_TITLE\",\"labels\":[\"$LABEL\"],\"assignees\":[\"${{ github.event.issue.user.login }}\"]}"
 
             echo "이슈 제목 업데이트: $NEW_TITLE"
-            echo "라벨 설정: $BRANCH_TYPE"
+            echo "라벨 설정: $LABEL"
+            echo "담당자 할당: ${{ github.event.issue.user.login }}"
           fi
 
       - name: Create branch
@@ -138,3 +152,21 @@ jobs:
           git push origin "$BRANCH_NAME"
 
           echo "브랜치 '$BRANCH_NAME' 생성 완료"
+
+      - name: Add comment to issue
+        run: |
+          BRANCH_NAME="${{ steps.extract.outputs.branch_name }}"
+
+          COMMENT="🌿 브랜치가 생성되었습니다!
+
+\`\`\`
+$BRANCH_NAME
+\`\`\`"
+
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments" \
+            -d "$(jq -n --arg body "$COMMENT" '{body: $body}')"
+
+          echo "이슈에 댓글 추가 완료"
