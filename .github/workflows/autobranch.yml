@@ -154,19 +154,19 @@ jobs:
           echo "브랜치 '$BRANCH_NAME' 생성 완료"
 
       - name: Add comment to issue
+        env:
+          BRANCH_NAME: ${{ steps.extract.outputs.branch_name }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          BRANCH_NAME="${{ steps.extract.outputs.branch_name }}"
+          COMMENT=$(cat <<EOF
+          🌿 브랜치가 생성되었습니다!
 
-          COMMENT="🌿 브랜치가 생성되었습니다!
+          \`\`\`
+          $BRANCH_NAME
+          \`\`\`
+          EOF
+          )
 
-\`\`\`
-$BRANCH_NAME
-\`\`\`"
-
-          curl -X POST \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            -H "Accept: application/vnd.github.v3+json" \
-            "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments" \
-            -d "$(jq -n --arg body "$COMMENT" '{body: $body}')"
+          gh issue comment ${{ github.event.issue.number }} --body "$COMMENT"
 
           echo "이슈에 댓글 추가 완료"
