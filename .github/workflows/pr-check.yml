@@ -24,6 +24,12 @@ jobs:
           node-version: 22
           cache: 'yarn'
 
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Set Yarn version
+        run: corepack prepare yarn@4.10.3 --activate
+
       - name: Generate cache key
         id: cache-key
         run: echo "value=${{ hashFiles('**/yarn.lock', '**/vite.config.ts', '**/tsconfig.json') }}" >> $GITHUB_OUTPUT
