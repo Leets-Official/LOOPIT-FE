@@ -1,1 +1,149 @@
 @import 'tailwindcss';
+@import 'pretendard/dist/web/variable/pretendardvariable.css';
+
+@theme {
+  /* Typography - Font Family */
+  --font-sans:
+    'Pretendard', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Colors - Primitive/Gray */
+  --color-white: #ffffff;
+  --color-gray-50: #f2f2f7;
+  --color-gray-100: #e5e5ea;
+  --color-gray-200: #d1d1d6;
+  --color-gray-300: #c7c7cc;
+  --color-gray-400: #aeaeb2;
+  --color-gray-500: #8e8e93;
+  --color-gray-600: #636366;
+  --color-gray-700: #48484a;
+  --color-gray-800: #3a3a3c;
+  --color-gray-900: #1c1c1e;
+  --color-black: #000000;
+
+  /* Colors - Primitive/Blue (Green) */
+  --color-green-50: #e0fff0;
+  --color-green-100: #b8ffe6;
+  --color-green-200: #8cffd0;
+  --color-green-300: #63ffd6;
+  --color-green-400: #38ffd1;
+  --color-green-500: #1bffd0;
+  --color-green-600: #0dd9b5;
+  --color-green-700: #00b39b;
+  --color-green-800: #008c7e;
+  --color-green-900: #00665f;
+
+  /* Typography - Font Size (Primitive/Scale) */
+  --font-size-xxxl: 40px;
+  --font-size-xxl: 28px;
+  --font-size-xl: 24px;
+  --font-size-l: 20px;
+  --font-size-m: 16px;
+  --font-size-s: 14px;
+  --font-size-xs: 12px;
+  --font-size-xxs: 8px;
+
+  /* Typography - Line Height */
+  --line-height-l: 28px;
+  --line-height-m: 24px;
+  --line-height-s: 20px;
+  --line-height-xs: 16px;
+
+  /* Typography - Letter Spacing */
+  --letter-spacing: 0;
+
+  /* Typography - Font Weight */
+  --font-weight-b: 700;
+  --font-weight-sb: 600;
+  --font-weight-m: 500;
+  --font-weight-r: 400;
+
+  /* Spacing (Primitive/Scale)*/
+  --spacing-xxxl: 40px;
+  --spacing-xxl: 28px;
+  --spacing-xl: 24px;
+  --spacing-l: 20px;
+  --spacing-m: 16px;
+  --spacing-s: 14px;
+  --spacing-xs: 12px;
+  --spacing-xxs: 8px;
+
+  /* Margin (Primitive/Scale) */
+  --margin-l: 24px;
+  --margin-m: 20px;
+  --margin-s: 16px;
+
+  /* Padding (Primitive/Scale) */
+  --padding-l: 16px;
+  --padding-m: 12px;
+  --padding-s: 8px;
+
+  /* Radius (Primitive/Scale) */
+  --radius-xl: 40px;
+  --radius-l: 24px;
+  --radius-m: 16px;
+  --radius-s: 8px;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+  }
+}
+
+@layer utilities {
+  .typo-title-1 {
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-sb);
+    font-size: var(--font-size-xxl);
+    line-height: 125%;
+    letter-spacing: var(--letter-spacing);
+  }
+
+  .typo-title-2 {
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-sb);
+    font-size: var(--font-size-xl);
+    line-height: var(--line-height-l);
+    letter-spacing: var(--letter-spacing);
+  }
+
+  .typo-title-3 {
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-b);
+    font-size: var(--font-size-l);
+    line-height: var(--line-height-m);
+    letter-spacing: var(--letter-spacing);
+  }
+
+  .typo-body-1 {
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-m);
+    font-size: var(--font-size-m);
+    line-height: var(--line-height-m);
+    letter-spacing: var(--letter-spacing);
+  }
+
+  .typo-body-2 {
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-sb);
+    font-size: var(--font-size-m);
+    line-height: var(--line-height-s);
+    letter-spacing: var(--letter-spacing);
+  }
+
+  .typo-caption-1 {
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-sb);
+    font-size: var(--font-size-xs);
+    line-height: var(--line-height-xs);
+    letter-spacing: var(--letter-spacing);
+  }
+
+  .typo-caption-2 {
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-r);
+    font-size: var(--font-size-xs);
+    line-height: var(--line-height-xs);
+    letter-spacing: var(--letter-spacing);
+  }
+}
