@@ -1,4 +1,4 @@
-name: 자동 브랜치 생성
+name: Auto Create Branch
 
 on:
   issues:
