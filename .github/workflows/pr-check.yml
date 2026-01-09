@@ -137,9 +137,9 @@ jobs:
             // 테스트 결과
             const testStatus = '${{ steps.test.outcome }}';
             if (testStatus === 'success') {
-              comment += '✅ **Tests**: 통과\n';
+              comment += '✅ **Test**: 통과\n';
             } else {
-              comment += '❌ **Tests**: 실패\n';
+              comment += '❌ **Test**: 실패\n';
             }
 
             // 빌드 결과
