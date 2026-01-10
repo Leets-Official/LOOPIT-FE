@@ -1,4 +1,4 @@
-name: 자동 브랜치 생성
+name: Auto Create Branch
 
 on:
   issues:
@@ -47,11 +47,12 @@ jobs:
 
           echo "추출된 브랜치 타입: $BRANCH_TYPE"
 
-          # 이슈 제목 생성 ([TYPE] #번호 - 제목 형식)
+          # 이슈 제목 생성 ([Type] #번호 - 제목 형식)
           if [ -n "$BRANCH_TYPE" ] && [ -n "$ISSUE_TITLE" ]; then
             if [[ ! "$ISSUE_TITLE" =~ ^\[.*\] ]]; then
-              BRANCH_TYPE_UPPER=$(echo "$BRANCH_TYPE" | tr '[:lower:]' '[:upper:]')
-              NEW_ISSUE_TITLE="[${BRANCH_TYPE_UPPER}] #${{ github.event.issue.number }} - ${ISSUE_TITLE}"
+              # 파스칼케이스 변환
+              BRANCH_TYPE_PASCAL=$(echo "$BRANCH_TYPE" | sed 's/\b\(.\)/\u\1/')
+              NEW_ISSUE_TITLE="[${BRANCH_TYPE_PASCAL}] #${{ github.event.issue.number }} - ${ISSUE_TITLE}"
               echo "새로운 이슈 제목: $NEW_ISSUE_TITLE"
             else
               NEW_ISSUE_TITLE="$ISSUE_TITLE"

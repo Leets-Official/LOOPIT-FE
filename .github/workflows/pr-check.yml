@@ -18,14 +18,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Enable Corepack
+        run: corepack enable
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: 'yarn'
-
-      - name: Enable Corepack
-        run: corepack enable
 
       - name: Set Yarn version
         run: corepack prepare yarn@4.10.3 --activate
@@ -62,6 +62,10 @@ jobs:
         id: format
         run: yarn format:check
         continue-on-error: true
+
+      - name: Run tests
+        id: test
+        run: yarn test --run
 
       - name: Build app
         id: build
@@ -128,6 +132,14 @@ jobs:
               comment += '✅ **Prettier**: 통과\n';
             } else {
               comment += '❌ **Prettier**: 포맷 필요\n';
+            }
+
+            // 테스트 결과
+            const testStatus = '${{ steps.test.outcome }}';
+            if (testStatus === 'success') {
+              comment += '✅ **Test**: 통과\n';
+            } else {
+              comment += '❌ **Test**: 실패\n';
             }
 
             // 빌드 결과
