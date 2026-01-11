@@ -15,12 +15,7 @@ export const Checkbox = ({
   className,
   ...props
 }: CheckboxProps) => {
-  const {
-    root,
-    box,
-    icon,
-    label: labelStyle,
-  } = checkboxVariants({
+  const { root, box, icon, label: labelStyle } = checkboxVariants({
     checked,
     disabled,
     focus,
@@ -28,11 +23,23 @@ export const Checkbox = ({
 
   return (
     <label className={root({ className })}>
-      <input type="checkbox" className="sr-only" checked={checked} disabled={disabled} {...props} />
+      <input
+        type="checkbox"
+        className="sr-only"
+        {...props}
+        checked={checked}
+        disabled={disabled}
+      />
 
       <span className={box()}>
         {checked && (
-          <svg className={icon()} width="11" height="8" viewBox="0 0 11 8" fill="none">
+          <svg
+            className={icon()}
+            width="11"
+            height="8"
+            viewBox="0 0 11 8"
+            fill="none"
+          >
             <path
               d="M10.0833 0.75L3.66667 7.16667L0.75 4.25"
               stroke="currentColor"
