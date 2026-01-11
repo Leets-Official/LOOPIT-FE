@@ -73,9 +73,11 @@
   --margin-s: 16px;
 
   /* Padding (Primitive/Scale) */
+  --padding-xl: 24px;
   --padding-l: 16px;
   --padding-m: 12px;
   --padding-s: 8px;
+  --padding-ss: 4px;
 
   /* Radius (Primitive/Scale) */
   --radius-xl: 40px;

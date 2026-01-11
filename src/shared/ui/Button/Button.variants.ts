@@ -5,7 +5,7 @@ export const buttonVariants = tv({
     /* layout */
     'flex items-center justify-center',
     'w-[163px] h-[44px]',
-    'px-[var(--spacing-xl)] py-[var(--padding-m)]',
+    'px-[var(--padding-xl)] py-[var(--padding-m)]',
     'gap-[var(--spacing-xxs)]',
 
     /* style */
