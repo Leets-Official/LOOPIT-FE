@@ -14,11 +14,19 @@ export const RadioButton = ({
   className,
   ...props
 }: RadioButtonProps) => {
-  const { root, circle, dot, label: labelStyle } = radioButtonVariants({ checked, disabled });
+  const {
+    root,
+    circle,
+    dot,
+    label: labelStyle,
+  } = radioButtonVariants({
+    checked,
+    disabled,
+  });
 
   return (
     <label className={root({ className })}>
-      <input type="radio" className="sr-only" checked={checked} disabled={disabled} {...props} />
+      <input type="radio" className="sr-only" {...props} checked={checked} disabled={disabled} />
 
       <span className={circle()}>
         <span className={dot()} />
