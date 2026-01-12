@@ -10,6 +10,8 @@ export const checkboxVariants = tv({
       'rounded-[4px]',
       'border',
       'transition-colors duration-[250ms] ease-out',
+      'bg-transparent',
+      'border-[var(--color-gray-300)]',
     ],
 
     icon: [
@@ -17,6 +19,7 @@ export const checkboxVariants = tv({
       'flex items-center justify-center',
       'text-[var(--color-white)]',
       '[&_path]:stroke-[2px]',
+      'hidden',
     ],
 
     label: ['typo-caption-1', 'text-[var(--color-gray-600)]'],
@@ -24,11 +27,6 @@ export const checkboxVariants = tv({
 
   variants: {
     checked: {
-      false: {
-        box: ['bg-transparent', 'border-[var(--color-gray-300)]'],
-        icon: ['hidden'],
-      },
-
       true: {
         box: ['bg-[var(--color-green-600)]', 'border-[var(--color-green-600)]'],
         icon: ['block'],
@@ -48,11 +46,5 @@ export const checkboxVariants = tv({
         label: ['text-[var(--color-gray-600)]'],
       },
     },
-  },
-
-  defaultVariants: {
-    checked: false,
-    focus: false,
-    disabled: false,
   },
 });

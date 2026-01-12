@@ -8,21 +8,39 @@ export const Checkbox = ({
   checked: controlledChecked,
   defaultChecked = false,
   disabled,
-  focus,
+  focus: controlledFocus,
   className,
   onChange,
+  onFocus,
+  onBlur,
   ...props
 }: CheckboxProps) => {
   const [uncontrolledValue, setUncontrolledValue] = useState(defaultChecked);
+  const [internalFocus, setInternalFocus] = useState(false);
 
   const isControlled = controlledChecked !== undefined;
   const checked = isControlled ? controlledChecked : uncontrolledValue;
+  const focus = controlledFocus ?? internalFocus;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!isControlled) {
       setUncontrolledValue(e.target.checked);
     }
     onChange?.(e);
+  };
+
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    if (controlledFocus === undefined) {
+      setInternalFocus(true);
+    }
+    onFocus?.(e);
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    if (controlledFocus === undefined) {
+      setInternalFocus(false);
+    }
+    onBlur?.(e);
   };
 
   const styles = checkboxVariants({ checked, disabled, focus });
@@ -35,7 +53,9 @@ export const Checkbox = ({
         checked={checked}
         disabled={disabled}
         onChange={handleChange}
-        aria-label={label}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        {...(label && { 'aria-label': label })}
         {...props}
       />
       <span className={styles.box()}>

@@ -2,22 +2,21 @@ import type { checkboxVariants } from '@shared/ui/Checkbox/Checkbox.variants';
 import type { ComponentPropsWithoutRef } from 'react';
 import type { VariantProps } from 'tailwind-variants';
 
-type ControlledProps = {
+type ControlledCheckboxProps = {
   checked: boolean;
   defaultChecked?: never;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-type UncontrolledProps = {
+type UncontrolledCheckboxProps = {
   checked?: never;
   defaultChecked?: boolean;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 export type CheckboxProps = Omit<
   ComponentPropsWithoutRef<'input'>,
   'type' | 'checked' | 'defaultChecked' | 'onChange'
 > &
-  VariantProps<typeof checkboxVariants> & {
+  Omit<VariantProps<typeof checkboxVariants>, 'checked'> & {
     label?: string;
-  } & (ControlledProps | UncontrolledProps);
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  } & (ControlledCheckboxProps | UncontrolledCheckboxProps);
