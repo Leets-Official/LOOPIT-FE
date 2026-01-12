@@ -13,6 +13,7 @@ export const buttonVariants = tv({
     'typo-body-1',
     'transition-colors',
     'focus:outline-none',
+    'cursor-pointer',
   ],
 
   variants: {
