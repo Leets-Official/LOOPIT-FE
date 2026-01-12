@@ -12,7 +12,12 @@ export const checkboxVariants = tv({
       'transition-colors duration-[250ms] ease-out',
     ],
 
-    icon: ['w-[14px] h-[14px]', 'flex items-center justify-center', 'text-[var(--color-white)]'],
+    icon: [
+      'w-[14px] h-[14px]',
+      'flex items-center justify-center',
+      'text-[var(--color-white)]',
+      '[&_path]:stroke-[2px]',
+    ],
 
     label: ['typo-caption-1', 'text-[var(--color-gray-600)]'],
   },
@@ -40,7 +45,7 @@ export const checkboxVariants = tv({
       true: {
         root: ['cursor-not-allowed'],
         box: ['bg-[var(--color-gray-300)]', 'border-[var(--color-gray-300)]'],
-        label: ['text-[var(--color-gray-600)]', 'line-through'],
+        label: ['text-[var(--color-gray-600)]'],
       },
     },
   },
