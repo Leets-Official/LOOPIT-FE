@@ -69,10 +69,7 @@ jobs:
 
       - name: Build app
         id: build
-        run: yarn vite build --mode development
-        env:
-          DISABLE_ESLINT_PLUGIN: true
-          GENERATE_SOURCEMAP: false
+        run: yarn build
 
       - name: Build size check
         run: |
