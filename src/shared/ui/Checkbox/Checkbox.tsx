@@ -1,20 +1,32 @@
+import { DoneIcon } from '@assets/icons';
 import { checkboxVariants } from '@shared/ui/Checkbox/Checkbox.variants';
-import type { ComponentPropsWithoutRef } from 'react';
-import type { VariantProps } from 'tailwind-variants';
+import { useState } from 'react';
+import type { CheckboxProps } from '@shared/ui/Checkbox/Checkbox.types';
 
-export type CheckboxProps = ComponentPropsWithoutRef<'input'> &
-  VariantProps<typeof checkboxVariants> & {
-    label?: string;
-  };
+export type { CheckboxProps };
 
 export const Checkbox = ({
   label,
-  checked,
+  checked: controlledChecked,
+  defaultChecked = false,
   disabled,
   focus,
   className,
+  onChange,
   ...props
 }: CheckboxProps) => {
+  const [internalChecked, setInternalChecked] = useState(defaultChecked);
+
+  const isControlled = controlledChecked !== undefined;
+  const checked = isControlled ? controlledChecked : internalChecked;
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!isControlled) {
+      setInternalChecked(e.target.checked);
+    }
+    onChange?.(e);
+  };
+
   const {
     root,
     box,
@@ -28,22 +40,15 @@ export const Checkbox = ({
 
   return (
     <label className={root({ className })}>
-      <input type="checkbox" className="sr-only" {...props} checked={checked} disabled={disabled} />
-
-      <span className={box()}>
-        {checked && (
-          <svg className={icon()} width="11" height="8" viewBox="0 0 11 8" fill="none">
-            <path
-              d="M10.0833 0.75L3.66667 7.16667L0.75 4.25"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        )}
-      </span>
-
+      <input
+        type="checkbox"
+        className="sr-only"
+        checked={checked}
+        disabled={disabled}
+        onChange={handleChange}
+        {...props}
+      />
+      <span className={box()}>{checked && <DoneIcon className={icon()} />}</span>
       {label && <span className={labelStyle()}>{label}</span>}
     </label>
   );
