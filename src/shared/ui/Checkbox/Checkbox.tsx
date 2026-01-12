@@ -3,8 +3,6 @@ import { checkboxVariants } from '@shared/ui/Checkbox/Checkbox.variants';
 import { useState } from 'react';
 import type { CheckboxProps } from '@shared/ui/Checkbox/Checkbox.types';
 
-export type { CheckboxProps };
-
 export const Checkbox = ({
   label,
   checked: controlledChecked,
@@ -15,41 +13,35 @@ export const Checkbox = ({
   onChange,
   ...props
 }: CheckboxProps) => {
-  const [internalChecked, setInternalChecked] = useState(defaultChecked);
+  const [uncontrolledValue, setUncontrolledValue] = useState(defaultChecked);
 
   const isControlled = controlledChecked !== undefined;
-  const checked = isControlled ? controlledChecked : internalChecked;
+  const checked = isControlled ? controlledChecked : uncontrolledValue;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!isControlled) {
-      setInternalChecked(e.target.checked);
+      setUncontrolledValue(e.target.checked);
     }
     onChange?.(e);
   };
 
-  const {
-    root,
-    box,
-    icon,
-    label: labelStyle,
-  } = checkboxVariants({
-    checked,
-    disabled,
-    focus,
-  });
+  const styles = checkboxVariants({ checked, disabled, focus });
 
   return (
-    <label className={root({ className })}>
+    <label className={styles.root({ className })}>
       <input
         type="checkbox"
         className="sr-only"
         checked={checked}
         disabled={disabled}
         onChange={handleChange}
+        aria-label={label}
         {...props}
       />
-      <span className={box()}>{checked && <DoneIcon className={icon()} />}</span>
-      {label && <span className={labelStyle()}>{label}</span>}
+      <span className={styles.box()}>
+        <DoneIcon className={styles.icon()} />
+      </span>
+      {label && <span className={styles.label()}>{label}</span>}
     </label>
   );
 };
