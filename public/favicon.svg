@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="1000"><style>
+    #light-icon {
+      display: inline;
+    }
+    #dark-icon {
+      display: none;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      #light-icon {
+        display: none;
+      }
+      #dark-icon {
+        display: inline;
+      }
+    }
+  </style><g id="light-icon"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="1000"><g clip-path="url(#SvgjsClipPath1046)"><rect width="1000" height="1000" fill="#ffffff"></rect><g transform="matrix(4,0,0,4,150,150)"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="175" height="175"><svg width="175" height="175" viewBox="0 0 175 175" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M36.7009 73.4442C56.9702 73.4442 73.4017 57.0031 73.4017 36.7221C73.4017 16.441 56.9702 0 36.7009 0C16.4315 0 0 16.441 0 36.7221C0 57.0031 16.4315 73.4442 36.7009 73.4442Z" fill="#13FFD0"></path>
+<path d="M64.9601 161.4V115.156C67.1283 116.945 75.223 123.198 87.3121 123.198C99.4012 123.198 107.501 116.945 109.664 115.156V161.4C106.884 159.457 98.823 154.361 87.3121 154.361C75.8012 154.361 67.7402 159.457 64.9601 161.4Z" fill="black"></path>
+<path d="M138.299 175C158.568 175 175 158.559 175 138.278C175 117.997 158.568 101.556 138.299 101.556C118.03 101.556 101.598 117.997 101.598 138.278C101.598 158.559 118.03 175 138.299 175Z" fill="black"></path>
+<path d="M36.7009 175C56.9702 175 73.4017 158.559 73.4017 138.278C73.4017 117.997 56.9702 101.556 36.7009 101.556C16.4315 101.556 0 117.997 0 138.278C0 158.559 16.4315 175 36.7009 175Z" fill="black"></path>
+</svg></svg></g></g><defs><clipPath id="SvgjsClipPath1046"><rect width="1000" height="1000" x="0" y="0" rx="250" ry="250"></rect></clipPath></defs></svg></g><g id="dark-icon"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="1000"><g clip-path="url(#SvgjsClipPath1047)"><rect width="1000" height="1000" fill="#3c3c3c"></rect><g transform="matrix(4,0,0,4,150,150)"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="175" height="175"><svg width="175" height="175" viewBox="0 0 175 175" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M36.7009 73.4442C56.9702 73.4442 73.4017 57.0031 73.4017 36.7221C73.4017 16.441 56.9702 0 36.7009 0C16.4315 0 0 16.441 0 36.7221C0 57.0031 16.4315 73.4442 36.7009 73.4442Z" fill="#13FFD0"></path>
+<path d="M64.9601 161.4V115.156C67.1283 116.945 75.223 123.198 87.3121 123.198C99.4012 123.198 107.501 116.945 109.664 115.156V161.4C106.884 159.457 98.823 154.361 87.3121 154.361C75.8012 154.361 67.7402 159.457 64.9601 161.4Z" fill="black"></path>
+<path d="M138.299 175C158.568 175 175 158.559 175 138.278C175 117.997 158.568 101.556 138.299 101.556C118.03 101.556 101.598 117.997 101.598 138.278C101.598 158.559 118.03 175 138.299 175Z" fill="black"></path>
+<path d="M36.7009 175C56.9702 175 73.4017 158.559 73.4017 138.278C73.4017 117.997 56.9702 101.556 36.7009 101.556C16.4315 101.556 0 117.997 0 138.278C0 158.559 16.4315 175 36.7009 175Z" fill="black"></path>
+</svg></svg></g></g><defs><clipPath id="SvgjsClipPath1047"><rect width="1000" height="1000" x="0" y="0" rx="250" ry="250"></rect></clipPath></defs></svg></g></svg>

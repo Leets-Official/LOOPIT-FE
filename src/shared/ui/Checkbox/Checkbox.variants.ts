@@ -10,20 +10,23 @@ export const checkboxVariants = tv({
       'rounded-[4px]',
       'border',
       'transition-colors duration-[250ms] ease-out',
+      'bg-transparent',
+      'border-[var(--color-gray-300)]',
     ],
 
-    icon: ['w-[14px] h-[14px]', 'flex items-center justify-center', 'text-[var(--color-white)]'],
+    icon: [
+      'w-[14px] h-[14px]',
+      'flex items-center justify-center',
+      'text-[var(--color-white)]',
+      '[&_path]:stroke-[2px]',
+      'hidden',
+    ],
 
     label: ['typo-caption-1', 'text-[var(--color-gray-600)]'],
   },
 
   variants: {
     checked: {
-      false: {
-        box: ['bg-transparent', 'border-[var(--color-gray-300)]'],
-        icon: ['hidden'],
-      },
-
       true: {
         box: ['bg-[var(--color-green-600)]', 'border-[var(--color-green-600)]'],
         icon: ['block'],
@@ -40,14 +43,8 @@ export const checkboxVariants = tv({
       true: {
         root: ['cursor-not-allowed'],
         box: ['bg-[var(--color-gray-300)]', 'border-[var(--color-gray-300)]'],
-        label: ['text-[var(--color-gray-600)]', 'line-through'],
+        label: ['text-[var(--color-gray-600)]'],
       },
     },
-  },
-
-  defaultVariants: {
-    checked: false,
-    focus: false,
-    disabled: false,
   },
 });

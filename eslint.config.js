@@ -151,7 +151,10 @@ export default [
       ],
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'error',
-      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+      'react-refresh/only-export-components': [
+        'warn',
+        { allowConstantExport: true, allowExportNames: ['links', 'meta', 'loader', 'action'] },
+      ],
       'jsx-a11y/alt-text': 'error',
       'jsx-a11y/anchor-has-content': 'error',
       'jsx-a11y/anchor-is-valid': 'warn',
