@@ -3,6 +3,7 @@ import { Card } from '@shared/ui/Card/Card';
 import { Checkbox } from '@shared/ui/Checkbox/Checkbox';
 import { Profile } from '@shared/ui/Profile/Profile';
 import { RadioButton } from '@shared/ui/RadioButton/RadioButton';
+import { TextField } from '@shared/ui/TextField/TextField';
 
 export default function Playground() {
   return (
@@ -97,6 +98,123 @@ export default function Playground() {
           priceText="0,000원"
           dateText="1일 전"
         />
+      </section>
+      {/* ✅ 여기부터 TextField 예시 9개 */}
+      <section className="flex flex-col gap-4">
+        <h2 className="typo-body-1">TextField</h2>
+
+        <div className="flex flex-wrap gap-10">
+          {/* Char Field */}
+          <div className="flex flex-col gap-4">
+            <h3 className="typo-caption-1 font-semibold">Char Field</h3>
+
+            <div className="w-[509px]">
+              <TextField
+                type="char"
+                label="Username"
+                placeholder="Enter your username"
+                showCharacterCount
+                helperText="Default"
+              />
+            </div>
+
+            <div className="w-[509px]">
+              <TextField
+                type="char"
+                label="Username"
+                placeholder="Enter your username"
+                showCharacterCount
+                error
+                helperText="Error: invalid username"
+              />
+            </div>
+
+            <div className="w-[509px]">
+              <TextField
+                type="char"
+                label="Username"
+                placeholder="Enter your username"
+                showCharacterCount
+                disabled
+                helperText="Disabled"
+              />
+            </div>
+          </div>
+
+          {/* TextArea Field */}
+          <div className="flex flex-col gap-4">
+            <h3 className="typo-caption-1 font-semibold">TextArea Field</h3>
+
+            <div className="w-[509px]">
+              <TextField
+                type="textarea"
+                label="Description"
+                placeholder="Enter a description"
+                showCharacterCount
+                helperText="Default"
+              />
+            </div>
+
+            <div className="w-[509px]">
+              <TextField
+                type="textarea"
+                label="Description"
+                placeholder="Enter a description"
+                showCharacterCount
+                error
+                helperText="Error: required"
+              />
+            </div>
+
+            <div className="w-[509px]">
+              <TextField
+                type="textarea"
+                label="Description"
+                placeholder="Enter a description"
+                showCharacterCount
+                disabled
+                helperText="Disabled"
+              />
+            </div>
+          </div>
+
+          {/* Price Field */}
+          <div className="flex flex-col gap-4">
+            <h3 className="typo-caption-1 font-semibold">Price Field</h3>
+
+            <div className="w-[509px]">
+              <TextField
+                type="price"
+                label="Price"
+                placeholder="Enter price"
+                defaultValue="10000"
+                helperText="Default"
+              />
+            </div>
+
+            <div className="w-[509px]">
+              <TextField
+                type="price"
+                label="Price"
+                placeholder="Enter price"
+                defaultValue="10000"
+                error
+                helperText="Error: invalid price"
+              />
+            </div>
+
+            <div className="w-[509px]">
+              <TextField
+                type="price"
+                label="Price"
+                placeholder="Enter price"
+                defaultValue="10000"
+                disabled
+                helperText="Disabled"
+              />
+            </div>
+          </div>
+        </div>
       </section>
     </div>
   );
