@@ -1,4 +1,4 @@
-name: Build Test
+name: PR Build Test
 
 on:
   pull_request:
@@ -54,14 +54,12 @@ jobs:
         run: |
           yarn lint --max-warnings 0 --format json > lint-results.json || {
             echo "LINT_FAILED=true" >> $GITHUB_OUTPUT
-            echo "Lint issues found, but continuing build..."
+            exit 1
           }
-        continue-on-error: true
 
       - name: Format check
         id: format
         run: yarn format:check
-        continue-on-error: true
 
       - name: Run tests
         id: test
