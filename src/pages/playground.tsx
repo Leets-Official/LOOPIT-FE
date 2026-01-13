@@ -50,7 +50,7 @@ export default function Playground() {
           <RadioButton checked disabled label="Selected + Disabled" />
         </div>
       </section>
-       <section className="flex flex-col gap-4">
+      <section className="flex flex-col gap-4">
         <h2 className="typo-body-1">Card</h2>
 
         <Card
