@@ -35,7 +35,7 @@ jobs:
 
             // Reviewer 추가
             if (currentReviewers.length === 0) {
-              const reviewers = ['YeBeenChoi', 'jwj0620gcu'].filter(r => r !== prAuthor);
+              const reviewers = ['YeBeenChoi', 'jwj0620gcu', 'KyeongJooni'].filter(r => r !== prAuthor);
               if (reviewers.length > 0) {
                 try {
                   await github.rest.pulls.requestReviewers({
