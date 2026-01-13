@@ -1,4 +1,5 @@
 import { Button } from '@shared/ui/Button/Button';
+import { Card } from '@shared/ui/Card/Card';
 import { Checkbox } from '@shared/ui/Checkbox/Checkbox';
 import { RadioButton } from '@shared/ui/RadioButton/RadioButton';
 
@@ -48,6 +49,16 @@ export default function Playground() {
           <RadioButton disabled label="Disabled" />
           <RadioButton checked disabled label="Selected + Disabled" />
         </div>
+      </section>
+       <section className="flex flex-col gap-4">
+        <h2 className="typo-body-1">Card</h2>
+
+        <Card
+          imageSrc="/iphone11.png"
+          titleText="Title 인데 제목이 정말 길 경우에는 두줄 까지만 보이고, 뒤엔 점 처리"
+          priceText="0,000원"
+          dateText="1일 전"
+        />
       </section>
     </div>
   );
