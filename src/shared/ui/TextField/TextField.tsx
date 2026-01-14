@@ -78,7 +78,6 @@ export const TextField = ({
     el.style.height = 'auto';
 
     const maxHeight = TEXTAREA_LINE_HEIGHT * TEXTAREA_MAX_LINES;
-
     const nextHeight = Math.min(el.scrollHeight, maxHeight);
     el.style.height = `${nextHeight}px`;
     el.style.overflowY = el.scrollHeight > maxHeight ? 'auto' : 'hidden';
