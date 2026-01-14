@@ -99,7 +99,8 @@ export default function Playground() {
           dateText="1일 전"
         />
       </section>
-      {/* ✅ 여기부터 TextField 예시 9개 */}
+
+      {/* TextField 예시 */}
       <section className="flex flex-col gap-4">
         <h2 className="typo-body-1">TextField</h2>
 
@@ -111,7 +112,7 @@ export default function Playground() {
             <div className="w-[509px]">
               <TextField
                 type="char"
-                label="Username"
+                label="Char Field"
                 placeholder="Enter your username"
                 showCharacterCount
                 helperText="Default"
@@ -121,18 +122,18 @@ export default function Playground() {
             <div className="w-[509px]">
               <TextField
                 type="char"
-                label="Username"
+                label="Char Field"
                 placeholder="Enter your username"
                 showCharacterCount
                 error
-                helperText="Error: invalid username"
+                helperText="Error"
               />
             </div>
 
             <div className="w-[509px]">
               <TextField
                 type="char"
-                label="Username"
+                label="Char Field"
                 placeholder="Enter your username"
                 showCharacterCount
                 disabled
@@ -148,7 +149,7 @@ export default function Playground() {
             <div className="w-[509px]">
               <TextField
                 type="textarea"
-                label="Description"
+                label="TextArea Field"
                 placeholder="Enter a description"
                 showCharacterCount
                 helperText="Default"
@@ -158,18 +159,18 @@ export default function Playground() {
             <div className="w-[509px]">
               <TextField
                 type="textarea"
-                label="Description"
+                label="TextArea Field"
                 placeholder="Enter a description"
                 showCharacterCount
                 error
-                helperText="Error: required"
+                helperText="Error"
               />
             </div>
 
             <div className="w-[509px]">
               <TextField
                 type="textarea"
-                label="Description"
+                label="TextArea Field"
                 placeholder="Enter a description"
                 showCharacterCount
                 disabled
@@ -185,7 +186,7 @@ export default function Playground() {
             <div className="w-[509px]">
               <TextField
                 type="price"
-                label="Price"
+                label="Price Field"
                 placeholder="Enter price"
                 defaultValue="10000"
                 helperText="Default"
@@ -195,18 +196,18 @@ export default function Playground() {
             <div className="w-[509px]">
               <TextField
                 type="price"
-                label="Price"
+                label="Price Field"
                 placeholder="Enter price"
                 defaultValue="10000"
                 error
-                helperText="Error: invalid price"
+                helperText="Error"
               />
             </div>
 
             <div className="w-[509px]">
               <TextField
                 type="price"
-                label="Price"
+                label="Price Field"
                 placeholder="Enter price"
                 defaultValue="10000"
                 disabled
