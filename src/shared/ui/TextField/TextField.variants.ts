@@ -4,13 +4,12 @@ export const textFieldVariants = tv({
   slots: {
     root: ['flex flex-col'],
 
-    labelRow: ['flex items-center justify-between'],
+    labelRow: ['flex items-center justify-between', 'mb-[12px]'],
 
     label: [
       // Caption 1 / Medium
       'text-[14px] leading-[20px] font-medium',
       'text-[var(--color-gray-700)]',
-      'mb-[12px]',
     ],
 
     counter: [
@@ -51,6 +50,9 @@ export const textFieldVariants = tv({
       'focus:border-[var(--color-green-700)]',
       'focus:outline-none',
       'transition-colors',
+      'resize-none',
+      'overflow-y-auto',
+      'max-h-[240px]', // 최대 높이 10줄로 설정
     ],
 
     helperText: [
@@ -76,6 +78,12 @@ export const textFieldVariants = tv({
           'text-[12px] leading-[16px] font-normal',
           'text-[var(--color-gray-500)]',
         ],
+      },
+    },
+    filled: {
+      true: {
+        input: ['border-[var(--color-green-700)]'],
+        textarea: ['border-[var(--color-green-700)]'],
       },
     },
 
@@ -113,6 +121,11 @@ export const textFieldVariants = tv({
         counter: ['text-[var(--color-gray-300)]'],
         helperText: ['text-[var(--color-gray-300)]'],
         suffix: ['text-[var(--color-gray-300)]'],
+      },
+    },
+    price: {
+      true: {
+        input: ['text-right', 'pr-[30px]'],
       },
     },
   },
