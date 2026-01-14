@@ -3,7 +3,7 @@ import type { ChangeEventHandler, ComponentPropsWithoutRef } from 'react';
 import type { VariantProps } from 'tailwind-variants';
 
 /** TextField 타입 */
-export type TextFieldType = 'text' | 'char' | 'textarea' | 'price';
+type TextFieldType = 'text' | 'char' | 'textarea' | 'price';
 
 /** Controlled / Uncontrolled */
 type ControlledTextFieldProps = {
@@ -37,3 +37,9 @@ export type TextFieldProps = BaseProps &
   Omit<ComponentPropsWithoutRef<'textarea'>, 'value' | 'defaultValue' | 'onChange'> & {
     onChange?: CommonChangeHandler;
   };
+
+type DistributiveOmit<T, K extends PropertyKey> = T extends unknown ? Omit<T, K> : never;
+
+export type CharFieldProps = DistributiveOmit<TextFieldProps, 'type'>;
+export type TextAreaFieldProps = DistributiveOmit<TextFieldProps, 'type'>;
+export type PriceFieldProps = DistributiveOmit<TextFieldProps, 'type'>;
