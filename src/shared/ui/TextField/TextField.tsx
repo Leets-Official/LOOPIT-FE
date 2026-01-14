@@ -43,7 +43,9 @@ export const TextField = ({
   const isChar = type === 'char';
   const isPrice = type === 'price';
 
-  const maxLen = isChar ? CHAR_MAX_LENGTH : (maxLength ?? (isTextarea ? TEXTAREA_MAX_LENGTH : undefined));
+  const maxLen = isChar
+    ? CHAR_MAX_LENGTH
+    : (maxLength ?? (isTextarea ? TEXTAREA_MAX_LENGTH : undefined));
   const normalizedValue = isPrice ? rawValue.replace(/\D/g, '') : rawValue;
 
   const displayValue = useMemo(() => {
