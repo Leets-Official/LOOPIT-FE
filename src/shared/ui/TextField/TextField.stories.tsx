@@ -9,99 +9,172 @@ const meta = {
   },
   tags: ['autodocs'],
   argTypes: {
-    label: {
-      control: 'text',
-      description: 'Label text for the text field',
+    type: {
+      control: 'select',
+      options: ['text', 'char', 'textarea', 'price'],
+      description: 'TextField type',
     },
-    placeholder: {
-      control: 'text',
-      description: 'Placeholder text',
-    },
-    disabled: {
-      control: 'boolean',
-      description: 'Disabled state',
-    },
-    error: {
-      control: 'boolean',
-      description: 'Error state',
-    },
-    helperText: {
-      control: 'text',
-      description: 'Helper text below the input',
-    },
-    value: {
-      control: 'text',
-      description: 'Controlled value',
-    },
-    defaultValue: {
-      control: 'text',
-      description: 'Default value for uncontrolled input',
-    },
+    label: { control: 'text' },
+    placeholder: { control: 'text' },
+    disabled: { control: 'boolean' },
+    error: { control: 'boolean' },
+    helperText: { control: 'text' },
+    showCharacterCount: { control: 'boolean' },
+    value: { control: 'text' },
+    defaultValue: { control: 'text' },
   },
 } satisfies Meta<typeof TextField>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const CharField: Story = {
+export const Showcase: Story = {
+  name: 'Playground Showcase (9)',
+  render: () => (
+    <div className="flex flex-wrap gap-10">
+      {/* Char Field */}
+      <div className="flex flex-col gap-4">
+        <h3 className="typo-caption-1 font-semibold">Char Field</h3>
+
+        <div className="w-127.25">
+          <TextField
+            type="char"
+            label="Char Field"
+            placeholder="Enter your username"
+            showCharacterCount
+            helperText="Default"
+          />
+        </div>
+
+        <div className="w-127.25">
+          <TextField
+            type="char"
+            label="Char Field"
+            placeholder="Enter your username"
+            showCharacterCount
+            error
+            helperText="Error"
+          />
+        </div>
+
+        <div className="w-127.25">
+          <TextField
+            type="char"
+            label="Char Field"
+            placeholder="Enter your username"
+            showCharacterCount
+            disabled
+            helperText="Disabled"
+          />
+        </div>
+      </div>
+
+      {/* TextArea Field */}
+      <div className="flex flex-col gap-4">
+        <h3 className="typo-caption-1 font-semibold">TextArea Field</h3>
+
+        <div className="w-127.25">
+          <TextField
+            type="textarea"
+            label="TextArea Field"
+            placeholder="Enter a description"
+            showCharacterCount
+            helperText="Default"
+          />
+        </div>
+
+        <div className="w-127.25">
+          <TextField
+            type="textarea"
+            label="TextArea Field"
+            placeholder="Enter a description"
+            showCharacterCount
+            error
+            helperText="Error"
+          />
+        </div>
+
+        <div className="w-127.25">
+          <TextField
+            type="textarea"
+            label="TextArea Field"
+            placeholder="Enter a description"
+            showCharacterCount
+            disabled
+            helperText="Disabled"
+          />
+        </div>
+      </div>
+
+      {/* Price Field */}
+      <div className="flex flex-col gap-4">
+        <h3 className="typo-caption-1 font-semibold">Price Field</h3>
+
+        <div className="w-127.25">
+          <TextField
+            type="price"
+            label="Price Field"
+            placeholder="Enter price"
+            defaultValue="10000"
+            helperText="Default"
+          />
+        </div>
+
+        <div className="w-127.25">
+          <TextField
+            type="price"
+            label="Price Field"
+            placeholder="Enter price"
+            defaultValue="10000"
+            error
+            helperText="Error"
+          />
+        </div>
+
+        <div className="w-127.25">
+          <TextField
+            type="price"
+            label="Price Field"
+            placeholder="Enter price"
+            defaultValue="10000"
+            disabled
+            helperText="Disabled"
+          />
+        </div>
+      </div>
+    </div>
+  ),
+};
+
+/**
+ * (옵션) 단일 스토리들도 기본적인 확인용으로 남겨두고 싶으면 최소만 유지
+ */
+export const CharDefault: Story = {
   args: {
     type: 'char',
-    label: 'Username',
+    label: 'Char Field',
     placeholder: 'Enter your username',
-    helperText: 'This is a char field',
+    showCharacterCount: true,
+    helperText: 'Default',
   },
 };
 
-export const WithValue: Story = {
-  args: {
-    label: 'Email',
-    placeholder: 'Enter your email',
-    value: 'user@example.com',
-    helperText: 'Email address',
-  },
-};
-
-export const WithHelperText: Story = {
-  args: {
-    label: 'Password',
-    placeholder: 'Enter your password',
-    helperText: 'Password must be at least 8 characters',
-  },
-};
-
-export const Error: Story = {
-  args: {
-    label: 'Email',
-    placeholder: 'Enter your email',
-    error: true,
-    helperText: 'Invalid email address',
-  },
-};
-
-export const Disabled: Story = {
-  args: {
-    label: 'Disabled Field',
-    placeholder: 'This field is disabled',
-    disabled: true,
-    helperText: 'This field is disabled',
-  },
-};
-
-export const Textarea: Story = {
+export const TextareaDefault: Story = {
   args: {
     type: 'textarea',
-    label: 'Description',
+    label: 'TextArea Field',
     placeholder: 'Enter a description',
-    helperText: 'This is a textarea field',
+    showCharacterCount: true,
+    helperText: 'Default',
   },
 };
 
-export const PriceField: Story = {
+export const PriceDefault: Story = {
   args: {
     type: 'price',
-    label: 'Price',
+    label: 'Price Field',
     placeholder: 'Enter price',
-    value: '$100.00',
-    helperText: 'Price in USD',
+    defaultValue: '10000',
+    helperText: 'Default',
   },
 };
