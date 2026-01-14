@@ -1,5 +1,5 @@
 import type { textFieldVariants } from '@shared/ui/TextField/TextField.variants';
-import type { ComponentPropsWithoutRef } from 'react';
+import type { ChangeEventHandler, ComponentPropsWithoutRef } from 'react';
 import type { VariantProps } from 'tailwind-variants';
 
 /** TextField 타입 */
@@ -28,12 +28,12 @@ type BaseProps = {
 };
 
 /** input / textarea 공통 이벤트 */
-type CommonChangeEvent = React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
+type CommonChangeHandler = ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 
 export type TextFieldProps = BaseProps &
   VariantProps<typeof textFieldVariants> &
   (ControlledTextFieldProps | UncontrolledTextFieldProps) &
   Omit<ComponentPropsWithoutRef<'input'>, 'type' | 'value' | 'defaultValue' | 'onChange'> &
   Omit<ComponentPropsWithoutRef<'textarea'>, 'value' | 'defaultValue' | 'onChange'> & {
-    onChange?: (e: CommonChangeEvent) => void;
+    onChange?: CommonChangeHandler;
   };
