@@ -7,12 +7,15 @@ export type ProfileProps = ComponentPropsWithoutRef<'div'> &
     imageUrl?: string;
   };
 
-export const Profile = ({ size, imageUrl, className, ...props }: ProfileProps) => {
+export const Profile = ({ size, imageUrl, className, style, ...props }: ProfileProps) => {
   return (
     <div
-      className={profileVariants({ size, className })}
-      style={imageUrl ? { backgroundImage: `url(${imageUrl})` } : undefined}
       {...props}
+      className={profileVariants({ size, className })}
+      style={{
+        ...(imageUrl && { backgroundImage: `url(${imageUrl})` }),
+        ...style,
+      }}
     />
   );
 };
