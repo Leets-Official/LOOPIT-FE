@@ -2,7 +2,7 @@ import { cardVariants } from './Card.variants';
 import type { ComponentPropsWithoutRef } from 'react';
 import type { VariantProps } from 'tailwind-variants';
 
-const { base, imageWrapper, image, overlay, title, price, date } = cardVariants();
+const { base, imageWrapper, image, overlay, title, price, date, textWrapper } = cardVariants();
 
 export type CardProps = ComponentPropsWithoutRef<'div'> &
   VariantProps<typeof cardVariants> & {
@@ -27,9 +27,11 @@ export const Card = ({
         <div className={overlay()} />
       </div>
 
-      <p className={title()}>{titleText}</p>
-      <p className={price()}>{priceText}</p>
-      <span className={date()}>{dateText}</span>
+      <div className={textWrapper()}>
+        <p className={title()}>{titleText}</p>
+        <p className={price()}>{priceText}</p>
+        <span className={date()}>{dateText}</span>
+      </div>
     </div>
   );
 };

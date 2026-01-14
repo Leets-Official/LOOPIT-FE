@@ -47,5 +47,7 @@ export const cardVariants = tv({
     price: ['self-stretch', 'typo-body-2', 'font-semibold', 'text-black'],
 
     date: ['self-stretch', 'typo-caption-2', 'font-normal', 'text-black'],
+
+    textWrapper: 'flex flex-col gap-1',
   },
 });
