@@ -58,6 +58,7 @@ export default function Playground() {
         </div>
       </section>
 
+<<<<<<< HEAD
       {/* Profile */}
       <section className="flex flex-col gap-4">
         <h2 className="typo-body-1">Profile</h2>
@@ -101,6 +102,9 @@ export default function Playground() {
       </section>
 
       {/* TextField 예시 */}
+=======
+      {/* TextField 예시 9개 */}
+>>>>>>> f6483bf (chore: Playground 예제 픽셀값 수정)
       <section className="flex flex-col gap-4">
         <h2 className="typo-body-1">TextField</h2>
 
@@ -109,7 +113,7 @@ export default function Playground() {
           <div className="flex flex-col gap-4">
             <h3 className="typo-caption-1 font-semibold">Char Field</h3>
 
-            <div className="w-[509px]">
+            <div className="w-127.25">
               <TextField
                 type="char"
                 label="Char Field"
@@ -119,7 +123,7 @@ export default function Playground() {
               />
             </div>
 
-            <div className="w-[509px]">
+            <div className="w-127.25">
               <TextField
                 type="char"
                 label="Char Field"
@@ -130,7 +134,7 @@ export default function Playground() {
               />
             </div>
 
-            <div className="w-[509px]">
+            <div className="w-127.25">
               <TextField
                 type="char"
                 label="Char Field"
@@ -146,7 +150,7 @@ export default function Playground() {
           <div className="flex flex-col gap-4">
             <h3 className="typo-caption-1 font-semibold">TextArea Field</h3>
 
-            <div className="w-[509px]">
+            <div className="w-127.25">
               <TextField
                 type="textarea"
                 label="TextArea Field"
@@ -156,7 +160,7 @@ export default function Playground() {
               />
             </div>
 
-            <div className="w-[509px]">
+            <div className="w-127.25">
               <TextField
                 type="textarea"
                 label="TextArea Field"
@@ -167,7 +171,7 @@ export default function Playground() {
               />
             </div>
 
-            <div className="w-[509px]">
+            <div className="w-127.25">
               <TextField
                 type="textarea"
                 label="TextArea Field"
@@ -183,7 +187,7 @@ export default function Playground() {
           <div className="flex flex-col gap-4">
             <h3 className="typo-caption-1 font-semibold">Price Field</h3>
 
-            <div className="w-[509px]">
+            <div className="w-127.25">
               <TextField
                 type="price"
                 label="Price Field"
@@ -193,7 +197,7 @@ export default function Playground() {
               />
             </div>
 
-            <div className="w-[509px]">
+            <div className="w-127.25">
               <TextField
                 type="price"
                 label="Price Field"
@@ -204,7 +208,7 @@ export default function Playground() {
               />
             </div>
 
-            <div className="w-[509px]">
+            <div className="w-127.25">
               <TextField
                 type="price"
                 label="Price Field"
