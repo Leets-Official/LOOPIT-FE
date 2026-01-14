@@ -20,8 +20,7 @@ export const textFieldVariants = tv({
 
     fieldWrapper: ['relative'],
 
-    input: [
-      'w-[509px] h-[48px]',
+    fieldBase: [
       'px-[16px] py-[12px]',
       'rounded-[8px]',
       'border',
@@ -36,20 +35,10 @@ export const textFieldVariants = tv({
       'transition-colors',
     ],
 
+    input: ['w-[509px] h-[48px]'],
+
     textarea: [
       'w-[509px] min-h-[48px]',
-      'px-[16px] py-[12px]',
-      'rounded-[8px]',
-      'border',
-      'border-[var(--color-gray-200)]',
-      'bg-white',
-      'resize-none',
-      'text-[16px] leading-[24px] font-medium',
-      'placeholder:text-[var(--color-gray-300)]',
-      'hover:border-[var(--color-green-700)]',
-      'focus:border-[var(--color-green-700)]',
-      'focus:outline-none',
-      'transition-colors',
       'resize-none',
       'overflow-y-auto',
       'max-h-[240px]', // 최대 높이 10줄로 설정
@@ -71,15 +60,6 @@ export const textFieldVariants = tv({
   },
 
   variants: {
-    char: {
-      true: {
-        counter: [
-          'absolute top-[4px] right-[8px]',
-          'text-[12px] leading-[16px] font-normal',
-          'text-[var(--color-gray-500)]',
-        ],
-      },
-    },
     filled: {
       true: {
         input: ['border-[var(--color-green-700)]'],
