@@ -2,6 +2,7 @@ import { tv } from 'tailwind-variants';
 
 export const cardVariants = tv({
   base: [
+    'group',
     'flex flex-col items-center',
     'w-[204px] h-[299px]',
     'gap-[14px]',
@@ -12,7 +13,6 @@ export const cardVariants = tv({
   slots: {
     imageWrapper: [
       'relative',
-      'group',
       'flex',
       'p-[var(--padding-s)]',
       'items-start',
