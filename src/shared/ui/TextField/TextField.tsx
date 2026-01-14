@@ -6,7 +6,7 @@ const formatNumberWithComma = (digits: string) => {
   if (!digits) {
     return '';
   }
-  // 앞의 0 처리(원하면 제거). "0001" -> "1"
+  // 앞의 0 처리 "0001" -> "1"
   const normalized = digits.replace(/^0+(?=\d)/, '');
   const n = Number(normalized);
   if (Number.isNaN(n)) {
