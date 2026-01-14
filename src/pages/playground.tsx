@@ -1,4 +1,5 @@
 import { Button } from '@shared/ui/Button/Button';
+import { Card } from '@shared/ui/Card/Card';
 import { Checkbox } from '@shared/ui/Checkbox/Checkbox';
 import { Profile } from '@shared/ui/Profile/Profile';
 import { RadioButton } from '@shared/ui/RadioButton/RadioButton';
@@ -64,30 +65,38 @@ export default function Playground() {
         </p>
 
         <div className="flex items-center gap-10">
-          {/* small image */}
           <div className="flex flex-col items-center gap-2">
             <Profile size="sm" imageUrl="/profile-sample.jpg" />
             <span className="typo-caption-2">Small Image</span>
           </div>
 
-          {/* large image */}
           <div className="flex flex-col items-center gap-2">
             <Profile size="lg" imageUrl="/profile-sample.jpg" />
             <span className="typo-caption-2">Large Image</span>
           </div>
 
-          {/* small placeholder */}
           <div className="flex flex-col items-center gap-2">
             <Profile size="sm" />
             <span className="typo-caption-2 text-gray-500">Small Placeholder</span>
           </div>
 
-          {/* large placeholder */}
           <div className="flex flex-col items-center gap-2">
             <Profile size="lg" />
             <span className="typo-caption-2 text-gray-500">Large Placeholder</span>
           </div>
         </div>
+      </section>
+
+      {/* Card */}
+      <section className="flex flex-col gap-4">
+        <h2 className="typo-body-1">Card</h2>
+
+        <Card
+          imageSrc="/iphone11.png"
+          titleText="Title 인데 제목이 정말 길 경우에는 두줄 까지만 보이고, 뒤엔 점 처리"
+          priceText="0,000원"
+          dateText="1일 전"
+        />
       </section>
     </div>
   );
