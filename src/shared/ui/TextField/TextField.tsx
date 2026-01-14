@@ -1,12 +1,15 @@
 import { textFieldVariants } from '@shared/ui/TextField/TextField.variants';
+import clsx from 'clsx';
 import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type { TextFieldProps } from '@shared/ui/TextField/TextField.types';
+
+const TEXTAREA_LINE_HEIGHT = 24;
+const TEXTAREA_MAX_LINES = 10;
 
 const formatNumberWithComma = (digits: string) => {
   if (!digits) {
     return '';
   }
-  // 앞의 0 처리 "0001" -> "1"
   const normalized = digits.replace(/^0+(?=\d)/, '');
   const n = Number(normalized);
   if (Number.isNaN(n)) {
@@ -39,21 +42,20 @@ export const TextField = ({
   const isPrice = type === 'price';
 
   const maxLen = isChar ? 100 : (maxLength ?? (isTextarea ? 5000 : undefined));
-  const digitsValue = isPrice ? rawValue.replace(/\D/g, '') : rawValue;
+  const normalizedValue = isPrice ? rawValue.replace(/\D/g, '') : rawValue;
 
-  // Price: 콤마 포맷 표시
   const displayValue = useMemo(() => {
     if (!isPrice) {
-      return digitsValue;
+      return normalizedValue;
     }
-    return formatNumberWithComma(digitsValue);
-  }, [isPrice, digitsValue]);
+    return formatNumberWithComma(normalizedValue);
+  }, [isPrice, normalizedValue]);
 
-  const currentLength = digitsValue.length;
+  const currentLength = normalizedValue.length;
 
   const showCounterInHeader = showCharacterCount && maxLen !== undefined && (isChar || isTextarea);
 
-  const filled = digitsValue.length > 0 && !disabled && !error;
+  const filled = normalizedValue.length > 0 && !disabled && !error;
 
   const styles = textFieldVariants({
     error,
@@ -64,7 +66,6 @@ export const TextField = ({
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
-  // TextArea autosize (최대 10줄, 이후 스크롤)
   useLayoutEffect(() => {
     if (!isTextarea) {
       return;
@@ -76,29 +77,25 @@ export const TextField = ({
 
     el.style.height = 'auto';
 
-    const lineHeight = 24; // leading-[24px]
-    const maxLines = 10;
-    const maxHeight = lineHeight * maxLines;
+    const maxHeight = TEXTAREA_LINE_HEIGHT * TEXTAREA_MAX_LINES;
 
     const nextHeight = Math.min(el.scrollHeight, maxHeight);
     el.style.height = `${nextHeight}px`;
     el.style.overflowY = el.scrollHeight > maxHeight ? 'auto' : 'hidden';
-  }, [digitsValue, isTextarea]);
+  }, [normalizedValue, isTextarea]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     let next = e.target.value;
 
     if (isPrice) {
-      // 표시값(1,000) -> 숫자만(1000)
       next = next.replace(/\D/g, '');
-      // consumer가 e.target.value 읽는 경우를 위해 숫자로 맞춰줌
       (e.target as HTMLInputElement).value = next;
     }
 
     if (!isControlled) {
       setUncontrolledValue(next);
     }
-    onChange?.(e as React.ChangeEvent<HTMLInputElement>);
+    onChange?.(e);
   };
 
   return (
@@ -118,10 +115,10 @@ export const TextField = ({
         {isTextarea ? (
           <textarea
             ref={textareaRef}
-            value={digitsValue}
+            value={normalizedValue}
             disabled={disabled}
             maxLength={maxLen}
-            className={styles.textarea()}
+            className={clsx(styles.fieldBase(), styles.textarea())}
             onChange={handleChange}
             {...(props as React.TextareaHTMLAttributes<HTMLTextAreaElement>)}
           />
@@ -132,7 +129,7 @@ export const TextField = ({
               value={displayValue}
               disabled={disabled}
               maxLength={maxLen}
-              className={styles.input()}
+              className={clsx(styles.fieldBase(), styles.input())}
               onChange={handleChange}
               inputMode={isPrice ? 'numeric' : undefined}
               pattern={isPrice ? '[0-9]*' : undefined}
