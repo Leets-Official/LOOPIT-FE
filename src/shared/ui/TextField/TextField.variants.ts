@@ -27,12 +27,19 @@ export const textFieldVariants = tv({
       'border-[var(--color-gray-200)]',
       'bg-white',
       'text-[16px] leading-[24px] font-medium',
-      'text-[var(--color-gray-900)]',
       'placeholder:text-[var(--color-gray-300)]',
-      'hover:border-[var(--color-green-700)]',
-      'focus:border-[var(--color-green-700)]',
+
+      // disabled 상태에서 hover/focus가 적용되지 않도록 enabled: 사용
+      'enabled:hover:border-[var(--color-green-700)]',
+      'enabled:focus:border-[var(--color-green-700)]',
       'focus:outline-none',
       'transition-colors',
+
+      // disabled 공통 스타일 (input/textarea 둘 다 적용되도록 fieldBase에 둠)
+      'disabled:bg-[var(--color-gray-100)]',
+      'disabled:text-[var(--color-gray-300)]',
+      'disabled:border-[var(--color-gray-200)]',
+      'disabled:cursor-not-allowed',
     ],
 
     input: ['w-[509px] h-[48px]'],
@@ -71,13 +78,13 @@ export const textFieldVariants = tv({
       true: {
         input: [
           'border-[var(--color-red-500)]',
-          'hover:border-[var(--color-red-500)]',
-          'focus:border-[var(--color-red-500)]',
+          'enabled:hover:border-[var(--color-red-500)]',
+          'enabled:focus:border-[var(--color-red-500)]',
         ],
         textarea: [
           'border-[var(--color-red-500)]',
-          'hover:border-[var(--color-red-500)]',
-          'focus:border-[var(--color-red-500)]',
+          'enabled:hover:border-[var(--color-red-500)]',
+          'enabled:focus:border-[var(--color-red-500)]',
         ],
         helperText: ['text-[var(--color-red-500)]'],
       },
@@ -85,34 +92,13 @@ export const textFieldVariants = tv({
 
     disabled: {
       true: {
-        input: [
-          'bg-[var(--color-gray-100)]',
-          'text-[var(--color-gray-300)]',
-          'border-[var(--color-gray-200)]',
-          'cursor-not-allowed',
-
-          // hover / focus 차단
-          'hover:border-[var(--color-gray-200)]',
-          'focus:border-[var(--color-gray-200)]',
-          'focus:outline-none',
-        ],
-        textarea: [
-          'bg-[var(--color-gray-100)]',
-          'text-[var(--color-gray-300)]',
-          'border-[var(--color-gray-200)]',
-          'cursor-not-allowed',
-
-          // hover / focus 차단
-          'hover:border-[var(--color-gray-200)]',
-          'focus:border-[var(--color-gray-200)]',
-          'focus:outline-none',
-        ],
         label: ['text-[var(--color-gray-300)]'],
         counter: ['text-[var(--color-gray-300)]'],
         helperText: ['text-[var(--color-gray-300)]'],
         suffix: ['text-[var(--color-gray-300)]'],
       },
     },
+
     price: {
       true: {
         input: ['text-right', 'pr-[30px]'],
