@@ -110,12 +110,22 @@ export const textFieldVariants = tv({
           'text-[var(--color-gray-300)]',
           'border-[var(--color-gray-200)]',
           'cursor-not-allowed',
+
+          // hover / focus 차단
+          'hover:border-[var(--color-gray-200)]',
+          'focus:border-[var(--color-gray-200)]',
+          'focus:outline-none',
         ],
         textarea: [
           'bg-[var(--color-gray-100)]',
           'text-[var(--color-gray-300)]',
           'border-[var(--color-gray-200)]',
           'cursor-not-allowed',
+
+          // hover / focus 차단
+          'hover:border-[var(--color-gray-200)]',
+          'focus:border-[var(--color-gray-200)]',
+          'focus:outline-none',
         ],
         label: ['text-[var(--color-gray-300)]'],
         counter: ['text-[var(--color-gray-300)]'],
