@@ -58,7 +58,6 @@ export default function Playground() {
         </div>
       </section>
 
-<<<<<<< HEAD
       {/* Profile */}
       <section className="flex flex-col gap-4">
         <h2 className="typo-body-1">Profile</h2>
@@ -102,9 +101,6 @@ export default function Playground() {
       </section>
 
       {/* TextField 예시 */}
-=======
-      {/* TextField 예시 9개 */}
->>>>>>> f6483bf (chore: Playground 예제 픽셀값 수정)
       <section className="flex flex-col gap-4">
         <h2 className="typo-body-1">TextField</h2>
 
