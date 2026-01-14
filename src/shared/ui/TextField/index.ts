@@ -1,2 +1,10 @@
 export { TextField } from './TextField';
-export type { TextFieldProps, TextFieldType } from './TextField.types';
+export { CharField } from './CharField';
+export { TextAreaField } from './TextAreaField';
+export { PriceField } from './PriceField';
+export type {
+  CharFieldProps,
+  PriceFieldProps,
+  TextAreaFieldProps,
+  TextFieldProps,
+} from './TextField.types';
