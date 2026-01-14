@@ -5,6 +5,8 @@ import type { TextFieldProps } from '@shared/ui/TextField/TextField.types';
 
 const TEXTAREA_LINE_HEIGHT = 24;
 const TEXTAREA_MAX_LINES = 10;
+const CHAR_MAX_LENGTH = 100;
+const TEXTAREA_MAX_LENGTH = 5000;
 
 const formatNumberWithComma = (digits: string) => {
   if (!digits) {
@@ -41,7 +43,7 @@ export const TextField = ({
   const isChar = type === 'char';
   const isPrice = type === 'price';
 
-  const maxLen = isChar ? 100 : (maxLength ?? (isTextarea ? 5000 : undefined));
+  const maxLen = isChar ? CHAR_MAX_LENGTH : (maxLength ?? (isTextarea ? TEXTAREA_MAX_LENGTH : undefined));
   const normalizedValue = isPrice ? rawValue.replace(/\D/g, '') : rawValue;
 
   const displayValue = useMemo(() => {
