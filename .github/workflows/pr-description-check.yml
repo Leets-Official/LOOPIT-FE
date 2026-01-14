@@ -1,0 +1,60 @@
+name: PR Description Check
+
+on:
+  pull_request:
+    types: [opened, ready_for_review]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+permissions:
+  pull-requests: write
+
+jobs:
+  check-description:
+    name: Check PR description
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+
+    steps:
+      - name: Check if PR has description
+        id: check
+        run: |
+          # 템플릿 텍스트 제거:
+          # - 제목 (## 로 시작)
+          # - HTML 주석 (<!-- -->)
+          # - 체크리스트 (- [ ])
+          # - 구분선 (---)
+          # - 빈 줄
+          # - "- Close #" 만 있는 줄
+          FILTERED=$(echo "$RAW_BODY" | sed -r \
+            -e '/^##/d' \
+            -e '/<!--.*-->/d' \
+            -e '/^<!--/d' \
+            -e '/^-->/d' \
+            -e '/^---$/d' \
+            -e '/^- \[/d' \
+            -e '/^- Close #$/d' \
+            -e '/^$/d')
+
+          if [[ -z "${FILTERED//[[:space:]]/}" ]]; then
+            echo "empty=true" >> $GITHUB_OUTPUT
+          else
+            echo "empty=false" >> $GITHUB_OUTPUT
+          fi
+        env:
+          RAW_BODY: ${{ github.event.pull_request.body }}
+
+      - uses: actions/checkout@v4
+        if: steps.check.outputs.empty == 'true'
+        with:
+          sparse-checkout: 'README.md'
+
+      - name: Comment on PR
+        if: steps.check.outputs.empty == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr comment ${{ github.event.pull_request.number }} --body \
+          "👋 @${{ github.actor }} PR 설명이 비어있습니다. 변경 사항에 대한 설명을 추가해주세요."
