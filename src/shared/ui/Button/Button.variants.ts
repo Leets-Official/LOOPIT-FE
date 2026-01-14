@@ -4,7 +4,7 @@ export const buttonVariants = tv({
   base: [
     /* layout */
     'flex items-center justify-center',
-    'w-[163px] h-[44px]',
+    'h-[44px]',
     'px-[var(--padding-xl)] py-[var(--padding-m)]',
     'gap-[var(--spacing-xxs)]',
 
@@ -55,9 +55,15 @@ export const buttonVariants = tv({
         'disabled:cursor-not-allowed',
       ],
     },
+
+    size: {
+      default: ['w-[163px]'],
+      auto: ['w-auto'],
+    },
   },
 
   defaultVariants: {
     variant: 'fill',
+    size: 'default',
   },
 });

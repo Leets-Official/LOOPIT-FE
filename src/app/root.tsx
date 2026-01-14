@@ -21,7 +21,7 @@ export default function Root() {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="w-full overflow-x-hidden">
         <AppProviders>
           <Outlet />
         </AppProviders>
