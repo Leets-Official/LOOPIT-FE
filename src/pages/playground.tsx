@@ -4,16 +4,22 @@ import { Checkbox } from '@shared/ui/Checkbox/Checkbox';
 import { Header } from '@shared/ui/Header/Header';
 import { Profile } from '@shared/ui/Profile/Profile';
 import { RadioButton } from '@shared/ui/RadioButton/RadioButton';
+import { useState } from 'react';
 
 export default function Playground() {
+  const [radioValue, setRadioValue] = useState('option1');
+
   return (
     <div className="flex flex-col gap-6 p-8">
       <h1 className="typo-title-2">UI Playground</h1>
 
-      {/* Button */}
+      {/* Header */}
       <section className="flex flex-col gap-4">
         <h2 className="typo-body-1">Header</h2>
+        <p className="typo-caption-2 text-gray-600">비로그인 상태</p>
         <Header />
+        <p className="typo-caption-2 mt-4 text-gray-600">로그인 상태</p>
+        <Header isLoggedIn user={{ profileImage: '/profile-sample.jpg', nickname: '홍길동' }} />
       </section>
 
       <section className="flex flex-col gap-4">
@@ -56,10 +62,25 @@ export default function Playground() {
       <section className="flex flex-col gap-4">
         <h2 className="typo-body-1">Radio Button</h2>
         <div className="flex flex-col gap-2">
-          <RadioButton label="Default" />
-          <RadioButton checked label="Selected" />
-          <RadioButton disabled label="Disabled" />
-          <RadioButton checked disabled label="Selected + Disabled" />
+          <RadioButton
+            name="demo"
+            checked={radioValue === 'option1'}
+            onChange={() => setRadioValue('option1')}
+            label="Option 1"
+          />
+          <RadioButton
+            name="demo"
+            checked={radioValue === 'option2'}
+            onChange={() => setRadioValue('option2')}
+            label="Option 2"
+          />
+          <RadioButton
+            name="demo"
+            checked={radioValue === 'option3'}
+            onChange={() => setRadioValue('option3')}
+            label="Option 3"
+          />
+          <RadioButton name="demo-disabled" disabled label="Disabled" />
         </div>
       </section>
 
@@ -72,12 +93,12 @@ export default function Playground() {
 
         <div className="flex items-center gap-10">
           <div className="flex flex-col items-center gap-2">
-            <Profile size="sm" imageUrl="/profile-sample.jpg" />
+            <Profile size="sm" image="/profile-sample.jpg" />
             <span className="typo-caption-2">Small Image</span>
           </div>
 
           <div className="flex flex-col items-center gap-2">
-            <Profile size="lg" imageUrl="/profile-sample.jpg" />
+            <Profile size="lg" image="/profile-sample.jpg" />
             <span className="typo-caption-2">Large Image</span>
           </div>
 
@@ -98,10 +119,10 @@ export default function Playground() {
         <h2 className="typo-body-1">Card</h2>
 
         <Card
-          imageSrc="/iphone11.png"
-          titleText="Title 인데 제목이 정말 길 경우에는 두줄 까지만 보이고, 뒤엔 점 처리"
-          priceText="0,000원"
-          dateText="1일 전"
+          image="/iphone11.png"
+          title="Title 인데 제목이 정말 길 경우에는 두줄 까지만 보이고, 뒤엔 점 처리"
+          price="0,000원"
+          date="1일 전"
         />
       </section>
     </div>
