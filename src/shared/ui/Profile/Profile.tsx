@@ -4,18 +4,22 @@ import type { VariantProps } from 'tailwind-variants';
 
 export type ProfileProps = ComponentPropsWithoutRef<'div'> &
   VariantProps<typeof profileVariants> & {
-    imageUrl?: string;
+    image?: string;
+    alt?: string;
   };
 
-export const Profile = ({ size, imageUrl, className, style, ...props }: ProfileProps) => {
+export const Profile = ({
+  size,
+  image,
+  alt = '프로필 이미지',
+  className,
+  ...props
+}: ProfileProps) => {
+  const { root, image: imageStyle } = profileVariants({ size });
+
   return (
-    <div
-      {...props}
-      className={profileVariants({ size, className })}
-      style={{
-        ...(imageUrl && { backgroundImage: `url(${imageUrl})` }),
-        ...style,
-      }}
-    />
+    <div {...props} className={root({ className })}>
+      {image && <img src={image} alt={alt} className={imageStyle()} />}
+    </div>
   );
 };
