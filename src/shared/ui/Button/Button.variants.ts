@@ -59,6 +59,7 @@ export const buttonVariants = tv({
     size: {
       default: ['w-[163px]'],
       auto: ['w-auto'],
+      full: ['w-full'],
     },
   },
 
