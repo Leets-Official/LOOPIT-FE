@@ -3,6 +3,6 @@ import type { Config } from '@react-router/dev/config';
 
 export default {
   appDirectory: 'src/app',
-  ssr: true,
+  ssr: false,
   presets: [vercelPreset()],
 } satisfies Config;
