@@ -2,20 +2,25 @@ import { Button } from '@shared/ui/Button/Button';
 import { Card } from '@shared/ui/Card/Card';
 import { Checkbox } from '@shared/ui/Checkbox/Checkbox';
 import { Header } from '@shared/ui/Header/Header';
+import { Modal } from '@shared/ui/Modal/Modal';
 import { Profile } from '@shared/ui/Profile/Profile';
 import { RadioButton } from '@shared/ui/RadioButton/RadioButton';
+import { useState } from 'react';
 
 export default function Playground() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <div className="flex flex-col gap-6 p-8">
       <h1 className="typo-title-2">UI Playground</h1>
 
-      {/* Button */}
+      {/* Header */}
       <section className="flex flex-col gap-4">
         <h2 className="typo-body-1">Header</h2>
         <Header />
       </section>
 
+      {/* Button */}
       <section className="flex flex-col gap-4">
         <h2 className="typo-body-1">Button</h2>
         <p className="typo-caption-2 text-gray-600">
@@ -96,13 +101,31 @@ export default function Playground() {
       {/* Card */}
       <section className="flex flex-col gap-4">
         <h2 className="typo-body-1">Card</h2>
-
         <Card
           imageSrc="/iphone11.png"
           titleText="Title 인데 제목이 정말 길 경우에는 두줄 까지만 보이고, 뒤엔 점 처리"
           priceText="0,000원"
           dateText="1일 전"
         />
+      </section>
+
+      {/* Modal */}
+      <section className="flex flex-col gap-4">
+        <h2 className="typo-body-1">Modal</h2>
+
+        <Button onClick={() => setIsModalOpen(true)}>Open Modal</Button>
+
+        {isModalOpen && (
+          <Modal
+            title="해당 게시물을 삭제하시겠어요?"
+            subtitle="subtitle 1줄"
+            onCancel={() => setIsModalOpen(false)}
+            onConfirm={() => {
+              setIsModalOpen(false);
+              console.log('삭제 확정');
+            }}
+          />
+        )}
       </section>
     </div>
   );
