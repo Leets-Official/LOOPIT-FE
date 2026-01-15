@@ -13,7 +13,12 @@ export const radioButtonVariants = tv({
       'transition-colors duration-[250ms] ease-out',
     ],
 
-    dot: ['w-[10px] h-[10px]', 'rounded-full', 'hidden'],
+    dot: [
+      'w-[10px] h-[10px]',
+      'rounded-full',
+      'scale-0',
+      'transition-transform duration-[200ms] ease-out',
+    ],
 
     label: ['typo-caption-1', 'text-[var(--color-gray-500)]'],
   },
@@ -22,7 +27,7 @@ export const radioButtonVariants = tv({
     checked: {
       true: {
         circle: ['border-[var(--color-green-600)]'],
-        dot: ['block', 'bg-[var(--color-green-600)]'],
+        dot: ['scale-100', 'bg-[var(--color-green-600)]'],
       },
     },
 
@@ -36,8 +41,8 @@ export const radioButtonVariants = tv({
       true: {
         root: ['cursor-not-allowed'],
         circle: ['border-[var(--color-gray-300)]'],
-        dot: ['bg-[var(--color-gray-300)]'],
-        label: ['text-[var(--color-gray-500)]', 'line-through'],
+        dot: ['scale-100', 'bg-[var(--color-gray-300)]'],
+        label: ['text-[var(--color-gray-500)]'],
       },
     },
   },
