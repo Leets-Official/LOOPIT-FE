@@ -6,7 +6,6 @@ import { Header } from '@shared/ui/Header/Header';
 import { Profile } from '@shared/ui/Profile/Profile';
 import { RadioButton } from '@shared/ui/RadioButton/RadioButton';
 
-
 export default function Playground() {
   return (
     <div className="flex flex-col gap-6 p-8">
@@ -110,9 +109,7 @@ export default function Playground() {
       {/*  BannerCard */}
       <section className="flex flex-col gap-4">
         <h2 className="typo-body-1">Banner Card</h2>
-        <p className="typo-caption-2 text-gray-600">
-           배너 카드
-        </p>
+        <p className="typo-caption-2 text-gray-600">배너 카드</p>
 
         <BannerCard
           onClick={() => {

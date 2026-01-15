@@ -16,9 +16,7 @@ describe('BannerCard', () => {
 
   it('버튼 렌더링', () => {
     render(<BannerCard />);
-    expect(
-      screen.getByRole('button', { name: '바로가기' })
-    ).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '바로가기' })).toBeInTheDocument();
   });
 
   it('버튼 클릭 시 onClick 호출', () => {

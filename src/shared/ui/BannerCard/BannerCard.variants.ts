@@ -31,14 +31,7 @@ export const bannerCardVariants = tv({
   ],
 
   slots: {
-    frame: [
-      'flex',
-      'flex-col',
-      'items-start',
-      'gap-[18px]',
-      'self-stretch',
-      'h-[330px]',
-    ],
+    frame: ['flex', 'flex-col', 'items-start', 'gap-[18px]', 'self-stretch', 'h-[330px]'],
 
     textWrapper: [
       'relative',
@@ -50,33 +43,17 @@ export const bannerCardVariants = tv({
       'self-stretch',
     ],
 
-    title: [
-      'typo-title-3',
-      'text-black',
-    ],
+    title: ['typo-title-3', 'text-black'],
 
-    description: [
-      'typo-body-1',
-      'text-black',
-      'overflow-hidden',
-      'text-ellipsis',
-      'line-clamp-2',
-    ],
+    description: ['typo-body-1', 'text-black', 'overflow-hidden', 'text-ellipsis', 'line-clamp-2'],
 
-    imageWrapper: [
-      'absolute',
-      'right-0',
-      'bottom-0',
-      'z-0',
-      'pointer-events-none',
-    ],
+    imageWrapper: ['absolute', 'right-0', 'bottom-0', 'z-0', 'pointer-events-none'],
 
     image: [
       'w-[213px]',
       'h-[213px]',
       'object-cover',
 
-    
       'transition-all',
       'duration-300',
       'group-hover:w-[307px]',
