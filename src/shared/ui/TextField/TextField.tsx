@@ -92,6 +92,9 @@ export const TextField = ({
 
     if (isPrice) {
       next = next.replace(/\D/g, '');
+      if (maxLen !== undefined) {
+        next = next.slice(0, maxLen);
+      }
       (e.target as HTMLInputElement).value = next;
     }
 
@@ -131,7 +134,7 @@ export const TextField = ({
               type="text"
               value={displayValue}
               disabled={disabled}
-              maxLength={maxLen}
+              maxLength={isPrice ? undefined : maxLen}
               className={clsx(styles.fieldBase(), styles.input())}
               onChange={handleChange}
               inputMode={isPrice ? 'numeric' : undefined}
