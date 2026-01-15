@@ -60,8 +60,10 @@ describe('Card', () => {
       const handleClick = vi.fn();
       render(<Card {...defaultProps} onClick={handleClick} />);
 
-      const card = screen.getByText('테스트 상품').closest('div[class*="cursor-pointer"]');
-      card?.click();
+      const card = screen
+        .getByText('테스트 상품')
+        .closest('div[class*="cursor-pointer"]') as HTMLElement;
+      card.click();
 
       expect(handleClick).toHaveBeenCalledTimes(1);
     });

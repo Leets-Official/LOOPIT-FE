@@ -34,6 +34,12 @@ export const LongTitle: Story = {
 };
 
 export const AllStates: Story = {
+  args: {
+    image: '/iphone11.png',
+    title: '상품 제목',
+    price: '10,000원',
+    date: '1일 전',
+  },
   render: () => (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-2">
