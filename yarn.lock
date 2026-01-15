@@ -5659,7 +5659,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"isbot@npm:^5.1.11":
+"isbot@npm:^5.1.11, isbot@npm:^5.1.32":
   version: 5.1.32
   resolution: "isbot@npm:5.1.32"
   checksum: 10c0/e5aa9c5c92dae4879cf49956797c46ef77fa919230183cd6254628667ca5e22f15b24bc4d63b0e88cb96da3d7a51e33f847ef7114fa542e3e066f78178c8d97e
@@ -6285,6 +6285,7 @@ __metadata:
     eslint-plugin-unused-imports: "npm:^4.3.0"
     globals: "npm:^16.5.0"
     husky: "npm:^9.1.7"
+    isbot: "npm:^5.1.32"
     jsdom: "npm:^27.3.0"
     lint-staged: "npm:^16.2.7"
     msw: "npm:^2.12.7"
