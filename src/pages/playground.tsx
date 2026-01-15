@@ -4,6 +4,7 @@ import { Checkbox } from '@shared/ui/Checkbox/Checkbox';
 import { Header } from '@shared/ui/Header/Header';
 import { Profile } from '@shared/ui/Profile/Profile';
 import { RadioButton } from '@shared/ui/RadioButton/RadioButton';
+import { SearchBar } from '@shared/ui/SearchBar';
 
 export default function Playground() {
   return (
@@ -103,6 +104,12 @@ export default function Playground() {
           priceText="0,000원"
           dateText="1일 전"
         />
+      </section>
+      {/* Search Bar */}
+      <section className="flex flex-col gap-4">
+        <h2 className="typo-body-1">SearchBar</h2>
+
+        <SearchBar placeholder="어떤 제품을 찾으시나요?" />
       </section>
     </div>
   );
