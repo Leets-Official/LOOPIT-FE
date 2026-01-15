@@ -20,6 +20,24 @@ const formatNumberWithComma = (digits: string) => {
   return new Intl.NumberFormat('ko-KR').format(n);
 };
 
+const getMaxLength = ({
+  isChar,
+  isTextarea,
+  maxLength,
+}: {
+  isChar: boolean;
+  isTextarea: boolean;
+  maxLength?: number;
+}) => {
+  if (isChar) {
+    return CHAR_MAX_LENGTH;
+  }
+  if (maxLength !== undefined) {
+    return maxLength;
+  }
+  return isTextarea ? TEXTAREA_MAX_LENGTH : undefined;
+};
+
 export const TextField = ({
   label,
   value: controlledValue,
@@ -43,9 +61,7 @@ export const TextField = ({
   const isChar = type === 'char';
   const isPrice = type === 'price';
 
-  const maxLen = isChar
-    ? CHAR_MAX_LENGTH
-    : (maxLength ?? (isTextarea ? TEXTAREA_MAX_LENGTH : undefined));
+  const maxLen = getMaxLength({ isChar, isTextarea, maxLength });
   const normalizedValue = isPrice ? rawValue.replace(/\D/g, '') : rawValue;
 
   const displayValue = useMemo(() => {
