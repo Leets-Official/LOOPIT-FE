@@ -1,18 +1,8 @@
 import { CaretDownMdIcon } from '@shared/assets/icons';
 import { Button } from '@shared/ui/Button/Button';
-import { headerVariants } from '@shared/ui/Header/Header.variants';
 import { Profile } from '@shared/ui/Profile/Profile';
+import { cn } from '@shared/utils/cn';
 import { useEffect, useRef, useState } from 'react';
-
-const {
-  userMenuButton,
-  userMenuIcon,
-  userMenuDropdown,
-  userMenuDropdownInner,
-  userMenuDropdownInfo,
-  userMenuDropdownName,
-  userMenuDropdownLink,
-} = headerVariants();
 
 export type UserMenuProps = {
   profileImage?: string;
@@ -59,29 +49,31 @@ export const UserMenu = ({
     <div ref={containerRef} className="relative">
       <button
         type="button"
-        className={userMenuButton()}
+        className="flex cursor-pointer items-center gap-[6px]"
         onClick={() => setIsOpen((prev) => !prev)}
         aria-expanded={isOpen}
         aria-haspopup="menu"
       >
         <Profile size="sm" image={profileImage} />
-        <CaretDownMdIcon className={userMenuIcon({ className: isOpen ? 'rotate-180' : '' })} />
+        <CaretDownMdIcon
+          className={cn('text-gray-400 transition-transform duration-200', isOpen && 'rotate-180')}
+        />
       </button>
 
       {isOpen && (
         <div
           role="menu"
           aria-label="사용자 메뉴"
-          className={userMenuDropdown({ className: 'absolute top-full right-0 mt-2' })}
+          className="rounded-m absolute top-full right-0 mt-2 inline-flex h-[235px] items-center gap-[10px] bg-white p-[17px_32px] shadow-[0_4px_4px_0_rgba(0,0,0,0.25)]"
         >
-          <div className={userMenuDropdownInner()}>
-            <div className={userMenuDropdownInfo()}>
-              <span className={userMenuDropdownName()}>{nickname}님</span>
+          <div className="flex w-[163px] flex-col items-start gap-[45px]">
+            <div className="flex flex-col items-start gap-[17px] self-stretch">
+              <span className="typo-body-2 self-stretch text-gray-900">{nickname}님</span>
             </div>
             <button
               type="button"
               role="menuitem"
-              className={userMenuDropdownLink()}
+              className="typo-caption-1 cursor-pointer self-stretch border-none bg-transparent p-0 text-left text-gray-500"
               onClick={onMyPageClick}
             >
               마이페이지
