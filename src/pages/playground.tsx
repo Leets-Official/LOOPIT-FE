@@ -1,3 +1,4 @@
+import { BannerCard } from '@shared/ui/BannerCard/BannerCard';
 import { Button } from '@shared/ui/Button/Button';
 import { Card } from '@shared/ui/Card/Card';
 import { Checkbox } from '@shared/ui/Checkbox/Checkbox';
@@ -5,17 +6,19 @@ import { Header } from '@shared/ui/Header/Header';
 import { Profile } from '@shared/ui/Profile/Profile';
 import { RadioButton } from '@shared/ui/RadioButton/RadioButton';
 
+
 export default function Playground() {
   return (
     <div className="flex flex-col gap-6 p-8">
       <h1 className="typo-title-2">UI Playground</h1>
 
-      {/* Button */}
+      {/* Header */}
       <section className="flex flex-col gap-4">
         <h2 className="typo-body-1">Header</h2>
         <Header />
       </section>
 
+      {/* Button */}
       <section className="flex flex-col gap-4">
         <h2 className="typo-body-1">Button</h2>
         <p className="typo-caption-2 text-gray-600">
@@ -96,12 +99,25 @@ export default function Playground() {
       {/* Card */}
       <section className="flex flex-col gap-4">
         <h2 className="typo-body-1">Card</h2>
-
         <Card
           imageSrc="/iphone11.png"
           titleText="Title 인데 제목이 정말 길 경우에는 두줄 까지만 보이고, 뒤엔 점 처리"
           priceText="0,000원"
           dateText="1일 전"
+        />
+      </section>
+
+      {/*  BannerCard */}
+      <section className="flex flex-col gap-4">
+        <h2 className="typo-body-1">Banner Card</h2>
+        <p className="typo-caption-2 text-gray-600">
+           배너 카드
+        </p>
+
+        <BannerCard
+          onClick={() => {
+            console.log('BannerCard CTA Clicked');
+          }}
         />
       </section>
     </div>
