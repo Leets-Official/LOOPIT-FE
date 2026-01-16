@@ -12,9 +12,10 @@ export const bannerCardVariants = tv({
     'w-[427px]',
     'h-[384px]',
 
-    'px-[25px]',
-    'py-[27px]',
-    'gap-[10px]',
+ 'px-[var(--padding-xl)]', 
+'py-[27px]',      
+
+    'gap-[var(--spacing-xxs)]', 
 
     'rounded-[var(--radius-xl)]',
 
@@ -23,15 +24,21 @@ export const bannerCardVariants = tv({
 
     'cursor-pointer',
     'outline-none',
-
-    'transition-shadow',
-    'hover:shadow-md',
-    'focus-visible:ring-2',
-    'focus-visible:ring-[var(--color-green-700)]',
   ],
 
   slots: {
-    frame: ['flex', 'flex-col', 'items-start', 'gap-[18px]', 'self-stretch', 'h-[330px]'],
+    frame: [
+      'flex',
+      'flex-col',
+      'items-start',
+
+      
+      'gap-[var(--spacing-xs)]',
+
+      'self-stretch',
+
+      'h-[330px]',
+    ],
 
     textWrapper: [
       'relative',
@@ -39,15 +46,29 @@ export const bannerCardVariants = tv({
       'flex',
       'flex-col',
       'items-start',
-      'gap-[12px]',
+
+      'gap-[var(--spacing-xs)]', 
+
       'self-stretch',
     ],
 
     title: ['typo-title-3', 'text-black'],
 
-    description: ['typo-body-1', 'text-black', 'overflow-hidden', 'text-ellipsis', 'line-clamp-2'],
+    description: [
+      'typo-body-1',
+      'text-black',
+      'overflow-hidden',
+      'text-ellipsis',
+      'line-clamp-2',
+    ],
 
-    imageWrapper: ['absolute', 'right-0', 'bottom-0', 'z-0', 'pointer-events-none'],
+    imageWrapper: [
+      'absolute',
+      'right-0',
+      'bottom-0',
+      'z-0',
+      'pointer-events-none',
+    ],
 
     image: [
       'w-[213px]',
@@ -56,10 +77,12 @@ export const bannerCardVariants = tv({
 
       'transition-all',
       'duration-300',
+
       'group-hover:w-[307px]',
       'group-hover:h-[307px]',
-      'group-focus-visible:w-[307px]',
-      'group-focus-visible:h-[307px]',
+      'group-hover:w-[307px]',
+'group-hover:h-[307px]',
+
     ],
   },
 });
