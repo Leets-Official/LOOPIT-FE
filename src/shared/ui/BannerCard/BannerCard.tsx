@@ -40,10 +40,6 @@ export const BannerCard = ({ onClick, className, ...props }: BannerCardProps) =>
           <Button
             size="auto"
             className="w-26"
-            onClick={(e) => {
-              e.stopPropagation();
-              onClick?.();
-            }}
           >
             바로가기
           </Button>
