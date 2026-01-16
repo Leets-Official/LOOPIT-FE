@@ -1,17 +1,28 @@
 import { GearIcon } from '@shared/assets/icons/banner';
 import { Button } from '@shared/ui/Button/Button';
 import { bannerCardVariants } from './BannerCard.variants';
-import type { ComponentPropsWithoutRef } from 'react';
+import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 import type { VariantProps } from 'tailwind-variants';
 
 const { base, frame, textWrapper, title, description, imageWrapper, image } = bannerCardVariants();
 
-export type BannerCardProps = ComponentPropsWithoutRef<'div'> &
+export type BannerCardProps =
+  Omit<ComponentPropsWithoutRef<'div'>, 'title'> &
   VariantProps<typeof bannerCardVariants> & {
+    title: ReactNode;
+    description: string;
+    buttonText?: string;
     onClick?: () => void;
   };
 
-export const BannerCard = ({ onClick, className, ...props }: BannerCardProps) => {
+export const BannerCard = ({
+  title: titleContent,
+  description: descriptionText,
+  buttonText = '바로가기',
+  onClick,
+  className,
+  ...props
+}: BannerCardProps) => {
   return (
     <div
       data-testid="banner-card"
@@ -29,19 +40,12 @@ export const BannerCard = ({ onClick, className, ...props }: BannerCardProps) =>
     >
       <div className={frame()}>
         <div className={textWrapper()}>
-          <p className={title()}>
-            중고 전자기기
-            <br />
-            구매하기
-          </p>
+          <p className={title()}>{titleContent}</p>
 
-          <p className={description()}>설명 최대 길이 2줄</p>
+          <p className={description()}>{descriptionText}</p>
 
-          <Button
-            size="auto"
-            className="w-26"
-          >
-            바로가기
+          <Button size="auto" className="w-26">
+            {buttonText}
           </Button>
         </div>
       </div>
