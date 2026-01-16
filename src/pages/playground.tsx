@@ -110,11 +110,16 @@ export default function Playground() {
       <section className="flex flex-col gap-4">
         <h2 className="typo-body-1">Banner Card</h2>
         <p className="typo-caption-2 text-gray-600">배너 카드</p>
-
         <BannerCard
-          onClick={() => {
-            console.log('BannerCard CTA Clicked');
-          }}
+          title={
+            <>
+              중고 전자기기
+              <br />
+              구매하기
+            </>
+          }
+          description="설명 최대 길이 2줄"
+          buttonText="바로가기"
         />
       </section>
     </div>
