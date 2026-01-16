@@ -1,6 +1,7 @@
 import { Button } from '@shared/ui/Button/Button';
 import { Card } from '@shared/ui/Card/Card';
 import { Checkbox } from '@shared/ui/Checkbox/Checkbox';
+import { Header } from '@shared/ui/Header/Header';
 import { Profile } from '@shared/ui/Profile/Profile';
 import { RadioButton } from '@shared/ui/RadioButton/RadioButton';
 import { TextField } from '@shared/ui/TextField/TextField';
@@ -11,6 +12,11 @@ export default function Playground() {
       <h1 className="typo-title-2">UI Playground</h1>
 
       {/* Button */}
+      <section className="flex flex-col gap-4">
+        <h2 className="typo-body-1">Header</h2>
+        <Header />
+      </section>
+
       <section className="flex flex-col gap-4">
         <h2 className="typo-body-1">Button</h2>
         <p className="typo-caption-2 text-gray-600">
