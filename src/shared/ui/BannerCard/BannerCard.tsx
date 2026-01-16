@@ -6,8 +6,7 @@ import type { VariantProps } from 'tailwind-variants';
 
 const { base, frame, textWrapper, title, description, imageWrapper, image } = bannerCardVariants();
 
-export type BannerCardProps =
-  Omit<ComponentPropsWithoutRef<'div'>, 'title'> &
+export type BannerCardProps = Omit<ComponentPropsWithoutRef<'div'>, 'title'> &
   VariantProps<typeof bannerCardVariants> & {
     title: ReactNode;
     description: string;

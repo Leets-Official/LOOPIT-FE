@@ -12,10 +12,10 @@ export const bannerCardVariants = tv({
     'w-[427px]',
     'h-[384px]',
 
- 'px-[var(--padding-xl)]', 
-'py-[27px]',      
+    'px-[var(--padding-xl)]',
+    'py-[27px]',
 
-    'gap-[var(--spacing-xxs)]', 
+    'gap-[var(--spacing-xxs)]',
 
     'rounded-[var(--radius-xl)]',
 
@@ -32,7 +32,6 @@ export const bannerCardVariants = tv({
       'flex-col',
       'items-start',
 
-      
       'gap-[var(--spacing-xs)]',
 
       'self-stretch',
@@ -47,28 +46,16 @@ export const bannerCardVariants = tv({
       'flex-col',
       'items-start',
 
-      'gap-[var(--spacing-xs)]', 
+      'gap-[var(--spacing-xs)]',
 
       'self-stretch',
     ],
 
     title: ['typo-title-3', 'text-black'],
 
-    description: [
-      'typo-body-1',
-      'text-black',
-      'overflow-hidden',
-      'text-ellipsis',
-      'line-clamp-2',
-    ],
+    description: ['typo-body-1', 'text-black', 'overflow-hidden', 'text-ellipsis', 'line-clamp-2'],
 
-    imageWrapper: [
-      'absolute',
-      'right-0',
-      'bottom-0',
-      'z-0',
-      'pointer-events-none',
-    ],
+    imageWrapper: ['absolute', 'right-0', 'bottom-0', 'z-0', 'pointer-events-none'],
 
     image: [
       'w-[213px]',
@@ -81,8 +68,7 @@ export const bannerCardVariants = tv({
       'group-hover:w-[307px]',
       'group-hover:h-[307px]',
       'group-hover:w-[307px]',
-'group-hover:h-[307px]',
-
+      'group-hover:h-[307px]',
     ],
   },
 });
