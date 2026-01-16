@@ -4,6 +4,7 @@ import { Checkbox } from '@shared/ui/Checkbox/Checkbox';
 import { Header } from '@shared/ui/Header/Header';
 import { Profile } from '@shared/ui/Profile/Profile';
 import { RadioButton } from '@shared/ui/RadioButton/RadioButton';
+import { TextField } from '@shared/ui/TextField/TextField';
 
 export default function Playground() {
   return (
@@ -103,6 +104,124 @@ export default function Playground() {
           priceText="0,000원"
           dateText="1일 전"
         />
+      </section>
+
+      {/* TextField 예시 */}
+      <section className="flex flex-col gap-4">
+        <h2 className="typo-body-1">TextField</h2>
+
+        <div className="flex flex-wrap gap-10">
+          {/* Char Field */}
+          <div className="flex flex-col gap-4">
+            <h3 className="typo-caption-1 font-semibold">Char Field</h3>
+
+            <div className="w-127.25">
+              <TextField
+                type="char"
+                label="Char Field"
+                placeholder="Enter your username"
+                showCharacterCount
+                helperText="Default"
+              />
+            </div>
+
+            <div className="w-127.25">
+              <TextField
+                type="char"
+                label="Char Field"
+                placeholder="Enter your username"
+                showCharacterCount
+                error
+                helperText="Error"
+              />
+            </div>
+
+            <div className="w-127.25">
+              <TextField
+                type="char"
+                label="Char Field"
+                placeholder="Enter your username"
+                showCharacterCount
+                disabled
+                helperText="Disabled"
+              />
+            </div>
+          </div>
+
+          {/* TextArea Field */}
+          <div className="flex flex-col gap-4">
+            <h3 className="typo-caption-1 font-semibold">TextArea Field</h3>
+
+            <div className="w-127.25">
+              <TextField
+                type="textarea"
+                label="TextArea Field"
+                placeholder="Enter a description"
+                showCharacterCount
+                helperText="Default"
+              />
+            </div>
+
+            <div className="w-127.25">
+              <TextField
+                type="textarea"
+                label="TextArea Field"
+                placeholder="Enter a description"
+                showCharacterCount
+                error
+                helperText="Error"
+              />
+            </div>
+
+            <div className="w-127.25">
+              <TextField
+                type="textarea"
+                label="TextArea Field"
+                placeholder="Enter a description"
+                showCharacterCount
+                disabled
+                helperText="Disabled"
+              />
+            </div>
+          </div>
+
+          {/* Price Field */}
+          <div className="flex flex-col gap-4">
+            <h3 className="typo-caption-1 font-semibold">Price Field</h3>
+
+            <div className="w-127.25">
+              <TextField
+                type="price"
+                label="Price Field"
+                placeholder="Enter price"
+                defaultValue="10000"
+                helperText="Default"
+              />
+            </div>
+
+            <div className="w-127.25">
+              <TextField
+                type="price"
+                label="Price Field"
+                placeholder="Enter price"
+                defaultValue="10000"
+                error
+                helperText="Error"
+              />
+            </div>
+
+            <div className="w-127.25">
+              <TextField
+                type="price"
+                label="Price Field"
+                placeholder="Enter price"
+                defaultValue="10000"
+                disabled
+                helperText="Disabled"
+              />
+            </div>
+          </div>
+        </div>
       </section>
     </div>
   );
