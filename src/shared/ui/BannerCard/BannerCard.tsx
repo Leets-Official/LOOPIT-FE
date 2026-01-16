@@ -44,7 +44,7 @@ export const BannerCard = ({
 
           <p className={description()}>{descriptionText}</p>
 
-          <Button size="auto" className="w-26">
+          <Button size="auto" className="w-[104px]">
             {buttonText}
           </Button>
         </div>
