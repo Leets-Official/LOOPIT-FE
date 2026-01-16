@@ -67,8 +67,6 @@ export const bannerCardVariants = tv({
 
       'group-hover:w-[307px]',
       'group-hover:h-[307px]',
-      'group-hover:w-[307px]',
-      'group-hover:h-[307px]',
     ],
   },
 });
