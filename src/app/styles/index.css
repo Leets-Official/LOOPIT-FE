@@ -65,7 +65,8 @@
   --spacing-m: 16px;
   --spacing-s: 14px;
   --spacing-xs: 12px;
-  --spacing-xxs: 8px;
+  --spacing-xxs: 10px;
+  --spacing-xxxs: 8px;
 
   /* Margin (Primitive/Scale) */
   --margin-l: 24px;
