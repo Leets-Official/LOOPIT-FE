@@ -122,7 +122,6 @@ export default function Playground() {
             onCancel={() => setIsModalOpen(false)}
             onConfirm={() => {
               setIsModalOpen(false);
-              console.log('삭제 확정');
             }}
           />
         )}
