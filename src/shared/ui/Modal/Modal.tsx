@@ -4,11 +4,22 @@ import { modalVariants } from './Modal.variants';
 export interface ModalProps {
   title: string;
   subtitle?: string;
+
+  cancelText?: string;
+  confirmText?: string;
+
   onCancel: () => void;
   onConfirm: () => void;
 }
 
-export const Modal = ({ title, subtitle, onCancel, onConfirm }: ModalProps) => {
+export const Modal = ({
+  title,
+  subtitle,
+  cancelText = '취소',
+  confirmText = '확인',
+  onCancel,
+  onConfirm,
+}: ModalProps) => {
   const { overlay, container, textGroup, buttonGroup, buttonWrapper } = modalVariants();
 
   return (
@@ -21,14 +32,24 @@ export const Modal = ({ title, subtitle, onCancel, onConfirm }: ModalProps) => {
 
         <div className={buttonGroup()}>
           <div className={buttonWrapper()}>
-            <Button variant="outline" size="auto" className="w-full" onClick={onCancel}>
-              취소
+            <Button
+              variant="outline"
+              size="auto"
+              className="w-full"
+              onClick={onCancel}
+            >
+              {cancelText}
             </Button>
           </div>
 
           <div className={buttonWrapper()}>
-            <Button variant="fill" size="auto" className="w-full" onClick={onConfirm}>
-              삭제
+            <Button
+              variant="fill"
+              size="auto"
+              className="w-full"
+              onClick={onConfirm}
+            >
+              {confirmText}
             </Button>
           </div>
         </div>
