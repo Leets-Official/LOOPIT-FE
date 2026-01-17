@@ -1,5 +1,5 @@
 import { Modal } from '@shared/ui/Modal/Modal';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 describe('Modal', () => {
@@ -23,7 +23,9 @@ describe('Modal', () => {
   describe('Rendering', () => {
     it('title 렌더링', () => {
       setup();
-      expect(screen.getByText('해당 게시물을 삭제하시겠어요?')).toBeInTheDocument();
+      expect(
+        screen.getByText('해당 게시물을 삭제하시겠어요?')
+      ).toBeInTheDocument();
     });
 
     it('subtitle 렌더링', () => {
@@ -33,14 +35,13 @@ describe('Modal', () => {
 
     it('subtitle이 없을 경우 렌더링되지 않음', () => {
       render(<Modal title="제목만 있는 모달" onCancel={vi.fn()} onConfirm={vi.fn()} />);
-
-      expect(screen.queryByText('삭제 후에는 복구할 수 없습니다.')).not.toBeInTheDocument();
+      expect(screen.queryByText('subtitle 1줄')).not.toBeInTheDocument();
     });
 
-    it('취소 / 삭제 버튼 렌더링', () => {
+    it('취소 / 확인 버튼 렌더링', () => {
       setup();
       expect(screen.getByRole('button', { name: '취소' })).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: '삭제' })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: '확인' })).toBeInTheDocument();
     });
   });
 
@@ -50,20 +51,26 @@ describe('Modal', () => {
       const { onCancel } = setup();
 
       await user.click(screen.getByRole('button', { name: '취소' }));
-      expect(onCancel).toHaveBeenCalledTimes(1);
+
+      await waitFor(() => {
+        expect(onCancel).toHaveBeenCalledTimes(1);
+      });
     });
 
-    it('삭제 버튼 클릭 시 onConfirm 호출', async () => {
+    it('확인 버튼 클릭 시 onConfirm 호출', async () => {
       const user = userEvent.setup();
       const { onConfirm } = setup();
 
-      await user.click(screen.getByRole('button', { name: '삭제' }));
-      expect(onConfirm).toHaveBeenCalledTimes(1);
+      await user.click(screen.getByRole('button', { name: '확인' }));
+
+      await waitFor(() => {
+        expect(onConfirm).toHaveBeenCalledTimes(1);
+      });
     });
   });
 
   describe('Accessibility', () => {
-    it('버튼은 접근 가능한 role을 가잠', () => {
+    it('버튼은 접근 가능한 role을 가짐', () => {
       setup();
       expect(screen.getAllByRole('button')).toHaveLength(2);
     });
@@ -76,7 +83,7 @@ describe('Modal', () => {
       expect(screen.getByRole('button', { name: '취소' })).toHaveFocus();
 
       await user.tab();
-      expect(screen.getByRole('button', { name: '삭제' })).toHaveFocus();
+      expect(screen.getByRole('button', { name: '확인' })).toHaveFocus();
     });
   });
 });
