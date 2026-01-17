@@ -21,9 +21,6 @@ export const Modal = ({
 }: ModalProps) => {
   const [closing, setClosing] = useState(false);
 
-  /**
-   * 닫힘 로직 (모든 경로에서 공통 사용)
-   */
   const handleClose = useCallback(
     (callback: () => void) => {
       if (closing) {
@@ -31,14 +28,11 @@ export const Modal = ({
       }
 
       setClosing(true);
-      setTimeout(callback, 150); // fade-out duration
+      setTimeout(callback, 150);
     },
     [closing]
   );
 
-  /**
-   * ESC 키로 닫기
-   */
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -55,7 +49,6 @@ export const Modal = ({
   return (
     /* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
     <div className={modalStyles.container} onClick={() => handleClose(onCancel)}>
-      {/* eslint-enable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
       <div
         className={`${modalStyles.content} ${closing ? 'animate-fade-out' : 'animate-fade-in'}`}
         onClick={(e) => e.stopPropagation()}
@@ -66,7 +59,6 @@ export const Modal = ({
           {subtitle && <p className="typo-caption-2 truncate text-black">{subtitle}</p>}
         </div>
 
-        {/* Buttons */}
         <div className={modalStyles.buttonGroup}>
           <div className={modalStyles.buttonWrapper}>
             <Button
@@ -92,5 +84,6 @@ export const Modal = ({
         </div>
       </div>
     </div>
+    /* eslint-enable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
   );
 };
