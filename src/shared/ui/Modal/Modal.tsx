@@ -53,7 +53,6 @@ export const Modal = ({
         className={`${modalStyles.content} ${closing ? 'animate-fade-out' : 'animate-fade-in'}`}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Text */}
         <div className={modalStyles.textGroup}>
           <p className="typo-body-2 text-black">{title}</p>
           {subtitle && <p className="typo-caption-2 truncate text-black">{subtitle}</p>}
