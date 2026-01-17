@@ -23,9 +23,7 @@ describe('Modal', () => {
   describe('Rendering', () => {
     it('title 렌더링', () => {
       setup();
-      expect(
-        screen.getByText('해당 게시물을 삭제하시겠어요?')
-      ).toBeInTheDocument();
+      expect(screen.getByText('해당 게시물을 삭제하시겠어요?')).toBeInTheDocument();
     });
 
     it('subtitle 렌더링', () => {
