@@ -1,5 +1,5 @@
 import { Button } from '@shared/ui/Button/Button';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { modalStyles } from './Modal.styles';
 
 export interface ModalProps {
@@ -21,11 +21,24 @@ export const Modal = ({
 }: ModalProps) => {
   const [closing, setClosing] = useState(false);
 
-  const handleClose = (callback: () => void) => {
-    setClosing(true);
-    setTimeout(callback, 150);
-  };
+  /**
+   * 닫힘 로직 (모든 경로에서 공통 사용)
+   */
+  const handleClose = useCallback(
+    (callback: () => void) => {
+      if (closing) {
+        return;
+      }
 
+      setClosing(true);
+      setTimeout(callback, 150); // fade-out duration
+    },
+    [closing]
+  );
+
+  /**
+   * ESC 키로 닫기
+   */
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -37,21 +50,23 @@ export const Modal = ({
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [onCancel]);
+  }, [handleClose, onCancel]);
 
   return (
+    /* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
     <div className={modalStyles.container} onClick={() => handleClose(onCancel)}>
+      {/* eslint-enable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
       <div
-        className={[modalStyles.content, closing ? 'animate-fade-out' : 'animate-fade-in'].join(
-          ' '
-        )}
+        className={`${modalStyles.content} ${closing ? 'animate-fade-out' : 'animate-fade-in'}`}
         onClick={(e) => e.stopPropagation()}
       >
+        {/* Text */}
         <div className={modalStyles.textGroup}>
           <p className="typo-body-2 text-black">{title}</p>
           {subtitle && <p className="typo-caption-2 truncate text-black">{subtitle}</p>}
         </div>
 
+        {/* Buttons */}
         <div className={modalStyles.buttonGroup}>
           <div className={modalStyles.buttonWrapper}>
             <Button
