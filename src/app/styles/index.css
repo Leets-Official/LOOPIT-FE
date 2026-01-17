@@ -73,6 +73,7 @@
   --margin-s: 16px;
 
   /* Padding (Primitive/Scale) */
+    --padding-xxl: 32px;
   --padding-xl: 24px;
   --padding-l: 16px;
   --padding-m: 12px;
