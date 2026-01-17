@@ -1,37 +1,12 @@
-import { PassThrough } from 'node:stream';
-import { createReadableStreamFromReadable } from '@react-router/node';
-import { renderToPipeableStream } from 'react-dom/server';
-import { ServerRouter, type EntryContext } from 'react-router';
+import { handleRequest } from '@vercel/react-router/entry.server';
+import type { AppLoadContext, EntryContext } from 'react-router';
 
-export default function handleRequest(
+export default async function handleServerRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
-  routerContext: EntryContext
-) {
-  return new Promise((resolve, reject) => {
-    const { pipe } = renderToPipeableStream(
-      <ServerRouter context={routerContext} url={request.url} />,
-      {
-        onShellReady() {
-          responseHeaders.set('Content-Type', 'text/html');
-
-          const body = new PassThrough();
-          const stream = createReadableStreamFromReadable(body);
-
-          resolve(
-            new Response(stream, {
-              headers: responseHeaders,
-              status: responseStatusCode,
-            })
-          );
-
-          pipe(body);
-        },
-        onShellError(error: unknown) {
-          reject(error);
-        },
-      }
-    );
-  });
+  routerContext: EntryContext,
+  loadContext?: AppLoadContext
+): Promise<Response> {
+  return handleRequest(request, responseStatusCode, responseHeaders, routerContext, loadContext);
 }

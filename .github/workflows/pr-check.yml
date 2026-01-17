@@ -75,7 +75,7 @@ jobs:
 
       - name: Build size check
         run: |
-          BUILD_SIZE_KB=$(du -sk dist | cut -f1)
+          BUILD_SIZE_KB=$(du -sk build/client | cut -f1)
           BUILD_SIZE_MB=$((BUILD_SIZE_KB / 1024))
           echo "Build size: ${BUILD_SIZE_MB}MB"
 
@@ -93,7 +93,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build-test-files
-          path: dist/
+          path: build/client/
           retention-days: 1
 
       - name: Comment build results on PR
@@ -148,10 +148,10 @@ jobs:
 
               // 빌드 크기 정보
               try {
-                const stats = fs.statSync('dist');
+                const stats = fs.statSync('build/client');
                 if (stats.isDirectory()) {
                   const { execSync } = require('child_process');
-                  const sizeKB = execSync('du -sk dist | cut -f1', { encoding: 'utf8' }).trim();
+                  const sizeKB = execSync('du -sk build/client | cut -f1', { encoding: 'utf8' }).trim();
                   const sizeMB = Math.round(parseInt(sizeKB) / 1024);
 
                   if (sizeMB > 10) {
