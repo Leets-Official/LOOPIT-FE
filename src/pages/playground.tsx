@@ -86,9 +86,7 @@ export default function Playground() {
       {/* Profile */}
       <section className="flex flex-col gap-4">
         <h2 className="typo-body-1">Profile</h2>
-        <p className="typo-caption-2 text-gray-600">
-          size variant 및 placeholder 상태를 확인합니다.
-        </p>
+        <p className="typo-caption-2 text-gray-600">size variant 및 placeholder 상태를 확인합니다.</p>
         <div className="flex items-center gap-10">
           <div className="flex flex-col items-center gap-2">
             <Profile size="sm" image="/profile-sample.jpg" />
