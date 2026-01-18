@@ -60,23 +60,13 @@ export const Modal = ({
 
         <div className={modalStyles.buttonGroup}>
           <div className={modalStyles.buttonWrapper}>
-            <Button
-              variant="outline"
-              size="auto"
-              className="w-full"
-              onClick={() => handleClose(onCancel)}
-            >
+            <Button variant="outline" size="auto" className="w-full" onClick={() => handleClose(onCancel)}>
               {cancelText}
             </Button>
           </div>
 
           <div className={modalStyles.buttonWrapper}>
-            <Button
-              variant="fill"
-              size="auto"
-              className="w-full"
-              onClick={() => handleClose(onConfirm)}
-            >
+            <Button variant="fill" size="auto" className="w-full" onClick={() => handleClose(onConfirm)}>
               {confirmText}
             </Button>
           </div>
