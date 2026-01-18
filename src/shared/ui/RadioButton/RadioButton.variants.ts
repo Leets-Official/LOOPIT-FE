@@ -13,12 +13,7 @@ export const radioButtonVariants = tv({
       'transition-colors duration-[250ms] ease-out',
     ],
 
-    dot: [
-      'w-[10px] h-[10px]',
-      'rounded-full',
-      'scale-0',
-      'transition-transform duration-[200ms] ease-out',
-    ],
+    dot: ['w-[10px] h-[10px]', 'rounded-full', 'scale-0', 'transition-transform duration-[200ms] ease-out'],
 
     label: ['typo-caption-1', 'text-[var(--color-gray-500)]'],
   },

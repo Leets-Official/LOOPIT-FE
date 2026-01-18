@@ -3,8 +3,7 @@
 
 @theme {
   /* Typography - Font Family */
-  --font-sans:
-    'Pretendard', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sans: 'Pretendard', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 
   /* Colors - Primitive/Gray */
   --color-white: #ffffff;

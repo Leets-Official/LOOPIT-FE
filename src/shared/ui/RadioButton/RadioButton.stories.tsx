@@ -60,9 +60,7 @@ export const AllStates: Story = {
           <RadioButton label="Checked Disabled" checked disabled />
         </div>
       </div>
-      <p className="typo-caption-2 max-w-md text-gray-600">
-        Hover, Focus 상태 확인: 마우스 오버 또는 Tab 키 이동
-      </p>
+      <p className="typo-caption-2 max-w-md text-gray-600">Hover, Focus 상태 확인: 마우스 오버 또는 Tab 키 이동</p>
     </div>
   ),
 };

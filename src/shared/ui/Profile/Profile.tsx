@@ -8,13 +8,7 @@ export type ProfileProps = ComponentPropsWithoutRef<'div'> &
     alt?: string;
   };
 
-export const Profile = ({
-  size,
-  image,
-  alt = '프로필 이미지',
-  className,
-  ...props
-}: ProfileProps) => {
+export const Profile = ({ size, image, alt = '프로필 이미지', className, ...props }: ProfileProps) => {
   const { root, image: imageStyle } = profileVariants({ size });
 
   return (

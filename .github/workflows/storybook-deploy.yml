@@ -1,4 +1,4 @@
-name: Deploy Storybook to GitHub Pages
+name: Storybook Deploy
 
 on:
   push:
@@ -38,13 +38,13 @@ jobs:
       - name: Build Storybook
         run: yarn build-storybook
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: storybook-static
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
 
       - name: Deploy to GitHub Pages
         id: deployment
