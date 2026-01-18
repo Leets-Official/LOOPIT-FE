@@ -109,7 +109,7 @@ export default function Playground() {
       <section className="flex flex-col gap-4">
         <h2 className="typo-body-1">SearchBar</h2>
 
-        <SearchBar placeholder="어떤 제품을 찾으시나요?" />
+        <SearchBar placeholder="어떤 제품을 찾으시나요?" onSearch={() => {}} />
       </section>
     </div>
   );
