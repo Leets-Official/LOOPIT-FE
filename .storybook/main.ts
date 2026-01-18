@@ -1,7 +1,8 @@
 import path from 'path';
-import tailwindcss from '@tailwindcss/vite';
-import svgr from 'vite-plugin-svgr';
+import { fileURLToPath } from 'url';
 import type { StorybookConfig } from '@storybook/react-vite';
+
+const dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
@@ -13,20 +14,14 @@ const config: StorybookConfig = {
     '@storybook/addon-onboarding',
   ],
   framework: '@storybook/react-vite',
-  viteFinal: async (config) => {
-    config.plugins = config.plugins || [];
-    config.plugins.push(tailwindcss(), svgr());
-
-    config.resolve = config.resolve || {};
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      '@app': path.resolve(__dirname, '../src/app'),
-      '@pages': path.resolve(__dirname, '../src/pages'),
-      '@shared': path.resolve(__dirname, '../src/shared'),
-      '@assets': path.resolve(__dirname, '../src/shared/assets'),
-    };
-
-    return config;
+  core: {
+    builder: {
+      name: '@storybook/builder-vite',
+      options: {
+        viteConfigPath: path.resolve(dirname, 'vite.config.ts'),
+      },
+    },
+    disableTelemetry: true,
   },
 };
 export default config;
