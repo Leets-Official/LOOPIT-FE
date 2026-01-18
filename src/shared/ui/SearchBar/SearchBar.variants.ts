@@ -27,6 +27,11 @@ export const searchBarVariants = tv({
         icon: ['text-[var(--color-black)]'],
         input: ['text-[var(--color-black)]', 'placeholder:text-[var(--color-black)]'],
       },
+      focused: {
+        wrapper: ['bg-[var(--color-green-300)]'],
+        icon: ['text-[var(--color-black)]'],
+        input: ['text-[var(--color-black)]'],
+      },
     },
   },
 
