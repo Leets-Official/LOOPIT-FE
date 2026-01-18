@@ -3,11 +3,15 @@ import { Button } from '@shared/ui/Button/Button';
 import { Card } from '@shared/ui/Card/Card';
 import { Checkbox } from '@shared/ui/Checkbox/Checkbox';
 import { Header } from '@shared/ui/Header/Header';
+import { Modal } from '@shared/ui/Modal/Modal';
 import { Profile } from '@shared/ui/Profile/Profile';
 import { RadioButton } from '@shared/ui/RadioButton/RadioButton';
 import { TextField } from '@shared/ui/TextField/TextField';
+import { useState } from 'react';
 
 export default function Playground() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <div className="flex flex-col gap-6 p-8">
       <h1 className="typo-title-2">UI Playground</h1>
@@ -122,6 +126,24 @@ export default function Playground() {
           description="설명 최대 길이 2줄"
           buttonText="바로가기"
         />
+      </section>
+
+      {/* Modal */}
+      <section className="flex flex-col gap-4">
+        <h2 className="typo-body-1">Modal</h2>
+
+        <Button onClick={() => setIsModalOpen(true)}>Open Modal</Button>
+
+        {isModalOpen && (
+          <Modal
+            title="해당 게시물을 삭제하시겠어요?"
+            subtitle="subtitle 1줄"
+            onCancel={() => setIsModalOpen(false)}
+            onConfirm={() => {
+              setIsModalOpen(false);
+            }}
+          />
+        )}
       </section>
 
       {/* TextField 예시 */}
