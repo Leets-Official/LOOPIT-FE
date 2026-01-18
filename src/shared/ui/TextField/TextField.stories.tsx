@@ -12,169 +12,207 @@ const meta = {
     type: {
       control: 'select',
       options: ['text', 'char', 'textarea', 'price'],
-      description: 'TextField type',
+      description: 'TextField 타입',
     },
-    label: { control: 'text' },
-    placeholder: { control: 'text' },
-    disabled: { control: 'boolean' },
-    error: { control: 'boolean' },
-    helperText: { control: 'text' },
-    showCharacterCount: { control: 'boolean' },
-    value: { control: 'text' },
-    defaultValue: { control: 'text' },
+    label: {
+      control: 'text',
+      description: '상단 라벨',
+    },
+    placeholder: {
+      control: 'text',
+      description: '플레이스홀더 텍스트',
+    },
+    disabled: {
+      control: 'boolean',
+      description: '비활성화 상태',
+    },
+    error: {
+      control: 'boolean',
+      description: '에러 상태',
+    },
+    helperText: {
+      control: 'text',
+      description: '하단 도움말 텍스트',
+    },
+    showCharacterCount: {
+      control: 'boolean',
+      description: '글자 수 카운터 표시 여부',
+    },
+    maxLength: {
+      control: 'number',
+      description: '최대 글자 수 (char: 100, textarea: 5000)',
+    },
   },
 } satisfies Meta<typeof TextField>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Showcase: Story = {
-  name: 'Playground Showcase (9)',
-  render: () => (
-    <div className="flex flex-wrap gap-10">
-      {/* Char Field */}
-      <div className="flex flex-col gap-4">
-        <h3 className="typo-caption-1 font-semibold">Char Field</h3>
-
-        <div className="w-127.25">
-          <TextField
-            type="char"
-            label="Char Field"
-            placeholder="Enter your username"
-            showCharacterCount
-            helperText="Default"
-          />
-        </div>
-
-        <div className="w-127.25">
-          <TextField
-            type="char"
-            label="Char Field"
-            placeholder="Enter your username"
-            showCharacterCount
-            error
-            helperText="Error"
-          />
-        </div>
-
-        <div className="w-127.25">
-          <TextField
-            type="char"
-            label="Char Field"
-            placeholder="Enter your username"
-            showCharacterCount
-            disabled
-            helperText="Disabled"
-          />
-        </div>
-      </div>
-
-      {/* TextArea Field */}
-      <div className="flex flex-col gap-4">
-        <h3 className="typo-caption-1 font-semibold">TextArea Field</h3>
-
-        <div className="w-127.25">
-          <TextField
-            type="textarea"
-            label="TextArea Field"
-            placeholder="Enter a description"
-            showCharacterCount
-            helperText="Default"
-          />
-        </div>
-
-        <div className="w-127.25">
-          <TextField
-            type="textarea"
-            label="TextArea Field"
-            placeholder="Enter a description"
-            showCharacterCount
-            error
-            helperText="Error"
-          />
-        </div>
-
-        <div className="w-127.25">
-          <TextField
-            type="textarea"
-            label="TextArea Field"
-            placeholder="Enter a description"
-            showCharacterCount
-            disabled
-            helperText="Disabled"
-          />
-        </div>
-      </div>
-
-      {/* Price Field */}
-      <div className="flex flex-col gap-4">
-        <h3 className="typo-caption-1 font-semibold">Price Field</h3>
-
-        <div className="w-127.25">
-          <TextField
-            type="price"
-            label="Price Field"
-            placeholder="Enter price"
-            defaultValue="10000"
-            helperText="Default"
-          />
-        </div>
-
-        <div className="w-127.25">
-          <TextField
-            type="price"
-            label="Price Field"
-            placeholder="Enter price"
-            defaultValue="10000"
-            error
-            helperText="Error"
-          />
-        </div>
-
-        <div className="w-127.25">
-          <TextField
-            type="price"
-            label="Price Field"
-            placeholder="Enter price"
-            defaultValue="10000"
-            disabled
-            helperText="Disabled"
-          />
-        </div>
-      </div>
-    </div>
-  ),
-};
-
-/**
- * (옵션) 단일 스토리들도 기본적인 확인용으로 남겨두고 싶으면 최소만 유지
- */
-export const CharDefault: Story = {
+// 기본 char 타입
+export const Char: Story = {
   args: {
     type: 'char',
     label: 'Char Field',
     placeholder: 'Enter your username',
     showCharacterCount: true,
-    helperText: 'Default',
   },
 };
 
-export const TextareaDefault: Story = {
+// char 에러 상태
+export const CharError: Story = {
+  args: {
+    type: 'char',
+    label: 'Char Field',
+    placeholder: 'Enter your username',
+    showCharacterCount: true,
+    error: true,
+    helperText: '유효하지 않은 값입니다',
+  },
+};
+
+// char 비활성화 상태
+export const CharDisabled: Story = {
+  args: {
+    type: 'char',
+    label: 'Char Field',
+    placeholder: 'Enter your username',
+    showCharacterCount: true,
+    disabled: true,
+  },
+};
+
+// 기본 textarea 타입
+export const Textarea: Story = {
   args: {
     type: 'textarea',
     label: 'TextArea Field',
     placeholder: 'Enter a description',
     showCharacterCount: true,
-    helperText: 'Default',
   },
 };
 
-export const PriceDefault: Story = {
+// textarea 에러 상태
+export const TextareaError: Story = {
+  args: {
+    type: 'textarea',
+    label: 'TextArea Field',
+    placeholder: 'Enter a description',
+    showCharacterCount: true,
+    error: true,
+    helperText: '필수 입력 항목입니다',
+  },
+};
+
+// textarea 비활성화 상태
+export const TextareaDisabled: Story = {
+  args: {
+    type: 'textarea',
+    label: 'TextArea Field',
+    placeholder: 'Enter a description',
+    showCharacterCount: true,
+    disabled: true,
+  },
+};
+
+// 기본 price 타입
+export const Price: Story = {
   args: {
     type: 'price',
     label: 'Price Field',
     placeholder: 'Enter price',
     defaultValue: '10000',
-    helperText: 'Default',
   },
+};
+
+// price 에러 상태
+export const PriceError: Story = {
+  args: {
+    type: 'price',
+    label: 'Price Field',
+    placeholder: 'Enter price',
+    defaultValue: '10000',
+    error: true,
+    helperText: '가격을 입력해주세요',
+  },
+};
+
+// price 비활성화 상태
+export const PriceDisabled: Story = {
+  args: {
+    type: 'price',
+    label: 'Price Field',
+    placeholder: 'Enter price',
+    defaultValue: '10000',
+    disabled: true,
+  },
+};
+
+// 모든 타입과 상태 한눈에 보기
+export const AllStates: Story = {
+  render: () => (
+    <div className="flex flex-wrap gap-10">
+      {/* Char Field */}
+      <div className="flex flex-col gap-4">
+        <span className="typo-caption-1 font-semibold">Char Field</span>
+        <div className="w-80">
+          <TextField type="char" label="Default" placeholder="Enter your username" showCharacterCount />
+        </div>
+        <div className="w-80">
+          <TextField
+            type="char"
+            label="Error"
+            placeholder="Enter your username"
+            showCharacterCount
+            error
+            helperText="유효하지 않은 값입니다"
+          />
+        </div>
+        <div className="w-80">
+          <TextField type="char" label="Disabled" placeholder="Enter your username" showCharacterCount disabled />
+        </div>
+      </div>
+
+      {/* TextArea Field */}
+      <div className="flex flex-col gap-4">
+        <span className="typo-caption-1 font-semibold">TextArea Field</span>
+        <div className="w-80">
+          <TextField type="textarea" label="Default" placeholder="Enter a description" showCharacterCount />
+        </div>
+        <div className="w-80">
+          <TextField
+            type="textarea"
+            label="Error"
+            placeholder="Enter a description"
+            showCharacterCount
+            error
+            helperText="필수 입력 항목입니다"
+          />
+        </div>
+        <div className="w-80">
+          <TextField type="textarea" label="Disabled" placeholder="Enter a description" showCharacterCount disabled />
+        </div>
+      </div>
+
+      {/* Price Field */}
+      <div className="flex flex-col gap-4">
+        <span className="typo-caption-1 font-semibold">Price Field</span>
+        <div className="w-80">
+          <TextField type="price" label="Default" placeholder="Enter price" defaultValue="10000" />
+        </div>
+        <div className="w-80">
+          <TextField
+            type="price"
+            label="Error"
+            placeholder="Enter price"
+            defaultValue="10000"
+            error
+            helperText="가격을 입력해주세요"
+          />
+        </div>
+        <div className="w-80">
+          <TextField type="price" label="Disabled" placeholder="Enter price" defaultValue="10000" disabled />
+        </div>
+      </div>
+    </div>
+  ),
 };

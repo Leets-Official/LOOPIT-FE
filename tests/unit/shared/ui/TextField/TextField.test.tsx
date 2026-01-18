@@ -91,4 +91,69 @@ describe('TextField', () => {
       expect(input).toHaveValue('default');
     });
   });
+
+  describe('Character Count', () => {
+    it('char 타입 글자수 카운트 표시', () => {
+      render(<TextField type="char" />);
+      expect(screen.getByText('0/100')).toBeInTheDocument();
+    });
+
+    it('textarea 타입 글자수 카운트 표시', () => {
+      render(<TextField type="textarea" />);
+      expect(screen.getByText('0/5000')).toBeInTheDocument();
+    });
+
+    it('입력 시 글자수 카운트 증가', async () => {
+      const user = userEvent.setup();
+      render(<TextField type="char" />);
+      const input = screen.getByRole('textbox');
+
+      await user.type(input, 'hello');
+      expect(screen.getByText('5/100')).toBeInTheDocument();
+    });
+
+    it('showCharacterCount=false 시 카운트 미표시', () => {
+      render(<TextField type="char" showCharacterCount={false} />);
+      expect(screen.queryByText('0/100')).not.toBeInTheDocument();
+    });
+  });
+
+  describe('Price Type', () => {
+    it('숫자만 입력 가능', async () => {
+      const user = userEvent.setup();
+      render(<TextField type="price" />);
+      const input = screen.getByRole('textbox');
+
+      await user.type(input, 'abc123def');
+      expect(input).toHaveValue('123');
+    });
+
+    it('천 단위 콤마 포맷팅', async () => {
+      const user = userEvent.setup();
+      render(<TextField type="price" />);
+      const input = screen.getByRole('textbox');
+
+      await user.type(input, '1000000');
+      expect(input).toHaveValue('1,000,000');
+    });
+
+    it('원 단위 suffix 표시', () => {
+      render(<TextField type="price" />);
+      expect(screen.getByText('원')).toBeInTheDocument();
+    });
+  });
+
+  describe('MaxLength', () => {
+    it('char 타입 maxLength 기본값 100', () => {
+      render(<TextField type="char" />);
+      const input = screen.getByRole('textbox');
+      expect(input).toHaveAttribute('maxLength', '100');
+    });
+
+    it('textarea 타입 maxLength 기본값 5000', () => {
+      render(<TextField type="textarea" />);
+      const textarea = screen.getByRole('textbox');
+      expect(textarea).toHaveAttribute('maxLength', '5000');
+    });
+  });
 });
