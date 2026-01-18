@@ -2,35 +2,37 @@ import { cardVariants } from './Card.variants';
 import type { ComponentPropsWithoutRef } from 'react';
 import type { VariantProps } from 'tailwind-variants';
 
-const { base, imageWrapper, image, overlay, title, price, date, textWrapper } = cardVariants();
-
 export type CardProps = ComponentPropsWithoutRef<'div'> &
   VariantProps<typeof cardVariants> & {
-    imageSrc: string;
-    titleText: string;
-    priceText: string;
-    dateText: string;
+    image: string;
+    title: string;
+    price: string;
+    date: string;
   };
 
-export const Card = ({
-  imageSrc,
-  titleText,
-  priceText,
-  dateText,
-  className,
-  ...props
-}: CardProps) => {
+export const Card = ({ image, title, price, date, className, ...props }: CardProps) => {
+  const {
+    root,
+    imageWrapper,
+    image: imageStyle,
+    overlay,
+    title: titleStyle,
+    price: priceStyle,
+    date: dateStyle,
+    textWrapper,
+  } = cardVariants();
+
   return (
-    <div {...props} className={base({ className })}>
+    <div {...props} className={root({ className })}>
       <div className={imageWrapper()}>
-        <img src={imageSrc} alt="" className={image()} />
+        <img src={image} alt={title} className={imageStyle()} />
         <div className={overlay()} />
       </div>
 
       <div className={textWrapper()}>
-        <p className={title()}>{titleText}</p>
-        <p className={price()}>{priceText}</p>
-        <span className={date()}>{dateText}</span>
+        <p className={titleStyle()}>{title}</p>
+        <p className={priceStyle()}>{price}</p>
+        <span className={dateStyle()}>{date}</span>
       </div>
     </div>
   );

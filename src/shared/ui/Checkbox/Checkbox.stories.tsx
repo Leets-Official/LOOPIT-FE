@@ -60,7 +60,7 @@ export const AllStates: Story = {
         </div>
       </div>
       <p className="typo-caption-2 max-w-md text-gray-600">
-        Hover와 Focus 상태를 확인하려면 마우스를 올리거나 Tab 키로 포커스를 이동하세요.
+        Hover, Focus 상태 확인: 마우스 오버 또는 Tab 키 이동
       </p>
     </div>
   ),

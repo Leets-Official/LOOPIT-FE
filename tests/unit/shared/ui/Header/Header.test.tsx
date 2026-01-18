@@ -1,5 +1,6 @@
 import { Header } from '@shared/ui/Header/Header';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 describe('Header', () => {
   describe('Rendering', () => {
@@ -147,6 +148,133 @@ describe('Header', () => {
       render(<Header id="main-header" />);
       const header = screen.getByRole('banner');
       expect(header).toHaveAttribute('id', 'main-header');
+    });
+  });
+
+  describe('Login State', () => {
+    it('비로그인 상태에서 로그인 버튼 렌더링', () => {
+      render(<Header isLoggedIn={false} />);
+      const loginButton = screen.getByRole('button', { name: '로그인' });
+      expect(loginButton).toBeInTheDocument();
+    });
+
+    it('로그인 상태에서 로그인 버튼 미렌더링', () => {
+      render(<Header isLoggedIn user={{ nickname: '홍길동' }} />);
+      const loginButton = screen.queryByRole('button', { name: '로그인' });
+      expect(loginButton).not.toBeInTheDocument();
+    });
+
+    it('로그인 상태에서 사용자 메뉴 버튼 렌더링', () => {
+      render(<Header isLoggedIn user={{ nickname: '홍길동' }} />);
+      const userMenuButton = screen.getByRole('button', { name: '' });
+      expect(userMenuButton).toHaveAttribute('aria-haspopup', 'menu');
+    });
+
+    it('로그인 상태에서 프로필 영역 렌더링', () => {
+      render(<Header isLoggedIn user={{ profileImage: '/test.jpg', nickname: '홍길동' }} />);
+      const profileImage = screen.getByRole('img', { name: '프로필 이미지' });
+      expect(profileImage).toBeInTheDocument();
+      expect(profileImage).toHaveAttribute('src', '/test.jpg');
+    });
+  });
+
+  describe('UserMenu Interaction', () => {
+    it('사용자 메뉴 버튼 클릭 시 드롭다운 렌더링', async () => {
+      const user = userEvent.setup();
+      render(<Header isLoggedIn user={{ nickname: '홍길동' }} />);
+
+      const userMenuButton = screen.getByRole('button', { name: '' });
+      await user.click(userMenuButton);
+
+      const dropdown = screen.getByRole('menu', { name: '사용자 메뉴' });
+      expect(dropdown).toBeInTheDocument();
+    });
+
+    it('드롭다운 열림 시 닉네임 표시', async () => {
+      const user = userEvent.setup();
+      render(<Header isLoggedIn user={{ nickname: '테스트유저' }} />);
+
+      const userMenuButton = screen.getByRole('button', { name: '' });
+      await user.click(userMenuButton);
+
+      expect(screen.getByText('테스트유저님')).toBeInTheDocument();
+    });
+
+    it('드롭다운 열림 시 마이페이지 링크 렌더링', async () => {
+      const user = userEvent.setup();
+      render(<Header isLoggedIn user={{ nickname: '홍길동' }} />);
+
+      const userMenuButton = screen.getByRole('button', { name: '' });
+      await user.click(userMenuButton);
+
+      expect(screen.getByRole('menuitem', { name: '마이페이지' })).toBeInTheDocument();
+    });
+
+    it('드롭다운 열림 시 로그아웃 버튼 렌더링', async () => {
+      const user = userEvent.setup();
+      render(<Header isLoggedIn user={{ nickname: '홍길동' }} />);
+
+      const userMenuButton = screen.getByRole('button', { name: '' });
+      await user.click(userMenuButton);
+
+      expect(screen.getByRole('button', { name: '로그아웃' })).toBeInTheDocument();
+    });
+
+    it('드롭다운 열림 시 aria-expanded true', async () => {
+      const user = userEvent.setup();
+      render(<Header isLoggedIn user={{ nickname: '홍길동' }} />);
+
+      const userMenuButton = screen.getByRole('button', { name: '' });
+      await user.click(userMenuButton);
+
+      expect(userMenuButton).toHaveAttribute('aria-expanded', 'true');
+    });
+
+    it('드롭다운 닫힘 시 aria-expanded false', () => {
+      render(<Header isLoggedIn user={{ nickname: '홍길동' }} />);
+      const userMenuButton = screen.getByRole('button', { name: '' });
+      expect(userMenuButton).toHaveAttribute('aria-expanded', 'false');
+    });
+  });
+
+  describe('Callback Props', () => {
+    it('로그인 버튼 클릭 시 onLoginClick 호출', async () => {
+      const user = userEvent.setup();
+      const handleLoginClick = vi.fn();
+      render(<Header isLoggedIn={false} onLoginClick={handleLoginClick} />);
+
+      const loginButton = screen.getByRole('button', { name: '로그인' });
+      await user.click(loginButton);
+
+      expect(handleLoginClick).toHaveBeenCalledTimes(1);
+    });
+
+    it('마이페이지 클릭 시 onMyPageClick 호출', async () => {
+      const user = userEvent.setup();
+      const handleMyPageClick = vi.fn();
+      render(<Header isLoggedIn user={{ nickname: '홍길동' }} onMyPageClick={handleMyPageClick} />);
+
+      const userMenuButton = screen.getByRole('button', { name: '' });
+      await user.click(userMenuButton);
+
+      const myPageLink = screen.getByRole('menuitem', { name: '마이페이지' });
+      await user.click(myPageLink);
+
+      expect(handleMyPageClick).toHaveBeenCalledTimes(1);
+    });
+
+    it('로그아웃 버튼 클릭 시 onLogoutClick 호출', async () => {
+      const user = userEvent.setup();
+      const handleLogoutClick = vi.fn();
+      render(<Header isLoggedIn user={{ nickname: '홍길동' }} onLogoutClick={handleLogoutClick} />);
+
+      const userMenuButton = screen.getByRole('button', { name: '' });
+      await user.click(userMenuButton);
+
+      const logoutButton = screen.getByRole('button', { name: '로그아웃' });
+      await user.click(logoutButton);
+
+      expect(handleLogoutClick).toHaveBeenCalledTimes(1);
     });
   });
 });
