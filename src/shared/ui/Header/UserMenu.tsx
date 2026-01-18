@@ -11,12 +11,7 @@ export type UserMenuProps = {
   onLogoutClick?: () => void;
 };
 
-export const UserMenu = ({
-  profileImage,
-  nickname = '홍길동',
-  onMyPageClick,
-  onLogoutClick,
-}: UserMenuProps) => {
+export const UserMenu = ({ profileImage, nickname = '홍길동', onMyPageClick, onLogoutClick }: UserMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -55,9 +50,7 @@ export const UserMenu = ({
         aria-haspopup="menu"
       >
         <Profile size="sm" image={profileImage} />
-        <CaretDownMdIcon
-          className={cn('text-gray-400 transition-transform duration-200', isOpen && 'rotate-180')}
-        />
+        <CaretDownMdIcon className={cn('text-gray-400 transition-transform duration-200', isOpen && 'rotate-180')} />
       </button>
 
       {isOpen && (
