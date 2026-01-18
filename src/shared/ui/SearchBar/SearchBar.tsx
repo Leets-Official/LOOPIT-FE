@@ -1,48 +1,49 @@
 import { SearchMagnifyingGlassIcon } from '@shared/assets/icons';
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useState, type KeyboardEventHandler } from 'react';
 import { searchBarVariants } from './SearchBar.variants';
-import type { SearchBarProps, SearchBarState } from './SearchBar.types';
 
 export const SearchBar = ({
-  autoFilled = true,
-  state: stateProp,
-  className,
-  value,
-  defaultValue,
-  onChange,
-  ...rest
-}: SearchBarProps) => {
-  const isControlled = value !== undefined;
+  placeholder,
+  onSearch,
+}: {
+  placeholder?: string;
+  onSearch: (query: string) => void;
+}) => {
+  const [query, setQuery] = useState<string>('');
+  const [isFocused, setFocused] = useState<boolean>(false);
 
-  const [innerValue, setInnerValue] = useState<string>(defaultValue ?? '');
-  const currentValue = isControlled ? value : innerValue;
+  const isFilled = query.length > 0;
 
-  const hasValue = (currentValue ?? '').trim().length > 0;
-
-  const computedState: SearchBarState = autoFilled
-    ? hasValue
-      ? 'filled'
-      : 'default'
-    : (stateProp ?? 'default');
-
-  const styles = searchBarVariants({ state: computedState });
+  const styles = searchBarVariants({
+    state: isFocused ? (isFilled ? 'filled' : 'focused') : 'default',
+  });
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    if (!isControlled) {
-      setInnerValue(e.target.value);
+    setQuery(e.target.value);
+  };
+
+  const handleEnterKey: KeyboardEventHandler<HTMLInputElement> = (event) => {
+    if (event.key === 'Enter') {
+      onSearch(query);
     }
-    onChange?.(e);
   };
 
   return (
     <div className={styles.root()}>
-      <div className={clsx(styles.wrapper(), className)}>
+      <div className={clsx(styles.wrapper())}>
         <SearchMagnifyingGlassIcon className={styles.icon()} aria-hidden="true" />
-        <input value={currentValue} onChange={handleChange} className={styles.input()} {...rest} />
+        <input
+          value={query}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          onChange={handleChange}
+          className={styles.input()}
+          placeholder={placeholder}
+          aria-label={placeholder ?? 'Search'}
+          onKeyDown={handleEnterKey}
+        />
       </div>
     </div>
   );
 };
-
-export default SearchBar;
