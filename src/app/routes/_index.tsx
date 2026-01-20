@@ -1,7 +1,5 @@
+import { Navigate } from 'react-router';
+
 export default function Index() {
-  return (
-    <div>
-      <h1>Home</h1>
-    </div>
-  );
+  return <Navigate to="/auth/login" replace />;
 }
