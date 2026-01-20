@@ -9,6 +9,7 @@ export default defineConfig({
   plugins: [reactRouter(), tailwindcss(), svgr()],
   resolve: {
     alias: {
+      '@': path.resolve(__dirname, './src'),
       '@app': path.resolve(__dirname, './src/app'),
       '@pages': path.resolve(__dirname, './src/pages'),
       '@shared': path.resolve(__dirname, './src/shared'),
