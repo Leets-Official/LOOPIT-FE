@@ -7,16 +7,18 @@ export interface FavoriteButtonProps {
   defaultActive?: boolean;
   onToggle?: (isActive: boolean) => void;
   ariaLabel?: string;
+  variant?: 'default' | 'inverse';
 }
 
 export const FavoriteButton = ({
   defaultActive = false,
   onToggle,
   ariaLabel = '찜',
+  variant = 'default',
 }: FavoriteButtonProps) => {
   const [isActive, setActive] = useState<boolean>(defaultActive);
 
-  const styles = favoriteButtonVariants();
+  const styles = favoriteButtonVariants({ variant });
 
   const handleClick = () => {
     const nextActive = !isActive;
@@ -25,8 +27,10 @@ export const FavoriteButton = ({
   };
 
   const iconStateClassName = clsx(
-    isActive ? 'fill-[var(--color-green-300)]' : 'fill-transparent',
-    'group-focus-visible:fill-[var(--color-green-300)]',
+    'fill-[var(--icon-fill)]',
+    'stroke-[var(--icon-stroke)]',
+    isActive ? '[--icon-fill:var(--icon-fill-active)]' : '[--icon-fill:transparent]',
+    'group-focus-visible:[--icon-fill:var(--icon-fill-active)]'
   );
 
   return (
