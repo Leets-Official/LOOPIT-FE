@@ -61,7 +61,7 @@ export default function SignupPage() {
 
               <div className={signupStyles.profilePicker}>
                 <button className={signupStyles.profileImageWrap} onClick={handleSelectImage}>
-                  <Profile size="lg" image={profileImage} />
+                  <Profile size="lg" image={profileImage} className={signupStyles.profileLarge} />
 
                   <div className={signupStyles.profileBadge}>
                     <img src={pictureIcon} alt="사진 선택" className="h-[40px] w-[40px]" />

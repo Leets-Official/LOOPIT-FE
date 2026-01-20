@@ -41,6 +41,9 @@ export const signupStyles = {
   profileImageWrap: `
     relative h-[182px] w-[182px] cursor-pointer
   `,
+  profileLarge: `
+    w-[182px] h-[182px]
+  `,
   profileBadge: `
     absolute bottom-0 right-0 flex h-[40px] w-[40px] items-center justify-center rounded-full
     border border-[var(--color-gray-300)] bg-white

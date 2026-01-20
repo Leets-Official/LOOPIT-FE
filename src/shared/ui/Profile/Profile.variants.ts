@@ -21,7 +21,7 @@ export const profileVariants = tv({
         root: ['w-[44px]', 'h-[44px]'],
       },
       lg: {
-        root: ['w-[182px]', 'h-[182px]'],
+        root: ['w-[152px]', 'h-[152px]'],
       },
     },
   },
