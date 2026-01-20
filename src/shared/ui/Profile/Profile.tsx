@@ -15,11 +15,15 @@ export const Profile = ({
   className,
   ...props
 }: ProfileProps) => {
-  const { root, image: imageStyle } = profileVariants({ size });
+  const { root, image: imageStyle, placeholder } = profileVariants({ size });
 
   return (
     <div {...props} className={root({ className })}>
-      {image && <img src={image} alt={alt} className={imageStyle()} />}
+      {image ? (
+        <img src={image} alt={alt} className={imageStyle()} />
+      ) : (
+        <div className={placeholder()} />
+      )}
     </div>
   );
 };
