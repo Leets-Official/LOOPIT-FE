@@ -7,6 +7,7 @@ const TEXTAREA_LINE_HEIGHT = 24;
 const TEXTAREA_MAX_LINES = 10;
 const CHAR_MAX_LENGTH = 100;
 const TEXTAREA_MAX_LENGTH = 5000;
+const DATE_MAX_LENGTH = 8;
 
 const formatNumberWithComma = (digits: string) => {
   if (!digits) {
@@ -20,17 +21,63 @@ const formatNumberWithComma = (digits: string) => {
   return new Intl.NumberFormat('ko-KR').format(n);
 };
 
+const formatDateWithSuffix = (digits: string) => {
+  if (!digits) {
+    return '';
+  }
+
+  const year = digits.slice(0, 4);
+  const month = digits.slice(4, 6);
+  const day = digits.slice(6, 8);
+
+  let result = '';
+
+  if (year) {
+    result += year;
+    if (year.length === 4) {
+      result += '년';
+      if (month) {
+        result += ' ';
+      }
+    }
+  }
+
+  if (month) {
+    result += month;
+    if (month.length === 2) {
+      result += '월';
+      if (day) {
+        result += ' ';
+      }
+    }
+  }
+
+  if (day) {
+    result += day;
+    if (day.length === 2) {
+      result += '일';
+    }
+  }
+
+  return result;
+};
+
 const getMaxLength = ({
   isChar,
   isTextarea,
+  isDate,
   maxLength,
 }: {
   isChar: boolean;
   isTextarea: boolean;
+  isDate: boolean;
   maxLength?: number;
 }) => {
   if (isChar) {
     return CHAR_MAX_LENGTH;
+  }
+  if (isDate) {
+    return DATE_MAX_LENGTH;
   }
   if (maxLength !== undefined) {
     return maxLength;
@@ -60,16 +107,20 @@ export const TextField = ({
   const isTextarea = type === 'textarea';
   const isChar = type === 'char';
   const isPrice = type === 'price';
+  const isDate = type === 'date';
 
-  const maxLen = getMaxLength({ isChar, isTextarea, maxLength });
-  const normalizedValue = isPrice ? rawValue.replace(/\D/g, '') : rawValue;
+  const maxLen = getMaxLength({ isChar, isTextarea, isDate, maxLength });
+  const normalizedValue = isPrice || isDate ? rawValue.replace(/\D/g, '') : rawValue;
 
   const displayValue = useMemo(() => {
     if (!isPrice) {
+      if (isDate) {
+        return formatDateWithSuffix(normalizedValue);
+      }
       return normalizedValue;
     }
     return formatNumberWithComma(normalizedValue);
-  }, [isPrice, normalizedValue]);
+  }, [isDate, isPrice, normalizedValue]);
 
   const currentLength = normalizedValue.length;
 
@@ -79,9 +130,10 @@ export const TextField = ({
 
   const styles = textFieldVariants({
     error,
-    disabled,
+    disabled: Boolean(disabled),
     filled,
     price: isPrice,
+    date: isDate,
   });
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -106,11 +158,22 @@ export const TextField = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     let next = e.target.value;
 
-    if (isPrice) {
-      next = next.replace(/\D/g, '');
-      if (maxLen !== undefined) {
-        next = next.slice(0, maxLen);
+    if (isPrice || isDate) {
+      let nextDigits = next.replace(/\D/g, '');
+
+      if (
+        isDate &&
+        nextDigits.length === normalizedValue.length &&
+        next.length < displayValue.length &&
+        normalizedValue.length > 0
+      ) {
+        nextDigits = normalizedValue.slice(0, -1);
       }
+
+      if (maxLen !== undefined) {
+        nextDigits = nextDigits.slice(0, maxLen);
+      }
+      next = nextDigits;
       (e.target as HTMLInputElement).value = next;
     }
 
@@ -150,11 +213,11 @@ export const TextField = ({
               type="text"
               value={displayValue}
               disabled={disabled}
-              maxLength={isPrice ? undefined : maxLen}
+              maxLength={isPrice || isDate ? undefined : maxLen}
               className={clsx(styles.fieldBase(), styles.input())}
               onChange={handleChange}
-              inputMode={isPrice ? 'numeric' : undefined}
-              pattern={isPrice ? '[0-9]*' : undefined}
+              inputMode={isPrice || isDate ? 'numeric' : undefined}
+              pattern={isPrice || isDate ? '[0-9]*' : undefined}
               {...(props as React.InputHTMLAttributes<HTMLInputElement>)}
             />
             {isPrice && <span className={styles.suffix()}>원</span>}

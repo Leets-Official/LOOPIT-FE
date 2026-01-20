@@ -11,7 +11,7 @@ const meta = {
   argTypes: {
     type: {
       control: 'select',
-      options: ['text', 'char', 'textarea', 'price'],
+      options: ['text', 'char', 'textarea', 'price', 'date'],
       description: 'TextField type',
     },
     label: { control: 'text' },
@@ -142,6 +142,40 @@ export const Showcase: Story = {
           />
         </div>
       </div>
+
+      {/* Date Field */}
+      <div className="flex flex-col gap-4">
+        <h3 className="typo-caption-1 font-semibold">Date Field</h3>
+
+        <div className="w-127.25">
+          <TextField
+            type="date"
+            label="Date Field"
+            placeholder="2026년 00월 00일"
+            helperText="Default"
+          />
+        </div>
+
+        <div className="w-127.25">
+          <TextField
+            type="date"
+            label="Date Field"
+            placeholder="2026년 00월 00일"
+            error
+            helperText="Error"
+          />
+        </div>
+
+        <div className="w-127.25">
+          <TextField
+            type="date"
+            label="Date Field"
+            placeholder="2026년 00월 00일"
+            disabled
+            helperText="Disabled"
+          />
+        </div>
+      </div>
     </div>
   ),
 };
@@ -175,6 +209,15 @@ export const PriceDefault: Story = {
     label: 'Price Field',
     placeholder: 'Enter price',
     defaultValue: '10000',
+    helperText: 'Default',
+  },
+};
+
+export const DateDefault: Story = {
+  args: {
+    type: 'date',
+    label: 'Date Field',
+    placeholder: '2026년 00월 00일',
     helperText: 'Default',
   },
 };
