@@ -60,7 +60,7 @@ export default function SignupPage() {
               <span className={signupStyles.sectionLabel}>프로필 사진</span>
 
               <div className={signupStyles.profilePicker}>
-                <div className={signupStyles.profileImageWrap} onClick={handleSelectImage}>
+                <button className={signupStyles.profileImageWrap} onClick={handleSelectImage}>
                   <Profile size="lg" image={profileImage} />
 
                   <div className={signupStyles.profileBadge}>
@@ -74,7 +74,7 @@ export default function SignupPage() {
                     className="hidden"
                     onChange={handleImageChange}
                   />
-                </div>
+                </button>
               </div>
             </section>
 
