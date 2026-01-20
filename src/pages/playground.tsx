@@ -2,6 +2,7 @@ import { BannerCard } from '@shared/ui/BannerCard/BannerCard';
 import { Button } from '@shared/ui/Button/Button';
 import { Card } from '@shared/ui/Card/Card';
 import { Checkbox } from '@shared/ui/Checkbox/Checkbox';
+import { FavoriteButton } from '@shared/ui/FavoriteButton';
 import { Header } from '@shared/ui/Header/Header';
 import { Modal } from '@shared/ui/Modal/Modal';
 import { Profile } from '@shared/ui/Profile/Profile';
@@ -120,6 +121,16 @@ export default function Playground() {
       <section className="flex flex-col gap-4">
         <h2 className="typo-body-1">SearchBar</h2>
         <SearchBar placeholder="어떤 제품을 찾으시나요?" onSearch={() => {}} />
+      </section>
+      {/* Favorite Button */}
+      <section className="flex flex-col gap-4">
+        <h2 className="typo-body-1">FavoriteButton</h2>
+        <div className="flex items-center gap-4">
+          <FavoriteButton />
+          <div className="rounded-full bg-[var(--color-black)] p-2">
+            <FavoriteButton variant="inverse" />
+          </div>
+        </div>
       </section>
       {/* BannerCard */}
       <section className="flex flex-col gap-4">
