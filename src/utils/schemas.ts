@@ -13,7 +13,7 @@ export const signupSchema = z.object({
     .trim()
     .min(1, '이메일을 입력해주세요.')
     .max(MAX_EMAIL_LENGTH, '이메일이 너무 깁니다.')
-    .email('@를 아용하여올바른 이메일을 입력해주세요.'),
+    .email('@를 이용하여올바른 이메일을 입력해주세요.'),
   name: z
     .string()
     .trim()

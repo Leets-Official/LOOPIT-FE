@@ -14,9 +14,6 @@ export default function SignupPage() {
   const [profileImage, setProfileImage] = useState<string | undefined>();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  /* ===============================
-   * react-hook-form + zod
-   * =============================== */
   const {
     register,
     handleSubmit,
@@ -29,9 +26,6 @@ export default function SignupPage() {
     console.log(' 회원가입 데이터', data);
   };
 
-  /* ===============================
-   * 프로필 이미지 핸들러
-   * =============================== */
   const handleSelectImage = () => {
     fileInputRef.current?.click();
   };
@@ -131,12 +125,7 @@ export default function SignupPage() {
 
         {/* ===== 회원가입 버튼 ===== */}
         <section className={signupStyles.submitSection}>
-          <Button
-            variant="fill"
-            size="auto"
-            className={signupStyles.submitButton}
-            onClick={handleSubmit(onSubmit)}
-          >
+          <Button variant="fill" size="auto" className={signupStyles.submitButton} onClick={handleSubmit(onSubmit)}>
             회원가입 완료
           </Button>
         </section>

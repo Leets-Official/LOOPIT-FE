@@ -83,5 +83,58 @@ describe('Modal', () => {
       await user.tab();
       expect(screen.getByRole('button', { name: '확인' })).toHaveFocus();
     });
+
+    it('ESC 키 입력 시 onCancel 호출', async () => {
+      const user = userEvent.setup();
+      const { onCancel } = setup();
+
+      await user.keyboard('{Escape}');
+
+      await waitFor(() => {
+        expect(onCancel).toHaveBeenCalledTimes(1);
+      });
+    });
+  });
+
+  describe('Custom Button Text', () => {
+    it('커스텀 취소 버튼 텍스트 렌더링', () => {
+      setup({ cancelText: '아니요' });
+      expect(screen.getByRole('button', { name: '아니요' })).toBeInTheDocument();
+    });
+
+    it('커스텀 확인 버튼 텍스트 렌더링', () => {
+      setup({ confirmText: '삭제' });
+      expect(screen.getByRole('button', { name: '삭제' })).toBeInTheDocument();
+    });
+  });
+
+  describe('Overlay Interaction', () => {
+    it('오버레이 클릭 시 onCancel 호출', async () => {
+      const user = userEvent.setup();
+      const onCancel = vi.fn();
+      const onConfirm = vi.fn();
+
+      const { container } = render(<Modal title="테스트" onCancel={onCancel} onConfirm={onConfirm} />);
+
+      const overlay = container.firstChild as HTMLElement;
+      await user.click(overlay);
+
+      await waitFor(() => {
+        expect(onCancel).toHaveBeenCalledTimes(1);
+      });
+    });
+
+    it('모달 내부 클릭 시 닫히지 않음', async () => {
+      const user = userEvent.setup();
+      const onCancel = vi.fn();
+      const onConfirm = vi.fn();
+
+      render(<Modal title="테스트" onCancel={onCancel} onConfirm={onConfirm} />);
+
+      const title = screen.getByText('테스트');
+      await user.click(title);
+
+      expect(onCancel).not.toHaveBeenCalled();
+    });
   });
 });

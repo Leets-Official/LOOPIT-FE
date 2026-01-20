@@ -2,29 +2,16 @@ import { buttonVariants } from '@shared/ui/Button/Button.variants';
 import type { ComponentPropsWithoutRef } from 'react';
 import type { VariantProps } from 'tailwind-variants';
 
-export type ButtonProps = Omit<ComponentPropsWithoutRef<'button'>, 'type'> &
-  VariantProps<typeof buttonVariants>;
+export type ButtonProps = Omit<ComponentPropsWithoutRef<'button'>, 'type'> & VariantProps<typeof buttonVariants>;
 
-export const Button = ({
-  children,
-  variant,
-  size,
-  className,
-  onMouseUp,
-  ...props
-}: ButtonProps) => {
+export const Button = ({ children, variant, size, className, onMouseUp, ...props }: ButtonProps) => {
   const handleMouseUp = (e: React.MouseEvent<HTMLButtonElement>) => {
     onMouseUp?.(e);
     e.currentTarget.blur();
   };
 
   return (
-    <button
-      type="button"
-      className={buttonVariants({ variant, size, className })}
-      onMouseUp={handleMouseUp}
-      {...props}
-    >
+    <button type="button" className={buttonVariants({ variant, size, className })} onMouseUp={handleMouseUp} {...props}>
       {children}
     </button>
   );

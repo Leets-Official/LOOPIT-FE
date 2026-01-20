@@ -12,15 +12,7 @@ import storybook from 'eslint-plugin-storybook';
 
 export default [
   {
-    ignores: [
-      'dist',
-      'build',
-      'node_modules',
-      '.yarn',
-      '.pnp.*',
-      '*.config.js',
-      'storybook-static',
-    ],
+    ignores: ['dist', 'build', 'node_modules', '.yarn', '.pnp.*', '*.config.js', 'storybook-static'],
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
@@ -107,14 +99,7 @@ export default [
       'import/order': [
         'error',
         {
-          groups: [
-            'builtin',
-            'external',
-            'internal',
-            ['parent', 'sibling', 'index'],
-            'object',
-            'type',
-          ],
+          groups: ['builtin', 'external', 'internal', ['parent', 'sibling', 'index'], 'object', 'type'],
           pathGroups: [
             {
               pattern: '@/**',

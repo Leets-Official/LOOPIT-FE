@@ -54,9 +54,7 @@ export const AllStates: Story = {
           />
         </div>
       </div>
-      <p className="typo-caption-2 max-w-md text-gray-600">
-        Hover 상태 확인: 마우스 오버 시 오버레이 효과
-      </p>
+      <p className="typo-caption-2 max-w-md text-gray-600">Hover 상태 확인: 마우스 오버 시 오버레이 효과</p>
     </div>
   ),
 };

@@ -1,4 +1,4 @@
-import { GearIcon } from '@shared/assets/icons/banner';
+import { GearIcon } from '@shared/assets/icons';
 import { Button } from '@shared/ui/Button/Button';
 import { bannerCardVariants } from './BannerCard.variants';
 import type { ComponentPropsWithoutRef, ReactNode } from 'react';
@@ -8,8 +8,9 @@ const { base, frame, textWrapper, title, description, imageWrapper, image } = ba
 
 export type BannerCardProps = Omit<ComponentPropsWithoutRef<'div'>, 'title'> &
   VariantProps<typeof bannerCardVariants> & {
-    title: ReactNode;
-    description: string;
+    title?: ReactNode;
+    description?: string;
+    imageSrc?: string;
     buttonText?: string;
     onClick?: () => void;
   };
@@ -23,6 +24,7 @@ export const BannerCard = ({
     </>
   ),
   description: descriptionText = '설명 최대 길이 2줄',
+  imageSrc = GearIcon,
   buttonText = '바로가기',
   onClick,
   className,
@@ -57,7 +59,7 @@ export const BannerCard = ({
       </div>
 
       <div className={imageWrapper()}>
-        <img src={GearIcon} alt="" className={image()} />
+        <img src={imageSrc} alt="" className={image()} />
       </div>
     </div>
   );

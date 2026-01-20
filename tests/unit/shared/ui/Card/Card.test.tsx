@@ -1,5 +1,6 @@
 import { Card } from '@shared/ui/Card/Card';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 describe('Card', () => {
   const defaultProps = {
@@ -57,13 +58,12 @@ describe('Card', () => {
     });
 
     it('onClick 핸들러 적용', async () => {
+      const user = userEvent.setup();
       const handleClick = vi.fn();
       render(<Card {...defaultProps} onClick={handleClick} />);
 
-      const card = screen
-        .getByText('테스트 상품')
-        .closest('div[class*="cursor-pointer"]') as HTMLElement;
-      card.click();
+      const card = screen.getByText('테스트 상품').closest('div[class*="cursor-pointer"]') as HTMLElement;
+      await user.click(card);
 
       expect(handleClick).toHaveBeenCalledTimes(1);
     });
