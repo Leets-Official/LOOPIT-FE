@@ -3,15 +3,17 @@ import clsx from 'clsx';
 import { useState } from 'react';
 import { favoriteButtonVariants } from './FavoriteButton.variants';
 
+export interface FavoriteButtonProps {
+  defaultActive?: boolean;
+  onToggle?: (isActive: boolean) => void;
+  ariaLabel?: string;
+}
+
 export const FavoriteButton = ({
   defaultActive = false,
   onToggle,
   ariaLabel = '찜',
-}: {
-  defaultActive?: boolean;
-  onToggle?: (isActive: boolean) => void;
-  ariaLabel?: string;
-}) => {
+}: FavoriteButtonProps) => {
   const [isActive, setActive] = useState<boolean>(defaultActive);
 
   const styles = favoriteButtonVariants();
