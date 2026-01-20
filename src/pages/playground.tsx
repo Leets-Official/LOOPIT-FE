@@ -125,7 +125,12 @@ export default function Playground() {
       {/* Favorite Button */}
       <section className="flex flex-col gap-4">
         <h2 className="typo-body-1">FavoriteButton</h2>
-        <FavoriteButton />
+        <div className="flex items-center gap-4">
+          <FavoriteButton />
+          <div className="rounded-full bg-[var(--color-black)] p-2">
+            <FavoriteButton variant="inverse" />
+          </div>
+        </div>
       </section>
       {/* BannerCard */}
       <section className="flex flex-col gap-4">
