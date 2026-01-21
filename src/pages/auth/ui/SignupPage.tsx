@@ -74,7 +74,7 @@ export default function SignupPage() {
                   onClick={handleSelectImage}
                 >
                   <Profile size="lg" image={profileImage} className="h-[182px] w-[182px]" />
-                  <div className="absolute bottom-0 right-0 flex h-[40px] w-[40px] items-center justify-center rounded-full border border-[var(--color-gray-300)] bg-white">
+                  <div className="absolute right-0 bottom-0 flex h-[40px] w-[40px] items-center justify-center rounded-full border border-[var(--color-gray-300)] bg-white">
                     <img src={pictureIcon} alt="사진 선택" className="h-[40px] w-[40px]" />
                   </div>
                   <input
