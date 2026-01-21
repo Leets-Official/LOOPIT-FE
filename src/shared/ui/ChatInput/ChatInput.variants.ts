@@ -44,7 +44,7 @@ export const chatInputVariants = tv({
       },
       active: {
         icon: [
-          '[&_.send-circle]:fill-[var(--color-green-500)]',
+          '[&_.send-circle]:fill-[var(--color-brand-primary)]',
           '[&_.send-circle]:stroke-[var(--color-black)]',
           '[&_.send-arrow]:stroke-[var(--color-black)]',
         ],
