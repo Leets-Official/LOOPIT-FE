@@ -1,3 +1,3 @@
-import SignupPage from '@pages/auth/ui/SignupPage';
+import { SignupPage } from '@pages/signup';
 
 export default SignupPage;
