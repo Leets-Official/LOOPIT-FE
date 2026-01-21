@@ -109,11 +109,7 @@ export const textFieldVariants = tv({
 
     date: {
       true: {
-        fieldBase: [
-          'text-left',
-          'text-[var(--color-gray-500)]',
-          'placeholder:text-[var(--color-gray-500)]',
-        ],
+        fieldBase: ['text-left', 'text-[var(--color-gray-500)]', 'placeholder:text-[var(--color-gray-500)]'],
       },
     },
   },

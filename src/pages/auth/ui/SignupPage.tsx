@@ -55,9 +55,7 @@ export default function SignupPage() {
             <div className="flex flex-col gap-[8px]">
               {' '}
               <h1 className="typo-title-3 text-black">회원가입</h1>{' '}
-              <p className="typo-body-1 text-black">
-                루핏 가입을 위해 회원님 정보를 입력해주세요.
-              </p>{' '}
+              <p className="typo-body-1 text-black">루핏 가입을 위해 회원님 정보를 입력해주세요.</p>{' '}
             </div>{' '}
           </header>{' '}
         </section>{' '}
