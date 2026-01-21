@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import pictureIcon from '@shared/assets/icons/common/picture.svg';
 import logo from '@shared/assets/logo/logo.svg';
+import { ROUTES } from '@shared/constants/routes';
 import { Button } from '@shared/ui/Button/Button';
 import { Profile } from '@shared/ui/Profile';
 import { DateField } from '@shared/ui/TextField';
@@ -8,8 +9,10 @@ import { TextField } from '@shared/ui/TextField/TextField';
 import { signupSchema, type SignupFormData } from '@shared/utils/schemas';
 import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router';
 import { signupStyles } from './SignupPage.styles';
 export default function SignupPage() {
+  const navigate = useNavigate();
   const [profileImage, setProfileImage] = useState<string | undefined>();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const {
@@ -19,6 +22,9 @@ export default function SignupPage() {
   } = useForm<SignupFormData>({ resolver: zodResolver(signupSchema) });
   const onSubmit = (data: SignupFormData) => {
     void data;
+  };
+  const handleLogoClick = () => {
+    navigate(ROUTES.MAIN);
   };
   const handleSelectImage = () => {
     fileInputRef.current?.click();
@@ -44,15 +50,20 @@ export default function SignupPage() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={signupStyles.form}>
       {' '}
-      <div className="flex w-full max-w-[1440px] flex-col items-center px-6 pb-24 md:px-[120px] md:pb-[258px]">
+      <div className="flex w-full max-w-[1440px] flex-col items-center px-6 pb-24">
         {' '}
         {/* 헤더 */}{' '}
-        <section className="flex w-full flex-col items-center gap-[10px] bg-green-50 px-6 py-10 md:px-[309px] md:py-[61px]">
+        <section className="flex w-full flex-col items-center gap-[10px] bg-green-50 px-6 py-10">
           {' '}
-          <header className="flex flex-col items-center gap-[16px] md:flex-row md:gap-[35px]">
+          <header className="flex flex-col items-center gap-[16px] xl:flex-row xl:gap-[35px]">
             {' '}
-            <img src={logo} alt="LOOPIT Logo" className="h-[36px] w-[192px]" />{' '}
-            <div className="flex flex-col gap-[8px]">
+            <img
+              src={logo}
+              alt="LOOPIT Logo"
+              className="h-[36px] w-[192px] cursor-pointer"
+              onClick={handleLogoClick}
+            />{' '}
+            <div className="flex flex-col gap-[8px] text-center xl:text-left">
               {' '}
               <h1 className="typo-title-3 text-black">회원가입</h1>{' '}
               <p className="typo-body-1 text-black">루핏 가입을 위해 회원님 정보를 입력해주세요.</p>{' '}
@@ -62,7 +73,7 @@ export default function SignupPage() {
         {/* 콘텐츠 */}{' '}
         <section className="mt-[80px] w-full">
           {' '}
-          <div className="flex w-full flex-col items-start gap-[67px] md:w-[1200px]">
+          <div className="flex w-full flex-col items-start gap-[67px]">
             {' '}
             {/* 프로필 사진 */}
             <section className="flex h-[214px] w-full flex-col gap-[16px]">
@@ -133,7 +144,7 @@ export default function SignupPage() {
           </div>{' '}
         </section>{' '}
         {/* 회원가입 버튼 */}{' '}
-        <section className="mt-[127px] flex w-full justify-center md:justify-end">
+        <section className="mt-[127px] flex w-full justify-center xl:justify-end">
           {' '}
           <Button variant="fill" size="auto" className="w-full max-w-[286px]" type="submit">
             {' '}
