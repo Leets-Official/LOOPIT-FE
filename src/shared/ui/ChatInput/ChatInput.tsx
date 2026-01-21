@@ -1,6 +1,9 @@
 import { SendIcon } from '@shared/assets/icons';
-import { useState, type ChangeEventHandler, type KeyboardEventHandler } from 'react';
+import { useLayoutEffect, useRef, useState, type ChangeEventHandler, type KeyboardEventHandler } from 'react';
 import { chatInputVariants } from './ChatInput.variants';
+
+const TEXTAREA_LINE_HEIGHT = 24;
+const TEXTAREA_MAX_LINES = 4;
 
 export interface ChatInputProps {
   placeholder?: string;
@@ -12,6 +15,7 @@ export interface ChatInputProps {
 export const ChatInput = ({ placeholder, onSend, value, onChange }: ChatInputProps) => {
   const [internalMessage, setInternalMessage] = useState('');
   const [isFocused, setFocused] = useState(false);
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   const isControlled = value !== undefined;
   const message = isControlled ? value : internalMessage;
@@ -23,7 +27,7 @@ export const ChatInput = ({ placeholder, onSend, value, onChange }: ChatInputPro
     sendState: isFilled ? 'active' : 'inactive',
   });
 
-  const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+  const handleChange: ChangeEventHandler<HTMLTextAreaElement> = (event) => {
     const nextValue = event.target.value;
     if (isControlled) {
       onChange?.(nextValue);
@@ -46,18 +50,31 @@ export const ChatInput = ({ placeholder, onSend, value, onChange }: ChatInputPro
     }
   };
 
-  const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (event) => {
-    if (event.key === 'Enter' && !event.nativeEvent.isComposing) {
+  const handleKeyDown: KeyboardEventHandler<HTMLTextAreaElement> = (event) => {
+    if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) {
       event.preventDefault();
       handleSend();
     }
   };
 
+  useLayoutEffect(() => {
+    const element = textareaRef.current;
+    if (!element) {
+      return;
+    }
+
+    element.style.height = 'auto';
+    const maxHeight = TEXTAREA_LINE_HEIGHT * TEXTAREA_MAX_LINES;
+    const nextHeight = Math.min(element.scrollHeight, maxHeight);
+    element.style.height = `${nextHeight}px`;
+    element.style.overflowY = element.scrollHeight > maxHeight ? 'auto' : 'hidden';
+  }, [message]);
+
   return (
     <div className={styles.root()}>
       <div className={styles.wrapper()}>
-        <input
-          type="text"
+        <textarea
+          ref={textareaRef}
           value={message}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
@@ -66,6 +83,7 @@ export const ChatInput = ({ placeholder, onSend, value, onChange }: ChatInputPro
           placeholder={placeholder}
           aria-label={placeholder ?? 'Chat input'}
           onKeyDown={handleKeyDown}
+          rows={1}
         />
         <button type="button" className={styles.button()} onClick={handleSend} disabled={!isFilled} aria-label="Send">
           <SendIcon className={styles.icon()} aria-hidden="true" />
