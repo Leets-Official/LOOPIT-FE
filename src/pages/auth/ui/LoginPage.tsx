@@ -1,6 +1,6 @@
-import kakaoLogin from '@/shared/assets/auth/kakao_login_medium_wide.png';
-import loginBg from '@/shared/assets/background/login_background.png';
-import logo from '@/shared/assets/logo/logo.svg';
+import kakaoLogin from '@shared/assets/auth/kakao_login_medium_wide.png';
+import loginBg from '@shared/assets/background/login_background.png';
+import logo from '@shared/assets/logo/logo.svg';
 import { loginStyles as s } from './LoginPage.styles';
 
 export default function LoginPage() {

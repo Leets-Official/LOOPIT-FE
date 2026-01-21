@@ -4,10 +4,10 @@ import { DateField } from '@shared/ui/TextField';
 import { TextField } from '@shared/ui/TextField/TextField';
 import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import pictureIcon from '@/shared/assets/icons/common/picture.svg';
-import logo from '@/shared/assets/logo/logo.svg';
-import { Profile } from '@/shared/ui/Profile';
-import { signupSchema, type SignupFormData } from '@/utils/schemas';
+import pictureIcon from '@shared/assets/icons/common/picture.svg';
+import logo from '@shared/assets/logo/logo.svg';
+import { Profile } from '@shared/ui/Profile';
+import { signupSchema, type SignupFormData } from '@shared/utils/schemas';
 import { signupStyles } from './SignupPage.styles';
 export default function SignupPage() {
   const [profileImage, setProfileImage] = useState<string | undefined>();
