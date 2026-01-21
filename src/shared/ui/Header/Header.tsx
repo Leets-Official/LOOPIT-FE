@@ -1,9 +1,9 @@
 import { AlertDotIcon, HamburgerIcon } from '@shared/assets/icons';
-import { Logo } from '@shared/assets/logo';
 import { ROUTES } from '@shared/constants';
 import { Button } from '@shared/ui/Button/Button';
 import { headerVariants } from '@shared/ui/Header/Header.variants';
 import { UserMenu } from '@shared/ui/Header/UserMenu';
+import { Logo } from '@shared/ui/Logo';
 import { type ComponentPropsWithoutRef, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 
@@ -36,17 +36,17 @@ export const Header = ({
   const styles = headerVariants();
 
   const handleLoginClick = () => {
-    navigate(ROUTES.LOGIN);
+    navigate(ROUTES.LOGIN, { viewTransition: true });
     setIsMobileMenuOpen(false);
   };
 
   const handleMyPageClick = () => {
-    navigate(ROUTES.MYPAGE);
+    navigate(ROUTES.MYPAGE, { viewTransition: true });
     setIsMobileMenuOpen(false);
   };
 
   const handleNavClick = (path: string) => {
-    navigate(path);
+    navigate(path, { viewTransition: true });
     setIsMobileMenuOpen(false);
   };
 
