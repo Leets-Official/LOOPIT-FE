@@ -1,6 +1,7 @@
 import { BannerCard } from '@shared/ui/BannerCard/BannerCard';
 import { Button } from '@shared/ui/Button/Button';
 import { Card } from '@shared/ui/Card/Card';
+import { ChatPromptList } from '@shared/ui/ChatPromptList';
 import { Checkbox } from '@shared/ui/Checkbox/Checkbox';
 import { FavoriteButton } from '@shared/ui/FavoriteButton';
 import { Header } from '@shared/ui/Header/Header';
@@ -122,12 +123,21 @@ export default function Playground() {
         <h2 className="typo-body-1">SearchBar</h2>
         <SearchBar placeholder="어떤 제품을 찾으시나요?" onSearch={() => {}} />
       </section>
+      {/* ChatPromptList */}
+      <section className="flex flex-col gap-4">
+        <h2 className="typo-body-1">ChatPromptList</h2>
+        <ChatPromptList
+          size="auto"
+          prompts={['질문 예시 max 1줄', '다른 질문 예시', '길이가 긴 질문 예시가 들어가면 줄바꿈 처리']}
+          onPromptClick={(prompt) => console.log('prompt click:', prompt)}
+        />
+      </section>
       {/* Favorite Button */}
       <section className="flex flex-col gap-4">
         <h2 className="typo-body-1">FavoriteButton</h2>
         <div className="flex items-center gap-4">
           <FavoriteButton />
-          <div className="rounded-full bg-[var(--color-black)] p-2">
+          <div className="rounded-full bg-black p-2">
             <FavoriteButton variant="inverse" />
           </div>
         </div>
