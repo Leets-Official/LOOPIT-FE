@@ -2,6 +2,9 @@
 @import 'pretendard/dist/web/variable/pretendardvariable.css';
 
 @theme {
+  /* Breakpoints */
+  --breakpoint-xl: 1280px;
+
   /* Typography - Font Family */
   --font-sans: 'Pretendard', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 
