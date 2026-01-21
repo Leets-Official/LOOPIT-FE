@@ -113,7 +113,6 @@ export const textFieldVariants = tv({
           'text-left',
           'text-[var(--color-gray-500)]',
           'placeholder:text-[var(--color-gray-500)]',
-          'disabled:text-[var(--color-gray-100)]',
         ],
       },
     },
