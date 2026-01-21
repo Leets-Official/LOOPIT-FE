@@ -31,6 +31,9 @@
   --color-green-800: #008c7e;
   --color-green-900: #00665f;
 
+  /* Colors - Brand */
+  --color-brand-primary: #13ffd0;
+
   /* Typography - Font Size (Primitive/Scale) */
   --font-size-xxxl: 40px;
   --font-size-xxl: 28px;
