@@ -1,6 +1,7 @@
 import { BannerCard } from '@shared/ui/BannerCard/BannerCard';
 import { Button } from '@shared/ui/Button/Button';
 import { Card } from '@shared/ui/Card/Card';
+import { ChatBubble } from '@shared/ui/ChatBubble';
 import { Checkbox } from '@shared/ui/Checkbox/Checkbox';
 import { FavoriteButton } from '@shared/ui/FavoriteButton';
 import { Header } from '@shared/ui/Header/Header';
@@ -123,12 +124,25 @@ export default function Playground() {
         <h2 className="typo-body-1">SearchBar</h2>
         <SearchBar placeholder="어떤 제품을 찾으시나요?" onSearch={() => {}} />
       </section>
+      {/* Chat Bubble */}
+      <section className="flex flex-col gap-4">
+        <h2 className="typo-body-1">ChatBubble</h2>
+        <div className="flex flex-col gap-6">
+          <ChatBubble variant="receiver" message="대답" meta="오전 00:00" />
+          <ChatBubble variant="sender" message="직접질문" meta="오후 00:00" />
+          <ChatBubble
+            variant="sender"
+            message="메시지가 길어질 경우에는 이렇게 줄바꿈이 됩니다아아아아아아아아아아 얼마나 늘려야 줄바꿈이 될까요"
+            meta="오후 00:00"
+          />
+        </div>
+      </section>
       {/* Favorite Button */}
       <section className="flex flex-col gap-4">
         <h2 className="typo-body-1">FavoriteButton</h2>
         <div className="flex items-center gap-4">
           <FavoriteButton />
-          <div className="rounded-full bg-[var(--color-black)] p-2">
+          <div className="rounded-full bg-black p-2">
             <FavoriteButton variant="inverse" />
           </div>
         </div>
