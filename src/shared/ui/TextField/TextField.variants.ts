@@ -42,10 +42,12 @@ export const textFieldVariants = tv({
       'disabled:cursor-not-allowed',
     ],
 
-    input: ['w-[509px] h-[48px]'],
+    // input: ['w-[509px] h-[48px]'],
+    input: ['w-full h-[48px]'],
 
     textarea: [
-      'w-[509px] min-h-[48px]',
+      // 'w-[509px] min-h-[48px]',
+      'w-full min-h-[48px]',
       'resize-none',
       'overflow-y-auto',
       'max-h-[240px]', // 최대 높이 10줄로 설정
@@ -104,5 +106,30 @@ export const textFieldVariants = tv({
         input: ['text-right', 'pr-[30px]'],
       },
     },
+
+    date: {
+      true: {
+        fieldBase: ['text-left', 'text-[var(--color-gray-500)]', 'placeholder:text-[var(--color-gray-500)]'],
+      },
+    },
   },
+
+  compoundVariants: [
+    {
+      date: true,
+      filled: true,
+      disabled: false,
+      class: {
+        fieldBase: ['text-[var(--color-gray-900)]'],
+      },
+    },
+    {
+      date: true,
+      error: true,
+      disabled: false,
+      class: {
+        fieldBase: ['text-[var(--color-gray-900)]'],
+      },
+    },
+  ],
 });

@@ -3,11 +3,13 @@ import { Button } from '@shared/ui/Button/Button';
 import { Card } from '@shared/ui/Card/Card';
 import { ChatInput } from '@shared/ui/ChatInput';
 import { Checkbox } from '@shared/ui/Checkbox/Checkbox';
+import { FavoriteButton } from '@shared/ui/FavoriteButton';
 import { Header } from '@shared/ui/Header/Header';
 import { Modal } from '@shared/ui/Modal/Modal';
 import { Profile } from '@shared/ui/Profile/Profile';
 import { RadioButton } from '@shared/ui/RadioButton/RadioButton';
 import { SearchBar } from '@shared/ui/SearchBar';
+import { DateField } from '@shared/ui/TextField';
 import { TextField } from '@shared/ui/TextField/TextField';
 import { useState } from 'react';
 
@@ -132,6 +134,16 @@ export default function Playground() {
           onChange={setChatMessage}
           onSend={() => {}}
         />
+      </section>
+      {/* Favorite Button */}
+      <section className="flex flex-col gap-4">
+        <h2 className="typo-body-1">FavoriteButton</h2>
+        <div className="flex items-center gap-4">
+          <FavoriteButton />
+          <div className="rounded-full bg-[var(--color-black)] p-2">
+            <FavoriteButton variant="inverse" />
+          </div>
+        </div>
       </section>
       {/* BannerCard */}
       <section className="flex flex-col gap-4">
@@ -265,6 +277,22 @@ export default function Playground() {
                 disabled
                 helperText="Disabled"
               />
+            </div>
+          </div>
+          {/* Date Field */}
+          <div className="flex flex-col gap-4">
+            <h3 className="typo-caption-1 font-semibold">Date Field</h3>
+            <div className="w-[522px]">
+              <DateField label="Date Field" helperText="Default" />
+            </div>
+            <div className="w-[522px]">
+              <DateField label="Date Field" defaultValue="20260321" helperText="Filled" />
+            </div>
+            <div className="w-[522px]">
+              <DateField label="Date Field" error helperText="Error" />
+            </div>
+            <div className="w-[522px]">
+              <DateField label="Date Field" disabled helperText="Disabled" />
             </div>
           </div>
         </div>
