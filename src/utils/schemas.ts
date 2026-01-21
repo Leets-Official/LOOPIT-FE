@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z as zod} from 'zod';
 
 const MAX_EMAIL_LENGTH = 254;
 const MIN_NAME_LENGTH = 2;
