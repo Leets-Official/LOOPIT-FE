@@ -57,7 +57,7 @@ export const UserMenu = ({ profileImage, nickname = '홍길동', onMyPageClick, 
         <div
           role="menu"
           aria-label="사용자 메뉴"
-          className="rounded-m absolute top-full right-0 mt-2 inline-flex h-[235px] items-center gap-[10px] bg-white p-[17px_32px] shadow-[0_4px_4px_0_rgba(0,0,0,0.25)]"
+          className="rounded-m gap-xxs absolute top-full right-0 mt-2 inline-flex h-[235px] items-center bg-white p-[17px_32px] shadow-[0_4px_4px_0_rgba(0,0,0,0.25)]"
         >
           <div className="flex w-[163px] flex-col items-start gap-[45px]">
             <div className="flex flex-col items-start gap-[17px] self-stretch">
