@@ -8,6 +8,7 @@ import { Modal } from '@shared/ui/Modal/Modal';
 import { Profile } from '@shared/ui/Profile/Profile';
 import { RadioButton } from '@shared/ui/RadioButton/RadioButton';
 import { SearchBar } from '@shared/ui/SearchBar';
+import { DateField } from '@shared/ui/TextField';
 import { TextField } from '@shared/ui/TextField/TextField';
 import { useState } from 'react';
 
@@ -264,6 +265,22 @@ export default function Playground() {
                 disabled
                 helperText="Disabled"
               />
+            </div>
+          </div>
+          {/* Date Field */}
+          <div className="flex flex-col gap-4">
+            <h3 className="typo-caption-1 font-semibold">Date Field</h3>
+            <div className="w-[522px]">
+              <DateField label="Date Field" helperText="Default" />
+            </div>
+            <div className="w-[522px]">
+              <DateField label="Date Field" defaultValue="20260321" helperText="Filled" />
+            </div>
+            <div className="w-[522px]">
+              <DateField label="Date Field" error helperText="Error" />
+            </div>
+            <div className="w-[522px]">
+              <DateField label="Date Field" disabled helperText="Disabled" />
             </div>
           </div>
         </div>

@@ -11,7 +11,7 @@ const meta = {
   argTypes: {
     type: {
       control: 'select',
-      options: ['text', 'char', 'textarea', 'price'],
+      options: ['text', 'char', 'textarea', 'price', 'date'],
       description: 'TextField 타입',
     },
     label: {
@@ -147,6 +147,36 @@ export const PriceDisabled: Story = {
   },
 };
 
+// 기본 date 타입
+export const Date: Story = {
+  args: {
+    type: 'date',
+    label: 'Date Field',
+    placeholder: '2026년 00월 00일',
+  },
+};
+
+// date 에러 상태
+export const DateError: Story = {
+  args: {
+    type: 'date',
+    label: 'Date Field',
+    placeholder: '2026년 00월 00일',
+    error: true,
+    helperText: '유효하지 않은 날짜입니다',
+  },
+};
+
+// date 비활성화 상태
+export const DateDisabled: Story = {
+  args: {
+    type: 'date',
+    label: 'Date Field',
+    placeholder: '2026년 00월 00일',
+    disabled: true,
+  },
+};
+
 // 모든 타입과 상태 한눈에 보기
 export const AllStates: Story = {
   render: () => (
@@ -211,6 +241,26 @@ export const AllStates: Story = {
         </div>
         <div className="w-80">
           <TextField type="price" label="Disabled" placeholder="Enter price" defaultValue="10000" disabled />
+        </div>
+      </div>
+
+      {/* Date Field */}
+      <div className="flex flex-col gap-4">
+        <span className="typo-caption-1 font-semibold">Date Field</span>
+        <div className="w-80">
+          <TextField type="date" label="Default" placeholder="2026년 00월 00일" />
+        </div>
+        <div className="w-80">
+          <TextField
+            type="date"
+            label="Error"
+            placeholder="2026년 00월 00일"
+            error
+            helperText="유효하지 않은 날짜입니다"
+          />
+        </div>
+        <div className="w-80">
+          <TextField type="date" label="Disabled" placeholder="2026년 00월 00일" disabled />
         </div>
       </div>
     </div>

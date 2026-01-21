@@ -1,6 +1,6 @@
 import { textFieldVariants } from '@shared/ui/TextField/TextField.variants';
 import clsx from 'clsx';
-import { useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { forwardRef, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type { TextFieldProps } from '@shared/ui/TextField/TextField.types';
 
 const TEXTAREA_LINE_HEIGHT = 24;
@@ -38,131 +38,156 @@ const getMaxLength = ({
   return isTextarea ? TEXTAREA_MAX_LENGTH : undefined;
 };
 
-export const TextField = ({
-  label,
-  value: controlledValue,
-  defaultValue = '',
-  disabled,
-  error,
-  helperText,
-  maxLength,
-  showCharacterCount = true,
-  type = 'text',
-  className,
-  onChange,
-  ...props
-}: TextFieldProps) => {
-  const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
+const assignRef = <T,>(target: React.ForwardedRef<T>, value: T | null) => {
+  if (typeof target === 'function') {
+    target(value);
+  } else if (target) {
+    target.current = value;
+  }
+};
 
-  const isControlled = controlledValue !== undefined;
-  const rawValue = isControlled ? controlledValue : uncontrolledValue;
+export const TextField = forwardRef<HTMLInputElement | HTMLTextAreaElement, TextFieldProps>(
+  (
+    {
+      label,
+      value: controlledValue,
+      defaultValue = '',
+      disabled,
+      error,
+      helperText,
+      maxLength,
+      showCharacterCount = true,
+      type = 'text',
+      className,
+      onChange,
+      ...props
+    },
+    ref
+  ) => {
+    const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
 
-  const isTextarea = type === 'textarea';
-  const isChar = type === 'char';
-  const isPrice = type === 'price';
+    const isControlled = controlledValue !== undefined;
+    const rawValue = isControlled ? controlledValue : uncontrolledValue;
 
-  const maxLen = getMaxLength({ isChar, isTextarea, maxLength });
-  const normalizedValue = isPrice ? rawValue.replace(/\D/g, '') : rawValue;
+    const isTextarea = type === 'textarea';
+    const isChar = type === 'char';
+    const isPrice = type === 'price';
+    const isDate = type === 'date';
 
-  const displayValue = useMemo(() => {
-    if (!isPrice) {
-      return normalizedValue;
-    }
-    return formatNumberWithComma(normalizedValue);
-  }, [isPrice, normalizedValue]);
+    const maxLen = getMaxLength({ isChar, isTextarea, maxLength });
+    const normalizedValue = isPrice ? rawValue.replace(/\D/g, '') : rawValue;
 
-  const currentLength = normalizedValue.length;
-
-  const showCounterInHeader = showCharacterCount && maxLen !== undefined && (isChar || isTextarea);
-
-  const filled = normalizedValue.length > 0 && !disabled && !error;
-
-  const styles = textFieldVariants({
-    error,
-    disabled,
-    filled,
-    price: isPrice,
-  });
-
-  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-
-  useLayoutEffect(() => {
-    if (!isTextarea) {
-      return;
-    }
-    const el = textareaRef.current;
-    if (!el) {
-      return;
-    }
-
-    el.style.height = 'auto';
-
-    const maxHeight = TEXTAREA_LINE_HEIGHT * TEXTAREA_MAX_LINES;
-    const nextHeight = Math.min(el.scrollHeight, maxHeight);
-    el.style.height = `${nextHeight}px`;
-    el.style.overflowY = el.scrollHeight > maxHeight ? 'auto' : 'hidden';
-  }, [normalizedValue, isTextarea]);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    let next = e.target.value;
-
-    if (isPrice) {
-      next = next.replace(/\D/g, '');
-      if (maxLen !== undefined) {
-        next = next.slice(0, maxLen);
+    const displayValue = useMemo(() => {
+      if (!isPrice) {
+        return normalizedValue;
       }
-      (e.target as HTMLInputElement).value = next;
-    }
+      return formatNumberWithComma(normalizedValue);
+    }, [isPrice, normalizedValue]);
 
-    if (!isControlled) {
-      setUncontrolledValue(next);
-    }
-    onChange?.(e);
-  };
+    const currentLength = normalizedValue.length;
 
-  return (
-    <div className={styles.root({ className })}>
-      {(label || showCounterInHeader) && (
-        <div className={styles.labelRow()}>
-          {label && <label className={styles.label()}>{label}</label>}
-          {showCounterInHeader && (
-            <span className={styles.counter()}>
-              {currentLength}/{maxLen}
-            </span>
+    const showCounterInHeader = showCharacterCount && maxLen !== undefined && (isChar || isTextarea);
+
+    const filled = normalizedValue.length > 0 && !disabled && !error;
+
+    const styles = textFieldVariants({
+      error,
+      disabled: Boolean(disabled),
+      filled,
+      price: isPrice,
+      date: isDate,
+    });
+
+    const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
+    useLayoutEffect(() => {
+      if (!isTextarea) {
+        return;
+      }
+      const el = textareaRef.current;
+      if (!el) {
+        return;
+      }
+
+      el.style.height = 'auto';
+
+      const maxHeight = TEXTAREA_LINE_HEIGHT * TEXTAREA_MAX_LINES;
+      const nextHeight = Math.min(el.scrollHeight, maxHeight);
+      el.style.height = `${nextHeight}px`;
+      el.style.overflowY = el.scrollHeight > maxHeight ? 'auto' : 'hidden';
+    }, [normalizedValue, isTextarea]);
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      let next = e.target.value;
+
+      if (isPrice) {
+        let nextDigits = next.replace(/\D/g, '');
+
+        if (maxLen !== undefined) {
+          nextDigits = nextDigits.slice(0, maxLen);
+        }
+        next = nextDigits;
+        (e.target as HTMLInputElement).value = next;
+      }
+
+      if (!isControlled) {
+        setUncontrolledValue(next);
+      }
+      onChange?.(e);
+    };
+
+    return (
+      <div className={styles.root({ className })}>
+        {(label || showCounterInHeader) && (
+          <div className={styles.labelRow()}>
+            {label && <label className={styles.label()}>{label}</label>}
+            {showCounterInHeader && (
+              <span className={styles.counter()}>
+                {currentLength}/{maxLen}
+              </span>
+            )}
+          </div>
+        )}
+
+        <div className={styles.fieldWrapper()}>
+          {isTextarea ? (
+            <textarea
+              ref={(node) => {
+                textareaRef.current = node;
+                assignRef(ref, node);
+              }}
+              value={normalizedValue}
+              disabled={disabled}
+              maxLength={maxLen}
+              className={clsx(styles.fieldBase(), styles.textarea())}
+              onChange={handleChange}
+              {...(props as React.TextareaHTMLAttributes<HTMLTextAreaElement>)}
+            />
+          ) : (
+            <>
+              <input
+                type={isDate ? 'date' : 'text'}
+                value={displayValue}
+                disabled={disabled}
+                maxLength={isPrice ? undefined : maxLen}
+                className={clsx(styles.fieldBase(), styles.input())}
+                onChange={handleChange}
+                inputMode={isPrice ? 'numeric' : undefined}
+                pattern={isPrice ? '[0-9]*' : undefined}
+                ref={(node) => {
+                  assignRef(ref, node);
+                }}
+                {...(props as React.InputHTMLAttributes<HTMLInputElement>)}
+              />
+              {isPrice && <span className={styles.suffix()}>원</span>}
+            </>
           )}
         </div>
-      )}
 
-      <div className={styles.fieldWrapper()}>
-        {isTextarea ? (
-          <textarea
-            ref={textareaRef}
-            value={normalizedValue}
-            disabled={disabled}
-            maxLength={maxLen}
-            className={clsx(styles.fieldBase(), styles.textarea())}
-            onChange={handleChange}
-            {...(props as React.TextareaHTMLAttributes<HTMLTextAreaElement>)}
-          />
-        ) : (
-          <>
-            <input
-              type="text"
-              value={displayValue}
-              disabled={disabled}
-              maxLength={isPrice ? undefined : maxLen}
-              className={clsx(styles.fieldBase(), styles.input())}
-              onChange={handleChange}
-              inputMode={isPrice ? 'numeric' : undefined}
-              pattern={isPrice ? '[0-9]*' : undefined}
-              {...(props as React.InputHTMLAttributes<HTMLInputElement>)}
-            />
-            {isPrice && <span className={styles.suffix()}>원</span>}
-          </>
-        )}
+        {helperText && <span className={styles.helperText()}>{helperText}</span>}
       </div>
+    );
+  }
+);
 
-      {helperText && <span className={styles.helperText()}>{helperText}</span>}
-    </div>
-  );
-};
+TextField.displayName = 'TextField';

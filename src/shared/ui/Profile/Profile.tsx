@@ -9,11 +9,11 @@ export type ProfileProps = ComponentPropsWithoutRef<'div'> &
   };
 
 export const Profile = ({ size, image, alt = '프로필 이미지', className, ...props }: ProfileProps) => {
-  const { root, image: imageStyle } = profileVariants({ size });
+  const { root, image: imageStyle, placeholder } = profileVariants({ size });
 
   return (
     <div {...props} className={root({ className })}>
-      {image && <img src={image} alt={alt} className={imageStyle()} />}
+      {image ? <img src={image} alt={alt} className={imageStyle()} /> : <div className={placeholder()} />}
     </div>
   );
 };
