@@ -3,34 +3,41 @@ export const loginStyles = {
     w-screen h-screen
     flex items-center justify-center
     bg-cover bg-no-repeat
+    overflow-x-hidden
   `,
-  container: `
+
+  content: `
     flex flex-col items-center
-    gap-[44px]
+    justify-center
+    gap-[26px]
+    w-full h-full
+    px-6 py-12
+    md:px-[468px] md:py-[290px]
   `,
+
   logo: `
-    w-[251px] h-auto
+    w-[192px] h-[36px]
   `,
+
+  loginSection: `
+    flex flex-col items-center
+    gap-[61px]
+  `,
+
   greeting: `
     typo-body-2
     text-gray-900
     text-center
+    w-[215px]
   `,
+
   kakaoButton: `
-    hover:opacity-90
     transition
+    hover:opacity-90
   `,
-  footer: `
-    flex items-center
-    gap-[4px]
-  `,
-  signupText: `
-    typo-caption-2
-    text-gray-500
-  `,
-  signupLink: `
-    typo-caption-2
-    text-green-600
-    underline underline-offset-2
+
+  kakaoImage: `
+    w-[300px] h-[45px]
+    object-cover
   `,
 };

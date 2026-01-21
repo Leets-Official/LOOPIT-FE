@@ -1,15 +1,26 @@
 export const signupStyles = {
   form: `
-    flex min-h-screen w-full justify-center bg-white
+    flex min-h-screen w-full justify-center bg-white overflow-x-hidden
   `,
   container: `
-    flex w-full max-w-[1440px] flex-col items-center px-[120px] pb-[258px]
+    flex w-full max-w-[1440px] flex-col items-center /* mobile */
+  px-6 pb-24
+
+  /* desktop */
+  md:px-[120px] md:pb-[258px]
   `,
   headerSection: `
-    w-full bg-green-50 px-[309px] py-[61px]
-  `,
+  flex flex-col items-center gap-[10px]
+  w-full bg-green-50  /* mobile */
+  px-6 py-10
+
+  /* desktop */
+  md:px-[309px] md:py-[61px]
+`,
+
   header: `
-    flex w-[583px] items-center gap-[35px]
+flex flex-col items-center gap-[16px]
+  md:flex-row md:gap-[35px]
   `,
   logo: `
     h-[36px] w-[192px]
@@ -26,9 +37,12 @@ export const signupStyles = {
   contentSection: `
     mt-[80px] w-full
   `,
-  contentWrapper: `
-    flex w-[1200px] flex-col items-end gap-[67px]
-  `,
+contentWrapper: `
+  flex w-full flex-col items-start gap-[67px]
+
+  /* desktop only */
+  md:w-[1200px]
+`,
   profileSection: `
     flex h-[214px] w-full flex-col gap-[16px]
   `,
@@ -51,10 +65,12 @@ export const signupStyles = {
   fieldSection: `
     flex w-full flex-col gap-[16px]
   `,
-  submitSection: `
-    mt-[127px] flex w-full justify-end
-  `,
-  submitButton: `
-    w-[286px]
-  `,
+ submitSection: `
+  mt-[127px] flex w-full justify-center
+  md:justify-end
+`,
+
+submitButton: `
+  w-full max-w-[286px]
+`,
 };
