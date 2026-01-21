@@ -1,13 +1,13 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from '@shared/ui/Button/Button';
-import { DateField } from '@shared/ui/TextField';
-import { TextField } from '@shared/ui/TextField/TextField';
-import { useEffect, useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import pictureIcon from '@shared/assets/icons/common/picture.svg';
 import logo from '@shared/assets/logo/logo.svg';
+import { Button } from '@shared/ui/Button/Button';
 import { Profile } from '@shared/ui/Profile';
+import { DateField } from '@shared/ui/TextField';
+import { TextField } from '@shared/ui/TextField/TextField';
 import { signupSchema, type SignupFormData } from '@shared/utils/schemas';
+import { useEffect, useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { signupStyles } from './SignupPage.styles';
 export default function SignupPage() {
   const [profileImage, setProfileImage] = useState<string | undefined>();
@@ -66,28 +66,29 @@ export default function SignupPage() {
           {' '}
           <div className="flex w-full flex-col items-start gap-[67px] md:w-[1200px]">
             {' '}
-            {/* 프로필 사진 */}{' '}
+            {/* 프로필 사진 */}
             <section className="flex h-[214px] w-full flex-col gap-[16px]">
               <span className={signupStyles.sectionLabel}>프로필 사진</span>
-
-              <div className={signupStyles.profilePicker}>
-                <button type="button" className={signupStyles.profileImageWrap} onClick={handleSelectImage}>
-                  <Profile size="lg" image={profileImage} className={signupStyles.profileLarge} />
-
+              <div className="flex w-full justify-center">
+                <button
+                  type="button"
+                  className="relative h-[182px] w-[182px] cursor-pointer"
+                  onClick={handleSelectImage}
+                >
+                  <Profile size="lg" image={profileImage} className="h-[182px] w-[182px]" />
                   <div className="absolute bottom-0 right-0 flex h-[40px] w-[40px] items-center justify-center rounded-full border border-[var(--color-gray-300)] bg-white">
                     <img src={pictureIcon} alt="사진 선택" className="h-[40px] w-[40px]" />
                   </div>
-
                   <input
                     ref={fileInputRef}
                     type="file"
                     accept="image/*"
                     className="hidden"
                     onChange={handleImageChange}
-                  />{' '}
-                </button>{' '}
-              </div>{' '}
-            </section>{' '}
+                  />
+                </button>
+              </div>
+            </section>
             {/* 이메일 */}{' '}
             <section className="flex w-full flex-col gap-[16px]">
               {' '}
