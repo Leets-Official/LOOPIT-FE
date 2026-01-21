@@ -1,0 +1,11 @@
+<svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle class="send-circle" cx="17.3333" cy="17.3333" r="15.8333" stroke="currentColor" stroke-width="3" />
+  <path
+    class="send-arrow"
+    d="M22.6111 15.5741L17.3333 10.2963M17.3333 10.2963L12.0556 15.5741M17.3333 10.2963V24.3704"
+    stroke="currentColor"
+    stroke-width="3"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+</svg>

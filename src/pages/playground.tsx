@@ -1,6 +1,7 @@
 import { BannerCard } from '@shared/ui/BannerCard/BannerCard';
 import { Button } from '@shared/ui/Button/Button';
 import { Card } from '@shared/ui/Card/Card';
+import { ChatInput } from '@shared/ui/ChatInput';
 import { ChatPromptList } from '@shared/ui/ChatPromptList';
 import { Checkbox } from '@shared/ui/Checkbox/Checkbox';
 import { FavoriteButton } from '@shared/ui/FavoriteButton';
@@ -9,12 +10,14 @@ import { Modal } from '@shared/ui/Modal/Modal';
 import { Profile } from '@shared/ui/Profile/Profile';
 import { RadioButton } from '@shared/ui/RadioButton/RadioButton';
 import { SearchBar } from '@shared/ui/SearchBar';
+import { DateField } from '@shared/ui/TextField';
 import { TextField } from '@shared/ui/TextField/TextField';
 import { useState } from 'react';
 
 export default function Playground() {
   const [radioValue, setRadioValue] = useState('option1');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [chatMessage, setChatMessage] = useState('');
 
   return (
     <div className="flex flex-col gap-6 p-8">
@@ -130,6 +133,16 @@ export default function Playground() {
           size="auto"
           prompts={['질문 예시 max 1줄', '다른 질문 예시', '길이가 긴 질문 예시가 들어가면 줄바꿈 처리']}
           onPromptClick={(prompt) => console.log('prompt click:', prompt)}
+        />
+      </section>
+      {/* Chat Input */}
+      <section className="flex flex-col gap-4">
+        <h2 className="typo-body-1">ChatInput</h2>
+        <ChatInput
+          placeholder="무슨 견적을 원하시나요?"
+          value={chatMessage}
+          onChange={setChatMessage}
+          onSend={() => {}}
         />
       </section>
       {/* Favorite Button */}
@@ -274,6 +287,22 @@ export default function Playground() {
                 disabled
                 helperText="Disabled"
               />
+            </div>
+          </div>
+          {/* Date Field */}
+          <div className="flex flex-col gap-4">
+            <h3 className="typo-caption-1 font-semibold">Date Field</h3>
+            <div className="w-[522px]">
+              <DateField label="Date Field" helperText="Default" />
+            </div>
+            <div className="w-[522px]">
+              <DateField label="Date Field" defaultValue="20260321" helperText="Filled" />
+            </div>
+            <div className="w-[522px]">
+              <DateField label="Date Field" error helperText="Error" />
+            </div>
+            <div className="w-[522px]">
+              <DateField label="Date Field" disabled helperText="Disabled" />
             </div>
           </div>
         </div>
