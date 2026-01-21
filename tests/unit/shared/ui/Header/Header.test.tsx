@@ -38,7 +38,7 @@ describe('Header', () => {
     it('5개의 네비게이션 항목 렌더링', () => {
       renderWithRouter(<Header />);
       const nav = screen.getByRole('navigation');
-      const navItems = nav.querySelectorAll('span');
+      const navItems = nav.querySelectorAll('button');
       expect(navItems).toHaveLength(5);
     });
 
@@ -57,26 +57,26 @@ describe('Header', () => {
       expect(screen.getByText('수리점찾기')).toBeInTheDocument();
     });
 
+    it('루핏톡 네비게이션 항목 렌더링', () => {
+      renderWithRouter(<Header />);
+      expect(screen.getByText('루핏톡')).toBeInTheDocument();
+    });
+
     it('챗봇 네비게이션 항목 렌더링', () => {
       renderWithRouter(<Header />);
       expect(screen.getByText('챗봇')).toBeInTheDocument();
     });
 
-    it('마이페이지 네비게이션 항목 렌더링', () => {
-      renderWithRouter(<Header />);
-      expect(screen.getByText('마이페이지')).toBeInTheDocument();
-    });
-
     it('네비게이션 항목이 올바른 순서로 렌더링', () => {
       renderWithRouter(<Header />);
       const nav = screen.getByRole('navigation');
-      const navItems = nav.querySelectorAll('span');
+      const navItems = nav.querySelectorAll('button');
 
       expect(navItems[0]).toHaveTextContent('구매하기');
       expect(navItems[1]).toHaveTextContent('판매하기');
       expect(navItems[2]).toHaveTextContent('수리점찾기');
-      expect(navItems[3]).toHaveTextContent('챗봇');
-      expect(navItems[4]).toHaveTextContent('마이페이지');
+      expect(navItems[3]).toHaveTextContent('루핏톡');
+      expect(navItems[4]).toHaveTextContent('챗봇');
     });
   });
 
