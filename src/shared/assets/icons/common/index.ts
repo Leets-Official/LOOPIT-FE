@@ -4,3 +4,6 @@ export { default as DoneIcon } from './done.svg?react';
 export { default as SendIcon } from './send.svg?react';
 export { default as SearchMagnifyingGlassIcon } from './search-magnifying-glass.svg?react';
 export { default as HeartIcon } from './heart-outline.svg?react';
+export { default as AlertDotIcon } from './alertdot.svg?react';
+export { default as HamburgerIcon } from './hamburger-md.svg?react';
+export { default as kakaoLoginImg } from './kakao.png';

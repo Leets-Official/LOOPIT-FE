@@ -4,6 +4,10 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 const meta = {
   title: 'Shared/UI/Card',
   component: Card,
+  parameters: {
+    layout: 'centered',
+  },
+  tags: ['autodocs'],
   argTypes: {
     image: { control: 'text' },
     title: { control: 'text' },

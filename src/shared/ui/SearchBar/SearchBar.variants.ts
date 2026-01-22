@@ -2,17 +2,20 @@ import { tv } from 'tailwind-variants';
 
 export const searchBarVariants = tv({
   slots: {
-    root: ['flex flex-col'],
+    root: ['flex', 'flex-col', 'w-full', 'max-w-[550px]'],
     wrapper: [
-      'flex items-center',
-      'w-[550px] h-[44px]',
-      'px-[15px] py-[10px]',
+      'flex',
+      'items-center',
+      'w-full',
+      'h-[44px]',
+      'px-[15px]',
+      'py-[10px]',
       'gap-[25px]',
       'rounded-[var(--radius-m)]',
       'transition-colors',
     ],
-    icon: ['w-[24px] h-[24px] shrink-0', 'transition-colors'],
-    input: ['w-full bg-transparent outline-none', 'typo-body-1', 'placeholder:typo-body-1'],
+    icon: ['w-[24px]', 'h-[24px]', 'shrink-0', 'transition-colors'],
+    input: ['w-full', 'bg-transparent', 'outline-none', 'typo-body-1', 'placeholder:typo-body-1'],
   },
 
   variants: {

@@ -1,5 +1,5 @@
 import { Button } from '@shared/ui/Button/Button';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { modalStyles } from './Modal.styles';
 
 export interface ModalProps {
@@ -20,6 +20,7 @@ export const Modal = ({
   onConfirm,
 }: ModalProps) => {
   const [closing, setClosing] = useState(false);
+  const overlayRef = useRef<HTMLDivElement>(null);
 
   const handleClose = useCallback(
     (callback: () => void) => {
@@ -46,12 +47,18 @@ export const Modal = ({
     };
   }, [handleClose, onCancel]);
 
+  const handleOverlayMouseDown = (e: React.MouseEvent) => {
+    if (e.target === overlayRef.current) {
+      handleClose(onCancel);
+    }
+  };
+
   return (
-    /* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
-    <div className={modalStyles.container} onClick={() => handleClose(onCancel)}>
+    <div ref={overlayRef} className={modalStyles.container} role="presentation" onMouseDown={handleOverlayMouseDown}>
       <div
         className={`${modalStyles.content} ${closing ? 'animate-fade-out' : 'animate-fade-in'}`}
-        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
       >
         <div className={modalStyles.textGroup}>
           <p className="typo-body-2 text-black">{title}</p>
@@ -73,6 +80,5 @@ export const Modal = ({
         </div>
       </div>
     </div>
-    /* eslint-enable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
   );
 };

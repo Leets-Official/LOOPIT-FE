@@ -2,26 +2,31 @@ import { tv } from 'tailwind-variants';
 
 export const checkboxVariants = tv({
   slots: {
-    root: ['inline-flex items-center', 'gap-[var(--spacing-xxs)]', 'cursor-pointer', 'select-none'],
-
+    root: ['inline-flex', 'items-center', 'gap-[var(--spacing-xxs)]', 'cursor-pointer', 'select-none'],
     box: [
-      'flex items-center justify-center',
-      'w-[20px] h-[20px]',
+      'flex',
+      'items-center',
+      'justify-center',
+      'w-[20px]',
+      'h-[20px]',
       'rounded-[4px]',
       'border',
-      'transition-colors duration-[250ms] ease-out',
+      'transition-colors',
+      'duration-[250ms]',
+      'ease-out',
       'bg-transparent',
       'border-[var(--color-gray-300)]',
     ],
-
     icon: [
-      'w-[14px] h-[14px]',
-      'flex items-center justify-center',
+      'w-[14px]',
+      'h-[14px]',
+      'flex',
+      'items-center',
+      'justify-center',
       'text-[var(--color-white)]',
       '[&_path]:stroke-[2px]',
       'hidden',
     ],
-
     label: ['typo-caption-1', 'text-[var(--color-gray-600)]'],
   },
 
@@ -32,13 +37,11 @@ export const checkboxVariants = tv({
         icon: ['block'],
       },
     },
-
     focus: {
       true: {
         box: ['ring-2', 'ring-[var(--color-green-600)]', 'ring-offset-2'],
       },
     },
-
     disabled: {
       true: {
         root: ['cursor-not-allowed'],
