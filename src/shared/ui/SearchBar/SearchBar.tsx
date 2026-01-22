@@ -1,5 +1,4 @@
 import { SearchMagnifyingGlassIcon } from '@shared/assets/icons';
-import clsx from 'clsx';
 import { useState, type ChangeEventHandler, type KeyboardEventHandler } from 'react';
 import { searchBarVariants } from './SearchBar.variants';
 
@@ -39,7 +38,7 @@ export const SearchBar = ({ placeholder, onSearch, value, onChange }: SearchBarP
 
   return (
     <search className={styles.root()}>
-      <div className={clsx(styles.wrapper())} role="search">
+      <div className={styles.wrapper()} role="search">
         <SearchMagnifyingGlassIcon className={styles.icon()} aria-hidden="true" />
         <input
           type="search"

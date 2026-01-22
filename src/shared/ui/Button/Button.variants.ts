@@ -11,6 +11,7 @@ export const buttonVariants = tv({
     /* style */
     'rounded-[var(--radius-l)]',
     'typo-body-1',
+    'whitespace-nowrap',
     'transition-colors',
     'focus:outline-none',
     'cursor-pointer',

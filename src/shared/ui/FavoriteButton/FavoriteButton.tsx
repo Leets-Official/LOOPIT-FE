@@ -1,5 +1,5 @@
 import { HeartIcon } from '@shared/assets/icons';
-import clsx from 'clsx';
+import { cn } from '@shared/utils/cn';
 import { useState } from 'react';
 import { favoriteButtonVariants } from './FavoriteButton.variants';
 
@@ -26,7 +26,7 @@ export const FavoriteButton = ({
     onToggle?.(nextActive);
   };
 
-  const iconStateClassName = clsx(
+  const iconStateClassName = cn(
     'fill-[var(--icon-fill)]',
     'stroke-[var(--icon-stroke)]',
     isActive ? '[--icon-fill:var(--icon-fill-active)]' : '[--icon-fill:transparent]',
@@ -41,7 +41,7 @@ export const FavoriteButton = ({
       aria-label={ariaLabel}
       onClick={handleClick}
     >
-      <HeartIcon className={clsx(styles.icon(), iconStateClassName)} aria-hidden="true" />
+      <HeartIcon className={cn(styles.icon(), iconStateClassName)} aria-hidden="true" />
     </button>
   );
 };

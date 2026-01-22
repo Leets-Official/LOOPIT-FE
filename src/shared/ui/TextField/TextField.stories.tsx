@@ -48,6 +48,15 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+// 기본 text 타입
+export const Text: Story = {
+  args: {
+    type: 'text',
+    label: 'Text Field',
+    placeholder: 'Enter text',
+  },
+};
+
 // 기본 char 타입
 export const Char: Story = {
   args: {

@@ -141,7 +141,7 @@ export default function Playground() {
         <h2 className="typo-body-1">FavoriteButton</h2>
         <div className="flex items-center gap-4">
           <FavoriteButton />
-          <div className="rounded-full bg-[var(--color-black)] p-2">
+          <div className="rounded-full bg-black p-2">
             <FavoriteButton variant="inverse" />
           </div>
         </div>

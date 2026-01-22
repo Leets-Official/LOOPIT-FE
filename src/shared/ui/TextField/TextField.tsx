@@ -1,5 +1,5 @@
 import { textFieldVariants } from '@shared/ui/TextField/TextField.variants';
-import clsx from 'clsx';
+import { cn } from '@shared/utils/cn';
 import { forwardRef, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type { TextFieldProps } from '@shared/ui/TextField/TextField.types';
 
@@ -159,7 +159,7 @@ export const TextField = forwardRef<HTMLInputElement | HTMLTextAreaElement, Text
               value={normalizedValue}
               disabled={disabled}
               maxLength={maxLen}
-              className={clsx(styles.fieldBase(), styles.textarea())}
+              className={cn(styles.fieldBase(), styles.textarea())}
               onChange={handleChange}
               {...(props as React.TextareaHTMLAttributes<HTMLTextAreaElement>)}
             />
@@ -170,7 +170,7 @@ export const TextField = forwardRef<HTMLInputElement | HTMLTextAreaElement, Text
                 value={displayValue}
                 disabled={disabled}
                 maxLength={isPrice ? undefined : maxLen}
-                className={clsx(styles.fieldBase(), styles.input())}
+                className={cn(styles.fieldBase(), styles.input())}
                 onChange={handleChange}
                 inputMode={isPrice ? 'numeric' : undefined}
                 pattern={isPrice ? '[0-9]*' : undefined}

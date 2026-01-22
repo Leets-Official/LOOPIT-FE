@@ -2,8 +2,17 @@ import { tv } from 'tailwind-variants';
 
 export const cardVariants = tv({
   slots: {
-    root: ['group', 'flex flex-col items-center', 'w-[204px] h-[299px]', 'gap-[14px]', 'bg-white', 'cursor-pointer'],
-
+    root: [
+      'group',
+      'flex',
+      'flex-col',
+      'items-center',
+      'w-[204px]',
+      'h-[299px]',
+      'gap-[14px]',
+      'bg-white',
+      'cursor-pointer',
+    ],
     imageWrapper: [
       'relative',
       'flex',
@@ -15,11 +24,10 @@ export const cardVariants = tv({
       'rounded-[var(--radius-l)]',
       'overflow-hidden',
     ],
-
-    image: ['w-full h-full object-cover', 'rounded-[var(--radius-l)]'],
-
+    image: ['w-full', 'h-full', 'object-cover', 'rounded-[var(--radius-l)]'],
     overlay: [
-      'absolute inset-0',
+      'absolute',
+      'inset-0',
       'rounded-[var(--radius-l)]',
       'bg-white/20',
       'opacity-0',
@@ -27,13 +35,9 @@ export const cardVariants = tv({
       'pointer-events-none',
       'group-hover:opacity-100',
     ],
-
     title: ['h-[48px]', 'self-stretch', 'overflow-hidden', 'line-clamp-2', 'typo-body-1', 'text-black'],
-
     price: ['self-stretch', 'typo-body-2', 'font-semibold', 'text-black'],
-
     date: ['self-stretch', 'typo-caption-2', 'font-normal', 'text-black'],
-
-    textWrapper: 'flex flex-col gap-1',
+    textWrapper: ['flex', 'flex-col', 'gap-1'],
   },
 });

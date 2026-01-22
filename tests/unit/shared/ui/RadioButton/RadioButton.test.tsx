@@ -88,10 +88,10 @@ describe('RadioButton', () => {
     it('disabled 상태에서 클릭 비활성화', async () => {
       const user = userEvent.setup();
       render(<RadioButton disabled />);
-      const _radio = screen.getByRole('radio');
+      const radio = screen.getByRole('radio');
 
-      await user.click(_radio);
-      expect(_radio).not.toBeChecked();
+      await user.click(radio);
+      expect(radio).not.toBeChecked();
     });
   });
 

@@ -6,7 +6,24 @@ import svgr from 'vite-plugin-svgr';
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [reactRouter(), tailwindcss(), svgr()],
+  plugins: [
+    {
+      name: 'ignore-well-known',
+      configureServer(server) {
+        server.middlewares.use((req, res, next) => {
+          if (req.url?.startsWith('/.well-known/')) {
+            res.statusCode = 204;
+            res.end();
+            return;
+          }
+          next();
+        });
+      },
+    },
+    reactRouter(),
+    tailwindcss(),
+    svgr(),
+  ],
   resolve: {
     alias: {
       '@app': path.resolve(__dirname, './src/app'),
