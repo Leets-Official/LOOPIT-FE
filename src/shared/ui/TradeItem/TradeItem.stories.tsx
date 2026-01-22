@@ -44,7 +44,7 @@ export const Favorite: Story = {
   },
 };
 
-export const AllStates: Story = {
+export const AllStates = {
   render: () => (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-2">

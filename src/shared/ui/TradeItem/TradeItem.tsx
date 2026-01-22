@@ -43,7 +43,7 @@ export const TradeItem = ({
         <div className="flex items-center gap-[36px]">
           {imageUrl ? (
             <img
-              src={imageUrl}혀
+              src={imageUrl}
               alt={modelName}
               className="h-[79px] w-[79px] shrink-0 rounded-[var(--radius-m)] object-cover"
             />
