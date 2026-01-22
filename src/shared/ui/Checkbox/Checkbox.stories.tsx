@@ -4,6 +4,10 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 const meta = {
   title: 'Shared/UI/Checkbox',
   component: Checkbox,
+  parameters: {
+    layout: 'centered',
+  },
+  tags: ['autodocs'],
   argTypes: {
     checked: { control: 'boolean' },
     disabled: { control: 'boolean' },

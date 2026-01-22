@@ -14,7 +14,6 @@ export const loginStyles = {
   `,
 
   kakaoButton: `
-    transition
-    hover:opacity-90
+    cursor-pointer
   `,
 };

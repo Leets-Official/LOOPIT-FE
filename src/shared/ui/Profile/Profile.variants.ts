@@ -2,7 +2,7 @@ import { tv } from 'tailwind-variants';
 
 export const profileVariants = tv({
   slots: {
-    root: ['relative', 'flex items-center justify-center', 'overflow-hidden', 'rounded-full'],
+    root: ['relative', 'flex', 'items-center', 'justify-center', 'overflow-hidden', 'rounded-full'],
 
     image: ['w-full', 'h-full', 'object-cover'],
 
