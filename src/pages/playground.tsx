@@ -6,6 +6,7 @@ import { Checkbox } from '@shared/ui/Checkbox/Checkbox';
 import { FavoriteButton } from '@shared/ui/FavoriteButton';
 import { Header } from '@shared/ui/Header/Header';
 import { Modal } from '@shared/ui/Modal/Modal';
+import { ProductItem } from '@shared/ui/ProductItem/ProductItem';
 import { Profile } from '@shared/ui/Profile/Profile';
 import { RadioButton } from '@shared/ui/RadioButton/RadioButton';
 import { SearchBar } from '@shared/ui/SearchBar';
@@ -295,6 +296,52 @@ export default function Playground() {
               <DateField label="Date Field" disabled helperText="Disabled" />
             </div>
           </div>
+        </div>
+      </section>
+      {/* Product Item */}
+      <section className="flex flex-col gap-4">
+        <h2 className="typo-body-1">ProductItem</h2>
+        <p className="typo-caption-2 text-gray-600">마이페이지(구매중, 예약중, 구매완료, 찜), 루핏톡(예약중)</p>
+
+        <div className="flex flex-col gap-6">
+          {/* 구매중 */}
+          <ProductItem
+            imageUrl="/iphone12.png"
+            modelName="폰 기종"
+            price="0,000,000원"
+            date="2026.00.00"
+            status="buying"
+          />
+
+          {/* 예약중 */}
+          <ProductItem
+            imageUrl="/galaxys20.png"
+            modelName="폰 기종"
+            price="0,000,000원"
+            date="2026.00.00"
+            status="reserved"
+          />
+
+          {/* 구매완료 */}
+          <ProductItem
+            imageUrl="/iphone11.png"
+            modelName="폰 기종"
+            price="0,000,000원"
+            date="2026.00.00"
+            status="completed"
+          />
+
+          {/* 찜한 상품 */}
+
+          <ProductItem
+            imageUrl="/galaxyfold.png"
+            modelName="폰 기종"
+            price="0,000,000원"
+            date="2026.00.00"
+            status="favorite"
+            favoriteActive
+            onToggleFavorite={() => {}}
+          />
         </div>
       </section>
     </div>
