@@ -6,12 +6,12 @@ import { Checkbox } from '@shared/ui/Checkbox/Checkbox';
 import { FavoriteButton } from '@shared/ui/FavoriteButton';
 import { Header } from '@shared/ui/Header/Header';
 import { Modal } from '@shared/ui/Modal/Modal';
-import { ProductItem } from '@shared/ui/ProductItem/ProductItem';
 import { Profile } from '@shared/ui/Profile/Profile';
 import { RadioButton } from '@shared/ui/RadioButton/RadioButton';
 import { SearchBar } from '@shared/ui/SearchBar';
 import { DateField } from '@shared/ui/TextField';
 import { TextField } from '@shared/ui/TextField/TextField';
+import { TradeItem } from '@shared/ui/TradeItem/TradeItem';
 import { useState } from 'react';
 
 export default function Playground() {
@@ -298,14 +298,14 @@ export default function Playground() {
           </div>
         </div>
       </section>
-      {/* Product Item */}
+      {/* Trade Item */}
       <section className="flex flex-col gap-4">
-        <h2 className="typo-body-1">ProductItem</h2>
+        <h2 className="typo-body-1">TradeItem</h2>
         <p className="typo-caption-2 text-gray-600">마이페이지(구매중, 예약중, 구매완료, 찜), 루핏톡(예약중)</p>
 
         <div className="flex flex-col gap-6">
           {/* 구매중 */}
-          <ProductItem
+          <TradeItem
             imageUrl="/iphone12.png"
             modelName="폰 기종"
             price="0,000,000원"
@@ -314,7 +314,7 @@ export default function Playground() {
           />
 
           {/* 예약중 */}
-          <ProductItem
+          <TradeItem
             imageUrl="/galaxys20.png"
             modelName="폰 기종"
             price="0,000,000원"
@@ -323,7 +323,7 @@ export default function Playground() {
           />
 
           {/* 구매완료 */}
-          <ProductItem
+          <TradeItem
             imageUrl="/iphone11.png"
             modelName="폰 기종"
             price="0,000,000원"
@@ -333,8 +333,8 @@ export default function Playground() {
 
           {/* 찜한 상품 */}
 
-          <ProductItem
-            imageUrl="/galaxyfold.png"
+          <TradeItem
+            imageUrl="/.png"
             modelName="폰 기종"
             price="0,000,000원"
             date="2026.00.00"
