@@ -38,13 +38,22 @@ export const TradeItem = ({
   onToggleFavorite,
 }: TradeItemProps) => {
   return (
-    <div className="flex w-[1200px] flex-col gap-[var(--spacing-xxs)] rounded-[var(--radius-l)] bg-[var(--color-gray-900)] px-[42px] py-[44px]">
+    <div className="flex w-full max-w-[1200px] flex-col gap-[var(--spacing-xxs)] rounded-[var(--radius-l)] bg-[var(--color-gray-900)] px-[42px] py-[44px]">
       <div className="flex w-full items-center justify-between">
         <div className="flex items-center gap-[36px]">
-          <div
-            className="h-[79px] w-[79px] shrink-0 rounded-[var(--radius-m)] bg-[var(--color-gray-200)] bg-cover bg-center"
-            style={imageUrl ? { backgroundImage: `url(${imageUrl})` } : undefined}
-          />
+          {imageUrl ? (
+            <img
+              src={imageUrl}
+              alt={modelName}
+              className="h-[79px] w-[79px] shrink-0 rounded-[var(--radius-m)] object-cover"
+            />
+          ) : (
+            <div
+              role="img"
+              aria-label={`${modelName} 이미지 없음`}
+              className="h-[79px] w-[79px] shrink-0 rounded-[var(--radius-m)] bg-[var(--color-gray-200)]"
+            />
+          )}
 
           <div className="flex flex-col gap-[4px]">
             <span className="typo-body-1 text-[var(--color-white)]">{modelName}</span>
