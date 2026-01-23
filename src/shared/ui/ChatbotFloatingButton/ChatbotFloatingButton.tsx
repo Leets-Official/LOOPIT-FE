@@ -1,6 +1,6 @@
 import { ChatbotIcon } from '@shared/assets/icons';
-import type { ComponentPropsWithoutRef } from 'react';
 import { chatbotFloatingButtonVariants } from './ChatbotFloatingButton.variants';
+import type { ComponentPropsWithoutRef } from 'react';
 
 export type ChatbotFloatingButtonProps = ComponentPropsWithoutRef<'button'> & {
   label?: string;
@@ -15,12 +15,7 @@ export const ChatbotFloatingButton = ({
   const styles = chatbotFloatingButtonVariants();
 
   return (
-    <button
-      type={type}
-      className={styles.root({ className })}
-      aria-label={label}
-      {...props}
-    >
+    <button type={type} className={styles.root({ className })} aria-label={label} {...props}>
       <span className={styles.content()}>
         <ChatbotIcon className={styles.icon()} aria-hidden="true" />
         <span className={styles.label()}>{label}</span>
