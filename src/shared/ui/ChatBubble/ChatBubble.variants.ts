@@ -21,13 +21,13 @@ export const chatBubbleVariants = tv({
     variant: {
       receiver: {
         root: ['justify-start'],
-        bubble: ['!bg-[var(--color-gray-100)]'],
+        bubble: ['bg-[var(--color-gray-100)]'],
         text: ['text-[var(--color-gray-900)]'],
         meta: ['order-last'],
       },
       sender: {
         root: ['justify-end', 'flex-row-reverse'],
-        bubble: ['bg-[var(--color-brand-primary,var(--color-green-300))]'],
+        bubble: ['bg-[var(--color-brand-primary)]'],
         text: ['text-[var(--color-gray-900)]'],
         meta: ['order-last'],
       },
