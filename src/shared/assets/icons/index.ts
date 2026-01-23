@@ -4,8 +4,6 @@ export {
   CloseIcon,
   HamburgerIcon,
   kakaoLoginImg,
-  ChatCircleCloseIcon,
-  CloseIcon,
   CaretDownMdIcon,
   CheckIcon,
   DoneIcon,
