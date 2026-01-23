@@ -6,9 +6,10 @@ export type ChatBubbleProps = ComponentPropsWithoutRef<'div'> &
   VariantProps<typeof chatBubbleVariants> & {
     message: string;
     meta?: string;
+    metaDateTime?: string;
   };
 
-export const ChatBubble = ({ message, meta, variant, className, ...props }: ChatBubbleProps) => {
+export const ChatBubble = ({ message, meta, metaDateTime, variant, className, ...props }: ChatBubbleProps) => {
   const styles = chatBubbleVariants({ variant });
 
   return (
@@ -16,7 +17,11 @@ export const ChatBubble = ({ message, meta, variant, className, ...props }: Chat
       <div className={styles.bubble()}>
         <span className={styles.text()}>{message}</span>
       </div>
-      {meta && <span className={styles.meta()}>{meta}</span>}
+      {meta && (
+        <time className={styles.meta()} dateTime={metaDateTime}>
+          {meta}
+        </time>
+      )}
     </div>
   );
 };
