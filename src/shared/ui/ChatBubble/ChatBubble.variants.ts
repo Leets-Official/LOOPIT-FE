@@ -21,21 +21,13 @@ export const chatBubbleVariants = tv({
     variant: {
       receiver: {
         root: ['justify-start'],
-<<<<<<< HEAD
         bubble: ['bg-[var(--color-gray-100)]'],
-=======
-        bubble: ['!bg-[var(--color-gray-100)]'],
->>>>>>> 67c0c13991f2933a74320aa0a1b83d97e6760eab
         text: ['text-[var(--color-gray-900)]'],
         meta: ['order-last'],
       },
       sender: {
         root: ['justify-end', 'flex-row-reverse'],
-<<<<<<< HEAD
         bubble: ['bg-[var(--color-brand-primary)]'],
-=======
-        bubble: ['bg-[var(--color-brand-primary,var(--color-green-300))]'],
->>>>>>> 67c0c13991f2933a74320aa0a1b83d97e6760eab
         text: ['text-[var(--color-gray-900)]'],
         meta: ['order-last'],
       },
