@@ -2,19 +2,21 @@ import { tv } from 'tailwind-variants';
 
 export const radioButtonVariants = tv({
   slots: {
-    root: ['inline-flex items-center', 'gap-[var(--spacing-xxs)]', 'cursor-pointer', 'select-none'],
-
+    root: ['inline-flex', 'items-center', 'gap-[var(--spacing-xxs)]', 'cursor-pointer', 'select-none'],
     circle: [
-      'flex items-center justify-center',
-      'w-[20px] h-[20px]',
+      'flex',
+      'items-center',
+      'justify-center',
+      'w-[20px]',
+      'h-[20px]',
       'rounded-full',
       'border',
       'border-[var(--color-gray-300)]',
-      'transition-colors duration-[250ms] ease-out',
+      'transition-colors',
+      'duration-[250ms]',
+      'ease-out',
     ],
-
-    dot: ['w-[10px] h-[10px]', 'rounded-full', 'scale-0', 'transition-transform duration-[200ms] ease-out'],
-
+    dot: ['w-[10px]', 'h-[10px]', 'rounded-full', 'scale-0', 'transition-transform', 'duration-[200ms]', 'ease-out'],
     label: ['typo-caption-1', 'text-[var(--color-gray-500)]'],
   },
 

@@ -8,16 +8,10 @@ export const favoriteButtonVariants = tv({
 
   variants: {
     variant: {
-      default: {
-        icon: ['[--icon-stroke:var(--color-black)]'],
-      },
-      inverse: {
-        icon: ['[--icon-stroke:var(--color-white)]'],
-      },
+      default: { icon: ['[--icon-stroke:var(--color-black)]'] },
+      inverse: { icon: ['[--icon-stroke:var(--color-white)]'] },
     },
   },
 
-  defaultVariants: {
-    variant: 'default',
-  },
+  defaultVariants: { variant: 'default' },
 });

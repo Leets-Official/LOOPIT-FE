@@ -12,6 +12,7 @@ import { RadioButton } from '@shared/ui/RadioButton/RadioButton';
 import { SearchBar } from '@shared/ui/SearchBar';
 import { DateField } from '@shared/ui/TextField';
 import { TextField } from '@shared/ui/TextField/TextField';
+import { TradeItem } from '@shared/ui/TradeItem/TradeItem';
 import { useState } from 'react';
 
 export default function Playground() {
@@ -305,6 +306,52 @@ export default function Playground() {
               <DateField label="Date Field" disabled helperText="Disabled" />
             </div>
           </div>
+        </div>
+      </section>
+      {/* Trade Item */}
+      <section className="flex flex-col gap-4">
+        <h2 className="typo-body-1">TradeItem</h2>
+        <p className="typo-caption-2 text-gray-600">마이페이지(구매중, 예약중, 구매완료, 찜), 루핏톡(예약중)</p>
+
+        <div className="flex flex-col gap-6">
+          {/* 구매중 */}
+          <TradeItem
+            imageUrl="/iphone12.png"
+            modelName="폰 기종"
+            price="0,000,000원"
+            date="2026.00.00"
+            status="buying"
+          />
+
+          {/* 예약중 */}
+          <TradeItem
+            imageUrl="/galaxys20.png"
+            modelName="폰 기종"
+            price="0,000,000원"
+            date="2026.00.00"
+            status="reserved"
+          />
+
+          {/* 구매완료 */}
+          <TradeItem
+            imageUrl="/iphone11.png"
+            modelName="폰 기종"
+            price="0,000,000원"
+            date="2026.00.00"
+            status="completed"
+          />
+
+          {/* 찜한 상품 */}
+
+          <TradeItem
+            imageUrl="/.png"
+            modelName="폰 기종"
+            price="0,000,000원"
+            date="2026.00.00"
+            status="favorite"
+            favoriteActive
+            onToggleFavorite={() => {}}
+          />
         </div>
       </section>
     </div>
