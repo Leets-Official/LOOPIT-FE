@@ -12,7 +12,7 @@ export const ChatBubble = ({ message, meta, variant, className, ...props }: Chat
   const styles = chatBubbleVariants({ variant });
 
   return (
-    <div className={styles.root({ className })} {...props}>
+    <div className={styles.root({ className })} role="listitem" {...props}>
       <div className={styles.bubble()}>
         <span className={styles.text()}>{message}</span>
       </div>
