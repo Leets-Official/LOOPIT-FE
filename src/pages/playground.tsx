@@ -1,6 +1,7 @@
 import { BannerCard } from '@shared/ui/BannerCard/BannerCard';
 import { Button } from '@shared/ui/Button/Button';
 import { Card } from '@shared/ui/Card/Card';
+import { ChatbotFloatingButton } from '@shared/ui/ChatbotFloatingButton';
 import { ChatBubble } from '@shared/ui/ChatBubble';
 import { ChatInput } from '@shared/ui/ChatInput';
 import { ChatPromptList } from '@shared/ui/ChatPromptList';
@@ -160,6 +161,11 @@ export default function Playground() {
           onChange={setChatMessage}
           onSend={() => {}}
         />
+      </section>
+      {/* Chatbot Floating Button */}
+      <section className="flex flex-col gap-4">
+        <h2 className="typo-body-1">ChatbotFloatingButton</h2>
+        <ChatbotFloatingButton />
       </section>
       {/* Favorite Button */}
       <section className="flex flex-col gap-4">
