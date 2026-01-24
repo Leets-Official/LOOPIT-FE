@@ -1,10 +1,11 @@
 import { CaretDownMdIcon, PictureIcon } from '@shared/assets/icons';
 import { Header } from '@shared/ui/Header';
-import { TextField } from '@shared/ui/TextField';
+import { PriceField, TextField } from '@shared/ui/TextField';
 import { useEffect, useRef, useState } from 'react';
 export default function SellPage() {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [manufacturer, setManufacturer] = useState<string | null>(null);
+  const [priceValue, setPriceValue] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const manufacturerOptions = ['삼성', '애플'];
@@ -190,6 +191,21 @@ export default function SellPage() {
           aria-label="저장 용량"
           placeholder="128GB"
           className="w-full"
+          showCharacterCount={false}
+        />
+      </div>
+
+      {/* 가격 */}
+      <div className="flex flex-col gap-[var(--padding-m)]">
+        <span className="typo-body-2 text-[var(--Text-text-5)]">가격</span>
+        <PriceField
+          aria-label="가격"
+          placeholder="0"
+          value={priceValue}
+          onChange={(event) => setPriceValue(event.target.value)}
+          className={`w-full [&_input]:placeholder:text-[var(--color-gray-500)] ${
+            priceValue ? '[&_span]:text-[var(--color-gray-900)]' : '[&_span]:text-[var(--color-gray-500)]'
+          }`}
           showCharacterCount={false}
         />
       </div>
