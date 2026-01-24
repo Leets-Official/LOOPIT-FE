@@ -1,10 +1,15 @@
 import { CaretDownMdIcon, PictureIcon } from '@shared/assets/icons';
 import { Header } from '@shared/ui/Header';
-import { PriceField, TextField } from '@shared/ui/TextField';
+import { RadioButton } from '@shared/ui/RadioButton/RadioButton';
+import { PriceField, TextAreaField, TextField } from '@shared/ui/TextField';
 import { useEffect, useRef, useState } from 'react';
 export default function SellPage() {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [manufacturer, setManufacturer] = useState<string | null>(null);
+  const [productCondition, setProductCondition] = useState<'new' | 'used'>('new');
+  const [scratchCondition, setScratchCondition] = useState<'scratch' | 'clean'>('scratch');
+  const [screenCondition, setScreenCondition] = useState<'broken' | 'clean'>('broken');
+  const [batteryCondition, setBatteryCondition] = useState<'80plus' | '80minus' | '50minus'>('80plus');
   const [priceValue, setPriceValue] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
@@ -209,9 +214,104 @@ export default function SellPage() {
           showCharacterCount={false}
         />
       </div>
+
     </div>
   </div>
 </section>
+
+          <section className="mt-[70px] ml-[120px] mr-[14px] w-[1306px]">
+            <div className="flex h-[199px] w-full items-start gap-[130px]">
+              <h2 className="typo-title-2 w-[120px] text-[var(--Text-text-5)]">상품 상태</h2>
+              <div className="flex h-[199px] w-full flex-col items-start gap-[22px]">
+                <div className="flex items-center gap-[22px]">
+                  <RadioButton
+                    name="product-condition"
+                    label="미개봉-새상품"
+                    checked={productCondition === 'new'}
+                    onChange={() => setProductCondition('new')}
+                    className="[&_span:last-child]:whitespace-nowrap"
+                  />
+                  <RadioButton
+                    name="product-condition"
+                    label="개봉-중고"
+                    checked={productCondition === 'used'}
+                    onChange={() => setProductCondition('used')}
+                    className="[&_span:last-child]:whitespace-nowrap"
+                  />
+                </div>
+                <div className="flex items-center gap-[22px]">
+                  <RadioButton
+                    name="scratch-condition"
+                    label="스크래치 있음"
+                    checked={scratchCondition === 'scratch'}
+                    onChange={() => setScratchCondition('scratch')}
+                    className="[&_span:last-child]:whitespace-nowrap"
+                  />
+                  <RadioButton
+                    name="scratch-condition"
+                    label="스크래치 없음"
+                    checked={scratchCondition === 'clean'}
+                    onChange={() => setScratchCondition('clean')}
+                    className="[&_span:last-child]:whitespace-nowrap"
+                  />
+                </div>
+                <div className="flex items-center gap-[22px]">
+                  <RadioButton
+                    name="screen-condition"
+                    label="화면 깨짐"
+                    checked={screenCondition === 'broken'}
+                    onChange={() => setScreenCondition('broken')}
+                    className="[&_span:last-child]:whitespace-nowrap"
+                  />
+                  <RadioButton
+                    name="screen-condition"
+                    label="화면 깨짐 없음"
+                    checked={screenCondition === 'clean'}
+                    onChange={() => setScreenCondition('clean')}
+                    className="[&_span:last-child]:whitespace-nowrap"
+                  />
+                </div>
+                <div className="flex items-center gap-[22px]">
+                  <RadioButton
+                    name="battery-condition"
+                    label="배터리 성능 80% 이상"
+                    checked={batteryCondition === '80plus'}
+                    onChange={() => setBatteryCondition('80plus')}
+                    className="[&_span:last-child]:whitespace-nowrap"
+                  />
+                  <RadioButton
+                    name="battery-condition"
+                    label="배터리 성능 80% 미만"
+                    checked={batteryCondition === '80minus'}
+                    onChange={() => setBatteryCondition('80minus')}
+                    className="[&_span:last-child]:whitespace-nowrap"
+                  />
+                  <RadioButton
+                    name="battery-condition"
+                    label="배터리 성능 50% 미만"
+                    checked={batteryCondition === '50minus'}
+                    onChange={() => setBatteryCondition('50minus')}
+                    className="[&_span:last-child]:whitespace-nowrap"
+                  />
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section className="mt-[70px] ml-[120px] mr-[14px] w-[1306px]">
+            <div className="flex w-full items-start gap-[130px]">
+              <h2 className="typo-title-2 w-[120px] text-[var(--Text-text-5)]">상세 설명</h2>
+              <div className="flex w-[981px] flex-col items-start gap-[var(--padding-m)]">
+                <span className="typo-body-2 text-[var(--Text-text-5)]">설명</span>
+                <TextAreaField
+                  aria-label="상세 설명"
+                  placeholder="상품의 상태와 구성품 정보를 작성해 주세요"
+                  className="w-full [&_textarea]:[display:-webkit-box] [&_textarea]:[-webkit-box-orient:vertical] [&_textarea]:[-webkit-line-clamp:10] [&_textarea]:overflow-hidden [&_textarea]:text-ellipsis [&_textarea]:placeholder:text-[var(--color-gray-500)]"
+                  showCharacterCount={false}
+                />
+              </div>
+            </div>
+          </section>
 
           </div>
         </main>
