@@ -1,4 +1,4 @@
-import { PictureIcon } from '@shared/assets/icons';
+import { CaretDownMdIcon, PictureIcon } from '@shared/assets/icons';
 import { Header } from '@shared/ui/Header';
 import { TextField } from '@shared/ui/TextField';
 import { useEffect, useRef, useState } from 'react';
@@ -7,6 +7,7 @@ export default function SellPage() {
   const [manufacturer, setManufacturer] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const manufacturerOptions = ['삼성', '애플'];
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -108,56 +109,94 @@ export default function SellPage() {
               </div>
             </section>
 
-            <section className="w-full">
-              <div className="flex items-start gap-[139px] py-[var(--padding-m)]">
-                <h2 className="typo-title-2 w-[120px] text-[var(--Text-text-5)]">기본 정보</h2>
+        <section className="w-full">
+  <div className="flex items-start gap-[139px] py-[var(--padding-m)]">
+    <h2 className="typo-title-2 w-[120px] text-[var(--Text-text-5)]">
+      기본 정보
+    </h2>
 
-                <div className="flex w-[978px] flex-col gap-[39px]">
-                  <div className="flex flex-col gap-[16px]">
-                    <span className="typo-body-2 text-[var(--Text-text-5)]">제목</span>
+    <div className="flex w-[978px] flex-col gap-[39px]">
+      {/* 제목 */}
+      <div className="flex flex-col gap-[16px]">
+        <span className="typo-body-2 text-[var(--Text-text-5)]">제목</span>
+        <TextField
+          aria-label="제목"
+          placeholder="제목을 입력해 주세요"
+          className="w-full"
+          showCharacterCount={false}
+        />
+      </div>
 
-                    <TextField
-                      aria-label="제목"
-                      placeholder="제목을 입력해 주세요"
-                      className="w-full"
-                      showCharacterCount={false}
-                    />
-                  </div>
+      {/* 제조사 (드롭다운) */}
+      <div className="relative flex flex-col gap-[16px]" ref={dropdownRef}>
+        <span className="typo-body-2 text-[var(--Text-text-5)]">제조사</span>
 
-                  <div className="relative flex flex-col gap-[16px]" ref={dropdownRef}>
-                    <span className="typo-body-2 text-[var(--Text-text-5)]">제조사</span>
+        <div className="relative" onClick={() => setIsOpen((prev) => !prev)}>
+          <TextField
+            readOnly
+            value={manufacturer ?? ''}
+            placeholder="제조사를 선택해 주세요"
+            className="w-full cursor-pointer [&_input]:h-[48px] [&_input]:pr-[40px] [&_input]:text-[16px] [&_input]:leading-[24px] [&_input]:text-[var(--color-gray-700)] [&_input]:placeholder:text-[var(--color-gray-400)]"
+            showCharacterCount={false}
+          />
+          <CaretDownMdIcon className="pointer-events-none absolute right-[16px] top-1/2 h-5 w-5 -translate-y-1/2 text-[var(--color-gray-400)]" />
+        </div>
 
-                    <div onClick={() => setIsOpen((prev) => !prev)}>
-                      <TextField
-                        readOnly
-                        value={manufacturer ?? ''}
-                        placeholder="제조사를 선택해 주세요"
-                        className="w-full cursor-pointer"
-                        showCharacterCount={false}
-                      />
-                    </div>
+        {isOpen && (
+          <div className="absolute top-full z-10 mt-[8px] flex w-full flex-col overflow-hidden rounded-[12px] border border-[var(--color-gray-200)] bg-white shadow-[0_8px_24px_rgba(0,0,0,0.08)]">
+            {manufacturerOptions.map((item) => (
+              <button
+                key={item}
+                type="button"
+                onClick={() => {
+                  setManufacturer(item);
+                  setIsOpen(false);
+                }}
+                className="typo-body-1 flex h-[44px] items-center px-[16px] text-left text-[var(--color-gray-700)] hover:bg-[var(--color-gray-50)]"
+              >
+                {item}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
 
-                    {isOpen && (
-                      <div className="absolute top-[84px] z-10 flex w-full flex-col rounded-[8px] border border-[var(--Primitive-gray-gray-300)] bg-[var(--Backgorund-background-1)]">
-                        {['삼성', '애플'].map((item) => (
-                          <button
-                            key={item}
-                            type="button"
-                            onClick={() => {
-                              setManufacturer(item);
-                              setIsOpen(false);
-                            }}
-                            className="typo-body-1 flex h-[52px] items-center px-[16px] text-left text-[var(--Text-text-4)] hover:bg-[var(--color-gray-100)]"
-                          >
-                            {item}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </section>
+      {/* 모델명 */}
+      <div className="flex flex-col gap-[16px]">
+        <span className="typo-body-2 text-[var(--Text-text-5)]">모델명</span>
+        <TextField
+          aria-label="모델명"
+          placeholder="모델명을 입력해 주세요"
+          className="w-full"
+          showCharacterCount={false}
+        />
+      </div>
+
+      {/* 색상 */}
+      <div className="flex flex-col gap-[16px]">
+        <span className="typo-body-2 text-[var(--Text-text-5)]">색상</span>
+        <TextField
+          aria-label="색상"
+          placeholder="색상을 입력해 주세요"
+          className="w-full"
+          showCharacterCount={false}
+        />
+      </div>
+
+      {/* 저장 용량 */}
+      <div className="flex flex-col gap-[16px]">
+        <span className="typo-body-2 text-[var(--Text-text-5)]">저장 용량</span>
+        <TextField
+          aria-label="저장 용량"
+          placeholder="128GB"
+          className="w-full"
+          showCharacterCount={false}
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
           </div>
         </main>
       </div>
