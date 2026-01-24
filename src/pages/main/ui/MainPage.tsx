@@ -1,6 +1,7 @@
 import { GearIcon, SellIcon, ShoppingIcon } from '@shared/assets/icons';
 import { ROUTES } from '@shared/constants';
 import { BannerCard } from '@shared/ui/BannerCard';
+import { ChatbotFloatingButton } from '@shared/ui/ChatbotFloatingButton';
 import { useNavigate } from 'react-router';
 
 export default function MainPage() {
@@ -8,7 +9,7 @@ export default function MainPage() {
 
   return (
     <main className="flex w-full flex-col items-center gap-14 px-4 pt-8 pb-24">
-      <section className="h-[317px] w-full max-w-[1200px]" aria-label="메인 슬로건 영역" />
+      <section className="h-[317px] w-full max-w-300" aria-label="메인 슬로건 영역" />
 
       <section className="grid w-full max-w-300 grid-cols-1 gap-6 xl:grid-cols-3">
         <BannerCard
@@ -48,6 +49,7 @@ export default function MainPage() {
           onClick={() => navigate(ROUTES.REPAIR, { viewTransition: true })}
         />
       </section>
+      <ChatbotFloatingButton className="fixed bottom-4 right-4" />
     </main>
   );
 }
