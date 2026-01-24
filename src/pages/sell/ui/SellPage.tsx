@@ -1,4 +1,5 @@
 import { CaretDownMdIcon, PictureIcon } from '@shared/assets/icons';
+import { Button } from '@shared/ui/Button/Button';
 import { Header } from '@shared/ui/Header';
 import { RadioButton } from '@shared/ui/RadioButton/RadioButton';
 import { PriceField, TextAreaField, TextField } from '@shared/ui/TextField';
@@ -60,7 +61,7 @@ export default function SellPage() {
 
   return (
     <div className="w-full bg-white">
-      <div className="mx-auto w-[1440px] bg-white">
+      <div className="mx-auto h-[2220px] w-[1440px] bg-white">
         <Header isLoggedIn className="mb-[55px] px-[120px] py-6" />
 
         <main className="flex flex-col">
@@ -305,11 +306,19 @@ export default function SellPage() {
                 <span className="typo-body-2 text-[var(--Text-text-5)]">설명</span>
                 <TextAreaField
                   aria-label="상세 설명"
-                  placeholder="상품의 상태와 구성품 정보를 작성해 주세요"
+                  placeholder="상품에 대한 자세한 설명과 거래 방식 등 자세히 작성해 주세요"
                   className="w-full [&_textarea]:[display:-webkit-box] [&_textarea]:[-webkit-box-orient:vertical] [&_textarea]:[-webkit-line-clamp:10] [&_textarea]:overflow-hidden [&_textarea]:text-ellipsis [&_textarea]:placeholder:text-[var(--color-gray-500)]"
                   showCharacterCount={false}
                 />
               </div>
+            </div>
+          </section>
+
+          <section className="mb-[112px] mt-[132px] flex w-full flex-col items-center gap-[132px]">
+            <div className="flex w-full items-center justify-end px-[8px] pb-[11px] pl-[979px]">
+              <Button variant="fill" size="auto" className="h-[44px] w-[213px] px-[24px] py-[12px]">
+                저장
+              </Button>
             </div>
           </section>
 
