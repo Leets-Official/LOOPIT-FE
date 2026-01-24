@@ -9,7 +9,7 @@ export default function MainPage() {
 
   return (
     <main className="flex w-full flex-col items-center gap-14 px-4 pt-8 pb-24">
-      <section className="h-[317px] w-full max-w-300" aria-label="메인 슬로건 영역" />
+      <section className="h-79.25 w-full max-w-300" aria-label="메인 슬로건 영역" />
 
       <section className="grid w-full max-w-300 grid-cols-1 gap-6 xl:grid-cols-3">
         <BannerCard
@@ -49,7 +49,10 @@ export default function MainPage() {
           onClick={() => navigate(ROUTES.REPAIR, { viewTransition: true })}
         />
       </section>
-      <ChatbotFloatingButton className="fixed right-4 bottom-4" />
+      <ChatbotFloatingButton
+        className="fixed right-4 bottom-4"
+        onClick={() => navigate(ROUTES.CHATBOT, { viewTransition: true })}
+      />
     </main>
   );
 }
