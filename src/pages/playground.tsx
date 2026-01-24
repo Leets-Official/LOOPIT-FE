@@ -2,6 +2,7 @@ import { BannerCard } from '@shared/ui/BannerCard/BannerCard';
 import { Button } from '@shared/ui/Button/Button';
 import { Card } from '@shared/ui/Card/Card';
 import { ChatbotFloatingButton } from '@shared/ui/ChatbotFloatingButton';
+import { ChatBubble } from '@shared/ui/ChatBubble';
 import { ChatInput } from '@shared/ui/ChatInput';
 import { ChatPromptList } from '@shared/ui/ChatPromptList';
 import { Checkbox } from '@shared/ui/Checkbox/Checkbox';
@@ -136,6 +137,20 @@ export default function Playground() {
           prompts={['질문 예시 max 1줄', '다른 질문 예시', '길이가 긴 질문 예시가 들어가면 줄바꿈 처리']}
           onPromptClick={(prompt) => console.log('prompt click:', prompt)}
         />
+      </section>
+      {/* Chat Bubble */}
+      <section className="flex flex-col gap-4">
+        <h2 className="typo-body-1">ChatBubble</h2>
+        <div className="flex flex-col gap-6" role="log" aria-live="polite">
+          <ChatBubble variant="receiver" message="대답" meta="오전 00:00" metaDateTime="2024-01-01T00:00:00+09:00" />
+          <ChatBubble variant="sender" message="직접질문" meta="오후 00:00" metaDateTime="2024-01-01T12:00:00+09:00" />
+          <ChatBubble
+            variant="sender"
+            message="메시지가 길어질 경우에는 이렇게 줄바꿈이 됩니다아아아아아아아아아아 얼마나 늘려야 줄바꿈이 될까요"
+            meta="오후 00:00"
+            metaDateTime="2024-01-01T12:00:00+09:00"
+          />
+        </div>
       </section>
       {/* Chat Input */}
       <section className="flex flex-col gap-4">
