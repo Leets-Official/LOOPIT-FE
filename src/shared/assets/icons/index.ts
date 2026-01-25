@@ -3,7 +3,6 @@ export {
   ChatCircleCloseIcon,
   CloseIcon,
   HamburgerIcon,
-  kakaoLoginImg,
   CaretDownMdIcon,
   CheckIcon,
   DoneIcon,
@@ -12,7 +11,6 @@ export {
   PictureIcon,
   SearchMagnifyingGlassIcon,
   SendIcon,
-  SearchMagnifyingGlassIcon,
   ChatbotIcon,
 } from './common';
 export { GearIcon, ShoppingIcon, SellIcon } from './banner';
