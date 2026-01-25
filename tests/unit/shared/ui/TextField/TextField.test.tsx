@@ -34,7 +34,7 @@ describe('TextField', () => {
     it('error 상태 스타일 적용', () => {
       render(<TextField error />);
       const input = screen.getByRole('textbox');
-      expect(input).toHaveClass('border-[var(--color-red-500)]');
+      expect(input).toHaveClass('border-red-500');
     });
 
     it('disabled 상태 적용', () => {
