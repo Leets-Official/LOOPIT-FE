@@ -145,9 +145,23 @@ export default function SellConfirmPage() {
           </div>
         </main>
         {isDeleteModalOpen && (
-          <div className="fixed inset-0 z-50 bg-[rgba(0,0,0,0.30)]" onMouseDown={() => setIsDeleteModalOpen(false)}>
+          <div
+            className="fixed inset-0 z-50 bg-[rgba(0,0,0,0.30)]"
+            role="button"
+            tabIndex={0}
+            onMouseDown={(event) => {
+              if (event.target === event.currentTarget) {
+                setIsDeleteModalOpen(false);
+              }
+            }}
+            onKeyDown={(event) => {
+              if (event.key === 'Escape' || event.key === 'Enter' || event.key === ' ') {
+                setIsDeleteModalOpen(false);
+              }
+            }}
+          >
             <div className="mx-auto flex h-[1024px] w-[1440px] items-start justify-center pt-[83px] pb-[738px]">
-              <div onMouseDown={(event) => event.stopPropagation()}>
+              <div role="dialog" aria-modal="true" tabIndex={-1}>
                 <Modal
                   title="삭제하시겠어요?"
                   subtitle="삭제하면 복구할 수 없어요."

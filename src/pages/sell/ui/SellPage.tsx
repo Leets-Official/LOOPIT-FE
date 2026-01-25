@@ -205,7 +205,17 @@ export default function SellPage() {
                   <div className="relative flex flex-col gap-[var(--spacing-m)]" ref={dropdownRef}>
                     <span className="typo-body-2 text-[var(--color-gray-900)]">제조사</span>
 
-                    <div className="relative" onClick={() => setIsOpen((prev) => !prev)}>
+                    <div
+                      className="relative"
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => setIsOpen((prev) => !prev)}
+                      onKeyDown={(event) => {
+                        if (event.key === 'Enter' || event.key === ' ') {
+                          setIsOpen((prev) => !prev);
+                        }
+                      }}
+                    >
                       <TextField
                         readOnly
                         value={manufacturer ?? ''}
