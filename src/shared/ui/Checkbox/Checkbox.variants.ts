@@ -2,7 +2,7 @@ import { tv } from 'tailwind-variants';
 
 export const checkboxVariants = tv({
   slots: {
-    root: ['inline-flex', 'items-center', 'gap-[var(--spacing-xxs)]', 'cursor-pointer', 'select-none'],
+    root: ['inline-flex', 'items-center', 'gap-xxs', 'cursor-pointer', 'select-none'],
     box: [
       'flex',
       'items-center',
@@ -15,7 +15,7 @@ export const checkboxVariants = tv({
       'duration-[250ms]',
       'ease-out',
       'bg-transparent',
-      'border-[var(--color-gray-300)]',
+      'border-gray-300',
     ],
     icon: [
       'w-[14px]',
@@ -23,30 +23,30 @@ export const checkboxVariants = tv({
       'flex',
       'items-center',
       'justify-center',
-      'text-[var(--color-white)]',
+      'text-white',
       '[&_path]:stroke-[2px]',
       'hidden',
     ],
-    label: ['typo-caption-1', 'text-[var(--color-gray-600)]'],
+    label: ['typo-caption-1', 'text-gray-600'],
   },
 
   variants: {
     checked: {
       true: {
-        box: ['bg-[var(--color-green-600)]', 'border-[var(--color-green-600)]'],
+        box: ['bg-green-600', 'border-green-600'],
         icon: ['block'],
       },
     },
     focus: {
       true: {
-        box: ['ring-2', 'ring-[var(--color-green-600)]', 'ring-offset-2'],
+        box: ['ring-2', 'ring-green-600', 'ring-offset-2'],
       },
     },
     disabled: {
       true: {
         root: ['cursor-not-allowed'],
-        box: ['bg-[var(--color-gray-300)]', 'border-[var(--color-gray-300)]'],
-        label: ['text-[var(--color-gray-600)]'],
+        box: ['bg-gray-300', 'border-gray-300'],
+        label: ['text-gray-600'],
       },
     },
   },
