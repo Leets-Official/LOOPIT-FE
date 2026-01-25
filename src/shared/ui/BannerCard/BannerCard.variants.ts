@@ -38,8 +38,8 @@ export const bannerCardVariants = tv({
       'object-cover',
       'transition-all',
       'duration-300',
-      'group-hover:w-[307px]',
-      'group-hover:h-[307px]',
+      'group-hover:w-[235px]',
+      'group-hover:h-[235px]',
     ],
   },
 });
