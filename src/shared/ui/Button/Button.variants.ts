@@ -9,7 +9,7 @@ export const buttonVariants = tv({
     'gap-xxs',
 
     /* style */
-    'rounded-l',
+    'rounded-(--radius-l)',
     'typo-body-1',
     'whitespace-nowrap',
     'transition-colors',

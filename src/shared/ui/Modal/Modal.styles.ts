@@ -8,7 +8,7 @@ export const modalStyles = {
     'flex',
     'flex-col',
     'justify-between',
-    'rounded-l',
+    'rounded-(--radius-l)',
     'bg-green-500',
     'px-[var(--padding-xxl)]',
     'py-[var(--padding-xl)]',

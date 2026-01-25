@@ -11,7 +11,7 @@ export const chatPromptListVariants = tv({
       'min-h-[60px]',
       'px-[31px]',
       'py-[18px]',
-      'rounded-l',
+      'rounded-(--radius-l)',
       'border',
       'typo-body-1',
       'text-center',

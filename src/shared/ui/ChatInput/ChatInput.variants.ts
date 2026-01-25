@@ -8,7 +8,7 @@ export const chatInputVariants = tv({
       'w-[1200px] max-w-full min-h-[60px]',
       'px-[22px] py-[11px]',
       'gap-[16px]',
-      'rounded-l',
+      'rounded-(--radius-l)',
       'border-[1px] border-green-700',
       'bg-white',
     ],
