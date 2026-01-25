@@ -8,6 +8,6 @@ export {
   HeartIcon,
   SendIcon,
   SearchMagnifyingGlassIcon,
-  ChatbotIcon,
+  chatbotImg,
 } from './common';
 export { GearIcon, ShoppingIcon, SellIcon } from './banner';
