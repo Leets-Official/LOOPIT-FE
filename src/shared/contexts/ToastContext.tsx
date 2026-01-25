@@ -1,6 +1,6 @@
+/* eslint-disable react-refresh/only-export-components */
 import { CloseIcon } from '@shared/assets/icons';
-import { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react';
-import type { ReactNode } from 'react';
+import { createContext, useCallback, useContext, useMemo, useRef, useState, type ReactNode } from 'react';
 
 type ToastTone = 'info' | 'success' | 'warning' | 'error';
 
