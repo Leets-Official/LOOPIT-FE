@@ -17,15 +17,15 @@ export interface TradeItemProps {
 const statusConfigByStatus: Record<NonFavoriteStatus, { text: string; className: string }> = {
   buying: {
     text: '구매중',
-    className: 'typo-title-3 text-[var(--color-green-500)]',
+    className: 'typo-title-3 text-green-500',
   },
   reserved: {
     text: '예약중',
-    className: 'typo-title-3 text-[var(--color-green-500)]',
+    className: 'typo-title-3 text-green-500',
   },
   completed: {
     text: '구매완료',
-    className: 'typo-title-3 text-[var(--color-gray-400)]',
+    className: 'typo-title-3 text-gray-400',
   },
 } as const;
 
@@ -43,27 +43,23 @@ export const TradeItem = ({
   const resolvedStatusLabel = statusLabel ?? statusConfig?.text;
 
   return (
-    <div className="flex w-full max-w-[1200px] flex-col gap-[var(--spacing-xxs)] rounded-[var(--radius-l)] bg-[var(--color-gray-900)] px-[42px] py-[44px]">
+    <div className="gap-xxs flex w-full max-w-[1200px] flex-col rounded-(--radius-l) bg-gray-900 px-[42px] py-[44px]">
       <div className="flex w-full items-center justify-between">
         <div className="flex items-center gap-[36px]">
           {imageUrl ? (
-            <img
-              src={imageUrl}
-              alt={modelName}
-              className="h-[79px] w-[79px] shrink-0 rounded-[var(--radius-m)] object-cover"
-            />
+            <img src={imageUrl} alt={modelName} className="rounded-m h-[79px] w-[79px] shrink-0 object-cover" />
           ) : (
             <div
               role="img"
               aria-label={`${modelName} 이미지 없음`}
-              className="h-[79px] w-[79px] shrink-0 rounded-[var(--radius-m)] bg-[var(--color-gray-200)]"
+              className="rounded-m h-[79px] w-[79px] shrink-0 bg-gray-200"
             />
           )}
 
           <div className="flex flex-col gap-[4px]">
-            <span className="typo-body-1 text-[var(--color-white)]">{modelName}</span>
-            <span className="typo-body-2 text-[var(--color-white)]">{price}</span>
-            <span className="typo-caption-2 text-[var(--color-white)]">{date}</span>
+            <span className="typo-body-1 text-white">{modelName}</span>
+            <span className="typo-body-2 text-white">{price}</span>
+            <span className="typo-caption-2 text-white">{date}</span>
           </div>
         </div>
 
