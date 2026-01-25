@@ -1,5 +1,8 @@
-import { ChatCircleCloseIcon } from '@shared/assets/icons';
+import { ChatCircleCloseIcon, GearIcon, SellIcon, ShoppingIcon } from '@shared/assets/icons';
+import { ROUTES } from '@shared/constants';
 import { useToast } from '@shared/contexts/ToastContext';
+import { BannerCard } from '@shared/ui/BannerCard';
+import { ChatbotFloatingButton } from '@shared/ui/ChatbotFloatingButton';
 import { useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
@@ -26,19 +29,6 @@ export default function MainPage() {
       navigate(location.pathname, { replace: true, state: null });
     }
   }, [location.pathname, location.state, navigate, showToast]);
-
-  return (
-    <main className="relative flex min-h-screen flex-col items-center justify-center">
-      <h1 className="typo-title-1 text-gray-900">LOOPIT</h1>
-      <p className="typo-body-1 mt-4 text-gray-500">중고거래 플랫폼</p>
-import { GearIcon, SellIcon, ShoppingIcon } from '@shared/assets/icons';
-import { ROUTES } from '@shared/constants';
-import { BannerCard } from '@shared/ui/BannerCard';
-import { ChatbotFloatingButton } from '@shared/ui/ChatbotFloatingButton';
-import { useNavigate } from 'react-router';
-
-export default function MainPage() {
-  const navigate = useNavigate();
 
   return (
     <main className="flex w-full flex-col items-center gap-14 px-4 pt-8 pb-24">
