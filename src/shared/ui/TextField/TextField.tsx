@@ -179,7 +179,11 @@ export const TextField = forwardRef<HTMLInputElement | HTMLTextAreaElement, Text
                 }}
                 {...(props as React.InputHTMLAttributes<HTMLInputElement>)}
               />
-              {isPrice && <span className={styles.suffix()}>원</span>}
+              {isPrice && (
+                <span className={styles.suffix()} data-suffix>
+                  원
+                </span>
+              )}
             </>
           )}
         </div>
