@@ -1,3 +1,4 @@
+import { ToastProvider } from '@shared/contexts/ToastContext';
 import type { ReactNode } from 'react';
 
 type AppProvidersProps = {
@@ -5,5 +6,5 @@ type AppProvidersProps = {
 };
 
 export function AppProviders({ children }: AppProvidersProps) {
-  return <>{children}</>;
+  return <ToastProvider>{children}</ToastProvider>;
 }
