@@ -1,4 +1,4 @@
-import { CaretDownMdIcon, PictureIcon } from '@shared/assets/icons';
+import { PictureIcon } from '@shared/assets/icons';
 import { useToast } from '@shared/contexts/ToastContext';
 import { Button } from '@shared/ui/Button/Button';
 import { RadioButton } from '@shared/ui/RadioButton/RadioButton';
@@ -9,6 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router';
+import { DropDown } from '@shared/ui/DropDown';
 
 type SellDraftState = SellState;
 
@@ -224,50 +225,20 @@ export default function SellPage() {
                   </div>
 
                   {/* 제조사 (드롭다운) */}
-                  <div className="relative flex flex-col gap-[var(--spacing-m)]" ref={dropdownRef}>
-                    <span className="typo-body-2 text-[var(--color-gray-900)]">제조사</span>
-
-                    <div
-                      className="relative"
-                      role="button"
-                      tabIndex={0}
-                      onClick={() => setIsOpen((prev) => !prev)}
-                      onKeyDown={(event) => {
-                        if (event.key === 'Enter' || event.key === ' ') {
-                          setIsOpen((prev) => !prev);
-                        }
-                      }}
-                    >
-                      <TextField
-                        readOnly
-                        value={manufacturerValue ?? ''}
-                        placeholder="제조사를 선택해 주세요"
-                        className="w-full cursor-pointer [&_input]:h-[48px] [&_input]:pr-[40px] [&_input]:text-[16px] [&_input]:leading-[24px] [&_input]:text-[var(--color-gray-700)] [&_input]:placeholder:text-[var(--color-gray-400)]"
-                        showCharacterCount={false}
-                        error={Boolean(errors.manufacturer)}
-                        helperText={errors.manufacturer?.message}
-                      />
-                      <CaretDownMdIcon className="pointer-events-none absolute top-1/2 right-[16px] h-5 w-5 -translate-y-1/2 text-[var(--color-gray-400)]" />
-                    </div>
-
-                    {isOpen && (
-                      <div className="absolute top-full z-10 mt-[8px] flex w-full flex-col overflow-hidden rounded-[12px] border border-[var(--color-gray-200)] bg-white shadow-[0_8px_24px_rgba(0,0,0,0.08)]">
-                        {manufacturerOptions.map((item) => (
-                          <button
-                            key={item}
-                            type="button"
-                            onClick={() => {
-                              setValue('manufacturer', item, { shouldValidate: true });
-                              setIsOpen(false);
-                            }}
-                            className="typo-body-1 flex h-[44px] items-center px-[16px] text-left text-[var(--color-gray-700)] hover:bg-[var(--color-gray-50)]"
-                          >
-                            {item}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
+                  <DropDown
+                    label="제조사"
+                    value={manufacturerValue ?? ''}
+                    options={manufacturerOptions}
+                    isOpen={isOpen}
+                    dropdownRef={dropdownRef}
+                    error={Boolean(errors.manufacturer)}
+                    helperText={errors.manufacturer?.message}
+                    onToggle={() => setIsOpen((prev) => !prev)}
+                    onSelect={(item) => {
+                      setValue('manufacturer', item, { shouldValidate: true });
+                      setIsOpen(false);
+                    }}
+                  />
 
                   {/* 모델명 */}
                   <div className="flex flex-col gap-[var(--spacing-m)]">
