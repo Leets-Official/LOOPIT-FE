@@ -4,8 +4,8 @@ import { Carousel3D } from '@shared/ui/Carousel3D';
 import { ChatbotFloatingButton } from '@shared/ui/ChatbotFloatingButton';
 import { ClientOnly } from '@shared/ui/ClientOnly';
 import { useNavigate } from 'react-router';
-import { BANNER_CARDS } from './bannerCards';
-import { CAROUSEL_SLIDES } from './carouselSlides';
+import { BANNER_CARDS } from './BannerCards';
+import { CAROUSEL_SLIDES } from './CarouselSlides';
 
 export default function MainPage() {
   const navigate = useNavigate();
