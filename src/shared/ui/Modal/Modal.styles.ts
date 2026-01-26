@@ -18,6 +18,8 @@ export const modalStyles = {
     'flex',
     'flex-col',
     'justify-between',
+    'rounded-[var(--radius-l)]',
+    'bg-[var(--color-white)]',
     'rounded-(--radius-l)',
     'bg-green-500',
     'px-[var(--padding-xxl)]',

@@ -1,5 +1,7 @@
 export {
   AlertDotIcon,
+  ChatCircleCloseIcon,
+  CloseIcon,
   HamburgerIcon,
   kakaoLoginImg,
   ChatCircleCloseIcon,
