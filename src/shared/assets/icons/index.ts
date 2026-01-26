@@ -9,8 +9,8 @@ export {
   DoneIcon,
   HeartIcon,
   PictureIcon,
-  SearchMagnifyingGlassIcon,
   SendIcon,
+  SearchMagnifyingGlassIcon,
   chatbotImg,
   ChevronRightIcon,
 } from './common';
