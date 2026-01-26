@@ -12,3 +12,4 @@ export { default as PictureIcon } from './picture.svg?react';
 export { default as kakaoLoginImg } from './kakao.png';
 export { default as ChevronRightIcon } from './chevron-right.svg?react';
 export { default as chatbotImg } from './chatbot.webp';
+export { default as ChevronRightIcon } from './chevron-right.svg?react';
