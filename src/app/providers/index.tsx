@@ -1,4 +1,4 @@
-import { ToastProvider } from '@shared/contexts/ToastContext';
+import { ToastProvider } from '@shared/contexts';
 import type { ReactNode } from 'react';
 
 type AppProvidersProps = {

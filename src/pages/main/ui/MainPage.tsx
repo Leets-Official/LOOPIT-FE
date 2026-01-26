@@ -1,6 +1,6 @@
 import { ChatCircleCloseIcon, GearIcon, SellIcon, ShoppingIcon } from '@shared/assets/icons';
 import { ROUTES } from '@shared/constants';
-import { useToast } from '@shared/contexts/ToastContext';
+import { useToast } from '@shared/hooks';
 import { BannerCard } from '@shared/ui/BannerCard';
 import { ChatbotFloatingButton } from '@shared/ui/ChatbotFloatingButton';
 import { useEffect, useRef } from 'react';
