@@ -48,6 +48,19 @@ export default function SellPage() {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const manufacturerOptions = ['삼성', '애플'];
+  const scratchOptions = [
+    { label: '스크래치 있음', value: 'scratch' },
+    { label: '스크래치 없음', value: 'clean' },
+  ] as const;
+  const screenOptions = [
+    { label: '화면 깨짐', value: 'broken' },
+    { label: '화면 깨짐 없음', value: 'clean' },
+  ] as const;
+  const batteryOptions = [
+    { label: '배터리 성능 80% 이상', value: '80plus' },
+    { label: '배터리 성능 80% 미만', value: '80minus' },
+    { label: '배터리 성능 50% 미만', value: '50minus' },
+  ] as const;
   const manufacturerValue = watch('manufacturer');
   const priceValue = watch('price');
   const productCondition = watch('productCondition');
@@ -352,59 +365,40 @@ export default function SellPage() {
                     />
                   </div>
                   <div className="flex items-center gap-[22px]">
-                    <RadioButton
-                      name="scratch-condition"
-                      label="스크래치 있음"
-                      checked={scratchCondition === 'scratch'}
-                      onChange={() => setValue('scratchCondition', 'scratch', { shouldValidate: true })}
-                      className="[&_span:last-child]:whitespace-nowrap"
-                    />
-                    <RadioButton
-                      name="scratch-condition"
-                      label="스크래치 없음"
-                      checked={scratchCondition === 'clean'}
-                      onChange={() => setValue('scratchCondition', 'clean', { shouldValidate: true })}
-                      className="[&_span:last-child]:whitespace-nowrap"
-                    />
+                    {scratchOptions.map((option) => (
+                      <RadioButton
+                        key={option.value}
+                        name="scratch-condition"
+                        label={option.label}
+                        checked={scratchCondition === option.value}
+                        onChange={() => setValue('scratchCondition', option.value, { shouldValidate: true })}
+                        className="[&_span:last-child]:whitespace-nowrap"
+                      />
+                    ))}
                   </div>
                   <div className="flex items-center gap-[22px]">
-                    <RadioButton
-                      name="screen-condition"
-                      label="화면 깨짐"
-                      checked={screenCondition === 'broken'}
-                      onChange={() => setValue('screenCondition', 'broken', { shouldValidate: true })}
-                      className="[&_span:last-child]:whitespace-nowrap"
-                    />
-                    <RadioButton
-                      name="screen-condition"
-                      label="화면 깨짐 없음"
-                      checked={screenCondition === 'clean'}
-                      onChange={() => setValue('screenCondition', 'clean', { shouldValidate: true })}
-                      className="[&_span:last-child]:whitespace-nowrap"
-                    />
+                    {screenOptions.map((option) => (
+                      <RadioButton
+                        key={option.value}
+                        name="screen-condition"
+                        label={option.label}
+                        checked={screenCondition === option.value}
+                        onChange={() => setValue('screenCondition', option.value, { shouldValidate: true })}
+                        className="[&_span:last-child]:whitespace-nowrap"
+                      />
+                    ))}
                   </div>
                   <div className="flex items-center gap-[22px]">
-                    <RadioButton
-                      name="battery-condition"
-                      label="배터리 성능 80% 이상"
-                      checked={batteryCondition === '80plus'}
-                      onChange={() => setValue('batteryCondition', '80plus', { shouldValidate: true })}
-                      className="[&_span:last-child]:whitespace-nowrap"
-                    />
-                    <RadioButton
-                      name="battery-condition"
-                      label="배터리 성능 80% 미만"
-                      checked={batteryCondition === '80minus'}
-                      onChange={() => setValue('batteryCondition', '80minus', { shouldValidate: true })}
-                      className="[&_span:last-child]:whitespace-nowrap"
-                    />
-                    <RadioButton
-                      name="battery-condition"
-                      label="배터리 성능 50% 미만"
-                      checked={batteryCondition === '50minus'}
-                      onChange={() => setValue('batteryCondition', '50minus', { shouldValidate: true })}
-                      className="[&_span:last-child]:whitespace-nowrap"
-                    />
+                    {batteryOptions.map((option) => (
+                      <RadioButton
+                        key={option.value}
+                        name="battery-condition"
+                        label={option.label}
+                        checked={batteryCondition === option.value}
+                        onChange={() => setValue('batteryCondition', option.value, { shouldValidate: true })}
+                        className="[&_span:last-child]:whitespace-nowrap"
+                      />
+                    ))}
                   </div>
                 </div>
               </div>
