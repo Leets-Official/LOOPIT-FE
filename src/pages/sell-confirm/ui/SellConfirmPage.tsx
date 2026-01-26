@@ -70,7 +70,7 @@ export default function SellConfirmPage() {
               <h1 className="typo-title-2 line-clamp-2 w-full text-[var(--color-gray-900)]">{displayTitle}</h1>
               <p className="typo-title-1 text-[var(--color-gray-900)]">{displayPrice}</p>
 
-              <div className="h-px w-[584px] bg-[var(--color-gray-200)]" />
+              <div className="h-px w-full bg-[var(--color-gray-200)]" />
 
               <div className="flex w-full flex-col items-start gap-[var(--spacing-xxs)]">
                 <div className="flex items-center gap-[11px]">
