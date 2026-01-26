@@ -3,13 +3,13 @@ import { Profile } from '@shared/ui/Profile';
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { MY_PAGE_PROFILE } from '../mocks';
-import { getProfileSummary } from '../utils/profileStorage';
+import { getProfileSummary, saveProfile } from '../utils/profileStorage';
 import { PageContainer } from './components/PageContainer';
 
 export default function AccountSettingsPage() {
   const navigate = useNavigate();
   const profileSummary = getProfileSummary();
-  const [profileImage, setProfileImage] = useState(MY_PAGE_PROFILE.profileImage);
+  const [profileImage, setProfileImage] = useState(profileSummary.profileImage ?? MY_PAGE_PROFILE.profileImage);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleProfileClick = () => {
@@ -21,8 +21,15 @@ export default function AccountSettingsPage() {
     if (!file) {
       return;
     }
-    const nextUrl = URL.createObjectURL(file);
-    setProfileImage(nextUrl);
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result !== 'string') {
+        return;
+      }
+      setProfileImage(reader.result);
+      saveProfile({ profileImage: reader.result });
+    };
+    reader.readAsDataURL(file);
   };
 
   return (
