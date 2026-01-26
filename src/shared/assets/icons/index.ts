@@ -11,7 +11,6 @@ export {
   PictureIcon,
   SearchMagnifyingGlassIcon,
   SendIcon,
-  ChatbotIcon,
   chatbotImg,
 } from './common';
 export { GearIcon, ShoppingIcon, SellIcon } from './banner';
