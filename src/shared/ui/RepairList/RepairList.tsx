@@ -31,12 +31,12 @@ export const RepairList = ({ items, emptyMessage, onContact, onFindRoute }: Repa
             'bg-gray-900 px-10.5 py-11'
           )}
         >
-          <div className="flex flex-col gap-2">
-            <span className="typo-body-1 text-white">{item.name}</span>
+          <div className="flex min-w-0 flex-1 flex-col gap-2">
+            <span className="typo-title-3 text-white">{item.name}</span>
             <span className="typo-body-2 text-green-500">{item.address}</span>
           </div>
 
-          <div className="flex items-center gap-6">
+          <div className="flex shrink-0 items-center gap-6">
             <FavoriteButton defaultActive={item.favoriteActive} variant="inverse" />
             <div className="flex flex-col gap-3">
               <Button
@@ -51,7 +51,7 @@ export const RepairList = ({ items, emptyMessage, onContact, onFindRoute }: Repa
                 variant="outline"
                 size="auto"
                 onClick={() => onFindRoute?.(item)}
-                className="w-400 border-white text-white hover:border-gray-200 hover:text-gray-200"
+                className="w-40 border-white text-white hover:border-gray-200 hover:text-gray-200"
               >
                 길 찾기
               </Button>
