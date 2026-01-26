@@ -1,23 +1,11 @@
 import checkerImg from '@shared/assets/icons/common/checker.png';
 import { Button } from '@shared/ui/Button/Button';
 import { Modal } from '@shared/ui/Modal/Modal';
+import type { SellState } from '@shared/types/sell';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
-type SellConfirmState = {
-  title?: string;
-  price?: string;
-  manufacturer?: string | null;
-  modelName?: string;
-  colorName?: string;
-  storageSize?: string;
-  description?: string;
-  imageUrl?: string | null;
-  productCondition?: 'new' | 'used';
-  scratchCondition?: 'scratch' | 'clean';
-  screenCondition?: 'broken' | 'clean';
-  batteryCondition?: '80plus' | '80minus' | '50minus';
-};
+type SellConfirmState = SellState;
 
 export default function SellConfirmPage() {
   const location = useLocation();
@@ -145,37 +133,17 @@ export default function SellConfirmPage() {
           </div>
         </main>
         {isDeleteModalOpen && (
-          <div
-            className="fixed inset-0 z-50 bg-[rgba(0,0,0,0.30)]"
-            role="button"
-            tabIndex={0}
-            onMouseDown={(event) => {
-              if (event.target === event.currentTarget) {
-                setIsDeleteModalOpen(false);
-              }
+          <Modal
+            title="삭제하시겠어요?"
+            subtitle="삭제하면 복구할 수 없어요."
+            onCancel={() => setIsDeleteModalOpen(false)}
+            onConfirm={() => {
+              setIsDeleteModalOpen(false);
+              navigate('/', { state: { deleted: true } });
             }}
-            onKeyDown={(event) => {
-              if (event.key === 'Escape' || event.key === 'Enter' || event.key === ' ') {
-                setIsDeleteModalOpen(false);
-              }
-            }}
-          >
-            <div className="mx-auto flex h-[1024px] w-[1440px] items-start justify-center pt-[83px] pb-[738px]">
-              <div role="dialog" aria-modal="true" tabIndex={-1}>
-                <Modal
-                  title="삭제하시겠어요?"
-                  subtitle="삭제하면 복구할 수 없어요."
-                  onCancel={() => setIsDeleteModalOpen(false)}
-                  onConfirm={() => {
-                    setIsDeleteModalOpen(false);
-                    navigate('/', { state: { deleted: true } });
-                  }}
-                  cancelText="취소"
-                  confirmText="삭제"
-                />
-              </div>
-            </div>
-          </div>
+            cancelText="취소"
+            confirmText="삭제"
+          />
         )}
       </div>
     </div>
