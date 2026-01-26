@@ -139,7 +139,7 @@ export default function SellPage() {
                   </label>
                 </div>
                 {errors.imageFile?.message && (
-                  <span className="text-[12px] font-normal leading-[16px] text-[var(--color-red-500)]">
+                  <span className="text-[12px] leading-[16px] font-normal text-[var(--color-red-500)]">
                     {errors.imageFile.message}
                   </span>
                 )}

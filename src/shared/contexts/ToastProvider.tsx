@@ -5,8 +5,7 @@ import { ToastContext, type Toast, type ToastOptions, type ToastTone } from './T
 const BASE_TONE_CLASSES = 'border-[var(--color-gray-600)] bg-[var(--color-gray-50)] text-[var(--color-gray-900)]';
 const SUCCESS_TONE_CLASSES = 'border-[var(--color-green-700)] bg-[var(--color-green-50)] text-[var(--color-gray-900)]';
 
-const getToneClasses = (tone: ToastTone) =>
-  tone === 'success' ? SUCCESS_TONE_CLASSES : BASE_TONE_CLASSES;
+const getToneClasses = (tone: ToastTone) => (tone === 'success' ? SUCCESS_TONE_CLASSES : BASE_TONE_CLASSES);
 
 export function ToastProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([]);
@@ -17,11 +16,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     setToasts((prev) => prev.filter((toast) => toast.id !== id));
   };
 
-  const showToast = (
-    message: string,
-    toneOrOptions: ToastTone | ToastOptions = 'info',
-    durationMs?: number
-  ) => {
+  const showToast = (message: string, toneOrOptions: ToastTone | ToastOptions = 'info', durationMs?: number) => {
     const options = typeof toneOrOptions === 'string' ? { tone: toneOrOptions } : toneOrOptions;
     const tone = options.tone ?? 'info';
     const dismissible = options.dismissible ?? true;

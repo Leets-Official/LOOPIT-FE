@@ -14,6 +14,7 @@ export const modalStyles = {
   content: [
     'w-[347px]',
     'h-[167px]',
+    'relative',
     'flex',
     'flex-col',
     'justify-between',

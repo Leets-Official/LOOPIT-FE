@@ -1,5 +1,5 @@
 import { Button } from '@shared/ui/Button/Button';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { modalStyles } from './Modal.styles';
 
 export interface ModalProps {
@@ -20,7 +20,6 @@ export const Modal = ({
   onConfirm,
 }: ModalProps) => {
   const [closing, setClosing] = useState(false);
-  const overlayRef = useRef<HTMLDivElement>(null);
 
   const handleClose = useCallback(
     (callback: () => void) => {
@@ -47,14 +46,14 @@ export const Modal = ({
     };
   }, [handleClose, onCancel]);
 
-  const handleOverlayMouseDown = (e: React.MouseEvent) => {
-    if (e.target === overlayRef.current) {
+  const handleOverlayClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (event.target === event.currentTarget) {
       handleClose(onCancel);
     }
   };
 
   return (
-    <div ref={overlayRef} className={modalStyles.container} onMouseDown={handleOverlayMouseDown}>
+    <div className={modalStyles.container} onClick={handleOverlayClick}>
       <div
         className={`${modalStyles.content} ${closing ? 'animate-fade-out' : 'animate-fade-in'}`}
         role="dialog"
