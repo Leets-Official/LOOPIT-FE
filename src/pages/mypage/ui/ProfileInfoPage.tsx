@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router';
-import { getProfileDefaults, saveProfile } from '../utils/profileStorage';
+import { getPersonalInfoDefaults, saveProfile } from '../utils/profileStorage';
 import { PageContainer } from './components/PageContainer';
 import { PersonalInfoForm } from './components/PersonalInfoForm';
 
 export default function ProfileInfoPage() {
   const navigate = useNavigate();
-  const defaultValues = getProfileDefaults();
+  const defaultValues = getPersonalInfoDefaults();
 
   return (
     <main className="min-h-screen bg-white">
