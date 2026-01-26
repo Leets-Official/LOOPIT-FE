@@ -46,7 +46,7 @@ export default function AccountSettingsPage() {
               className="absolute right-[8px] bottom-[8px] flex h-[40px] w-[40px] items-center justify-center rounded-full border border-[#C7C7CC] bg-white p-[8px]"
               aria-label="프로필 사진 변경"
             >
-              <PictureIcon className="h-4.5 w-4.5 text-[#8E8E93]" />
+              <PictureIcon className="h-4.5 w-4.5 text-gray-500" />
             </button>
             <input ref={fileInputRef} type="file" accept="image/*" className="sr-only" onChange={handleProfileChange} />
           </div>
