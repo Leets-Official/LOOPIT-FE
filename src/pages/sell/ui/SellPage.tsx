@@ -357,7 +357,7 @@ export default function SellPage() {
             </section>
 
             <section className="mt-[132px] mb-[112px] flex w-full flex-col items-center gap-[132px]">
-              <div className="flex w-full items-center justify-end px-[var(--padding-s)] pb-[11px] pl-[979px]">
+              <div className="flex w-full items-center justify-end px-[var(--padding-s)] pb-[11px]">
                 <Button
                   variant="fill"
                   size="auto"
