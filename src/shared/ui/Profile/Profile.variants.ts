@@ -20,8 +20,11 @@ export const profileVariants = tv({
       sm: {
         root: ['w-[44px]', 'h-[44px]'],
       },
-      lg: {
+      md: {
         root: ['w-[152px]', 'h-[152px]'],
+      },
+      lg: {
+        root: ['w-[180px]', 'h-[180px]'],
       },
     },
   },
