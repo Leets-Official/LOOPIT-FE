@@ -10,25 +10,25 @@ export const chatBubbleVariants = tv({
       'min-h-[60px]',
       'px-[31px]',
       'py-[18px]',
-      'rounded-[var(--radius-l)]',
+      'rounded-(--radius-l)',
       'max-w-[559px]',
     ],
     text: ['typo-body-1', 'whitespace-pre-wrap', 'break-words'],
-    meta: ['typo-caption-2', 'text-[var(--color-gray-400)]'],
+    meta: ['typo-caption-2', 'text-gray-400'],
   },
 
   variants: {
     variant: {
       receiver: {
         root: ['justify-start'],
-        bubble: ['bg-[var(--color-gray-100)]'],
-        text: ['text-[var(--color-gray-900)]'],
+        bubble: ['bg-gray-100'],
+        text: ['text-gray-900'],
         meta: ['order-last'],
       },
       sender: {
         root: ['justify-end', 'flex-row-reverse'],
-        bubble: ['bg-[var(--color-brand-primary)]'],
-        text: ['text-[var(--color-gray-900)]'],
+        bubble: ['bg-brand-primary'],
+        text: ['text-gray-900'],
         meta: ['order-last'],
       },
     },

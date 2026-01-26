@@ -1,4 +1,4 @@
-import { DoneIcon } from '@assets/icons';
+import { DoneIcon } from '@shared/assets/icons';
 import { checkboxVariants } from '@shared/ui/Checkbox/Checkbox.variants';
 import { useState } from 'react';
 import type { CheckboxProps } from '@shared/ui/Checkbox/Checkbox.types';

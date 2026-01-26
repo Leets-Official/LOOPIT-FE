@@ -1,10 +1,11 @@
 import { AlertDotIcon, HamburgerIcon } from '@shared/assets/icons';
 import { ROUTES } from '@shared/constants';
+import { useClickOutside } from '@shared/hooks';
 import { Button } from '@shared/ui/Button/Button';
 import { headerVariants } from '@shared/ui/Header/Header.variants';
 import { UserMenu } from '@shared/ui/Header/UserMenu';
 import { Logo } from '@shared/ui/Logo';
-import { type ComponentPropsWithoutRef, useEffect, useRef, useState } from 'react';
+import { type ComponentPropsWithoutRef, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 const NAV_ITEMS = [
@@ -50,30 +51,8 @@ export const Header = ({
     setIsMobileMenuOpen(false);
   };
 
-  useEffect(() => {
-    if (!isMobileMenuOpen) {
-      return;
-    }
-
-    const handleClickOutside = (event: MouseEvent) => {
-      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target as Node)) {
-        setIsMobileMenuOpen(false);
-      }
-    };
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setIsMobileMenuOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [isMobileMenuOpen]);
+  const closeMobileMenu = () => setIsMobileMenuOpen(false);
+  useClickOutside(mobileMenuRef, isMobileMenuOpen, closeMobileMenu);
 
   return (
     <header {...props} className={styles.root({ className })}>
