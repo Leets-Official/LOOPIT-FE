@@ -8,7 +8,7 @@ const MIN_NICKNAME_LENGTH = 2;
 const MAX_NICKNAME_LENGTH = 20;
 const NICKNAME_REGEX = /^[a-zA-Z0-9가-힣._-]+$/;
 const MIN_DESCRIPTION_LENGTH = 10;
-const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
+export const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
 
 const requiredString = (message: string) => zod.string().trim().min(1, message);
 
