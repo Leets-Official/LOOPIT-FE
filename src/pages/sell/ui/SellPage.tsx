@@ -161,21 +161,21 @@ export default function SellPage() {
 
   return (
     <div className="w-full bg-white">
-      <div className="mx-auto min-h-screen w-full max-w-[1440px] bg-white px-4 pb-[112px]">
+      <div className="mx-auto min-h-screen w-full max-w-[1440px] bg-white px-4 pb-[112px] md:px-[120px]">
         <main className="mt-[55px] flex flex-col">
           {/* 상단 배너 */}
-          <section className="mx-[120px] flex h-[266px] items-center justify-center bg-[linear-gradient(180deg,var(--color-brand-primary)_0%,var(--color-white)_100%)] py-[67px]">
-            <div className="flex max-w-[1200px] flex-col items-center gap-[var(--spacing-xxs)] text-center">
+          <section className="flex h-[266px] items-center justify-center bg-[linear-gradient(180deg,var(--color-brand-primary)_0%,var(--color-white)_100%)] py-[67px]">
+            <div className="flex w-full max-w-[1200px] flex-col items-center gap-[var(--spacing-xxs)] text-center">
               <h1 className="typo-title-1 text-[color:var(--color-gray-900)]">나의 전자 기기 판매하기</h1>
               <p className="typo-body-1 text-[color:var(--color-gray-900)]">subtitle</p>
             </div>
           </section>
 
-          <div className="mx-[120px] mt-[74px] flex w-[1200px] flex-col items-center gap-[74px]">
+          <div className="mt-[74px] flex w-full max-w-[1200px] flex-col items-center gap-[74px]">
             {/* 사진 업로드 */}
             <section className="w-full">
               <div className="flex w-full flex-col items-start gap-[70px]">
-                <div className="flex items-start gap-[113px]">
+                <div className="flex w-full flex-col items-start gap-[24px] md:flex-row md:gap-[113px]">
                   <div className="flex flex-col items-start gap-[var(--spacing-xxs)]">
                     <h2 className="typo-title-2 text-[color:var(--color-gray-900)]">사진 올리기</h2>
                     <p className="typo-body-2 text-[color:var(--color-gray-900)]">(최대 1장)</p>
@@ -213,9 +213,9 @@ export default function SellPage() {
 
             <section className="w-full">
               <div className="flex items-start gap-[139px] py-[var(--padding-m)]">
-                <h2 className="typo-title-2 w-[120px] text-[var(--color-gray-900)]">기본 정보</h2>
+                <h2 className="typo-title-2 w-[120px] text-[var(--color-gray-900)] md:w-[120px]">기본 정보</h2>
 
-                <div className="flex w-[978px] flex-col gap-[39px]">
+                <div className="flex w-full max-w-[978px] flex-col gap-[39px]">
                   {/* 제목 */}
                   <div className="flex flex-col gap-[var(--spacing-m)]">
                     <span className="typo-body-2 text-[var(--color-gray-900)]">제목</span>
@@ -344,10 +344,10 @@ export default function SellPage() {
               </div>
             </section>
             {/* 상품 상태 */}
-            <section className="mt-[70px] mr-[14px] ml-[120px] w-[1306px]">
-              <div className="flex h-[199px] w-full items-start gap-[130px]">
-                <h2 className="typo-title-2 w-[120px] text-[var(--color-gray-900)]">상품 상태</h2>
-                <div className="flex h-[199px] w-full flex-col items-start gap-[22px]">
+            <section className="mt-[70px] w-full max-w-[1306px]">
+              <div className="flex w-full flex-col items-start gap-[24px] md:h-[199px] md:flex-row md:gap-[130px]">
+                <h2 className="typo-title-2 w-full text-[var(--color-gray-900)] md:w-[120px]">상품 상태</h2>
+                <div className="flex w-full flex-col items-start gap-[22px] md:h-[199px]">
                   <div className="flex items-center gap-[22px]">
                     <RadioButton
                       name="product-condition"
@@ -404,10 +404,10 @@ export default function SellPage() {
               </div>
             </section>
             {/* 상세 설명 */}
-            <section className="mt-[70px] mr-[14px] ml-[120px] w-[1306px]">
-              <div className="flex w-full items-start gap-[130px]">
-                <h2 className="typo-title-2 w-[120px] text-[var(--color-gray-900)]">상세 설명</h2>
-                <div className="flex w-[981px] flex-col items-start gap-[var(--padding-m)]">
+            <section className="mt-[70px] w-full max-w-[1306px]">
+              <div className="flex w-full flex-col items-start gap-[24px] md:flex-row md:gap-[130px]">
+                <h2 className="typo-title-2 w-full text-[var(--color-gray-900)] md:w-[120px]">상세 설명</h2>
+                <div className="flex w-full max-w-[981px] flex-col items-start gap-[var(--padding-m)]">
                   <span className="typo-body-2 text-[var(--color-gray-900)]">설명</span>
                   <Controller
                     name="description"
