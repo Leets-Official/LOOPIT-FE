@@ -49,7 +49,7 @@ export default function SellConfirmPage() {
 
   return (
     <div className="w-full bg-white">
-      <div className="mx-auto flex h-[1024px] w-[1440px] flex-col items-center bg-white">
+      <div className="mx-auto flex min-h-screen w-full max-w-[1440px] flex-col items-center bg-white px-4">
         <main className="mt-[90px] flex items-start gap-[var(--spacing-l)]">
           {showImage ? (
             <img
