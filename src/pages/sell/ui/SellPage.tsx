@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { zodResolver } from '@hookform/resolvers/zod';
 import { PictureIcon } from '@shared/assets/icons';
 import { useEscapeKey, useOutsideClick, useToast } from '@shared/hooks';
@@ -45,17 +44,6 @@ export default function SellPage() {
   const scratchCondition = watch('scratchCondition');
   const screenCondition = watch('screenCondition');
   const batteryCondition = watch('batteryCondition');
-=======
-import { PictureIcon } from '@shared/assets/icons';
-import { Header } from '@shared/ui/Header';
-import { TextField } from '@shared/ui/TextField';
-import { useEffect, useRef, useState } from 'react';
-export default function SellPage() {
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const [manufacturer, setManufacturer] = useState<string | null>(null);
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement | null>(null);
->>>>>>> f7b7659 (feat: 제목 및 제조사 필드)
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -63,7 +51,6 @@ export default function SellPage() {
       return;
     }
 
-<<<<<<< HEAD
     const validation = validateImageFile(file, MAX_IMAGE_BYTES);
     if (!validation.ok) {
       showToast(validation.message, 'warning');
@@ -116,75 +103,15 @@ export default function SellPage() {
           <section className="flex h-[266px] items-center justify-center bg-[linear-gradient(180deg,var(--color-brand-primary)_0%,var(--color-white)_100%)] py-[67px]">
             <div className="flex w-full max-w-[1200px] flex-col items-center gap-[var(--spacing-xxs)] text-center">
               <h1 className="typo-title-1 text-[color:var(--color-gray-900)]">나의 전자 기기 판매하기</h1>
-=======
-    setPreviewUrl(URL.createObjectURL(file));
-  };
-
-  // 메모리 누수 방지
-  useEffect(() => {
-    if (!isOpen) {
-      return;
-    }
-
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    };
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [isOpen]);
-
-  useEffect(() => {
-    return () => {
-      if (previewUrl) {
-        URL.revokeObjectURL(previewUrl);
-      }
-    };
-  }, [previewUrl]);
-
-  return (
-    <div className="w-full bg-white">
-      <div className="mx-auto w-[1440px] bg-white">
-        <Header isLoggedIn className="mb-[55px] px-[120px] py-6" />
-
-        <main className="flex flex-col">
-          {/* 상단 배너 */}
-          <section className="mx-[120px] flex h-[266px] items-center justify-center bg-[linear-gradient(180deg,var(--color-brand-primary)_0%,var(--color-white)_100%)] py-[67px]">
-            <div className="flex max-w-[1200px] flex-col items-center gap-[var(--spacing-xxs)] text-center">
-              <h1 className="typo-title-1 text-[color:var(--color-gray-900)]">
-                나의 전자 기기 판매하기
-              </h1>
->>>>>>> f7b7659 (feat: 제목 및 제조사 필드)
               <p className="typo-body-1 text-[color:var(--color-gray-900)]">subtitle</p>
             </div>
           </section>
 
-<<<<<<< HEAD
           <div className="mt-[74px] flex w-full max-w-[1200px] flex-col items-center gap-[74px]">
             <section className="w-full">
               <div className="flex w-full flex-col items-start gap-[70px]">
                 <div className="flex w-full flex-col items-start gap-[24px] md:flex-row md:gap-[113px]">
                   <div className="flex flex-col items-start gap-[var(--spacing-xxs)]">
-=======
-          <div className="mx-[120px] mt-[74px] flex w-[1200px] flex-col items-center gap-[74px]">
-            {/* 사진 업로드 */}
-            <section className="w-full">
-              <div className="flex w-full flex-col items-start gap-[70px]">
-                <div className="flex items-start gap-[113px]">
-                  <div className="flex flex-col items-start gap-[10px]">
->>>>>>> f7b7659 (feat: 제목 및 제조사 필드)
                     <h2 className="typo-title-2 text-[color:var(--color-gray-900)]">사진 올리기</h2>
                     <p className="typo-body-2 text-[color:var(--color-gray-900)]">(최대 1장)</p>
                   </div>
@@ -194,25 +121,11 @@ export default function SellPage() {
                     className="flex h-[212px] w-[204px] cursor-pointer items-center justify-center overflow-hidden rounded-[var(--radius-s)] bg-[var(--color-gray-100)]"
                   >
                     {previewUrl ? (
-<<<<<<< HEAD
                       <img src={previewUrl} alt="업로드된 이미지" className="h-full w-full object-cover" />
                     ) : (
                       <div className="flex w-[90px] flex-col items-center gap-[var(--padding-ss)]">
                         <PictureIcon className="h-[90px] w-[90px] text-[color:var(--color-gray-500)]" />
                         <span className="typo-body-2 text-center text-[color:var(--color-gray-500)]">0/1</span>
-=======
-                      <img
-                        src={previewUrl}
-                        alt="업로드된 이미지"
-                        className="h-full w-full object-cover"
-                      />
-                    ) : (
-                      <div className="flex w-[90px] flex-col items-center gap-[var(--padding-ss)]">
-                        <PictureIcon className="h-[90px] w-[90px] text-[color:var(--color-gray-500)]" />
-                        <span className="typo-body-2 text-center text-[color:var(--color-gray-500)]">
-                          0/1
-                        </span>
->>>>>>> f7b7659 (feat: 제목 및 제조사 필드)
                       </div>
                     )}
 
@@ -225,20 +138,16 @@ export default function SellPage() {
                     />
                   </label>
                 </div>
-<<<<<<< HEAD
                 {errors.imageFile?.message && (
                   <span className="text-[12px] leading-[16px] font-normal text-[var(--color-red-500)]">
                     {errors.imageFile.message}
                   </span>
                 )}
-=======
->>>>>>> f7b7659 (feat: 제목 및 제조사 필드)
               </div>
             </section>
 
             <section className="w-full">
               <div className="flex items-start gap-[139px] py-[var(--padding-m)]">
-<<<<<<< HEAD
                 <h2 className="typo-title-2 w-[120px] text-[var(--color-gray-900)] md:w-[120px]">기본 정보</h2>
 
                 <div className="flex w-full max-w-[978px] flex-col gap-[39px]">
@@ -464,54 +373,6 @@ export default function SellPage() {
                 >
                   저장
                 </Button>
-=======
-                <h2 className="typo-title-2 w-[120px] text-[var(--Text-text-5)]">기본 정보</h2>
-
-                <div className="flex w-[978px] flex-col gap-[39px]">
-                  <div className="flex flex-col gap-[16px]">
-                    <span className="typo-body-2 text-[var(--Text-text-5)]">제목</span>
-
-                    <TextField
-                      aria-label="제목"
-                      placeholder="제목을 입력해 주세요"
-                      className="w-full"
-                      showCharacterCount={false}
-                    />
-                  </div>
-
-                  <div className="relative flex flex-col gap-[16px]" ref={dropdownRef}>
-                    <span className="typo-body-2 text-[var(--Text-text-5)]">제조사</span>
-
-                    <div onClick={() => setIsOpen((prev) => !prev)}>
-                      <TextField
-                        readOnly
-                        value={manufacturer ?? ''}
-                        placeholder="제조사를 선택해 주세요"
-                        className="w-full cursor-pointer"
-                        showCharacterCount={false}
-                      />
-                    </div>
-
-                    {isOpen && (
-                      <div className="absolute top-[84px] z-10 flex w-full flex-col rounded-[8px] border border-[var(--Primitive-gray-gray-300)] bg-[var(--Backgorund-background-1)]">
-                        {['삼성', '애플'].map((item) => (
-                          <button
-                            key={item}
-                            type="button"
-                            onClick={() => {
-                              setManufacturer(item);
-                              setIsOpen(false);
-                            }}
-                            className="typo-body-1 flex h-[52px] items-center px-[16px] text-left text-[var(--Text-text-4)] hover:bg-[var(--color-gray-100)]"
-                          >
-                            {item}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
->>>>>>> f7b7659 (feat: 제목 및 제조사 필드)
               </div>
             </section>
           </div>
