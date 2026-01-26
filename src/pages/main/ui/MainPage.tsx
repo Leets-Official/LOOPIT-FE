@@ -1,19 +1,18 @@
-import { ChatCircleCloseIcon, GearIcon, SellIcon, ShoppingIcon } from '@shared/assets/icons';
+import { ChatCircleCloseIcon } from '@shared/assets/icons';
 import { ROUTES } from '@shared/constants';
 import { useToast } from '@shared/hooks';
 import { BannerCard } from '@shared/ui/BannerCard';
 import { Carousel3D } from '@shared/ui/Carousel3D';
 import { ChatbotFloatingButton } from '@shared/ui/ChatbotFloatingButton';
+import { ClientOnly } from '@shared/ui/ClientOnly';
 import { useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router';
+import { BANNER_CARDS } from './BannerCards';
+import { CAROUSEL_SLIDES } from './CarouselSlides';
 
 type MainLocationState = {
   deleted?: boolean;
 };
-import { ClientOnly } from '@shared/ui/ClientOnly';
-import { useNavigate } from 'react-router';
-import { BANNER_CARDS } from './BannerCards';
-import { CAROUSEL_SLIDES } from './CarouselSlides';
 
 export default function MainPage() {
   const location = useLocation();
