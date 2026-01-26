@@ -1,5 +1,5 @@
-import type { SellFormData } from '@shared/utils/schemas';
 import type { SellState } from '@shared/types/sell';
+import type { SellFormData } from '@shared/utils/schemas';
 import type { DefaultValues } from 'react-hook-form';
 
 export const getSellFormDefaults = (): DefaultValues<SellFormData> => ({
