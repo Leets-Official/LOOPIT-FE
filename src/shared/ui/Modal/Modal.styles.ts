@@ -1,5 +1,15 @@
 export const modalStyles = {
-  container: ['w-full', 'h-full', 'flex', 'items-center', 'justify-center'].join(' '),
+  container: [
+    'fixed',
+    'inset-0',
+    'z-50',
+    'w-full',
+    'h-full',
+    'flex',
+    'items-center',
+    'justify-center',
+    'bg-[rgba(0,0,0,0.30)]',
+  ].join(' '),
 
   content: [
     'w-[347px]',

@@ -54,7 +54,7 @@ export const Modal = ({
   };
 
   return (
-    <div ref={overlayRef} className={modalStyles.container} role="presentation" onMouseDown={handleOverlayMouseDown}>
+    <div ref={overlayRef} className={modalStyles.container} onMouseDown={handleOverlayMouseDown}>
       <div
         className={`${modalStyles.content} ${closing ? 'animate-fade-out' : 'animate-fade-in'}`}
         role="dialog"
