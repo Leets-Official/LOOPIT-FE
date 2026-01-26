@@ -5,7 +5,9 @@ import { RadioButton } from '@shared/ui/RadioButton/RadioButton';
 import { PriceField, TextAreaField, TextField } from '@shared/ui/TextField';
 import { MAX_IMAGE_BYTES, sellSchema, type SellFormData } from '@shared/utils/schemas';
 import type { SellState } from '@shared/types/sell';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useRef, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router';
 
 type SellDraftState = SellState;
@@ -14,24 +16,43 @@ export default function SellPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const { showToast } = useToast();
+  const {
+    control,
+    handleSubmit,
+    reset,
+    resetField,
+    setError,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm<SellFormData>({
+    resolver: zodResolver(sellSchema),
+    defaultValues: {
+      title: '',
+      price: '',
+      manufacturer: '',
+      modelName: '',
+      colorName: '',
+      storageSize: '',
+      description: '',
+      productCondition: 'new',
+      scratchCondition: 'scratch',
+      screenCondition: 'broken',
+      batteryCondition: '80plus',
+    },
+  });
+
   const hasInitialized = useRef(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [manufacturer, setManufacturer] = useState<string | null>(null);
-  const [title, setTitle] = useState('');
-  const [modelName, setModelName] = useState('');
-  const [colorName, setColorName] = useState('');
-  const [storageSize, setStorageSize] = useState('');
-  const [description, setDescription] = useState('');
-  const [productCondition, setProductCondition] = useState<'new' | 'used'>('new');
-  const [scratchCondition, setScratchCondition] = useState<'scratch' | 'clean'>('scratch');
-  const [screenCondition, setScreenCondition] = useState<'broken' | 'clean'>('broken');
-  const [batteryCondition, setBatteryCondition] = useState<'80plus' | '80minus' | '50minus'>('80plus');
-  const [priceValue, setPriceValue] = useState('');
   const [isOpen, setIsOpen] = useState(false);
-  const [fieldErrors, setFieldErrors] = useState<Partial<Record<keyof SellFormData, string>>>({});
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const manufacturerOptions = ['삼성', '애플'];
+  const manufacturerValue = watch('manufacturer');
+  const priceValue = watch('price');
+  const productCondition = watch('productCondition');
+  const scratchCondition = watch('scratchCondition');
+  const screenCondition = watch('screenCondition');
+  const batteryCondition = watch('batteryCondition');
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -41,17 +62,23 @@ export default function SellPage() {
 
     if (!file.type.startsWith('image/')) {
       showToast('이미지 파일만 업로드해 주세요.', 'warning');
-      setFieldErrors((prev) => ({ ...prev, imageFile: '이미지 파일만 업로드해 주세요.' }));
       setPreviewUrl(null);
-      setImageFile(null);
+      resetField('imageFile');
+      setError('imageFile', {
+        type: 'validate',
+        message: '이미지 파일만 업로드해 주세요.',
+      });
       return;
     }
 
     if (file.size > MAX_IMAGE_BYTES) {
       showToast('이미지는 5MB 이하로 업로드해 주세요.', 'warning');
-      setFieldErrors((prev) => ({ ...prev, imageFile: '이미지는 5MB 이하로 업로드해 주세요.' }));
       setPreviewUrl(null);
-      setImageFile(null);
+      resetField('imageFile');
+      setError('imageFile', {
+        type: 'validate',
+        message: '이미지는 5MB 이하로 업로드해 주세요.',
+      });
       return;
     }
 
@@ -60,8 +87,7 @@ export default function SellPage() {
       setPreviewUrl(reader.result as string);
     };
     reader.readAsDataURL(file);
-    setImageFile(file);
-    setFieldErrors((prev) => ({ ...prev, imageFile: undefined }));
+    setValue('imageFile', file, { shouldValidate: true });
   };
 
   useEffect(() => {
@@ -97,20 +123,27 @@ export default function SellPage() {
     if (Object.keys(state).length === 0) {
       return;
     }
-    setTitle(state.title ?? '');
-    setPriceValue(state.price ?? '');
-    setManufacturer(state.manufacturer ?? null);
-    setModelName(state.modelName ?? '');
-    setColorName(state.colorName ?? '');
-    setStorageSize(state.storageSize ?? '');
-    setDescription(state.description ?? '');
+    reset({
+      title: state.title ?? '',
+      price: state.price ?? '',
+      manufacturer: state.manufacturer ?? '',
+      modelName: state.modelName ?? '',
+      colorName: state.colorName ?? '',
+      storageSize: state.storageSize ?? '',
+      description: state.description ?? '',
+      productCondition: state.productCondition ?? 'new',
+      scratchCondition: state.scratchCondition ?? 'scratch',
+      screenCondition: state.screenCondition ?? 'broken',
+      batteryCondition: state.batteryCondition ?? '80plus',
+    });
+    if (state.imageFile) {
+      setValue('imageFile', state.imageFile, { shouldValidate: true });
+    } else {
+      resetField('imageFile');
+    }
     setPreviewUrl(state.imageUrl ?? null);
-    setProductCondition(state.productCondition ?? 'new');
-    setScratchCondition(state.scratchCondition ?? 'scratch');
-    setScreenCondition(state.screenCondition ?? 'broken');
-    setBatteryCondition(state.batteryCondition ?? '80plus');
     hasInitialized.current = true;
-  }, [location.state]);
+  }, [location.state, reset, resetField, setValue]);
 
   return (
     <div className="w-full bg-white">
@@ -156,9 +189,9 @@ export default function SellPage() {
                     />
                   </label>
                 </div>
-                {fieldErrors.imageFile && (
-                  <span className="text-[12px] leading-[16px] font-normal text-[var(--color-red-500)]">
-                    {fieldErrors.imageFile}
+                {errors.imageFile?.message && (
+                  <span className="text-[12px] font-normal leading-[16px] text-[var(--color-red-500)]">
+                    {errors.imageFile.message}
                   </span>
                 )}
               </div>
@@ -172,18 +205,21 @@ export default function SellPage() {
                   {/* 제목 */}
                   <div className="flex flex-col gap-[var(--spacing-m)]">
                     <span className="typo-body-2 text-[var(--color-gray-900)]">제목</span>
-                    <TextField
-                      aria-label="제목"
-                      value={title}
-                      onChange={(event) => {
-                        setTitle(event.target.value);
-                        setFieldErrors((prev) => ({ ...prev, title: undefined }));
-                      }}
-                      placeholder="제목을 입력해 주세요"
-                      className="w-full"
-                      showCharacterCount={false}
-                      error={Boolean(fieldErrors.title)}
-                      helperText={fieldErrors.title}
+                    <Controller
+                      name="title"
+                      control={control}
+                      render={({ field }) => (
+                        <TextField
+                          aria-label="제목"
+                          value={field.value ?? ''}
+                          onChange={field.onChange}
+                          placeholder="제목을 입력해 주세요"
+                          className="w-full"
+                          showCharacterCount={false}
+                          error={Boolean(errors.title)}
+                          helperText={errors.title?.message}
+                        />
+                      )}
                     />
                   </div>
 
@@ -204,12 +240,12 @@ export default function SellPage() {
                     >
                       <TextField
                         readOnly
-                        value={manufacturer ?? ''}
+                        value={manufacturerValue ?? ''}
                         placeholder="제조사를 선택해 주세요"
                         className="w-full cursor-pointer [&_input]:h-[48px] [&_input]:pr-[40px] [&_input]:text-[16px] [&_input]:leading-[24px] [&_input]:text-[var(--color-gray-700)] [&_input]:placeholder:text-[var(--color-gray-400)]"
                         showCharacterCount={false}
-                        error={Boolean(fieldErrors.manufacturer)}
-                        helperText={fieldErrors.manufacturer}
+                        error={Boolean(errors.manufacturer)}
+                        helperText={errors.manufacturer?.message}
                       />
                       <CaretDownMdIcon className="pointer-events-none absolute top-1/2 right-[16px] h-5 w-5 -translate-y-1/2 text-[var(--color-gray-400)]" />
                     </div>
@@ -221,9 +257,8 @@ export default function SellPage() {
                             key={item}
                             type="button"
                             onClick={() => {
-                              setManufacturer(item);
+                              setValue('manufacturer', item, { shouldValidate: true });
                               setIsOpen(false);
-                              setFieldErrors((prev) => ({ ...prev, manufacturer: undefined }));
                             }}
                             className="typo-body-1 flex h-[44px] items-center px-[16px] text-left text-[var(--color-gray-700)] hover:bg-[var(--color-gray-50)]"
                           >
@@ -237,76 +272,88 @@ export default function SellPage() {
                   {/* 모델명 */}
                   <div className="flex flex-col gap-[var(--spacing-m)]">
                     <span className="typo-body-2 text-[var(--color-gray-900)]">모델명</span>
-                    <TextField
-                      aria-label="모델명"
-                      value={modelName}
-                      onChange={(event) => {
-                        setModelName(event.target.value);
-                        setFieldErrors((prev) => ({ ...prev, modelName: undefined }));
-                      }}
-                      placeholder="모델명을 입력해 주세요"
-                      className="w-full"
-                      showCharacterCount={false}
-                      error={Boolean(fieldErrors.modelName)}
-                      helperText={fieldErrors.modelName}
+                    <Controller
+                      name="modelName"
+                      control={control}
+                      render={({ field }) => (
+                        <TextField
+                          aria-label="모델명"
+                          value={field.value ?? ''}
+                          onChange={field.onChange}
+                          placeholder="모델명을 입력해 주세요"
+                          className="w-full"
+                          showCharacterCount={false}
+                          error={Boolean(errors.modelName)}
+                          helperText={errors.modelName?.message}
+                        />
+                      )}
                     />
                   </div>
 
                   {/* 색상 */}
                   <div className="flex flex-col gap-[var(--spacing-m)]">
                     <span className="typo-body-2 text-[var(--color-gray-900)]">색상</span>
-                    <TextField
-                      aria-label="색상"
-                      value={colorName}
-                      onChange={(event) => {
-                        setColorName(event.target.value);
-                        setFieldErrors((prev) => ({ ...prev, colorName: undefined }));
-                      }}
-                      placeholder="색상을 입력해 주세요"
-                      className="w-full"
-                      showCharacterCount={false}
-                      error={Boolean(fieldErrors.colorName)}
-                      helperText={fieldErrors.colorName}
+                    <Controller
+                      name="colorName"
+                      control={control}
+                      render={({ field }) => (
+                        <TextField
+                          aria-label="색상"
+                          value={field.value ?? ''}
+                          onChange={field.onChange}
+                          placeholder="색상을 입력해 주세요"
+                          className="w-full"
+                          showCharacterCount={false}
+                          error={Boolean(errors.colorName)}
+                          helperText={errors.colorName?.message}
+                        />
+                      )}
                     />
                   </div>
 
                   {/* 저장 용량 */}
                   <div className="flex flex-col gap-[var(--spacing-m)]">
                     <span className="typo-body-2 text-[var(--color-gray-900)]">저장 용량</span>
-                    <TextField
-                      aria-label="저장 용량"
-                      value={storageSize}
-                      onChange={(event) => {
-                        setStorageSize(event.target.value);
-                        setFieldErrors((prev) => ({ ...prev, storageSize: undefined }));
-                      }}
-                      placeholder="128GB"
-                      className="w-full"
-                      showCharacterCount={false}
-                      error={Boolean(fieldErrors.storageSize)}
-                      helperText={fieldErrors.storageSize}
+                    <Controller
+                      name="storageSize"
+                      control={control}
+                      render={({ field }) => (
+                        <TextField
+                          aria-label="저장 용량"
+                          value={field.value ?? ''}
+                          onChange={field.onChange}
+                          placeholder="128GB"
+                          className="w-full"
+                          showCharacterCount={false}
+                          error={Boolean(errors.storageSize)}
+                          helperText={errors.storageSize?.message}
+                        />
+                      )}
                     />
                   </div>
 
                   {/* 가격 */}
                   <div className="flex flex-col gap-[var(--padding-m)]">
                     <span className="typo-body-2 text-[var(--color-gray-900)]">가격</span>
-                    <PriceField
-                      aria-label="가격"
-                      placeholder="0"
-                      value={priceValue}
-                      onChange={(event) => {
-                        setPriceValue(event.target.value);
-                        setFieldErrors((prev) => ({ ...prev, price: undefined }));
-                      }}
-                      className={`w-full [&_input]:placeholder:text-[var(--color-gray-500)] ${
-                        priceValue
-                          ? '[&_[data-suffix]]:text-[var(--color-gray-900)]'
-                          : '[&_[data-suffix]]:text-[var(--color-gray-500)]'
-                      }`}
-                      showCharacterCount={false}
-                      error={Boolean(fieldErrors.price)}
-                      helperText={fieldErrors.price}
+                    <Controller
+                      name="price"
+                      control={control}
+                      render={({ field }) => (
+                        <PriceField
+                          aria-label="가격"
+                          placeholder="0"
+                          value={field.value ?? ''}
+                          onChange={field.onChange}
+                          className={`w-full [&_input]:placeholder:text-[var(--color-gray-500)] ${
+                            priceValue
+                              ? '[&_[data-suffix]]:text-[var(--color-gray-900)]'
+                              : '[&_[data-suffix]]:text-[var(--color-gray-500)]'
+                          }`}
+                          showCharacterCount={false}
+                          error={Boolean(errors.price)}
+                          helperText={errors.price?.message}
+                        />
+                      )}
                     />
                   </div>
                 </div>
@@ -322,14 +369,14 @@ export default function SellPage() {
                       name="product-condition"
                       label="미개봉-새상품"
                       checked={productCondition === 'new'}
-                      onChange={() => setProductCondition('new')}
+                      onChange={() => setValue('productCondition', 'new', { shouldValidate: true })}
                       className="[&_span:last-child]:whitespace-nowrap"
                     />
                     <RadioButton
                       name="product-condition"
                       label="개봉-중고"
                       checked={productCondition === 'used'}
-                      onChange={() => setProductCondition('used')}
+                      onChange={() => setValue('productCondition', 'used', { shouldValidate: true })}
                       className="[&_span:last-child]:whitespace-nowrap"
                     />
                   </div>
@@ -338,14 +385,14 @@ export default function SellPage() {
                       name="scratch-condition"
                       label="스크래치 있음"
                       checked={scratchCondition === 'scratch'}
-                      onChange={() => setScratchCondition('scratch')}
+                      onChange={() => setValue('scratchCondition', 'scratch', { shouldValidate: true })}
                       className="[&_span:last-child]:whitespace-nowrap"
                     />
                     <RadioButton
                       name="scratch-condition"
                       label="스크래치 없음"
                       checked={scratchCondition === 'clean'}
-                      onChange={() => setScratchCondition('clean')}
+                      onChange={() => setValue('scratchCondition', 'clean', { shouldValidate: true })}
                       className="[&_span:last-child]:whitespace-nowrap"
                     />
                   </div>
@@ -354,14 +401,14 @@ export default function SellPage() {
                       name="screen-condition"
                       label="화면 깨짐"
                       checked={screenCondition === 'broken'}
-                      onChange={() => setScreenCondition('broken')}
+                      onChange={() => setValue('screenCondition', 'broken', { shouldValidate: true })}
                       className="[&_span:last-child]:whitespace-nowrap"
                     />
                     <RadioButton
                       name="screen-condition"
                       label="화면 깨짐 없음"
                       checked={screenCondition === 'clean'}
-                      onChange={() => setScreenCondition('clean')}
+                      onChange={() => setValue('screenCondition', 'clean', { shouldValidate: true })}
                       className="[&_span:last-child]:whitespace-nowrap"
                     />
                   </div>
@@ -370,21 +417,21 @@ export default function SellPage() {
                       name="battery-condition"
                       label="배터리 성능 80% 이상"
                       checked={batteryCondition === '80plus'}
-                      onChange={() => setBatteryCondition('80plus')}
+                      onChange={() => setValue('batteryCondition', '80plus', { shouldValidate: true })}
                       className="[&_span:last-child]:whitespace-nowrap"
                     />
                     <RadioButton
                       name="battery-condition"
                       label="배터리 성능 80% 미만"
                       checked={batteryCondition === '80minus'}
-                      onChange={() => setBatteryCondition('80minus')}
+                      onChange={() => setValue('batteryCondition', '80minus', { shouldValidate: true })}
                       className="[&_span:last-child]:whitespace-nowrap"
                     />
                     <RadioButton
                       name="battery-condition"
                       label="배터리 성능 50% 미만"
                       checked={batteryCondition === '50minus'}
-                      onChange={() => setBatteryCondition('50minus')}
+                      onChange={() => setValue('batteryCondition', '50minus', { shouldValidate: true })}
                       className="[&_span:last-child]:whitespace-nowrap"
                     />
                   </div>
@@ -397,18 +444,21 @@ export default function SellPage() {
                 <h2 className="typo-title-2 w-[120px] text-[var(--color-gray-900)]">상세 설명</h2>
                 <div className="flex w-[981px] flex-col items-start gap-[var(--padding-m)]">
                   <span className="typo-body-2 text-[var(--color-gray-900)]">설명</span>
-                  <TextAreaField
-                    aria-label="상세 설명"
-                    value={description}
-                    onChange={(event) => {
-                      setDescription(event.target.value);
-                      setFieldErrors((prev) => ({ ...prev, description: undefined }));
-                    }}
-                    placeholder="상품에 대한 자세한 설명과 거래 방식 등 자세히 작성해 주세요"
-                    className="w-full [&_textarea]:[display:-webkit-box] [&_textarea]:overflow-hidden [&_textarea]:text-ellipsis [&_textarea]:[-webkit-box-orient:vertical] [&_textarea]:[-webkit-line-clamp:10] [&_textarea]:placeholder:text-[var(--color-gray-500)]"
-                    showCharacterCount={false}
-                    error={Boolean(fieldErrors.description)}
-                    helperText={fieldErrors.description}
+                  <Controller
+                    name="description"
+                    control={control}
+                    render={({ field }) => (
+                      <TextAreaField
+                        aria-label="상세 설명"
+                        value={field.value ?? ''}
+                        onChange={field.onChange}
+                        placeholder="상품에 대한 자세한 설명과 거래 방식 등 자세히 작성해 주세요"
+                        className="w-full [&_textarea]:[display:-webkit-box] [&_textarea]:overflow-hidden [&_textarea]:text-ellipsis [&_textarea]:[-webkit-box-orient:vertical] [&_textarea]:[-webkit-line-clamp:10] [&_textarea]:placeholder:text-[var(--color-gray-500)]"
+                        showCharacterCount={false}
+                        error={Boolean(errors.description)}
+                        helperText={errors.description?.message}
+                      />
+                    )}
                   />
                 </div>
               </div>
@@ -420,45 +470,14 @@ export default function SellPage() {
                   variant="fill"
                   size="auto"
                   className="h-[44px] w-[213px] px-[var(--padding-xl)] py-[var(--padding-m)]"
-                  onClick={() => {
-                    const payload = {
-                      imageFile,
-                      title,
-                      price: priceValue,
-                      manufacturer: manufacturer ?? '',
-                      modelName,
-                      colorName,
-                      storageSize,
-                      description,
-                      productCondition,
-                      scratchCondition,
-                      screenCondition,
-                      batteryCondition,
-                    };
-
-                    const result = sellSchema.safeParse(payload);
-
-                    if (!result.success) {
-                      const nextErrors: Partial<Record<keyof SellFormData, string>> = {};
-                      const errors = result.error.flatten().fieldErrors;
-                      (Object.keys(errors) as Array<keyof SellFormData>).forEach((key) => {
-                        const message = errors[key]?.[0];
-                        if (message) {
-                          nextErrors[key] = message;
-                        }
-                      });
-                      setFieldErrors(nextErrors);
-                      return;
-                    }
-
-                    setFieldErrors({});
+                  onClick={handleSubmit((data) => {
                     navigate('/sell/confirm', {
                       state: {
-                        ...result.data,
+                        ...data,
                         imageUrl: previewUrl,
                       },
                     });
-                  }}
+                  })}
                 >
                   저장
                 </Button>

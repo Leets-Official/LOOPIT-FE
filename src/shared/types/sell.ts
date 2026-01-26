@@ -6,6 +6,7 @@ export type SellState = {
   colorName?: string;
   storageSize?: string;
   description?: string;
+  imageFile?: File | null;
   imageUrl?: string | null;
   productCondition?: 'new' | 'used';
   scratchCondition?: 'scratch' | 'clean';
