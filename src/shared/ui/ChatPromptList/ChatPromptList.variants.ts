@@ -11,7 +11,7 @@ export const chatPromptListVariants = tv({
       'min-h-[60px]',
       'px-[31px]',
       'py-[18px]',
-      'rounded-[var(--radius-l)]',
+      'rounded-(--radius-l)',
       'border',
       'typo-body-1',
       'text-center',
@@ -25,7 +25,7 @@ export const chatPromptListVariants = tv({
   variants: {
     tone: {
       default: {
-        item: ['border-[var(--color-green-700)]', 'bg-[var(--color-white)]', 'text-[var(--color-green-700)]'],
+        item: ['border-green-700', 'bg-white', 'text-green-700'],
       },
     },
     size: {
@@ -39,9 +39,9 @@ export const chatPromptListVariants = tv({
     interaction: {
       interactive: {
         item: [
-          '[&:is(:hover,:focus,:focus-visible,:active)]:bg-[var(--color-gray-900)]',
-          '[&:is(:hover,:focus,:focus-visible,:active)]:text-[var(--color-brand-primary)]',
-          '[&:is(:hover,:focus,:focus-visible,:active)]:border-[var(--color-gray-900)]',
+          '[&:is(:hover,:focus,:focus-visible,:active)]:bg-gray-900',
+          '[&:is(:hover,:focus,:focus-visible,:active)]:text-brand-primary',
+          '[&:is(:hover,:focus,:focus-visible,:active)]:border-gray-900',
         ],
       },
     },

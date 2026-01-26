@@ -11,7 +11,7 @@ export const searchBarVariants = tv({
       'px-[15px]',
       'py-[10px]',
       'gap-[25px]',
-      'rounded-[var(--radius-m)]',
+      'rounded-m',
       'transition-colors',
     ],
     icon: ['w-[24px]', 'h-[24px]', 'shrink-0', 'transition-colors'],
@@ -21,19 +21,19 @@ export const searchBarVariants = tv({
   variants: {
     state: {
       default: {
-        wrapper: ['bg-[var(--color-green-100)]'],
-        icon: ['text-[var(--color-gray-500)]'],
-        input: ['text-[var(--color-gray-500)]', 'placeholder:text-[var(--color-gray-500)]'],
+        wrapper: ['bg-green-100'],
+        icon: ['text-gray-500'],
+        input: ['text-gray-500', 'placeholder:text-gray-500'],
       },
       filled: {
-        wrapper: ['bg-[var(--color-green-300)]'],
-        icon: ['text-[var(--color-black)]'],
-        input: ['text-[var(--color-black)]', 'placeholder:text-[var(--color-black)]'],
+        wrapper: ['bg-green-300'],
+        icon: ['text-black'],
+        input: ['text-black', 'placeholder:text-black'],
       },
       focused: {
-        wrapper: ['bg-[var(--color-green-300)]'],
-        icon: ['text-[var(--color-black)]'],
-        input: ['text-[var(--color-black)]'],
+        wrapper: ['bg-green-300'],
+        icon: ['text-black'],
+        input: ['text-black'],
       },
     },
   },

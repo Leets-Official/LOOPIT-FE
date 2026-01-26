@@ -5,11 +5,11 @@ export const buttonVariants = tv({
     /* layout */
     'flex items-center justify-center',
     'h-[44px]',
-    'px-[var(--padding-xl)] py-[var(--padding-m)]',
-    'gap-[var(--spacing-xxs)]',
+    'px-xl py-m',
+    'gap-xxs',
 
     /* style */
-    'rounded-[var(--radius-l)]',
+    'rounded-(--radius-l)',
     'typo-body-1',
     'whitespace-nowrap',
     'transition-colors',
@@ -21,17 +21,17 @@ export const buttonVariants = tv({
     variant: {
       fill: [
         /* default */
-        'bg-[var(--color-gray-900)] text-[var(--color-white)]',
+        'bg-gray-900 text-white',
 
         /* hover */
-        'hover:bg-[var(--color-gray-500)]',
+        'hover:bg-gray-500',
 
         /* focus */
-        'focus:bg-[var(--color-gray-600)] focus:text-[var(--color-white)]',
+        'focus:bg-gray-600 focus:text-white',
 
         /* disabled */
-        'disabled:bg-[var(--color-gray-200)]',
-        'disabled:text-[var(--color-gray-400)]',
+        'disabled:bg-gray-200',
+        'disabled:text-gray-400',
         'disabled:cursor-not-allowed',
       ],
 
@@ -39,20 +39,20 @@ export const buttonVariants = tv({
         /* default */
         'bg-transparent',
         'border-2',
-        'border-[var(--color-gray-900)]',
-        'text-[var(--color-gray-900)]',
+        'border-gray-900',
+        'text-gray-900',
 
         /* hover */
-        'hover:border-[var(--color-gray-500)]',
-        'hover:text-[var(--color-gray-500)]',
+        'hover:border-gray-500',
+        'hover:text-gray-500',
 
         /* focus */
-        'focus:border-[var(--color-gray-600)]',
-        'focus:text-[var(--color-gray-600)]',
+        'focus:border-gray-600',
+        'focus:text-gray-600',
 
         /* disabled */
-        'disabled:border-[var(--color-gray-300)]',
-        'disabled:text-[var(--color-gray-400)]',
+        'disabled:border-gray-300',
+        'disabled:text-gray-400',
         'disabled:cursor-not-allowed',
       ],
     },

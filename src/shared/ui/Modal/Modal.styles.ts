@@ -8,13 +8,13 @@ export const modalStyles = {
     'flex',
     'flex-col',
     'justify-between',
-    'rounded-[var(--radius-l)]',
-    'bg-[var(--color-green-500)]',
+    'rounded-(--radius-l)',
+    'bg-green-500',
     'px-[var(--padding-xxl)]',
     'py-[var(--padding-xl)]',
   ].join(' '),
 
-  textGroup: ['flex', 'flex-col', 'gap-[var(--spacing-xxs)]'].join(' '),
+  textGroup: ['flex', 'flex-col', 'gap-xxs'].join(' '),
 
   buttonGroup: ['flex', 'gap-3'].join(' '),
 

@@ -7,4 +7,4 @@ export { default as HeartIcon } from './heart-outline.svg?react';
 export { default as AlertDotIcon } from './alertdot.svg?react';
 export { default as HamburgerIcon } from './hamburger-md.svg?react';
 export { default as kakaoLoginImg } from './kakao.png';
-export { default as ChatbotIcon } from './chatbot.svg?react';
+export { default as chatbotImg } from './chatbot.webp';

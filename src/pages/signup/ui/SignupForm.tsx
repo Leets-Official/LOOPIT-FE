@@ -1,11 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import pictureIcon from '@shared/assets/icons/common/picture.svg';
+import { useImageUpload } from '@shared/hooks';
 import { Button } from '@shared/ui/Button/Button';
 import { Profile } from '@shared/ui/Profile';
 import { DateField } from '@shared/ui/TextField';
 import { TextField } from '@shared/ui/TextField/TextField';
 import { signupSchema, type SignupFormData } from '@shared/utils/schemas';
-import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 const sectionLabel = 'typo-body-2 text-black';
@@ -19,8 +19,7 @@ const FORM_FIELDS = [
 ] as const;
 
 export function SignupForm() {
-  const [profileImage, setProfileImage] = useState<string | undefined>();
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { imageUrl: profileImage, fileInputRef, handleSelectImage, handleImageChange } = useImageUpload();
 
   const {
     register,
@@ -32,34 +31,10 @@ export function SignupForm() {
     void data;
   };
 
-  const handleSelectImage = () => {
-    fileInputRef.current?.click();
-  };
-
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) {
-      return;
-    }
-    if (profileImage) {
-      URL.revokeObjectURL(profileImage);
-    }
-    setProfileImage(URL.createObjectURL(file));
-  };
-
-  useEffect(() => {
-    return () => {
-      if (profileImage) {
-        URL.revokeObjectURL(profileImage);
-      }
-    };
-  }, [profileImage]);
-
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex w-full flex-col items-center">
       <section className="mt-[80px] w-full">
         <div className="flex w-full flex-col items-start gap-[67px]">
-          {/* 프로필 사진 */}
           <section className="gap-m flex h-[214px] w-full flex-col">
             <span className={sectionLabel}>프로필 사진</span>
             <div className="flex w-full justify-center">
@@ -79,7 +54,6 @@ export function SignupForm() {
             </div>
           </section>
 
-          {/* 폼 필드 */}
           {FORM_FIELDS.map((field) => (
             <section key={field.name} className={sectionStyle}>
               <span className={sectionLabel}>{field.label}</span>
