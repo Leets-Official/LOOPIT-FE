@@ -5,13 +5,13 @@ import { Button } from '@shared/ui/Button/Button';
 import { DropDown } from '@shared/ui/DropDown';
 import { RadioButton } from '@shared/ui/RadioButton/RadioButton';
 import { PriceField, TextAreaField, TextField } from '@shared/ui/TextField';
+import { validateImageFile } from '@shared/utils';
 import { MAX_IMAGE_BYTES, sellSchema, type SellFormData } from '@shared/utils/schemas';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router';
 import { getSellFormDefaults, mapSellDraftToForm } from '../model/initialValues';
 import { BATTERY_OPTIONS, MANUFACTURER_OPTIONS, SCREEN_OPTIONS, SCRATCH_OPTIONS } from '../model/options';
-import { validateImageFile } from '../model/validators';
 import type { SellState } from '@shared/types/sell';
 
 type SellDraftState = SellState;
