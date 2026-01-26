@@ -10,4 +10,4 @@ export { default as CloseIcon } from './close.svg?react';
 export { default as HamburgerIcon } from './hamburger-md.svg?react';
 export { default as PictureIcon } from './picture.svg?react';
 export { default as kakaoLoginImg } from './kakao.png';
-export { default as ChatbotIcon } from './chatbot.svg?react';
+export { default as chatbotImg } from './chatbot.webp';

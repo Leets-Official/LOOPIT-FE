@@ -1,8 +1,9 @@
 import { CaretDownMdIcon } from '@shared/assets/icons';
+import { useClickOutside } from '@shared/hooks';
 import { Button } from '@shared/ui/Button/Button';
 import { Profile } from '@shared/ui/Profile/Profile';
 import { cn } from '@shared/utils/cn';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 export type UserMenuProps = {
   profileImage?: string;
@@ -15,30 +16,8 @@ export const UserMenu = ({ profileImage, nickname = '홍길동', onMyPageClick, 
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (!isOpen) {
-      return;
-    }
-
-    const handleClickOutside = (event: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    };
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [isOpen]);
+  const closeMenu = () => setIsOpen(false);
+  useClickOutside(containerRef, isOpen, closeMenu);
 
   return (
     <div ref={containerRef} className="relative">
