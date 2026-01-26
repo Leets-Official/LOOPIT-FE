@@ -3,26 +3,12 @@ import { useToast } from '@shared/contexts/ToastContext';
 import { Button } from '@shared/ui/Button/Button';
 import { RadioButton } from '@shared/ui/RadioButton/RadioButton';
 import { PriceField, TextAreaField, TextField } from '@shared/ui/TextField';
-import { sellSchema, type SellFormData } from '@shared/utils/schemas';
+import { MAX_IMAGE_BYTES, sellSchema, type SellFormData } from '@shared/utils/schemas';
+import type { SellState } from '@shared/types/sell';
 import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
-type SellDraftState = {
-  title?: string;
-  price?: string;
-  manufacturer?: string | null;
-  modelName?: string;
-  colorName?: string;
-  storageSize?: string;
-  description?: string;
-  imageUrl?: string | null;
-  productCondition?: 'new' | 'used';
-  scratchCondition?: 'scratch' | 'clean';
-  screenCondition?: 'broken' | 'clean';
-  batteryCondition?: '80plus' | '80minus' | '50minus';
-};
-
-const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
+type SellDraftState = SellState;
 
 export default function SellPage() {
   const navigate = useNavigate();
