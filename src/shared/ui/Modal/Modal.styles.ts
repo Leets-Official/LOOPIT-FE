@@ -1,13 +1,25 @@
 export const modalStyles = {
-  container: ['fixed', 'inset-0', 'z-50', 'flex', 'items-center', 'justify-center'].join(' '),
+  container: [
+    'fixed',
+    'inset-0',
+    'z-50',
+    'w-full',
+    'h-full',
+    'flex',
+    'items-center',
+    'justify-center',
+    'bg-[rgba(0,0,0,0.30)]',
+  ].join(' '),
 
   content: [
-    'w-full',
-    'max-w-[347px]',
+    'w-[347px]',
     'h-[167px]',
+    'relative',
     'flex',
     'flex-col',
     'justify-between',
+    'rounded-[var(--radius-l)]',
+    'bg-[var(--color-white)]',
     'rounded-(--radius-l)',
     'bg-green-500',
     'px-[var(--padding-xxl)]',

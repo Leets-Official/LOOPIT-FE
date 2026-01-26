@@ -70,7 +70,8 @@ describe('Modal', () => {
   describe('Accessibility', () => {
     it('버튼은 접근 가능한 role을 가짐', () => {
       setup();
-      expect(screen.getAllByRole('button')).toHaveLength(2);
+      expect(screen.getByRole('button', { name: '취소' })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: '확인' })).toBeInTheDocument();
     });
 
     it('Tab 키로 버튼 포커스 이동 가능', async () => {
