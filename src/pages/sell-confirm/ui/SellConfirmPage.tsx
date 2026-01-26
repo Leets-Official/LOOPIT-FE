@@ -1,9 +1,9 @@
 import checkerImg from '@shared/assets/icons/common/checker.png';
 import { Button } from '@shared/ui/Button/Button';
 import { Modal } from '@shared/ui/Modal/Modal';
-import type { SellState } from '@shared/types/sell';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
+import type { SellState } from '@shared/types/sell';
 
 type SellConfirmState = SellState;
 

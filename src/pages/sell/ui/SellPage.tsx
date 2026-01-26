@@ -1,19 +1,18 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import { PictureIcon } from '@shared/assets/icons';
-import { useToast } from '@shared/contexts/ToastContext';
+import { useEscapeKey, useOutsideClick, useToast } from '@shared/hooks';
 import { Button } from '@shared/ui/Button/Button';
+import { DropDown } from '@shared/ui/DropDown';
 import { RadioButton } from '@shared/ui/RadioButton/RadioButton';
 import { PriceField, TextAreaField, TextField } from '@shared/ui/TextField';
 import { MAX_IMAGE_BYTES, sellSchema, type SellFormData } from '@shared/utils/schemas';
-import type { SellState } from '@shared/types/sell';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router';
-import { DropDown } from '@shared/ui/DropDown';
-import { useEscapeKey, useOutsideClick } from '@shared/hooks';
-import { validateImageFile } from '../model/validators';
-import { BATTERY_OPTIONS, MANUFACTURER_OPTIONS, SCREEN_OPTIONS, SCRATCH_OPTIONS } from '../model/options';
 import { getSellFormDefaults, mapSellDraftToForm } from '../model/initialValues';
+import { BATTERY_OPTIONS, MANUFACTURER_OPTIONS, SCREEN_OPTIONS, SCRATCH_OPTIONS } from '../model/options';
+import { validateImageFile } from '../model/validators';
+import type { SellState } from '@shared/types/sell';
 
 type SellDraftState = SellState;
 

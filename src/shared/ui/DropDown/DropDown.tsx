@@ -5,7 +5,7 @@ import type { RefObject } from 'react';
 type DropDownProps = {
   label: string;
   value: string;
-  options: string[];
+  options: readonly string[];
   isOpen: boolean;
   dropdownRef: RefObject<HTMLDivElement | null>;
   error?: boolean;
