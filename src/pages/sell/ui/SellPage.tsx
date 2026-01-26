@@ -6,10 +6,14 @@ import { PriceField, TextAreaField, TextField } from '@shared/ui/TextField';
 import { MAX_IMAGE_BYTES, sellSchema, type SellFormData } from '@shared/utils/schemas';
 import type { SellState } from '@shared/types/sell';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router';
 import { DropDown } from '@shared/ui/DropDown';
+import { useEscapeKey, useOutsideClick } from '@shared/hooks';
+import { validateImageFile } from '../model/validators';
+import { BATTERY_OPTIONS, MANUFACTURER_OPTIONS, SCREEN_OPTIONS, SCRATCH_OPTIONS } from '../model/options';
+import { getSellFormDefaults, mapSellDraftToForm } from '../model/initialValues';
 
 type SellDraftState = SellState;
 
@@ -28,39 +32,13 @@ export default function SellPage() {
     formState: { errors },
   } = useForm<SellFormData>({
     resolver: zodResolver(sellSchema),
-    defaultValues: {
-      title: '',
-      price: '',
-      manufacturer: '',
-      modelName: '',
-      colorName: '',
-      storageSize: '',
-      description: '',
-      productCondition: 'new',
-      scratchCondition: 'scratch',
-      screenCondition: 'broken',
-      batteryCondition: '80plus',
-    },
+    defaultValues: getSellFormDefaults(),
   });
 
   const hasInitialized = useRef(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
-  const manufacturerOptions = ['삼성', '애플'];
-  const scratchOptions = [
-    { label: '스크래치 있음', value: 'scratch' },
-    { label: '스크래치 없음', value: 'clean' },
-  ] as const;
-  const screenOptions = [
-    { label: '화면 깨짐', value: 'broken' },
-    { label: '화면 깨짐 없음', value: 'clean' },
-  ] as const;
-  const batteryOptions = [
-    { label: '배터리 성능 80% 이상', value: '80plus' },
-    { label: '배터리 성능 80% 미만', value: '80minus' },
-    { label: '배터리 성능 50% 미만', value: '50minus' },
-  ] as const;
   const manufacturerValue = watch('manufacturer');
   const priceValue = watch('price');
   const productCondition = watch('productCondition');
@@ -74,24 +52,14 @@ export default function SellPage() {
       return;
     }
 
-    if (!file.type.startsWith('image/')) {
-      showToast('이미지 파일만 업로드해 주세요.', 'warning');
+    const validation = validateImageFile(file, MAX_IMAGE_BYTES);
+    if (!validation.ok) {
+      showToast(validation.message, 'warning');
       setPreviewUrl(null);
       resetField('imageFile');
       setError('imageFile', {
         type: 'validate',
-        message: '이미지 파일만 업로드해 주세요.',
-      });
-      return;
-    }
-
-    if (file.size > MAX_IMAGE_BYTES) {
-      showToast('이미지는 5MB 이하로 업로드해 주세요.', 'warning');
-      setPreviewUrl(null);
-      resetField('imageFile');
-      setError('imageFile', {
-        type: 'validate',
-        message: '이미지는 5MB 이하로 업로드해 주세요.',
+        message: validation.message,
       });
       return;
     }
@@ -104,30 +72,12 @@ export default function SellPage() {
     setValue('imageFile', file, { shouldValidate: true });
   };
 
-  useEffect(() => {
-    if (!isOpen) {
-      return;
-    }
+  const closeDropdown = useCallback(() => {
+    setIsOpen(false);
+  }, []);
 
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    };
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [isOpen]);
+  useOutsideClick(dropdownRef, closeDropdown, isOpen);
+  useEscapeKey(closeDropdown, isOpen);
 
   useEffect(() => {
     if (hasInitialized.current) {
@@ -137,19 +87,7 @@ export default function SellPage() {
     if (Object.keys(state).length === 0) {
       return;
     }
-    reset({
-      title: state.title ?? '',
-      price: state.price ?? '',
-      manufacturer: state.manufacturer ?? '',
-      modelName: state.modelName ?? '',
-      colorName: state.colorName ?? '',
-      storageSize: state.storageSize ?? '',
-      description: state.description ?? '',
-      productCondition: state.productCondition ?? 'new',
-      scratchCondition: state.scratchCondition ?? 'scratch',
-      screenCondition: state.screenCondition ?? 'broken',
-      batteryCondition: state.batteryCondition ?? '80plus',
-    });
+    reset(mapSellDraftToForm(state));
     if (state.imageFile) {
       setValue('imageFile', state.imageFile, { shouldValidate: true });
     } else {
@@ -163,7 +101,6 @@ export default function SellPage() {
     <div className="w-full bg-white">
       <div className="mx-auto min-h-screen w-full max-w-[1440px] bg-white px-4 pb-[112px] md:px-[120px]">
         <main className="mt-[55px] flex flex-col">
-          {/* 상단 배너 */}
           <section className="flex h-[266px] items-center justify-center bg-[linear-gradient(180deg,var(--color-brand-primary)_0%,var(--color-white)_100%)] py-[67px]">
             <div className="flex w-full max-w-[1200px] flex-col items-center gap-[var(--spacing-xxs)] text-center">
               <h1 className="typo-title-1 text-[color:var(--color-gray-900)]">나의 전자 기기 판매하기</h1>
@@ -172,7 +109,6 @@ export default function SellPage() {
           </section>
 
           <div className="mt-[74px] flex w-full max-w-[1200px] flex-col items-center gap-[74px]">
-            {/* 사진 업로드 */}
             <section className="w-full">
               <div className="flex w-full flex-col items-start gap-[70px]">
                 <div className="flex w-full flex-col items-start gap-[24px] md:flex-row md:gap-[113px]">
@@ -216,7 +152,6 @@ export default function SellPage() {
                 <h2 className="typo-title-2 w-[120px] text-[var(--color-gray-900)] md:w-[120px]">기본 정보</h2>
 
                 <div className="flex w-full max-w-[978px] flex-col gap-[39px]">
-                  {/* 제목 */}
                   <div className="flex flex-col gap-[var(--spacing-m)]">
                     <span className="typo-body-2 text-[var(--color-gray-900)]">제목</span>
                     <Controller
@@ -237,11 +172,10 @@ export default function SellPage() {
                     />
                   </div>
 
-                  {/* 제조사 (드롭다운) */}
                   <DropDown
                     label="제조사"
                     value={manufacturerValue ?? ''}
-                    options={manufacturerOptions}
+                    options={MANUFACTURER_OPTIONS}
                     isOpen={isOpen}
                     dropdownRef={dropdownRef}
                     error={Boolean(errors.manufacturer)}
@@ -253,7 +187,6 @@ export default function SellPage() {
                     }}
                   />
 
-                  {/* 모델명 */}
                   <div className="flex flex-col gap-[var(--spacing-m)]">
                     <span className="typo-body-2 text-[var(--color-gray-900)]">모델명</span>
                     <Controller
@@ -274,7 +207,6 @@ export default function SellPage() {
                     />
                   </div>
 
-                  {/* 색상 */}
                   <div className="flex flex-col gap-[var(--spacing-m)]">
                     <span className="typo-body-2 text-[var(--color-gray-900)]">색상</span>
                     <Controller
@@ -295,7 +227,6 @@ export default function SellPage() {
                     />
                   </div>
 
-                  {/* 저장 용량 */}
                   <div className="flex flex-col gap-[var(--spacing-m)]">
                     <span className="typo-body-2 text-[var(--color-gray-900)]">저장 용량</span>
                     <Controller
@@ -316,7 +247,6 @@ export default function SellPage() {
                     />
                   </div>
 
-                  {/* 가격 */}
                   <div className="flex flex-col gap-[var(--padding-m)]">
                     <span className="typo-body-2 text-[var(--color-gray-900)]">가격</span>
                     <Controller
@@ -343,7 +273,6 @@ export default function SellPage() {
                 </div>
               </div>
             </section>
-            {/* 상품 상태 */}
             <section className="mt-[70px] w-full max-w-[1306px]">
               <div className="flex w-full flex-col items-start gap-[24px] md:h-[199px] md:flex-row md:gap-[130px]">
                 <h2 className="typo-title-2 w-full text-[var(--color-gray-900)] md:w-[120px]">상품 상태</h2>
@@ -365,7 +294,7 @@ export default function SellPage() {
                     />
                   </div>
                   <div className="flex items-center gap-[22px]">
-                    {scratchOptions.map((option) => (
+                    {SCRATCH_OPTIONS.map((option) => (
                       <RadioButton
                         key={option.value}
                         name="scratch-condition"
@@ -377,7 +306,7 @@ export default function SellPage() {
                     ))}
                   </div>
                   <div className="flex items-center gap-[22px]">
-                    {screenOptions.map((option) => (
+                    {SCREEN_OPTIONS.map((option) => (
                       <RadioButton
                         key={option.value}
                         name="screen-condition"
@@ -389,7 +318,7 @@ export default function SellPage() {
                     ))}
                   </div>
                   <div className="flex items-center gap-[22px]">
-                    {batteryOptions.map((option) => (
+                    {BATTERY_OPTIONS.map((option) => (
                       <RadioButton
                         key={option.value}
                         name="battery-condition"
@@ -403,7 +332,6 @@ export default function SellPage() {
                 </div>
               </div>
             </section>
-            {/* 상세 설명 */}
             <section className="mt-[70px] w-full max-w-[1306px]">
               <div className="flex w-full flex-col items-start gap-[24px] md:flex-row md:gap-[130px]">
                 <h2 className="typo-title-2 w-full text-[var(--color-gray-900)] md:w-[120px]">상세 설명</h2>
