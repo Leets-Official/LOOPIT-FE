@@ -9,6 +9,7 @@ export interface TradeItemProps {
   price: string;
   date: string;
   status?: TradeStatus;
+  statusLabel?: string;
   favoriteActive?: boolean;
   onToggleFavorite?: (active: boolean) => void;
 }
@@ -34,9 +35,13 @@ export const TradeItem = ({
   price,
   date,
   status = 'buying',
+  statusLabel,
   favoriteActive = false,
   onToggleFavorite,
 }: TradeItemProps) => {
+  const statusConfig = status === 'favorite' ? null : statusConfigByStatus[status];
+  const resolvedStatusLabel = statusLabel ?? statusConfig?.text;
+
   return (
     <div className="flex w-full max-w-[1200px] flex-col gap-[var(--spacing-xxs)] rounded-[var(--radius-l)] bg-[var(--color-gray-900)] px-[42px] py-[44px]">
       <div className="flex w-full items-center justify-between">
@@ -65,7 +70,7 @@ export const TradeItem = ({
         {status === 'favorite' ? (
           <FavoriteButton defaultActive={favoriteActive} onToggle={onToggleFavorite} variant="inverse" />
         ) : (
-          <span className={statusConfigByStatus[status].className}>{statusConfigByStatus[status].text}</span>
+          <span className={statusConfig?.className}>{resolvedStatusLabel}</span>
         )}
       </div>
     </div>
