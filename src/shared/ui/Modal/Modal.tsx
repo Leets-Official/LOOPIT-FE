@@ -46,14 +46,19 @@ export const Modal = ({
     };
   }, [handleClose, onCancel]);
 
-  const handleOverlayClick = (event: React.MouseEvent<HTMLDivElement>) => {
+  const handleOverlayMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {
       handleClose(onCancel);
     }
   };
 
   return (
-    <div className={modalStyles.container} onClick={handleOverlayClick}>
+    <div
+      className={modalStyles.container}
+      role="button"
+      tabIndex={-1}
+      onMouseDown={handleOverlayMouseDown}
+    >
       <div
         className={`${modalStyles.content} ${closing ? 'animate-fade-out' : 'animate-fade-in'}`}
         role="dialog"
