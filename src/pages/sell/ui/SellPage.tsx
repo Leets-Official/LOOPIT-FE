@@ -147,7 +147,7 @@ export default function SellPage() {
 
   return (
     <div className="w-full bg-white">
-      <div className="mx-auto h-[2220px] w-[1440px] bg-white">
+      <div className="mx-auto min-h-screen w-full max-w-[1440px] bg-white px-4 pb-[112px]">
         <main className="mt-[55px] flex flex-col">
           {/* 상단 배너 */}
           <section className="mx-[120px] flex h-[266px] items-center justify-center bg-[linear-gradient(180deg,var(--color-brand-primary)_0%,var(--color-white)_100%)] py-[67px]">
