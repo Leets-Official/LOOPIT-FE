@@ -1,5 +1,5 @@
-export { default as SmartphoneImage } from './smartphone.jpg';
-export { default as PhoneRepairImage } from './phone-repair.jpg';
-export { default as PhoneSellImage } from './phone-sell.jpg';
-export { default as PhoneRecycleImage } from './phone-recycle.jpg';
-export { default as SloganImage } from './slogan.png';
+export { default as SmartphoneImage } from './smartphone.webp';
+export { default as PhoneRepairImage } from './phone-repair.webp';
+export { default as PhoneSellImage } from './phone-sell.webp';
+export { default as PhoneRecycleImage } from './phone-recycle.webp';
+export { default as SloganImage } from './slogan.webp';
