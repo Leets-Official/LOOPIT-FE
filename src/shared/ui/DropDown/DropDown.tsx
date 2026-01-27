@@ -25,8 +25,8 @@ export const DropDown = ({
   onToggle,
   onSelect,
 }: DropDownProps) => (
-  <div className="relative flex flex-col gap-[var(--spacing-m)]" ref={dropdownRef}>
-    <span className="typo-body-2 text-[var(--color-gray-900)]">{label}</span>
+  <div className="gap-m relative flex flex-col" ref={dropdownRef}>
+    <span className="typo-body-2 text-gray-900">{label}</span>
 
     <div
       className="relative"
@@ -43,22 +43,22 @@ export const DropDown = ({
         readOnly
         value={value}
         placeholder={`${label}를 선택해 주세요`}
-        className="w-full cursor-pointer [&_input]:h-[48px] [&_input]:pr-[40px] [&_input]:text-[16px] [&_input]:leading-[24px] [&_input]:text-[var(--color-gray-700)] [&_input]:placeholder:text-[var(--color-gray-400)]"
+        className="[&_input]:pr-xxxl [&_input]:text-m [&_input]:leading-m w-full cursor-pointer [&_input]:h-[48px] [&_input]:text-gray-700 [&_input]:placeholder:text-gray-400"
         showCharacterCount={false}
         error={error}
         helperText={helperText}
       />
-      <CaretDownMdIcon className="pointer-events-none absolute top-1/2 right-[16px] h-5 w-5 -translate-y-1/2 text-[var(--color-gray-400)]" />
+      <CaretDownMdIcon className="right-m pointer-events-none absolute top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
     </div>
 
     {isOpen && (
-      <div className="absolute top-full z-10 mt-[8px] flex w-full flex-col overflow-hidden rounded-[12px] border border-[var(--color-gray-200)] bg-white shadow-[0_8px_24px_rgba(0,0,0,0.08)]">
+      <div className="mt-xxxs absolute top-full z-10 flex w-full flex-col overflow-hidden rounded-[12px] border border-gray-200 bg-white shadow-[0_8px_24px_rgba(0,0,0,0.08)]">
         {options.map((item) => (
           <button
             key={item}
             type="button"
             onClick={() => onSelect(item)}
-            className="typo-body-1 flex h-[44px] items-center px-[16px] text-left text-[var(--color-gray-700)] hover:bg-[var(--color-gray-50)]"
+            className="typo-body-1 px-m flex h-[44px] items-center text-left text-gray-700 hover:bg-gray-50"
           >
             {item}
           </button>
