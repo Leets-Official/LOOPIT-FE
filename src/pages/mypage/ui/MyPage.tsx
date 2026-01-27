@@ -7,7 +7,7 @@ import { MyPageTabs, type MyPageTab } from './MyPageTabs';
 import { PageContainer } from './PageContainer';
 import { ProfileSummaryCard } from './ProfileSummaryCard';
 import { TradeItemList, type TradeListItem } from './TradeItemList';
-import { getProfileSummary } from '../utils/profileStorage';
+import { getProfileSummary } from '../model/profileStorage';
 
 const MAIN_TABS: MyPageTab[] = [
   { id: 'buy', label: '구매 내역' },

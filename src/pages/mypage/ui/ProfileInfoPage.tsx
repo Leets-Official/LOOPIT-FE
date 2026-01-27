@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import { PageContainer } from './PageContainer';
 import { PersonalInfoForm } from './PersonalInfoForm';
-import { getPersonalInfoDefaults, saveProfile } from '../utils/profileStorage';
+import { getPersonalInfoDefaults, saveProfile } from '../model/profileStorage';
 
 export default function ProfileInfoPage() {
   const navigate = useNavigate();

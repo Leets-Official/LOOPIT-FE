@@ -4,7 +4,7 @@ import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { MY_PAGE_PROFILE } from '../mocks';
 import { PageContainer } from './PageContainer';
-import { getProfileSummary, saveProfile } from '../utils/profileStorage';
+import { getProfileSummary, saveProfile } from '../model/profileStorage';
 
 export default function AccountSettingsPage() {
   const navigate = useNavigate();
