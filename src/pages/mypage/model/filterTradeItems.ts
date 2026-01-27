@@ -1,5 +1,5 @@
 import type { StatusFilter } from './types';
-import type { TradeListItem } from '../ui/TradeItemList';
+import type { TradeListItem } from '@pages/mypage/ui/TradeItemList';
 
 export const filterTradeItems = (items: TradeListItem[], status: StatusFilter): TradeListItem[] => {
   if (status === 'all') {

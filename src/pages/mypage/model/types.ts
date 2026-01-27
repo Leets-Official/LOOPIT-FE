@@ -1,5 +1,5 @@
-import type { CommonTabItem } from '../ui/CommonTabs';
-import type { TradeListItem } from '../ui/TradeItemList';
+import type { CommonTabItem } from '@pages/mypage/ui/CommonTabs';
+import type { TradeListItem } from '@pages/mypage/ui/TradeItemList';
 
 export type MainTabId = 'buy' | 'sell' | 'favorite';
 

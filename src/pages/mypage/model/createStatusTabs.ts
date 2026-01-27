@@ -1,6 +1,6 @@
 import { getStatusCount } from './filterTradeItems';
 import type { StatusTabLabels, StatusTabs } from './types';
-import type { TradeListItem } from '../ui/TradeItemList';
+import type { TradeListItem } from '@pages/mypage/ui/TradeItemList';
 
 export const createStatusTabs = (items: TradeListItem[], labels: StatusTabLabels): StatusTabs => [
   { id: 'all', label: '전체', count: getStatusCount(items, 'all') },
