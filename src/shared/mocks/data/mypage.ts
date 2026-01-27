@@ -1,5 +1,7 @@
-import type { TradeListItem } from '../ui/TradeItemList';
 import type { RepairListItem } from '@shared/ui/RepairList';
+import type { TradeItemProps } from '@shared/ui/TradeItem/TradeItem';
+
+type TradeListItem = TradeItemProps & { id: string };
 
 export const MY_PAGE_PROFILE = {
   nickname: '폰박살',
@@ -31,7 +33,8 @@ export const SELL_ITEMS: TradeListItem[] = [
     modelName: '아이폰 16 프로 512GB',
     price: '1,320,000원',
     date: '2026.02.07',
-    status: 'reserved',
+    status: 'buying',
+    statusLabel: '판매중',
     imageUrl: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=200&auto=format&fit=crop',
   },
   {

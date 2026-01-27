@@ -17,11 +17,14 @@ const MAIN_TABS: MyPageTab[] = [
 
 type MainTabId = MyPageTab['id'];
 
-type StatusFilter = 'all' | 'buying' | 'reserved' | 'completed';
+type StatusFilter = 'all' | 'buying' | 'completed';
 
 const getStatusCount = (items: TradeListItem[], status: StatusFilter) => {
   if (status === 'all') {
     return items.length;
+  }
+  if (status === 'buying') {
+    return items.filter((item) => item.status === 'buying' || item.status === 'reserved').length;
   }
   return items.filter((item) => item.status === status).length;
 };
@@ -39,7 +42,6 @@ export default function MyPage() {
     () => [
       { id: 'all', label: '전체', count: getStatusCount(BUY_ITEMS, 'all') },
       { id: 'buying', label: '구매중', count: getStatusCount(BUY_ITEMS, 'buying') },
-      { id: 'reserved', label: '예약중', count: getStatusCount(BUY_ITEMS, 'reserved') },
       { id: 'completed', label: '구매완료', count: getStatusCount(BUY_ITEMS, 'completed') },
     ],
     []
@@ -49,7 +51,6 @@ export default function MyPage() {
     () => [
       { id: 'all', label: '전체', count: getStatusCount(SELL_ITEMS, 'all') },
       { id: 'buying', label: '판매중', count: getStatusCount(SELL_ITEMS, 'buying') },
-      { id: 'reserved', label: '예약중', count: getStatusCount(SELL_ITEMS, 'reserved') },
       { id: 'completed', label: '판매완료', count: getStatusCount(SELL_ITEMS, 'completed') },
     ],
     []
@@ -67,12 +68,18 @@ export default function MyPage() {
     if (buyStatus === 'all') {
       return BUY_ITEMS;
     }
+    if (buyStatus === 'buying') {
+      return BUY_ITEMS.filter((item) => item.status === 'buying' || item.status === 'reserved');
+    }
     return BUY_ITEMS.filter((item) => item.status === buyStatus);
   }, [buyStatus]);
 
   const filteredSellItems = useMemo(() => {
     if (sellStatus === 'all') {
       return SELL_ITEMS;
+    }
+    if (sellStatus === 'buying') {
+      return SELL_ITEMS.filter((item) => item.status === 'buying' || item.status === 'reserved');
     }
     return SELL_ITEMS.filter((item) => item.status === sellStatus);
   }, [sellStatus]);
@@ -110,11 +117,12 @@ export default function MyPage() {
               tabs={favoriteTabs}
               activeId={favoriteCategory}
               onChange={setFavoriteCategory}
-              gridClassName="grid-cols-2"
-              labelClassName="typo-caption-2"
-              countClassName="typo-body-1"
+              gridClassName="w-full grid-cols-2 px-[434.5px]"
+              labelClassName="typo-body-1"
+              countClassName="typo-title-3"
               countActiveClassName="text-green-700"
               countInactiveClassName="text-gray-900"
+              itemClassName="first:justify-self-start last:justify-self-end"
             />
             {favoriteCategory === 'product' ? (
               <TradeItemList items={FAVORITE_PRODUCT_ITEMS} emptyMessage="찜한 목록이 아직 없어요." />
@@ -140,11 +148,12 @@ export default function MyPage() {
                   setSellStatus(id);
                 }
               }}
-              gridClassName="grid-cols-4"
+              gridClassName="w-full grid-cols-3 px-[276px]"
               labelClassName="typo-body-1"
               countClassName="typo-title-3"
               countActiveClassName="text-green-700"
               countInactiveClassName="text-gray-900"
+              itemClassName="first:justify-self-start last:justify-self-end"
             />
             <TradeItemList
               items={activeTab === 'buy' ? filteredBuyItems : filteredSellItems}

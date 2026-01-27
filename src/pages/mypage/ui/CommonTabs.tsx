@@ -8,7 +8,7 @@ export type CommonTabItem<TId extends string = string> = {
 
 export type CommonTabsProps<TId extends string = string> = {
   title: string;
-  tabs: CommonTabItem<TId>[];
+  tabs: Array<CommonTabItem<TId>>;
   activeId: TId;
   onChange: (id: TId) => void;
   gridClassName: string;
@@ -16,6 +16,7 @@ export type CommonTabsProps<TId extends string = string> = {
   countClassName: string;
   countActiveClassName: string;
   countInactiveClassName: string;
+  itemClassName?: string;
 };
 
 export const CommonTabs = <TId extends string>({
@@ -28,6 +29,7 @@ export const CommonTabs = <TId extends string>({
   countClassName,
   countActiveClassName,
   countInactiveClassName,
+  itemClassName,
 }: CommonTabsProps<TId>) => {
   return (
     <section className="mt-10">
@@ -41,18 +43,14 @@ export const CommonTabs = <TId extends string>({
               onClick={() => onChange(tab.id)}
               className={cn(
                 'relative flex flex-col items-center gap-1 pb-4 text-center transition-colors',
+                itemClassName,
                 activeId === tab.id
                   ? 'text-gray-900 after:absolute after:-bottom-px after:left-1/2 after:h-0.5 after:w-29.5 after:-translate-x-1/2 after:bg-black'
                   : 'text-gray-500'
               )}
             >
               <span className={labelClassName}>{tab.label}</span>
-              <span
-                className={cn(
-                  countClassName,
-                  activeId === tab.id ? countActiveClassName : countInactiveClassName
-                )}
-              >
+              <span className={cn(countClassName, activeId === tab.id ? countActiveClassName : countInactiveClassName)}>
                 {tab.count}
               </span>
             </button>
