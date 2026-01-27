@@ -38,7 +38,7 @@ export const ProfileSummaryCard = ({
         variant="outline"
         size="default"
         onClick={onSettingsClick}
-        className="px-[24px] py-[12px] text-black hover:border-gray-500 hover:text-gray-500"
+        className="px-6 py-3 text-black hover:border-gray-500 hover:text-gray-500"
       >
         계정 설정
       </Button>
