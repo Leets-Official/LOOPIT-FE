@@ -133,7 +133,7 @@ export const SellForm = () => {
         </div>
       </section>
 
-      <section className="mt-[70px] w-full max-w-[1306px]">
+      <section className="w-full max-w-[1306px]">
         <div className="gap-xl flex w-full flex-col items-start md:h-[199px] md:flex-row md:gap-[130px]">
           <h2 className="typo-title-2 w-full text-gray-900 md:w-[120px]">상품 상태</h2>
           <div className="flex w-full flex-col items-start gap-[22px] md:h-[199px]">
@@ -165,7 +165,7 @@ export const SellForm = () => {
         </div>
       </section>
 
-      <section className="mt-[70px] w-full max-w-[1306px]">
+      <section className="w-full max-w-[1306px]">
         <div className="gap-xl flex w-full flex-col items-start md:flex-row md:gap-[130px]">
           <h2 className="typo-title-2 w-full text-gray-900 md:w-[120px]">상세 설명</h2>
           <div className="gap-m flex w-full max-w-[981px] flex-col items-start">
@@ -190,7 +190,7 @@ export const SellForm = () => {
         </div>
       </section>
 
-      <section className="mt-[132px] mb-[112px] flex w-full flex-col items-center gap-[132px]">
+      <section className="mt-[58px] mb-[112px] flex w-full flex-col items-center">
         <div className="px-s flex w-full items-center justify-end pb-[11px]">
           <Button variant="fill" size="auto" className="px-xl py-m h-[44px] w-[213px]" onClick={onSubmit}>
             저장
