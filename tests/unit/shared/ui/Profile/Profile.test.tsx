@@ -39,7 +39,7 @@ describe('Profile', () => {
     it('size="lg" 적용', () => {
       const { container } = render(<Profile size="lg" />);
       const root = container.firstChild as HTMLElement;
-      expect(root).toHaveClass('w-[152px]', 'h-[152px]');
+      expect(root).toHaveClass('w-[180px]', 'h-[180px]');
     });
   });
 
