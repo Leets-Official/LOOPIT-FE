@@ -2,11 +2,10 @@ import { RepairList, type RepairListItem } from '@shared/ui/RepairList';
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { BUY_ITEMS, FAVORITE_PRODUCT_ITEMS, FAVORITE_REPAIR_ITEMS, SELL_ITEMS } from '../mocks';
-import { FavoriteTabs } from './FavoriteTabs';
+import { CommonTabs } from './CommonTabs';
 import { MyPageTabs, type MyPageTab } from './MyPageTabs';
 import { PageContainer } from './PageContainer';
 import { ProfileSummaryCard } from './ProfileSummaryCard';
-import { StatusTabs } from './StatusTabs';
 import { TradeItemList, type TradeListItem } from './TradeItemList';
 import { getProfileSummary } from '../utils/profileStorage';
 
@@ -105,11 +104,16 @@ export default function MyPage() {
 
         {activeTab === 'favorite' ? (
           <>
-            <FavoriteTabs
+            <CommonTabs
               title="찜한 목록"
               tabs={favoriteTabs}
               activeId={favoriteCategory}
               onChange={(id) => setFavoriteCategory(id as 'product' | 'repair')}
+              gridClassName="grid-cols-2"
+              labelClassName="typo-caption-2"
+              countClassName="typo-body-1"
+              countActiveClassName="text-green-700"
+              countInactiveClassName="text-gray-900"
             />
             {favoriteCategory === 'product' ? (
               <TradeItemList items={FAVORITE_PRODUCT_ITEMS} emptyMessage="찜한 목록이 아직 없어요." />
@@ -124,7 +128,7 @@ export default function MyPage() {
           </>
         ) : (
           <>
-            <StatusTabs
+            <CommonTabs
               title={activeTab === 'buy' ? '구매 내역' : '판매 내역'}
               tabs={activeTab === 'buy' ? buyStatusTabs : sellStatusTabs}
               activeId={activeTab === 'buy' ? buyStatus : sellStatus}
@@ -135,6 +139,11 @@ export default function MyPage() {
                   setSellStatus(id as StatusFilter);
                 }
               }}
+              gridClassName="grid-cols-4"
+              labelClassName="typo-body-1"
+              countClassName="typo-title-3"
+              countActiveClassName="text-green-700"
+              countInactiveClassName="text-gray-900"
             />
             <TradeItemList
               items={activeTab === 'buy' ? filteredBuyItems : filteredSellItems}
