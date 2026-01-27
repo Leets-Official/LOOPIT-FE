@@ -1,13 +1,7 @@
 import { Button } from '@shared/ui/Button/Button';
+import { type PersonalInfoValues } from '@shared/types/mypage';
 import { TextField } from '@shared/ui/TextField/TextField';
 import { useEffect, useState } from 'react';
-
-export type PersonalInfoValues = {
-  nickname: string;
-  name: string;
-  birthDate: string;
-  email: string;
-};
 
 export type PersonalInfoFormProps = {
   defaultValues: PersonalInfoValues;

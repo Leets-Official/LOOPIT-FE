@@ -1,11 +1,5 @@
+import { type PersonalInfoValues } from '@shared/types/mypage';
 import { MY_PAGE_PROFILE, PERSONAL_INFO_DEFAULTS } from '../mocks';
-
-export type PersonalInfoValues = {
-  nickname: string;
-  name: string;
-  birthDate: string;
-  email: string;
-};
 
 export type StoredProfile = PersonalInfoValues & {
   profileImage?: string;
