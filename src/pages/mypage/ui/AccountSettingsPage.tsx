@@ -1,8 +1,8 @@
 import { ChevronRightIcon, PictureIcon } from '@shared/assets/icons';
+import { MY_PAGE_PROFILE } from '@shared/mocks/data/mypage';
 import { Profile } from '@shared/ui/Profile';
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { MY_PAGE_PROFILE } from '../mocks';
 import { PageContainer } from './PageContainer';
 import { getProfileSummary, saveProfile } from '../model/profileStorage';
 

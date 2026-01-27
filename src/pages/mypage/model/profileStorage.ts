@@ -1,5 +1,5 @@
+import { MY_PAGE_PROFILE, PERSONAL_INFO_DEFAULTS } from '@shared/mocks/data/mypage';
 import { type PersonalInfoValues } from '@shared/types/mypage';
-import { MY_PAGE_PROFILE, PERSONAL_INFO_DEFAULTS } from '../mocks';
 
 export type StoredProfile = PersonalInfoValues & {
   profileImage?: string;

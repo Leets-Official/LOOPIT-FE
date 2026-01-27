@@ -1,7 +1,7 @@
+import { BUY_ITEMS, FAVORITE_PRODUCT_ITEMS, FAVORITE_REPAIR_ITEMS, SELL_ITEMS } from '@shared/mocks/data/mypage';
 import { RepairList, type RepairListItem } from '@shared/ui/RepairList';
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { BUY_ITEMS, FAVORITE_PRODUCT_ITEMS, FAVORITE_REPAIR_ITEMS, SELL_ITEMS } from '../mocks';
 import { CommonTabs, type CommonTabItem } from './CommonTabs';
 import { MyPageTabs, type MyPageTab } from './MyPageTabs';
 import { PageContainer } from './PageContainer';
