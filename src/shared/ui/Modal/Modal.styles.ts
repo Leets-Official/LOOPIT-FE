@@ -13,17 +13,14 @@ export const modalStyles = {
 
   content: [
     'w-[347px]',
-    'h-[167px]',
     'relative',
     'flex',
     'flex-col',
-    'justify-between',
-    'rounded-[var(--radius-l)]',
-    'bg-[var(--color-white)]',
+    'gap-xl',
     'rounded-(--radius-l)',
-    'bg-green-500',
-    'px-[var(--padding-xxl)]',
-    'py-[var(--padding-xl)]',
+    'bg-white',
+    'px-xxl',
+    'py-xl',
   ].join(' '),
 
   textGroup: ['flex', 'flex-col', 'gap-xxs'].join(' '),

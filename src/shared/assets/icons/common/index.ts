@@ -6,6 +6,7 @@ export { default as SearchMagnifyingGlassIcon } from './search-magnifying-glass.
 export { default as HeartIcon } from './heart-outline.svg?react';
 export { default as AlertDotIcon } from './alertdot.svg?react';
 export { default as ChatCircleCloseIcon } from './chat-circle-close.svg?react';
+export { default as ChatCircleCheckIcon } from './chat-circle-check.svg?react';
 export { default as CloseIcon } from './close.svg?react';
 export { default as HamburgerIcon } from './hamburger-md.svg?react';
 export { default as PictureIcon } from './picture.svg?react';

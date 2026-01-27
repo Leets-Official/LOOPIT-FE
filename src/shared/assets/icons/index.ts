@@ -1,5 +1,6 @@
 export {
   AlertDotIcon,
+  ChatCircleCheckIcon,
   ChatCircleCloseIcon,
   CloseIcon,
   HamburgerIcon,

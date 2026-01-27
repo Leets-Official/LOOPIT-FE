@@ -1,2 +1,1 @@
-export { ToastProvider } from './ToastProvider';
-export type { ToastOptions, ToastTone, ToastContextValue } from './ToastContext';
+export { ToastContext, type ToastContextValue } from './ToastContext';

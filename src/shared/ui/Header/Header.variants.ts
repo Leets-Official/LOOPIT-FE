@@ -5,7 +5,19 @@ const baseButton = ['bg-transparent', 'cursor-pointer'];
 export const headerVariants = tv({
   slots: {
     // Layout
-    root: ['flex', 'w-full', 'h-[92px]', 'justify-between', 'items-center', 'bg-white', 'px-10', 'xl:px-[120px]'],
+    root: [
+      'flex',
+      'w-full',
+      'max-w-[1440px]',
+      'mx-auto',
+      'h-[92px]',
+      'mb-(--spacing-header-content)',
+      'justify-between',
+      'items-center',
+      'bg-white',
+      'px-10',
+      'xl:px-[120px]',
+    ],
     logo: ['w-[192px]', 'h-[36px]', 'shrink-0'],
 
     // Desktop Navigation
