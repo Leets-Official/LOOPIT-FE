@@ -2,13 +2,13 @@ import { RepairList, type RepairListItem } from '@shared/ui/RepairList';
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { BUY_ITEMS, FAVORITE_PRODUCT_ITEMS, FAVORITE_REPAIR_ITEMS, SELL_ITEMS } from '../mocks';
+import { FavoriteTabs } from './FavoriteTabs';
+import { MyPageTabs, type MyPageTab } from './MyPageTabs';
+import { PageContainer } from './PageContainer';
+import { ProfileSummaryCard } from './ProfileSummaryCard';
+import { StatusTabs } from './StatusTabs';
+import { TradeItemList, type TradeListItem } from './TradeItemList';
 import { getProfileSummary } from '../utils/profileStorage';
-import { FavoriteTabs } from './components/FavoriteTabs';
-import { MyPageTabs, type MyPageTab } from './components/MyPageTabs';
-import { PageContainer } from './components/PageContainer';
-import { ProfileSummaryCard } from './components/ProfileSummaryCard';
-import { StatusTabs } from './components/StatusTabs';
-import { TradeItemList, type TradeListItem } from './components/TradeItemList';
 
 const MAIN_TABS: MyPageTab[] = [
   { id: 'buy', label: '구매 내역' },
