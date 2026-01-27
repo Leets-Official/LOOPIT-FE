@@ -77,12 +77,12 @@ export default function MyPage() {
     return SELL_ITEMS.filter((item) => item.status === sellStatus);
   }, [sellStatus]);
 
-  const handleRepairContact = (item: RepairListItem) => {
-    console.log('contact repair', item);
+  const handleRepairContact = (_item: RepairListItem) => {
+    // TODO: 수리점 연락하기 기능 연동 후 처리
   };
 
-  const handleRepairFindRoute = (item: RepairListItem) => {
-    console.log('find route', item);
+  const handleRepairFindRoute = (_item: RepairListItem) => {
+    // TODO: 수리점 길찾기 기능 연동 후 처리
   };
 
   return (
