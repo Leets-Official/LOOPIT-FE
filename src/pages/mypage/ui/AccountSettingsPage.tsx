@@ -41,7 +41,7 @@ export default function AccountSettingsPage() {
       <PageContainer>
         <h1 className="typo-title-2 text-gray-900">계정 설정</h1>
 
-        <div className="mt-[40px] flex flex-col items-center">
+        <div className="mt-10 flex flex-col items-center">
           <div className="relative inline-flex h-45 w-45">
             <Profile size="lg" image={profileImage} alt={`${profileSummary.nickname} 프로필`} />
             <button
