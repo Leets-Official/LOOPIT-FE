@@ -1,16 +1,16 @@
 import { cn } from '@shared/utils/cn';
 
-export type CommonTabItem = {
-  id: string;
+export type CommonTabItem<TId extends string = string> = {
+  id: TId;
   label: string;
   count: number;
 };
 
-export type CommonTabsProps = {
+export type CommonTabsProps<TId extends string = string> = {
   title: string;
-  tabs: CommonTabItem[];
-  activeId: string;
-  onChange: (id: string) => void;
+  tabs: CommonTabItem<TId>[];
+  activeId: TId;
+  onChange: (id: TId) => void;
   gridClassName: string;
   labelClassName: string;
   countClassName: string;
@@ -18,7 +18,7 @@ export type CommonTabsProps = {
   countInactiveClassName: string;
 };
 
-export const CommonTabs = ({
+export const CommonTabs = <TId extends string>({
   title,
   tabs,
   activeId,
@@ -28,7 +28,7 @@ export const CommonTabs = ({
   countClassName,
   countActiveClassName,
   countInactiveClassName,
-}: CommonTabsProps) => {
+}: CommonTabsProps<TId>) => {
   return (
     <section className="mt-10">
       <h2 className="typo-title-3 text-gray-900">{title}</h2>

@@ -2,7 +2,7 @@ import { RepairList, type RepairListItem } from '@shared/ui/RepairList';
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { BUY_ITEMS, FAVORITE_PRODUCT_ITEMS, FAVORITE_REPAIR_ITEMS, SELL_ITEMS } from '../mocks';
-import { CommonTabs } from './CommonTabs';
+import { CommonTabs, type CommonTabItem } from './CommonTabs';
 import { MyPageTabs, type MyPageTab } from './MyPageTabs';
 import { PageContainer } from './PageContainer';
 import { ProfileSummaryCard } from './ProfileSummaryCard';
@@ -31,10 +31,11 @@ export default function MyPage() {
   const [activeTab, setActiveTab] = useState<MainTabId>('buy');
   const [buyStatus, setBuyStatus] = useState<StatusFilter>('all');
   const [sellStatus, setSellStatus] = useState<StatusFilter>('all');
-  const [favoriteCategory, setFavoriteCategory] = useState<'product' | 'repair'>('product');
+  type FavoriteCategory = 'product' | 'repair';
+  const [favoriteCategory, setFavoriteCategory] = useState<FavoriteCategory>('product');
   const profileSummary = getProfileSummary();
 
-  const buyStatusTabs = useMemo(
+  const buyStatusTabs = useMemo<Array<CommonTabItem<StatusFilter>>>(
     () => [
       { id: 'all', label: '전체', count: getStatusCount(BUY_ITEMS, 'all') },
       { id: 'buying', label: '구매중', count: getStatusCount(BUY_ITEMS, 'buying') },
@@ -44,7 +45,7 @@ export default function MyPage() {
     []
   );
 
-  const sellStatusTabs = useMemo(
+  const sellStatusTabs = useMemo<Array<CommonTabItem<StatusFilter>>>(
     () => [
       { id: 'all', label: '전체', count: getStatusCount(SELL_ITEMS, 'all') },
       { id: 'buying', label: '판매중', count: getStatusCount(SELL_ITEMS, 'buying') },
@@ -54,7 +55,7 @@ export default function MyPage() {
     []
   );
 
-  const favoriteTabs = useMemo(
+  const favoriteTabs = useMemo<Array<CommonTabItem<FavoriteCategory>>>(
     () => [
       { id: 'product', label: '상품', count: FAVORITE_PRODUCT_ITEMS.length },
       { id: 'repair', label: '수리점', count: FAVORITE_REPAIR_ITEMS.length },
@@ -108,7 +109,7 @@ export default function MyPage() {
               title="찜한 목록"
               tabs={favoriteTabs}
               activeId={favoriteCategory}
-              onChange={(id) => setFavoriteCategory(id as 'product' | 'repair')}
+              onChange={setFavoriteCategory}
               gridClassName="grid-cols-2"
               labelClassName="typo-caption-2"
               countClassName="typo-body-1"
@@ -134,9 +135,9 @@ export default function MyPage() {
               activeId={activeTab === 'buy' ? buyStatus : sellStatus}
               onChange={(id) => {
                 if (activeTab === 'buy') {
-                  setBuyStatus(id as StatusFilter);
+                  setBuyStatus(id);
                 } else {
-                  setSellStatus(id as StatusFilter);
+                  setSellStatus(id);
                 }
               }}
               gridClassName="grid-cols-4"
