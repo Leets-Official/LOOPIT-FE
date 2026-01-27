@@ -33,7 +33,7 @@ export default function AccountSettingsPage() {
   };
 
   const handleLogout = () => {
-    // TODO: 로그아웃 API 연동 후 핸들러 구현
+    // NOTE: 로그아웃 API 연동 후 핸들러 구현 예정
   };
 
   return (

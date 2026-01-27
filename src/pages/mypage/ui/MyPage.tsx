@@ -85,11 +85,11 @@ export default function MyPage() {
   }, [sellStatus]);
 
   const handleRepairContact = (_item: RepairListItem) => {
-    // TODO: 수리점 연락하기 기능 연동 후 처리
+    // NOTE: 수리점 연락하기 기능 연동 후 처리 예정
   };
 
   const handleRepairFindRoute = (_item: RepairListItem) => {
-    // TODO: 수리점 길찾기 기능 연동 후 처리
+    // NOTE: 수리점 길찾기 기능 연동 후 처리 예정
   };
 
   return (

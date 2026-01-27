@@ -1,5 +1,5 @@
-import { Button } from '@shared/ui/Button/Button';
 import { type PersonalInfoValues } from '@shared/types/mypage';
+import { Button } from '@shared/ui/Button/Button';
 import { TextField } from '@shared/ui/TextField/TextField';
 import { useEffect, useState } from 'react';
 
