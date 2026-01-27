@@ -32,6 +32,10 @@ export default function AccountSettingsPage() {
     reader.readAsDataURL(file);
   };
 
+  const handleLogout = () => {
+    // TODO: 로그아웃 API 연동 후 핸들러 구현
+  };
+
   return (
     <main className="min-h-screen bg-white">
       <PageContainer>
@@ -65,6 +69,7 @@ export default function AccountSettingsPage() {
             </button>
             <button
               type="button"
+              onClick={handleLogout}
               className="flex h-11 w-full items-center justify-between px-[10px] py-[10px] text-left"
             >
               <span className="typo-body-1 text-gray-900">로그아웃</span>
