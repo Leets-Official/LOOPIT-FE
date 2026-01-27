@@ -5,7 +5,7 @@ const SellPage = () => {
   return (
     <div className="w-full bg-white">
       <div className="mx-auto min-h-screen w-full max-w-[1440px] bg-white px-4 pb-[112px] md:px-[120px]">
-        <main className="mt-[55px] flex flex-col">
+        <main className="flex flex-col">
           <SellPageHeader />
           <SellForm />
         </main>

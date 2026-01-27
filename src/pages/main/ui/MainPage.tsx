@@ -11,7 +11,7 @@ export default function MainPage() {
   const navigate = useNavigate();
 
   return (
-    <main className="flex w-full flex-col items-center gap-14 px-4 pt-8 pb-24">
+    <main className="flex w-full flex-col items-center gap-14 px-4 pb-24">
       <section className="h-79.25 w-full max-w-300" aria-label="메인 슬로건 영역">
         <ClientOnly>
           <Carousel3D slides={CAROUSEL_SLIDES} />

@@ -92,11 +92,15 @@
   --radius-l: 24px;
   --radius-m: 16px;
   --radius-s: 8px;
+
+  /* Layout */
+  --spacing-header-content: 54px;
 }
 
 @layer base {
   html {
     font-family: var(--font-sans);
+    zoom: 0.9;
   }
 
   /* View Transitions */
