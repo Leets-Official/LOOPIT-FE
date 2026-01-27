@@ -11,6 +11,7 @@ export const headerVariants = tv({
       'max-w-[1440px]',
       'mx-auto',
       'h-[92px]',
+      'mb-(--spacing-header-content)',
       'justify-between',
       'items-center',
       'bg-white',
