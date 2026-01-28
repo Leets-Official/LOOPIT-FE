@@ -31,6 +31,12 @@ export const chatBubbleVariants = tv({
         text: ['text-gray-900'],
         meta: ['order-last'],
       },
+      chatbotNotice: {
+        root: ['justify-start'],
+        bubble: ['bg-gray-100', 'max-w-none', 'w-full', 'pb-[45px]'],
+        text: ['text-gray-900', 'whitespace-pre-line', 'break-keep'],
+        meta: ['order-last'],
+      },
     },
   },
 
