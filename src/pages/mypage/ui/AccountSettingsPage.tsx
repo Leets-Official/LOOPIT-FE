@@ -47,7 +47,7 @@ export default function AccountSettingsPage() {
             <button
               type="button"
               onClick={handleProfileClick}
-              className="absolute right-[8px] bottom-[8px] flex h-[40px] w-[40px] items-center justify-center rounded-full border border-[#C7C7CC] bg-white p-[8px]"
+              className="right-xxxs bottom-xxxs h-xxxl w-xxxl p-xxxs absolute flex items-center justify-center rounded-full border border-gray-300 bg-white"
               aria-label="프로필 사진 변경"
             >
               <PictureIcon className="h-4.5 w-4.5 text-gray-500" />
@@ -58,11 +58,11 @@ export default function AccountSettingsPage() {
 
         <section className="mt-12.25">
           <h2 className="typo-title-2 text-gray-900">내 정보</h2>
-          <div className="mt-[40px] flex flex-col gap-12.25">
+          <div className="mt-xxxl flex flex-col gap-12.25">
             <button
               type="button"
               onClick={() => navigate('/mypage/profile', { viewTransition: true })}
-              className="flex h-11 w-full items-center justify-between px-[10px] py-[10px] text-left"
+              className="px-xxs py-xxs flex h-11 w-full items-center justify-between text-left"
             >
               <span className="typo-body-1 text-gray-900">개인정보 관리</span>
               <ChevronRightIcon className="h-6 w-5.75 text-gray-900" />
@@ -70,7 +70,7 @@ export default function AccountSettingsPage() {
             <button
               type="button"
               onClick={handleLogout}
-              className="flex h-11 w-full items-center justify-between px-[10px] py-[10px] text-left"
+              className="px-xxs py-xxs flex h-11 w-full items-center justify-between text-left"
             >
               <span className="typo-body-1 text-gray-900">로그아웃</span>
               <ChevronRightIcon className="h-6 w-5.75 text-gray-900" />

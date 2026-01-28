@@ -1,9 +1,9 @@
 export const loginStyles = {
   wrapper: `
-    w-screen h-screen
+    min-w-[111.2vw] min-h-[111.2vh]
     flex items-center justify-center
-    bg-cover bg-no-repeat
-    overflow-x-hidden
+    bg-cover bg-no-repeat bg-center
+    overflow-hidden
   `,
 
   greeting: `

@@ -1,19 +1,19 @@
 import { cn } from '@shared/utils/cn';
 
-export type MyPageTab = {
-  id: string;
+export type MyPageTab<TId extends string = string> = {
+  id: TId;
   label: string;
 };
 
-export type MyPageTabsProps = {
-  tabs: MyPageTab[];
-  activeId: string;
-  onChange: (id: string) => void;
+export type MyPageTabsProps<TId extends string = string> = {
+  tabs: Array<MyPageTab<TId>>;
+  activeId: TId;
+  onChange: (id: TId) => void;
 };
 
-export const MyPageTabs = ({ tabs, activeId, onChange }: MyPageTabsProps) => {
+export const MyPageTabs = <TId extends string>({ tabs, activeId, onChange }: MyPageTabsProps<TId>) => {
   return (
-    <div className="rounded-(--radius-m) bg-gray-50 px-[clamp(16px,10vw,274px)] py-7.5">
+    <div className="rounded-m bg-gray-50 px-[clamp(16px,10vw,274px)] py-7.5">
       <div className="grid h-6.75 grid-cols-3 items-center divide-x divide-gray-300">
         {tabs.map((tab) => (
           <button

@@ -7,9 +7,8 @@ export default [
     index('routes/(main)/_index.tsx'),
     route('sell', 'routes/(main)/sell.tsx'),
     route('sell/confirm', 'routes/(main)/sell.confirm.tsx'),
-    route('mypage', 'routes/mypage.tsx'),
-    route('mypage/settings', 'routes/mypage-settings.tsx'),
-    route('mypage/profile', 'routes/mypage-profile.tsx'),
+    route('mypage', 'routes/(main)/mypage.tsx'),
+    route('mypage/settings', 'routes/(main)/mypage.settings.tsx'),
+    route('mypage/profile', 'routes/(main)/mypage.profile.tsx'),
   ]),
-  route('playground', 'routes/playground.tsx'),
 ] satisfies RouteConfig;

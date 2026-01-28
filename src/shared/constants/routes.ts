@@ -8,5 +8,4 @@ export const ROUTES = {
   REPAIR: '/repair',
   CHAT: '/chat',
   CHATBOT: '/chatbot',
-  PLAYGROUND: '/playground',
 } as const;

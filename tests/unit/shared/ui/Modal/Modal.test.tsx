@@ -78,11 +78,15 @@ describe('Modal', () => {
       const user = userEvent.setup();
       setup();
 
-      await user.tab();
+      // useFocusTrap이 첫 번째 요소(취소)에 자동 포커스
       expect(screen.getByRole('button', { name: '취소' })).toHaveFocus();
 
       await user.tab();
       expect(screen.getByRole('button', { name: '확인' })).toHaveFocus();
+
+      await user.tab();
+      // 포커스 트랩으로 다시 취소로 돌아옴
+      expect(screen.getByRole('button', { name: '취소' })).toHaveFocus();
     });
 
     it('ESC 키 입력 시 onCancel 호출', async () => {

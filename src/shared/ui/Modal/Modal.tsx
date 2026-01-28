@@ -1,5 +1,6 @@
+import { useFocusTrap } from '@shared/hooks';
 import { Button } from '@shared/ui/Button/Button';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { modalStyles } from './Modal.styles';
 
 export interface ModalProps {
@@ -20,6 +21,9 @@ export const Modal = ({
   onConfirm,
 }: ModalProps) => {
   const [closing, setClosing] = useState(false);
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useFocusTrap(modalRef, !closing);
 
   const handleClose = useCallback(
     (callback: () => void) => {
@@ -55,6 +59,7 @@ export const Modal = ({
   return (
     <div className={modalStyles.container} role="button" tabIndex={-1} onMouseDown={handleOverlayMouseDown}>
       <div
+        ref={modalRef}
         className={`${modalStyles.content} ${closing ? 'animate-fade-out' : 'animate-fade-in'}`}
         role="dialog"
         aria-modal="true"

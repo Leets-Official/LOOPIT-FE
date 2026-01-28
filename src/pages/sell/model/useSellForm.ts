@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEscapeKey, useOutsideClick, useToast } from '@shared/hooks';
+import { useClickOutside, useToast } from '@shared/hooks';
 import { validateImageFile } from '@shared/utils';
 import { MAX_IMAGE_BYTES, sellSchema, type SellFormData } from '@shared/utils/schemas';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -93,8 +93,7 @@ export const useSellForm = () => {
     [setValue]
   );
 
-  useOutsideClick(dropdownRef, closeDropdown, isDropdownOpen);
-  useEscapeKey(closeDropdown, isDropdownOpen);
+  useClickOutside(dropdownRef, isDropdownOpen, closeDropdown);
 
   useEffect(() => {
     if (hasInitialized.current) {

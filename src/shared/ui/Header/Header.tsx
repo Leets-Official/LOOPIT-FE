@@ -1,11 +1,11 @@
 import { AlertDotIcon, HamburgerIcon } from '@shared/assets/icons';
 import { ROUTES } from '@shared/constants';
-import { useClickOutside } from '@shared/hooks';
+import { useClickOutside, useModal } from '@shared/hooks';
 import { Button } from '@shared/ui/Button/Button';
 import { headerVariants } from '@shared/ui/Header/Header.variants';
 import { UserMenu } from '@shared/ui/Header/UserMenu';
 import { Logo } from '@shared/ui/Logo';
-import { type ComponentPropsWithoutRef, useRef, useState } from 'react';
+import { type ComponentPropsWithoutRef, useRef } from 'react';
 import { useNavigate } from 'react-router';
 
 const NAV_ITEMS = [
@@ -32,26 +32,25 @@ export const Header = ({
   ...props
 }: HeaderProps) => {
   const navigate = useNavigate();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { isOpen: isMobileMenuOpen, toggle: toggleMobileMenu, close: closeMobileMenu } = useModal();
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const styles = headerVariants();
 
   const handleLoginClick = () => {
     navigate(ROUTES.LOGIN, { viewTransition: true });
-    setIsMobileMenuOpen(false);
+    closeMobileMenu();
   };
 
   const handleMyPageClick = () => {
     navigate(ROUTES.MYPAGE, { viewTransition: true });
-    setIsMobileMenuOpen(false);
+    closeMobileMenu();
   };
 
   const handleNavClick = (path: string) => {
     navigate(path, { viewTransition: true });
-    setIsMobileMenuOpen(false);
+    closeMobileMenu();
   };
 
-  const closeMobileMenu = () => setIsMobileMenuOpen(false);
   useClickOutside(mobileMenuRef, isMobileMenuOpen, closeMobileMenu);
 
   return (
@@ -84,7 +83,7 @@ export const Header = ({
       <div className={styles.mobileMenuWrapper()} ref={mobileMenuRef}>
         <button
           type="button"
-          onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+          onClick={toggleMobileMenu}
           className={styles.mobileMenuButton()}
           aria-expanded={isMobileMenuOpen}
           aria-label="메뉴 열기"

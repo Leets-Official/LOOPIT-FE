@@ -1,9 +1,9 @@
 import { CaretDownMdIcon } from '@shared/assets/icons';
-import { useClickOutside } from '@shared/hooks';
+import { useClickOutside, useModal } from '@shared/hooks';
 import { Button } from '@shared/ui/Button/Button';
 import { Profile } from '@shared/ui/Profile/Profile';
 import { cn } from '@shared/utils/cn';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 
 export type UserMenuProps = {
   profileImage?: string;
@@ -13,18 +13,17 @@ export type UserMenuProps = {
 };
 
 export const UserMenu = ({ profileImage, nickname = '홍길동', onMyPageClick, onLogoutClick }: UserMenuProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const { isOpen, toggle, close } = useModal();
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const closeMenu = () => setIsOpen(false);
-  useClickOutside(containerRef, isOpen, closeMenu);
+  useClickOutside(containerRef, isOpen, close);
 
   return (
     <div ref={containerRef} className="relative">
       <button
         type="button"
         className="flex cursor-pointer items-center gap-[6px]"
-        onClick={() => setIsOpen((prev) => !prev)}
+        onClick={toggle}
         aria-expanded={isOpen}
         aria-haspopup="menu"
       >
