@@ -70,8 +70,8 @@ export default function ChatbotPage() {
                 status: 'done',
                 content: '입력하신 내용으로 예상 수리비를 준비할게요.\n필요하면 기종/증상 상세를 더 알려주세요!',
               }
-            : item,
-        ),
+            : item
+        )
       );
     }, 800);
   };
@@ -83,7 +83,10 @@ export default function ChatbotPage() {
           <section className="flex w-full max-w-full flex-col items-start gap-[19px] self-stretch pb-[140px] xl:max-w-[1200px]">
             <div className="flex items-center gap-[var(--spacing-m)] md:gap-[var(--spacing-xl)] xl:gap-[36px]">
               <div className="flex h-[64px] w-[64px] flex-shrink-0 flex-col items-center justify-center gap-[10px] rounded-full bg-black pt-[var(--padding-xl)] pr-[10px] pb-[var(--padding-xl)] pl-[14px] md:h-[72px] md:w-[72px] md:pt-[26px] md:pr-[11px] md:pb-[28px] md:pl-[15px] xl:h-[80px] xl:w-[80px] xl:pt-[31px] xl:pr-[13px] xl:pb-[33px] xl:pl-[17px]">
-                <Logo4 className="h-[var(--padding-xxl)] w-[var(--padding-xxl)] flex-shrink-0 md:h-[36px] md:w-[36px] xl:h-[38.862px] xl:w-[38.998px]" aria-hidden="true" />
+                <Logo4
+                  className="h-[var(--padding-xxl)] w-[var(--padding-xxl)] flex-shrink-0 md:h-[36px] md:w-[36px] xl:h-[38.862px] xl:w-[38.998px]"
+                  aria-hidden="true"
+                />
               </div>
               <h1 className="typo-title-2 text-black">루핏봇</h1>
             </div>

@@ -10,7 +10,7 @@ export const chatBubbleVariants = tv({
       'min-h-[60px]',
       'px-[31px]',
       'py-[18px]',
-       'rounded-[var(--radius-l)]',
+      'rounded-[var(--radius-l)]',
       'max-w-[720px]',
     ],
     text: ['typo-body-1', 'whitespace-pre-wrap', 'break-words'],
