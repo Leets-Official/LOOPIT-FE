@@ -1,27 +1,15 @@
 import { Logo4 } from '@shared/assets/logo';
-import { ChatBubble } from '@shared/ui/ChatBubble';
 import { ChatInput } from '@shared/ui/ChatInput';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { ChatMessageList, type ChatMessage } from './ChatMessageList';
 
 export default function ChatbotPage() {
   const [message, setMessage] = useState('');
-  const [userMessage, setUserMessage] = useState('');
-
-  return (
-    <div className="w-full bg-white">
-      <div className="mx-auto flex min-h-screen w-full max-w-[1440px] flex-col bg-white xl:min-h-[1024px]">
-        <main className="flex flex-1 flex-col px-[var(--margin-l)] xl:px-[120px]">
-          <section className="mt-[120px] flex w-full max-w-[1200px] flex-col items-start gap-[19px] self-stretch xl:mt-[187px]">
-            <div className="flex items-center gap-[36px]">
-              <div className="flex h-[80px] w-[80px] flex-shrink-0 flex-col items-center justify-center gap-[10px] rounded-full bg-black pt-[31px] pr-[13px] pb-[33px] pl-[17px]">
-                <Logo4 className="h-[80px] w-[80px] flex-shrink-0" aria-hidden="true" />
-              </div>
-              <h1 className="typo-title-2 text-black">루핏봇</h1>
-            </div>
-            <div className="flex w-full flex-col items-end gap-[64px]">
-              <div className="flex w-full justify-start">
-                <ChatBubble
-                  message={`루핏이 예상 수리비를 빠르게 계산해드릴게요. 아래 3가지만 알려주세요. 
+  const [messages, setMessages] = useState<ChatMessage[]>(() => [
+    {
+      id: 'bot-initial',
+      role: 'bot' as const,
+      content: `루핏이 예상 수리비를 빠르게 계산해드릴게요. 아래 3가지만 알려주세요. 
 (견적은 추정치이며 실제 비용은 수리점/부품/상태에 따라 달라질 수 있어요.)
 
 기종: 예) 아이폰 15, 갤럭시 S23
@@ -32,27 +20,82 @@ export default function ChatbotPage() {
 
 가능하면\u00A0원하는\u00A0방향도\u00A0한\u00A0줄로\u00A0적어주세요:\u00A0“정품\u00A0우선”\u00A0/\u00A0“최대한\u00A0저렴하\u2060게”\u00A0/\u00A0“빨리”
 
-예시) “아이폰 15, 액정 깨짐, 애플케어 X, 최대한 저렴하게”`}
-                  variant="chatbotNotice"
-                />
+예시) “아이폰 15, 액정 깨짐, 애플케어 X, 최대한 저렴하게”
+
+`,
+      status: 'done',
+    },
+  ]);
+  const replyTimeoutRef = useRef<number | null>(null);
+  const endOfMessagesRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (replyTimeoutRef.current) {
+        window.clearTimeout(replyTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    endOfMessagesRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  }, [messages]);
+
+  return (
+    <div className="w-full bg-white">
+      <div className="mx-auto flex min-h-screen w-full max-w-[1440px] flex-col bg-white xl:min-h-[1024px]">
+        <main className="flex flex-1 flex-col px-[var(--margin-l)] xl:px-[120px]">
+          <section className="flex w-full max-w-[1200px] flex-col items-start gap-[19px] self-stretch pb-[140px]">
+            <div className="flex items-center gap-[36px]">
+              <div className="flex h-[80px] w-[80px] flex-shrink-0 flex-col items-center justify-center gap-[10px] rounded-full bg-black pt-[31px] pr-[13px] pb-[33px] pl-[17px]">
+                <Logo4 className="h-[80px] w-[80px] flex-shrink-0" aria-hidden="true" />
               </div>
-              {userMessage && (
-                <div className="flex w-full items-end justify-end">
-                  <ChatBubble message={userMessage} variant="sender" className="w-auto" />
-                </div>
-              )}
+              <h1 className="typo-title-2 text-black">루핏봇</h1>
             </div>
+            <ChatMessageList messages={messages} />
+            <div ref={endOfMessagesRef} className="scroll-mb-[96px]" />
           </section>
-          <div className="mt-auto flex w-full justify-center pb-[16px]">
-            <ChatInput
-              placeholder="메시지를 입력하세요"
-              value={message}
-              onChange={setMessage}
-              onSend={(value) => {
-                setUserMessage(value);
-                setMessage('');
-              }}
-            />
+          <div className="fixed inset-x-0 bottom-[16px] z-50 px-[var(--margin-l)] xl:px-[120px]">
+            <div className="mx-auto w-full max-w-[1200px]">
+              <ChatInput
+                placeholder="메시지를 입력하세요"
+                value={message}
+                onChange={setMessage}
+                onSend={(value) => {
+                  const trimmed = value.trim();
+                  if (!trimmed) {
+                    return;
+                  }
+
+                  const userId = `user-${Date.now()}`;
+                  const botId = `bot-${Date.now()}`;
+                  setMessages((prev) => [
+                    ...prev,
+                    { id: userId, role: 'user', content: trimmed, status: 'done' },
+                    { id: botId, role: 'bot', content: '답변을 준비 중이에요...', status: 'loading' },
+                  ]);
+                  setMessage('');
+
+                  if (replyTimeoutRef.current) {
+                    window.clearTimeout(replyTimeoutRef.current);
+                  }
+                  replyTimeoutRef.current = window.setTimeout(() => {
+                    setMessages((prev) =>
+                      prev.map((item) =>
+                        item.id === botId
+                          ? {
+                              ...item,
+                              status: 'done',
+                              content:
+                                '입력하신 내용으로 예상 수리비를 준비할게요.\n필요하면 기종/증상 상세를 더 알려주세요!',
+                            }
+                          : item,
+                      ),
+                    );
+                  }, 800);
+                }}
+              />
+            </div>
           </div>
         </main>
       </div>
