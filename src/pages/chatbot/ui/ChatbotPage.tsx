@@ -44,21 +44,21 @@ export default function ChatbotPage() {
   return (
     <div className="w-full bg-white">
       <div className="mx-auto flex min-h-screen w-full max-w-[1440px] flex-col bg-white xl:min-h-[1024px]">
-        <main className="flex flex-1 flex-col px-[var(--margin-l)] md:px-[40px] xl:px-[120px]">
+        <main className="flex flex-1 flex-col px-[var(--margin-l)] md:px-[var(--spacing-xxxl)] xl:px-[120px]">
           <section className="flex w-full max-w-full flex-col items-start gap-[19px] self-stretch pb-[140px] xl:max-w-[1200px]">
-            <div className="flex items-center gap-[16px] md:gap-[24px] xl:gap-[36px]">
-              <div className="flex h-[64px] w-[64px] flex-shrink-0 flex-col items-center justify-center gap-[10px] rounded-full bg-black pt-[24px] pr-[10px] pb-[24px] pl-[14px] md:h-[72px] md:w-[72px] md:pt-[26px] md:pr-[11px] md:pb-[28px] md:pl-[15px] xl:h-[80px] xl:w-[80px] xl:pt-[31px] xl:pr-[13px] xl:pb-[33px] xl:pl-[17px]">
-                <Logo4 className="h-[32px] w-[32px] flex-shrink-0 md:h-[36px] md:w-[36px] xl:h-[38.862px] xl:w-[38.998px]" aria-hidden="true" />
+            <div className="flex items-center gap-[var(--spacing-m)] md:gap-[var(--spacing-xl)] xl:gap-[36px]">
+              <div className="flex h-[64px] w-[64px] flex-shrink-0 flex-col items-center justify-center gap-[10px] rounded-full bg-black pt-[var(--padding-xl)] pr-[10px] pb-[var(--padding-xl)] pl-[14px] md:h-[72px] md:w-[72px] md:pt-[26px] md:pr-[11px] md:pb-[28px] md:pl-[15px] xl:h-[80px] xl:w-[80px] xl:pt-[31px] xl:pr-[13px] xl:pb-[33px] xl:pl-[17px]">
+                <Logo4 className="h-[var(--padding-xxl)] w-[var(--padding-xxl)] flex-shrink-0 md:h-[36px] md:w-[36px] xl:h-[38.862px] xl:w-[38.998px]" aria-hidden="true" />
               </div>
               <h1 className="typo-title-2 text-black">루핏봇</h1>
             </div>
             <ChatMessageList messages={messages} />
             <div ref={endOfMessagesRef} className="scroll-mb-[96px]" />
           </section>
-          <div className="fixed inset-x-0 bottom-[16px] z-50 px-[var(--margin-l)] md:px-[40px] xl:px-[120px]">
+          <div className="fixed inset-x-0 bottom-[var(--margin-s)] z-50 px-[var(--margin-l)] md:px-[var(--spacing-xxxl)] xl:px-[120px]">
             <div className="mx-auto w-full max-w-full xl:max-w-[1200px]">
               <ChatInput
-                placeholder="메시지를 입력하세요"
+                placeholder="아이폰 14, 액정 깨짐, 애플케어 x, 최대한 저렴하게"
                 value={message}
                 onChange={setMessage}
                 onSend={(value) => {
