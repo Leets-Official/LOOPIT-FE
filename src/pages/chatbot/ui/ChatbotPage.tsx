@@ -3,13 +3,7 @@ import { ChatInput } from '@shared/ui/ChatInput';
 import { useEffect, useRef, useState } from 'react';
 import { ChatMessageList, type ChatMessage } from './ChatMessageList';
 
-export default function ChatbotPage() {
-  const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState<ChatMessage[]>(() => [
-    {
-      id: 'bot-initial',
-      role: 'bot' as const,
-      content: `루핏이 예상 수리비를 빠르게 계산해드릴게요. 아래 3가지만 알려주세요. 
+const INITIAL_BOT_MESSAGE = `루핏이 예상 수리비를 빠르게 계산해드릴게요. 아래 3가지만 알려주세요. 
 (견적은 추정치이며 실제 비용은 수리점/부품/상태에 따라 달라질 수 있어요.)
 
 기종: 예) 아이폰 15, 갤럭시 S23
@@ -22,7 +16,15 @@ export default function ChatbotPage() {
 
 예시) “아이폰 15, 액정 깨짐, 애플케어 X, 최대한 저렴하게”
 
-`,
+`;
+
+export default function ChatbotPage() {
+  const [message, setMessage] = useState('');
+  const [messages, setMessages] = useState<ChatMessage[]>(() => [
+    {
+      id: 'bot-initial',
+      role: 'bot' as const,
+      content: INITIAL_BOT_MESSAGE,
       status: 'done',
     },
   ]);
@@ -40,6 +42,39 @@ export default function ChatbotPage() {
   useEffect(() => {
     endOfMessagesRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
   }, [messages]);
+
+  const handleSend = (value: string) => {
+    const trimmed = value.trim();
+    if (!trimmed) {
+      return;
+    }
+
+    const userId = `user-${Date.now()}`;
+    const botId = `bot-${Date.now()}`;
+    setMessages((prev) => [
+      ...prev,
+      { id: userId, role: 'user', content: trimmed, status: 'done' },
+      { id: botId, role: 'bot', content: '답변을 준비 중이에요...', status: 'loading' },
+    ]);
+    setMessage('');
+
+    if (replyTimeoutRef.current) {
+      window.clearTimeout(replyTimeoutRef.current);
+    }
+    replyTimeoutRef.current = window.setTimeout(() => {
+      setMessages((prev) =>
+        prev.map((item) =>
+          item.id === botId
+            ? {
+                ...item,
+                status: 'done',
+                content: '입력하신 내용으로 예상 수리비를 준비할게요.\n필요하면 기종/증상 상세를 더 알려주세요!',
+              }
+            : item,
+        ),
+      );
+    }, 800);
+  };
 
   return (
     <div className="w-full bg-white">
@@ -61,39 +96,7 @@ export default function ChatbotPage() {
                 placeholder="아이폰 14, 액정 깨짐, 애플케어 x, 최대한 저렴하게"
                 value={message}
                 onChange={setMessage}
-                onSend={(value) => {
-                  const trimmed = value.trim();
-                  if (!trimmed) {
-                    return;
-                  }
-
-                  const userId = `user-${Date.now()}`;
-                  const botId = `bot-${Date.now()}`;
-                  setMessages((prev) => [
-                    ...prev,
-                    { id: userId, role: 'user', content: trimmed, status: 'done' },
-                    { id: botId, role: 'bot', content: '답변을 준비 중이에요...', status: 'loading' },
-                  ]);
-                  setMessage('');
-
-                  if (replyTimeoutRef.current) {
-                    window.clearTimeout(replyTimeoutRef.current);
-                  }
-                  replyTimeoutRef.current = window.setTimeout(() => {
-                    setMessages((prev) =>
-                      prev.map((item) =>
-                        item.id === botId
-                          ? {
-                              ...item,
-                              status: 'done',
-                              content:
-                                '입력하신 내용으로 예상 수리비를 준비할게요.\n필요하면 기종/증상 상세를 더 알려주세요!',
-                            }
-                          : item,
-                      ),
-                    );
-                  }, 800);
-                }}
+                onSend={handleSend}
               />
             </div>
           </div>
