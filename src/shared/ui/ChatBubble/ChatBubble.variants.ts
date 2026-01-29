@@ -10,7 +10,7 @@ export const chatBubbleVariants = tv({
       'min-h-[60px]',
       'px-[31px]',
       'py-[18px]',
-      'rounded-(--radius-l)',
+       'rounded-[var(--radius-l)]',
       'max-w-[720px]',
     ],
     text: ['typo-body-1', 'whitespace-pre-wrap', 'break-words'],
@@ -33,7 +33,7 @@ export const chatBubbleVariants = tv({
       },
       chatbotNotice: {
         root: ['justify-start'],
-        bubble: ['bg-gray-100', 'pb-[45px]'],
+        bubble: ['bg-gray-100'],
         text: ['text-gray-900', 'whitespace-pre-line', 'break-keep'],
         meta: ['order-last'],
       },
