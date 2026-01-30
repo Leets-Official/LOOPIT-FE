@@ -18,7 +18,7 @@ const FORM_FIELDS = [
   { name: 'nickname', label: '닉네임', placeholder: '2~20자의 닉네임', type: 'text' },
 ] as const;
 
-export function SignupForm() {
+export const SignupForm = () => {
   const { imageUrl: profileImage, fileInputRef, handleSelectImage, handleImageChange } = useImageUpload();
 
   const {
@@ -83,4 +83,4 @@ export function SignupForm() {
       </section>
     </form>
   );
-}
+};

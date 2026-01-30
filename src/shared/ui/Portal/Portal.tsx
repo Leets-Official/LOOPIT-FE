@@ -6,7 +6,7 @@ interface PortalProps {
   containerId?: string;
 }
 
-export function Portal({ children, containerId = 'portal-root' }: PortalProps) {
+export const Portal = ({ children, containerId = 'portal-root' }: PortalProps) => {
   const [container, setContainer] = useState<HTMLElement | null>(null);
 
   useEffect(() => {
@@ -32,4 +32,4 @@ export function Portal({ children, containerId = 'portal-root' }: PortalProps) {
   }
 
   return createPortal(children, container);
-}
+};

@@ -5,6 +5,6 @@ type AppProvidersProps = {
   children: ReactNode;
 };
 
-export function AppProviders({ children }: AppProvidersProps) {
+export const AppProviders = ({ children }: AppProvidersProps) => {
   return <ToastProvider>{children}</ToastProvider>;
-}
+};

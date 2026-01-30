@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router';
 import { PageContainer } from './PageContainer';
 import { getProfileSummary, saveProfile } from '../model/profileStorage';
 
-export default function AccountSettingsPage() {
+const AccountSettingsPage = () => {
   const navigate = useNavigate();
   const profileSummary = getProfileSummary();
   const [profileImage, setProfileImage] = useState(profileSummary.profileImage ?? MY_PAGE_PROFILE.profileImage);
@@ -80,4 +80,6 @@ export default function AccountSettingsPage() {
       </PageContainer>
     </main>
   );
-}
+};
+
+export default AccountSettingsPage;

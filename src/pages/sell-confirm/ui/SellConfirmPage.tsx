@@ -20,7 +20,7 @@ const CONDITION_LABELS = {
 
 type SellConfirmState = SellState;
 
-export default function SellConfirmPage() {
+const SellConfirmPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { showToast } = useToast();
@@ -129,4 +129,6 @@ export default function SellConfirmPage() {
       </div>
     </div>
   );
-}
+};
+
+export default SellConfirmPage;

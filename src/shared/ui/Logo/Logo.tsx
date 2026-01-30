@@ -6,7 +6,7 @@ type LogoProps = {
   className?: string;
 };
 
-export function Logo({ className }: LogoProps) {
+export const Logo = ({ className }: LogoProps) => {
   const navigate = useNavigate();
   const handleClick = () => navigate(ROUTES.MAIN, { viewTransition: true });
 
@@ -20,4 +20,4 @@ export function Logo({ className }: LogoProps) {
       aria-label="LOOPIT 홈으로 이동"
     />
   );
-}
+};

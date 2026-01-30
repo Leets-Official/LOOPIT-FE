@@ -4,7 +4,7 @@ import { PageContainer } from './PageContainer';
 import { PersonalInfoForm } from './PersonalInfoForm';
 import { getPersonalInfoDefaults, saveProfile } from '../model/profileStorage';
 
-export default function ProfileInfoPage() {
+const ProfileInfoPage = () => {
   const navigate = useNavigate();
   const defaultValues = useMemo(() => getPersonalInfoDefaults(), []);
 
@@ -22,4 +22,6 @@ export default function ProfileInfoPage() {
       </PageContainer>
     </main>
   );
-}
+};
+
+export default ProfileInfoPage;

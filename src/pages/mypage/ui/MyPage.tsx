@@ -15,7 +15,7 @@ const MAIN_TABS: Array<MyPageTab<MainTabId>> = [
   { id: 'favorite', label: '찜한 목록' },
 ];
 
-export default function MyPage() {
+const MyPage = () => {
   const navigate = useNavigate();
   const profileSummary = getProfileSummary();
 
@@ -104,4 +104,6 @@ export default function MyPage() {
       </PageContainer>
     </main>
   );
-}
+};
+
+export default MyPage;
