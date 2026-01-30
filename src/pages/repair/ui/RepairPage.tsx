@@ -31,6 +31,9 @@ export default function RepairPage() {
   const markersRef = useRef<any[]>([]);
   const overlayRef = useRef<any>(null);
   const [shops, setShops] = useState<RepairShop[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [hasSearched, setHasSearched] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     const kakao = (window as any).kakao;
@@ -81,6 +84,9 @@ export default function RepairPage() {
     if (!query.trim()) {
       return;
     }
+    setIsSearching(true);
+    setHasSearched(true);
+    setErrorMessage(null);
 
     const geocoder = new kakao.maps.services.Geocoder();
 
@@ -88,6 +94,8 @@ export default function RepairPage() {
       if (status !== kakao.maps.services.Status.OK || !result?.[0]) {
         clearMarkers();
         setShops([]);
+        setIsSearching(false);
+        setErrorMessage('검색에 실패했습니다');
         return;
       }
 
@@ -141,6 +149,7 @@ export default function RepairPage() {
 
         if (nextShops.length === 0) {
           setShops([]);
+          setIsSearching(false);
           return;
         }
 
@@ -188,6 +197,7 @@ export default function RepairPage() {
 
         nextShops.sort((a, b) => (a.distance ?? Number.MAX_VALUE) - (b.distance ?? Number.MAX_VALUE));
         setShops(nextShops);
+        setIsSearching(false);
       });
     });
   };
@@ -218,9 +228,30 @@ export default function RepairPage() {
         </div>
       </section>
       <section className="flex w-full flex-col gap-6" aria-label="수리점 목록">
-        {shops.map((shop) => (
-          <RepairShopCard key={shop.id} name={shop.name} address={shop.address} />
-        ))}
+        {isSearching && (
+          <p className="typo-body-2 text-[var(--Text-text-3,#C7C7CC)]">검색 중...</p>
+        )}
+        {!isSearching && errorMessage && (
+          <p className="typo-body-2 text-[var(--Text-text-3,#C7C7CC)]">{errorMessage}</p>
+        )}
+        {!isSearching && !errorMessage && hasSearched && shops.length === 0 && (
+          <p className="w-full py-12 text-center font-pretendard text-[20px] font-semibold leading-[24px] text-[var(--Text-text-3,#C7C7CC)]">
+            주변에 수리점이 없습니다
+          </p>
+        )}
+        {!isSearching &&
+          !errorMessage &&
+          shops.map((shop) => (
+            <RepairShopCard
+              key={shop.id}
+              name={shop.name}
+              address={shop.address}
+              phone={shop.phone}
+              lat={shop.lat}
+              lng={shop.lng}
+              placeUrl={shop.placeUrl}
+            />
+          ))}
       </section>
     </main>
   );
