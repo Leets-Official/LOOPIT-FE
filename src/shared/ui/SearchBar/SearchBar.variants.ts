@@ -2,7 +2,7 @@ import { tv } from 'tailwind-variants';
 
 export const searchBarVariants = tv({
   slots: {
-    root: ['flex', 'flex-col', 'w-full', 'max-w-[550px]'],
+    root: ['flex', 'flex-col', 'w-full'],
     wrapper: [
       'flex',
       'items-center',
