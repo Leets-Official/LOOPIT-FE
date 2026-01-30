@@ -58,7 +58,7 @@ export const AllVariants: Story = {
   render: () => (
     <div className="flex flex-col gap-8">
       <div className="flex flex-col gap-2">
-        <span className="typo-caption-1">Default (구매페이지용) - 204x299</span>
+        <span className="typo-caption-1">Default (구매페이지용) - 180x299</span>
         <div className="flex gap-4">
           <Card image="/iphone11.png" title="짧은 제목" price="10,000원" date="1일 전" />
           <Card

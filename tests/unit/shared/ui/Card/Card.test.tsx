@@ -43,6 +43,22 @@ describe('Card', () => {
     });
   });
 
+  describe('Variants', () => {
+    it('default variant 적용 (기본값)', () => {
+      const { container } = render(<Card {...defaultProps} />);
+
+      const card = container.firstChild;
+      expect(card).toHaveClass('w-[180px]', 'h-[299px]');
+    });
+
+    it('seller variant 적용', () => {
+      const { container } = render(<Card {...defaultProps} variant="seller" />);
+
+      const card = container.firstChild;
+      expect(card).toHaveClass('w-[282px]', 'h-[399px]');
+    });
+  });
+
   describe('Additional Props', () => {
     it('className prop 적용', () => {
       const { container } = render(<Card {...defaultProps} className="custom-class" />);
