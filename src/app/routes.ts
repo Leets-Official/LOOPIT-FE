@@ -1,18 +1,34 @@
 import { index, layout, route, type RouteConfig } from '@react-router/dev/routes';
 
 export default [
-  route('login', 'routes/login.tsx'),
-  route('signup', 'routes/signup.tsx'),
+  // (auth) - 레이아웃 없는 인증 페이지
+  route('login', 'routes/(auth)/login.tsx'),
+  route('signup', 'routes/(auth)/signup.tsx'),
+
+  // (main) - MainLayout 적용 페이지
   layout('layout/MainLayout.tsx', [
     index('routes/(main)/_index.tsx'),
-    route('buy', 'routes/(main)/buy.tsx'),
-    route('buy/:id', 'routes/(main)/buy.detail.tsx'),
-    route('sell', 'routes/(main)/sell.tsx'),
-    route('sell/confirm', 'routes/(main)/sell.confirm.tsx'),
+
+    // buy
+    route('buy', 'routes/(main)/buy/index.tsx'),
+    route('buy/:id', 'routes/(main)/buy/detail.tsx'),
+
+    // sell
+    route('sell', 'routes/(main)/sell/index.tsx'),
+    route('sell/confirm', 'routes/(main)/sell/confirm.tsx'),
+
+    // repair
     route('repair', 'routes/(main)/repair.tsx'),
-    route('mypage', 'routes/(main)/mypage.tsx'),
-    route('chatbot', 'routes/(main)/chatbot.tsx'),
-    route('mypage/settings', 'routes/(main)/mypage.settings.tsx'),
-    route('mypage/profile', 'routes/(main)/mypage.profile.tsx'),
+
+    // mypage
+    route('mypage', 'routes/(main)/mypage/index.tsx'),
+    route('mypage/settings', 'routes/(main)/mypage/settings.tsx'),
+    route('mypage/profile', 'routes/(main)/mypage/profile.tsx'),
+
+    // seller
+    route('seller/:userId', 'routes/(main)/seller/index.tsx'),
+
+    // chatbot
+    route('chatbot', 'routes/(main)/chatbot/index.tsx'),
   ]),
 ] satisfies RouteConfig;
