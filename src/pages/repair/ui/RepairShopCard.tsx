@@ -55,7 +55,7 @@ export const RepairShopCard = ({
     <button
       type="button"
       onClick={onSelect}
-      className="flex w-full items-center justify-between gap-[31px] rounded-[var(--radius-l)] bg-[var(--color-gray-900)] px-[42px] py-[44px] text-left"
+      className="flex w-full flex-col items-start justify-between gap-6 rounded-[var(--radius-l)] bg-[var(--color-gray-900)] px-6 py-8 text-left md:flex-row md:items-center md:gap-[31px] md:px-[42px] md:py-[44px]"
     >
       <div className="flex flex-1 flex-col items-start gap-[5px]">
         <span className="font-pretendard text-[20px] font-bold leading-[24px] text-[var(--color-white)]">
@@ -66,9 +66,12 @@ export const RepairShopCard = ({
         </span>
       </div>
 
-      <div className="flex items-center gap-[31px]" onClick={(event) => event.stopPropagation()}>
+      <div
+        className="flex w-full items-center justify-between gap-4 md:w-auto md:gap-[31px]"
+        onClick={(event) => event.stopPropagation()}
+      >
         <FavoriteButton defaultActive={favoriteActive} variant="inverse" />
-        <div className="flex w-[159px] flex-col items-start gap-[15px]">
+        <div className="flex w-full flex-1 flex-col items-start gap-[15px] md:w-[159px] md:flex-none">
           <Button
             variant="fill"
             size="full"

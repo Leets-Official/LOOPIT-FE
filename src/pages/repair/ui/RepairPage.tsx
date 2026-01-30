@@ -13,13 +13,13 @@ const RepairPage = () => {
     useRepairSearch();
 
   return (
-    <main className="mx-auto flex w-full max-w-[1440px] flex-col items-center gap-[47px] px-4 pt-[47px] pb-16">
+    <main className="mx-auto flex w-full max-w-[1440px] flex-col items-center gap-[47px] px-4 pb-16 pt-8 md:pt-[47px]">
       <section
-        className="relative flex h-[395px] w-full flex-col items-start gap-[var(--spacing-xxs)] self-stretch rounded-[var(--radius-l)] border-2 border-solid border-[var(--color-green-700)] bg-[lightgray] px-[201px] pt-[47px] pb-[18px]"
+        className="relative flex h-[320px] w-full flex-col items-start gap-[var(--spacing-xxs)] self-stretch rounded-[var(--radius-l)] border-2 border-solid border-[var(--color-green-700)] bg-[lightgray] px-4 pt-8 pb-4 md:h-[360px] md:px-12 md:pt-[47px] md:pb-[18px] xl:h-[395px] xl:px-[201px]"
         aria-label="수리점 카카오 맵 지도 영역"
       >
         <div ref={mapRef} className="absolute inset-0 z-0 rounded-[var(--radius-l)]" aria-hidden="true" />
-        <div className="absolute top-[var(--spacing-xxl)] left-1/2 z-10 w-[790px] -translate-x-1/2">
+        <div className="absolute left-1/2 top-[var(--spacing-xxl)] z-10 w-[calc(100%-32px)] max-w-[790px] -translate-x-1/2 md:w-[calc(100%-96px)] xl:w-[790px]">
           <SearchBar
             className="w-full max-w-none"
             placeholder="현재 위치하고 계신 곳의 주소를 적어주세요."
