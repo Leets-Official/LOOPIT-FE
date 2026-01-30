@@ -51,32 +51,49 @@ export const RepairShopCard = ({
     }
   };
 
+  const handleContactClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
+    event.stopPropagation();
+    handleContact();
+  };
+
+  const handleFindRouteClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
+    event.stopPropagation();
+    handleFindRoute();
+  };
+
+  const handleCardKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (event) => {
+    if (!onSelect) {
+      return;
+    }
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      onSelect();
+    }
+  };
+
   return (
-    <button
-      type="button"
+    <div
+      role="button"
+      tabIndex={0}
       onClick={onSelect}
+      onKeyDown={handleCardKeyDown}
       className="flex w-full flex-col items-start justify-between gap-6 rounded-[var(--radius-l)] bg-[var(--color-gray-900)] px-6 py-8 text-left md:flex-row md:items-center md:gap-[31px] md:px-[42px] md:py-[44px]"
     >
       <div className="flex flex-1 flex-col items-start gap-[5px]">
-        <span className="font-pretendard text-[20px] font-bold leading-[24px] text-[var(--color-white)]">
-          {name}
-        </span>
-        <span className="font-pretendard text-[16px] font-semibold leading-[20px] text-[var(--color-brand-primary)]">
+        <span className="font-pretendard text-[20px] leading-[24px] font-bold text-[var(--color-white)]">{name}</span>
+        <span className="font-pretendard text-[16px] leading-[20px] font-semibold text-[var(--color-brand-primary)]">
           {address}
         </span>
       </div>
 
-      <div
-        className="flex w-full items-center justify-between gap-4 md:w-auto md:gap-[31px]"
-        onClick={(event) => event.stopPropagation()}
-      >
-        <FavoriteButton defaultActive={favoriteActive} variant="inverse" />
+      <div className="flex w-full items-center justify-between gap-4 md:w-auto md:gap-[31px]">
+        <FavoriteButton defaultActive={favoriteActive} variant="inverse" onClick={(event) => event.stopPropagation()} />
         <div className="flex w-full flex-1 flex-col items-start gap-[15px] md:w-[159px] md:flex-none">
           <Button
             variant="fill"
             size="full"
             className="h-[44px] rounded-[var(--radius-l)] bg-[var(--color-white)] text-[var(--color-gray-900)] hover:bg-[var(--color-gray-100)]"
-            onClick={handleContact}
+            onClick={handleContactClick}
           >
             연락하기
           </Button>
@@ -84,12 +101,12 @@ export const RepairShopCard = ({
             variant="outline"
             size="full"
             className="h-[44px] rounded-[var(--radius-l)] border-2 border-[var(--color-white)] text-[var(--color-white)] hover:border-[var(--color-gray-200)] hover:text-[var(--color-gray-200)]"
-            onClick={handleFindRoute}
+            onClick={handleFindRouteClick}
           >
             길 찾기
           </Button>
         </div>
       </div>
-    </button>
+    </div>
   );
 };

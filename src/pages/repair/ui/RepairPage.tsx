@@ -3,23 +3,22 @@ import { RepairShopCard } from './RepairShopCard';
 import { useRepairSearch } from '../model/useRepairSearch';
 
 const MessageText = ({ children }: { children: string }) => (
-  <p className="w-full py-12 text-center font-pretendard text-[20px] font-semibold leading-[24px] text-[var(--color-gray-300)]">
+  <p className="font-pretendard w-full py-12 text-center text-[20px] leading-[24px] font-semibold text-[var(--color-gray-300)]">
     {children}
   </p>
 );
 
 const RepairPage = () => {
-  const { mapRef, shops, isSearching, hasSearched, errorMessage, handleSearch, openOverlayForShop } =
-    useRepairSearch();
+  const { mapRef, shops, isSearching, hasSearched, errorMessage, handleSearch, openOverlayForShop } = useRepairSearch();
 
   return (
-    <main className="mx-auto flex w-full max-w-[1440px] flex-col items-center gap-[47px] px-4 pb-16 pt-8 md:pt-[47px]">
+    <main className="mx-auto flex w-full max-w-[1440px] flex-col items-center gap-[47px] px-4 pt-8 pb-16 md:pt-[47px]">
       <section
         className="relative flex h-[320px] w-full flex-col items-start gap-[var(--spacing-xxs)] self-stretch rounded-[var(--radius-l)] border-2 border-solid border-[var(--color-green-700)] bg-[lightgray] px-4 pt-8 pb-4 md:h-[360px] md:px-12 md:pt-[47px] md:pb-[18px] xl:h-[395px] xl:px-[201px]"
         aria-label="수리점 카카오 맵 지도 영역"
       >
         <div ref={mapRef} className="absolute inset-0 z-0 rounded-[var(--radius-l)]" aria-hidden="true" />
-        <div className="absolute left-1/2 top-[var(--spacing-xxl)] z-10 w-[calc(100%-32px)] max-w-[790px] -translate-x-1/2 md:w-[calc(100%-96px)] xl:w-[790px]">
+        <div className="absolute top-[var(--spacing-xxl)] left-1/2 z-10 w-[calc(100%-32px)] max-w-[790px] -translate-x-1/2 md:w-[calc(100%-96px)] xl:w-[790px]">
           <SearchBar
             className="w-full max-w-none"
             placeholder="현재 위치하고 계신 곳의 주소를 적어주세요."

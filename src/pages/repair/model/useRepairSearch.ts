@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useRepairMap } from './useRepairMap';
-import type { RepairShop } from './types';
-
+import type { KakaoAddressResult, KakaoMaps, KakaoPagination, KakaoPlace, RepairShop } from './types';
 
 const SEARCH_KEYWORDS = [
   '아이폰 수리',
@@ -25,7 +24,7 @@ export const useRepairSearch = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleSearch = (query: string) => {
-    const kakao = (window as any).kakao;
+    const kakao = (window as Window & { kakao?: { maps?: KakaoMaps } }).kakao;
 
     if (!kakao?.maps?.services || !isMapReady) {
       return;
@@ -40,8 +39,9 @@ export const useRepairSearch = () => {
 
     const geocoder = new kakao.maps.services.Geocoder();
 
-    geocoder.addressSearch(query, (result: any[], status: string) => {
-      if (status !== kakao.maps.services.Status.OK || !result?.[0]) {
+    geocoder.addressSearch(query, (result: unknown[], status: string) => {
+      const [firstResult] = result as KakaoAddressResult[];
+      if (status !== kakao.maps.services.Status.OK || !firstResult) {
         clearMarkers();
         setShops([]);
         setIsSearching(false);
@@ -49,7 +49,7 @@ export const useRepairSearch = () => {
         return;
       }
 
-      const { x, y } = result[0];
+      const { x, y } = firstResult;
       setCenter(Number(y), Number(x));
 
       const searchByKeyword = (keyword: string) =>
@@ -58,9 +58,10 @@ export const useRepairSearch = () => {
           const places = new kakao.maps.services.Places();
           const center = new kakao.maps.LatLng(y, x);
 
-          const handleResult = (data: any[], placesStatus: string, pagination: any) => {
+          const handleResult = (data: unknown[], placesStatus: string, pagination: KakaoPagination) => {
+            const placeResults = data as KakaoPlace[];
             if (placesStatus === kakao.maps.services.Status.OK && data?.length) {
-              data.forEach((place) => {
+              placeResults.forEach((place) => {
                 collected.push({
                   id: place.id,
                   name: place.place_name,
