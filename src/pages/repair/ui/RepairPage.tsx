@@ -95,13 +95,19 @@ export default function RepairPage() {
         clearMarkers();
         setShops([]);
         setIsSearching(false);
-        setErrorMessage('검색에 실패했습니다');
+        setErrorMessage('검색에 실패했습니다.');
         return;
       }
 
       const { x, y } = result[0];
       const center = new kakao.maps.LatLng(y, x);
       map.setCenter(center);
+
+      const markerImage = new kakao.maps.MarkerImage(
+        '/markers/repair-marker.svg',
+        new kakao.maps.Size(36, 48),
+        { offset: new kakao.maps.Point(18, 48) }
+      );
 
       const searchByKeyword = (keyword: string) =>
         new Promise<RepairShop[]>((resolve) => {
@@ -132,7 +138,7 @@ export default function RepairPage() {
             resolve(collected);
           };
 
-          places.keywordSearch(keyword, handleResult, { location: center, radius: 5000 });
+          places.keywordSearch(keyword, handleResult, { location: center, radius: 3000 });
         });
 
       Promise.all(SEARCH_KEYWORDS.map((keyword) => searchByKeyword(keyword))).then((results) => {
@@ -156,37 +162,9 @@ export default function RepairPage() {
         const bounds = new kakao.maps.LatLngBounds();
         nextShops.forEach((shop) => {
           const position = new kakao.maps.LatLng(shop.lat, shop.lng);
-          const marker = new kakao.maps.Marker({ map, position });
+          const marker = new kakao.maps.Marker({ map, position, image: markerImage });
           kakao.maps.event.addListener(marker, 'click', () => {
-            overlayRef.current?.setMap(null);
-            map.panTo(position);
-            const phoneLink = shop.phone ? `<a href="tel:${shop.phone}">전화</a>` : '';
-            const routeLink = `https://map.kakao.com/link/to/${encodeURIComponent(shop.name)},${shop.lat},${shop.lng}`;
-            const detailLink = shop.placeUrl ? `<a href="${shop.placeUrl}" target="_blank" rel="noreferrer">상세</a>` : '';
-            const actions = [phoneLink, detailLink, `<a href="${routeLink}" target="_blank" rel="noreferrer">길찾기</a>`]
-              .filter(Boolean)
-              .join(' · ');
-
-            const content = `
-              <div style="position:relative; transform:translateY(-8px);">
-                <div style="padding:10px 12px; font-size:12px; line-height:1.4; width:260px; background:#fff; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,0.12);">
-                  <div style="font-weight:700; margin-bottom:4px; word-break:break-word; color:#111;">${shop.name}</div>
-                  <div style="color:#666; margin-bottom:6px; word-break:break-word;">${shop.address}</div>
-                  <div style="color:#111; word-break:keep-all;">${actions}</div>
-                </div>
-                <div style="position:absolute; left:50%; bottom:-8px; transform:translateX(-50%); width:0; height:0; border-left:8px solid transparent; border-right:8px solid transparent; border-top:8px solid #fff;"></div>
-              </div>
-            `;
-
-            const overlay = new kakao.maps.CustomOverlay({
-              content,
-              position,
-              yAnchor: 1,
-              zIndex: 10,
-            });
-
-            overlay.setMap(map);
-            overlayRef.current = overlay;
+            openOverlayForShop(shop);
           });
 
           markersRef.current.push(marker);
@@ -202,14 +180,53 @@ export default function RepairPage() {
     });
   };
 
+  const openOverlayForShop = (shop: RepairShop) => {
+    const kakao = (window as any).kakao;
+    const map = mapInstanceRef.current;
+    if (!kakao?.maps || !map) return;
+
+    const position = new kakao.maps.LatLng(shop.lat, shop.lng);
+    map.panTo(position);
+    overlayRef.current?.setMap(null);
+
+    const phoneLink = shop.phone ? `<a href="tel:${shop.phone}">전화</a>` : '';
+    const routeLink = `https://map.kakao.com/link/to/${encodeURIComponent(shop.name)},${shop.lat},${shop.lng}`;
+    const detailLink = shop.placeUrl ? `<a href="${shop.placeUrl}" target="_blank" rel="noreferrer">상세</a>` : '';
+    const actions = [phoneLink, detailLink, `<a href="${routeLink}" target="_blank" rel="noreferrer">길찾기</a>`]
+      .filter(Boolean)
+      .join(' · ');
+
+    const content = `
+      <div style="position:relative; transform:translateY(-8px);">
+        <div style="padding:var(--padding-m) var(--spacing-s); font-size:12px; line-height:1.4; width:260px; background:var(--color-green-100); border-radius:var(--radius-m); border:2px solid var(--color-green-700); box-shadow:0 8px 20px rgba(17,203,176,0.18);">
+          <div style="font-weight:700; margin-bottom:var(--spacing-xxxxs); word-break:break-word; color:var(--color-green-900);">${shop.name}</div>
+          <div style="color:var(--color-green-800); margin-bottom:6px; word-break:break-word;">${shop.address}</div>
+          <div style="color:var(--color-green-900); font-weight:600; word-break:keep-all;">${actions}</div>
+        </div>
+        <div style="position:absolute; left:50%; bottom:-8px; transform:translateX(-50%); width:0; height:0; border-left:8px solid transparent; border-right:8px solid transparent; border-top:8px solid var(--color-green-100);"></div>
+        <div style="position:absolute; left:50%; bottom:-10px; transform:translateX(-50%); width:0; height:0; border-left:9px solid transparent; border-right:9px solid transparent; border-top:9px solid var(--color-green-700);"></div>
+      </div>
+    `;
+
+    const overlay = new kakao.maps.CustomOverlay({
+      content,
+      position,
+      yAnchor: 1,
+      zIndex: 10,
+    });
+
+    overlay.setMap(map);
+    overlayRef.current = overlay;
+  };
+
   return (
     <main className="mx-auto flex w-full max-w-[1440px] flex-col items-center gap-[47px] px-4 pt-[47px] pb-16">
       <section
-        className="relative flex h-[395px] w-full flex-col items-start gap-[10px] self-stretch rounded-[var(--Radius-radius-L,24px)] border-2 border-solid border-[var(--Container-container-surface-default,#00B39B)] bg-[lightgray] px-[201px] pt-[47px] pb-[18px]"
+        className="relative flex h-[395px] w-full flex-col items-start gap-[var(--spacing-xxs)] self-stretch rounded-[var(--radius-l)] border-2 border-solid border-[var(--color-green-700)] bg-[lightgray] px-[201px] pt-[47px] pb-[18px]"
         aria-label="수리점 카카오 맵 지도 영역"
       >
-        <div ref={mapRef} className="absolute inset-0 z-0 rounded-[var(--Radius-radius-L,24px)]" aria-hidden="true" />
-        <div className="absolute top-[28px] left-1/2 z-10 w-[790px] -translate-x-1/2">
+        <div ref={mapRef} className="absolute inset-0 z-0 rounded-[var(--radius-l)]" aria-hidden="true" />
+        <div className="absolute top-[var(--spacing-xxl)] left-1/2 z-10 w-[790px] -translate-x-1/2">
           <SearchBar
             className="w-full max-w-none"
             placeholder="현재 위치하고 계신 곳의 주소를 적어주세요."
@@ -219,24 +236,33 @@ export default function RepairPage() {
       </section>
       <section className="flex flex-1 flex-col items-start gap-[45px] self-stretch" aria-label="수리점 목록 헤더">
         <div className="flex w-full items-center justify-between">
-          <span className="font-pretendard text-[24px] leading-[28px] font-semibold text-black">
+          <span className="font-pretendard text-[24px] leading-[28px] font-semibold text-[var(--color-black)]">
             총 {shops.length}개
           </span>
-          <button type="button" className="typo-body-1 text-[var(--Text-text-3,#C7C7CC)]">
+          <button type="button" className="typo-body-1 text-[var(--color-gray-300)]">
             거리순
           </button>
         </div>
       </section>
       <section className="flex w-full flex-col gap-6" aria-label="수리점 목록">
         {isSearching && (
-          <p className="typo-body-2 text-[var(--Text-text-3,#C7C7CC)]">검색 중...</p>
+          <p className="w-full py-12 text-center font-pretendard text-[20px] font-semibold leading-[24px] text-[var(--color-gray-300)]">
+            검색 중...
+          </p>
         )}
         {!isSearching && errorMessage && (
-          <p className="typo-body-2 text-[var(--Text-text-3,#C7C7CC)]">{errorMessage}</p>
+          <p className="w-full py-12 text-center font-pretendard text-[20px] font-semibold leading-[24px] text-[var(--color-gray-300)]">
+            {errorMessage}
+          </p>
         )}
         {!isSearching && !errorMessage && hasSearched && shops.length === 0 && (
-          <p className="w-full py-12 text-center font-pretendard text-[20px] font-semibold leading-[24px] text-[var(--Text-text-3,#C7C7CC)]">
-            주변에 수리점이 없습니다
+          <p className="w-full py-12 text-center font-pretendard text-[20px] font-semibold leading-[24px] text-[var(--color-gray-300)]">
+            주변에 수리점이 없습니다.
+          </p>
+        )}
+        {!isSearching && !errorMessage && !hasSearched && (
+          <p className="w-full py-12 text-center font-pretendard text-[20px] font-semibold leading-[24px] text-[var(--color-gray-300)]">
+            주소를 입력하면 주변 수리점을 보여드려요.
           </p>
         )}
         {!isSearching &&
@@ -250,6 +276,7 @@ export default function RepairPage() {
               lat={shop.lat}
               lng={shop.lng}
               placeUrl={shop.placeUrl}
+              onSelect={() => openOverlayForShop(shop)}
             />
           ))}
       </section>
