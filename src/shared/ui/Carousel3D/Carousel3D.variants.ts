@@ -15,10 +15,8 @@ export const carousel3DVariants = tv({
       '[&_.swiper-slide]:items-center',
       '[&_.swiper-slide]:justify-center',
       '[perspective:1200px]',
-      '[&_.swiper-slide-shadow-left]:bg-gradient-to-r',
-      '[&_.swiper-slide-shadow-left]:from-black/50',
-      '[&_.swiper-slide-shadow-right]:bg-gradient-to-l',
-      '[&_.swiper-slide-shadow-right]:from-black/50',
+      '[&_.swiper-slide-shadow-left]:hidden',
+      '[&_.swiper-slide-shadow-right]:hidden',
     ],
 
     slide: [
@@ -67,26 +65,17 @@ export const carousel3DVariants = tv({
 
     description: ['text-lg', 'md:text-xl', 'font-medium', 'text-gray-300', 'text-center', 'max-w-[500px]'],
 
-    imageSlide: [
-      'relative',
-      'w-full',
-      'h-full',
-      'min-h-[320px]',
-      'rounded-(--radius-l)',
-      'overflow-hidden',
-      'shadow-2xl',
-      'shadow-black/30',
-    ],
+    imageSlide: ['relative', 'w-full', 'h-full', 'min-h-[320px]', 'rounded-(--radius-l)', 'overflow-hidden'],
 
     imageBackground: ['absolute', 'inset-0', 'w-full', 'h-full', 'object-cover'],
 
-    imageOverlay: ['absolute', 'inset-0', 'bg-gradient-to-t', 'from-black/80', 'via-black/40', 'to-transparent'],
+    imageOverlay: ['hidden'],
 
     imageContent: ['relative', 'z-10', 'flex', 'flex-col', 'items-start', 'justify-end', 'h-full', 'p-8', 'md:p-10'],
 
-    imageTitle: ['text-2xl', 'md:text-3xl', 'font-bold', 'text-white', 'mb-2'],
+    imageTitle: ['text-[28px]', 'font-bold', 'text-black', 'leading-[125%]', 'mb-2'],
 
-    imageSubtitle: ['text-base', 'md:text-lg', 'text-white/80', 'font-medium'],
+    imageSubtitle: ['text-[19px]', 'font-semibold', 'text-black', 'leading-[125%]'],
 
     pagination: [
       '[&_.swiper-pagination]:!bottom-4',
