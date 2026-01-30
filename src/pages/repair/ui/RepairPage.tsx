@@ -104,7 +104,7 @@ export default function RepairPage() {
       map.setCenter(center);
 
       const markerImage = new kakao.maps.MarkerImage(
-        '/markers/repair-marker.svg',
+        '/repair-marker.svg',
         new kakao.maps.Size(36, 48),
         { offset: new kakao.maps.Point(18, 48) }
       );
