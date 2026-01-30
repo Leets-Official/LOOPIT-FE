@@ -2,32 +2,17 @@ import { tv } from 'tailwind-variants';
 
 export const cardVariants = tv({
   slots: {
-    root: [
-      'group',
-      'flex',
-      'flex-col',
-      'items-center',
-      'w-[282px]',
-      'h-[399px]',
-      'gap-[14px]',
-      'bg-white',
-      'cursor-pointer',
-      'shrink-0',
-    ],
+    root: ['group', 'flex', 'flex-col', 'items-center', 'gap-[14px]', 'bg-white', 'cursor-pointer'],
     imageWrapper: [
       'relative',
       'flex',
-      'py-[10px]',
-      'px-[var(--padding-s)]',
       'items-start',
       'gap-[10px]',
-      'flex-[1_0_0]',
       'self-stretch',
       'rounded-[var(--radius-l)]',
-      'bg-gray-300',
       'overflow-hidden',
     ],
-    image: ['absolute', 'inset-0', 'w-full', 'h-full', 'object-cover', 'rounded-[var(--radius-l)]'],
+    image: ['w-full', 'h-full', 'object-cover', 'rounded-[var(--radius-l)]'],
     overlay: [
       'absolute',
       'inset-0',
@@ -38,17 +23,36 @@ export const cardVariants = tv({
       'pointer-events-none',
       'group-hover:opacity-100',
     ],
-    title: [
-      'h-[48px]',
-      'self-stretch',
-      'overflow-hidden',
-      'text-ellipsis',
-      'whitespace-nowrap',
-      'typo-body-1',
-      'text-gray-900',
-    ],
-    price: ['self-stretch', 'typo-body-2', 'font-semibold', 'text-gray-900'],
-    date: ['self-stretch', 'typo-caption-2', 'font-normal', 'text-gray-500'],
-    textWrapper: ['flex', 'flex-col', 'items-start', 'gap-1', 'self-stretch', 'px-[var(--padding-s)]'],
+    title: ['h-[48px]', 'self-stretch', 'overflow-hidden', 'typo-body-1'],
+    price: ['self-stretch', 'typo-body-2', 'font-semibold'],
+    date: ['self-stretch', 'typo-caption-2', 'font-normal'],
+    textWrapper: ['flex', 'flex-col', 'gap-1'],
+  },
+
+  variants: {
+    variant: {
+      default: {
+        root: ['w-[180px]', 'h-[299px]'],
+        imageWrapper: ['py-[10px]', 'px-[var(--padding-s)]', 'flex-[1_0_0]'],
+        image: ['absolute', 'inset-0'],
+        title: ['line-clamp-2', 'text-gray-900'],
+        price: ['text-gray-900'],
+        date: ['text-gray-500'],
+        textWrapper: ['items-start', 'self-stretch', 'px-[var(--padding-s)]'],
+      },
+      seller: {
+        root: ['w-[282px]', 'h-[399px]', 'shrink-0'],
+        imageWrapper: ['py-[10px]', 'px-[var(--padding-s)]', 'flex-[1_0_0]', 'bg-gray-300'],
+        image: ['absolute', 'inset-0'],
+        title: ['text-ellipsis', 'whitespace-nowrap', 'text-gray-900'],
+        price: ['text-gray-900'],
+        date: ['text-gray-500'],
+        textWrapper: ['items-start', 'self-stretch', 'px-[var(--padding-s)]'],
+      },
+    },
+  },
+
+  defaultVariants: {
+    variant: 'default',
   },
 });

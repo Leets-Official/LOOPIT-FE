@@ -9,6 +9,7 @@ const meta = {
   },
   tags: ['autodocs'],
   argTypes: {
+    variant: { control: 'select', options: ['default', 'seller'] },
     image: { control: 'text' },
     title: { control: 'text' },
     price: { control: 'text' },
@@ -37,7 +38,17 @@ export const LongTitle: Story = {
   },
 };
 
-export const AllStates: Story = {
+export const SellerVariant: Story = {
+  args: {
+    variant: 'seller',
+    image: '/iphone11.png',
+    title: '상품 제목',
+    price: '10,000원',
+    date: '1일 전',
+  },
+};
+
+export const AllVariants: Story = {
   args: {
     image: '/iphone11.png',
     title: '상품 제목',
@@ -45,14 +56,27 @@ export const AllStates: Story = {
     date: '1일 전',
   },
   render: () => (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-8">
       <div className="flex flex-col gap-2">
-        <span className="typo-caption-1">기본 카드</span>
+        <span className="typo-caption-1">Default (구매페이지용) - 204x299</span>
         <div className="flex gap-4">
           <Card image="/iphone11.png" title="짧은 제목" price="10,000원" date="1일 전" />
           <Card
             image="/iphone11.png"
             title="Title 인데 제목이 정말 길 경우에는 두줄 까지만 보이고, 뒤엔 점 처리"
+            price="99,000원"
+            date="3일 전"
+          />
+        </div>
+      </div>
+      <div className="flex flex-col gap-2">
+        <span className="typo-caption-1">Seller (판매목록용) - 282x399</span>
+        <div className="flex gap-4">
+          <Card variant="seller" image="/iphone11.png" title="짧은 제목" price="10,000원" date="1일 전" />
+          <Card
+            variant="seller"
+            image="/iphone11.png"
+            title="Title 인데 제목이 정말 길 경우에는 한줄만 보이고, 뒤엔 점 처리"
             price="99,000원"
             date="3일 전"
           />

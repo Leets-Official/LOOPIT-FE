@@ -22,6 +22,7 @@ const SellerProfilePage = () => {
           {MOCK_SELLER_PRODUCTS.map((product) => (
             <Card
               key={product.id}
+              variant="seller"
               image={product.image}
               title={product.title}
               price={product.price}
@@ -36,6 +37,7 @@ const SellerProfilePage = () => {
             {row.map((product) => (
               <Card
                 key={product.id}
+                variant="seller"
                 image={product.image}
                 title={product.title}
                 price={product.price}
