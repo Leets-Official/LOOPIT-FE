@@ -148,10 +148,9 @@ export default function RepairPage() {
         nextShops.forEach((shop) => {
           const position = new kakao.maps.LatLng(shop.lat, shop.lng);
           const marker = new kakao.maps.Marker({ map, position });
-          const overlay = overlayRef.current;
-
           kakao.maps.event.addListener(marker, 'click', () => {
-            if (!overlay) return;
+            overlayRef.current?.setMap(null);
+            map.panTo(position);
             const phoneLink = shop.phone ? `<a href="tel:${shop.phone}">전화</a>` : '';
             const routeLink = `https://map.kakao.com/link/to/${encodeURIComponent(shop.name)},${shop.lat},${shop.lng}`;
             const detailLink = shop.placeUrl ? `<a href="${shop.placeUrl}" target="_blank" rel="noreferrer">상세</a>` : '';
@@ -170,9 +169,15 @@ export default function RepairPage() {
               </div>
             `;
 
-            overlay.setContent(content);
-            overlay.setPosition(position);
+            const overlay = new kakao.maps.CustomOverlay({
+              content,
+              position,
+              yAnchor: 1,
+              zIndex: 10,
+            });
+
             overlay.setMap(map);
+            overlayRef.current = overlay;
           });
 
           markersRef.current.push(marker);
