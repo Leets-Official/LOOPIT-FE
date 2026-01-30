@@ -10,6 +10,7 @@ type RepairShop = {
   lng: number;
   phone?: string;
   distance?: number;
+  placeUrl?: string;
 };
 
 const SEARCH_KEYWORDS = [
@@ -28,6 +29,7 @@ export default function RepairPage() {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const mapInstanceRef = useRef<any>(null);
   const markersRef = useRef<any[]>([]);
+  const overlayRef = useRef<any>(null);
   const [shops, setShops] = useState<RepairShop[]>([]);
 
   useEffect(() => {
@@ -46,6 +48,7 @@ export default function RepairPage() {
       const options = { center, level: 4 };
 
       mapInstanceRef.current = new kakao.maps.Map(mapRef.current, options);
+      overlayRef.current = new kakao.maps.CustomOverlay({ yAnchor: 1, zIndex: 10 });
     };
 
     if (kakao?.maps?.load) {
@@ -108,6 +111,7 @@ export default function RepairPage() {
                   lng: Number(place.x),
                   phone: place.phone,
                   distance: place.distance ? Number(place.distance) : undefined,
+                  placeUrl: place.place_url,
                 });
               });
             }
@@ -144,6 +148,33 @@ export default function RepairPage() {
         nextShops.forEach((shop) => {
           const position = new kakao.maps.LatLng(shop.lat, shop.lng);
           const marker = new kakao.maps.Marker({ map, position });
+          const overlay = overlayRef.current;
+
+          kakao.maps.event.addListener(marker, 'click', () => {
+            if (!overlay) return;
+            const phoneLink = shop.phone ? `<a href="tel:${shop.phone}">전화</a>` : '';
+            const routeLink = `https://map.kakao.com/link/to/${encodeURIComponent(shop.name)},${shop.lat},${shop.lng}`;
+            const detailLink = shop.placeUrl ? `<a href="${shop.placeUrl}" target="_blank" rel="noreferrer">상세</a>` : '';
+            const actions = [phoneLink, detailLink, `<a href="${routeLink}" target="_blank" rel="noreferrer">길찾기</a>`]
+              .filter(Boolean)
+              .join(' · ');
+
+            const content = `
+              <div style="position:relative; transform:translateY(-8px);">
+                <div style="padding:10px 12px; font-size:12px; line-height:1.4; width:260px; background:#fff; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,0.12);">
+                  <div style="font-weight:700; margin-bottom:4px; word-break:break-word; color:#111;">${shop.name}</div>
+                  <div style="color:#666; margin-bottom:6px; word-break:break-word;">${shop.address}</div>
+                  <div style="color:#111; word-break:keep-all;">${actions}</div>
+                </div>
+                <div style="position:absolute; left:50%; bottom:-8px; transform:translateX(-50%); width:0; height:0; border-left:8px solid transparent; border-right:8px solid transparent; border-top:8px solid #fff;"></div>
+              </div>
+            `;
+
+            overlay.setContent(content);
+            overlay.setPosition(position);
+            overlay.setMap(map);
+          });
+
           markersRef.current.push(marker);
           bounds.extend(position);
         });
