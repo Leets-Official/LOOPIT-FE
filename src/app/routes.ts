@@ -5,6 +5,8 @@ export default [
   route('signup', 'routes/signup.tsx'),
   layout('layout/MainLayout.tsx', [
     index('routes/(main)/_index.tsx'),
+    route('buy', 'routes/(main)/buy.tsx'),
+    route('buy/:id', 'routes/(main)/buy.detail.tsx'),
     route('sell', 'routes/(main)/sell.tsx'),
     route('sell/confirm', 'routes/(main)/sell.confirm.tsx'),
     route('mypage', 'routes/(main)/mypage.tsx'),
