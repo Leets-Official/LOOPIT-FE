@@ -6,9 +6,23 @@ type RepairShop = {
   id: string;
   name: string;
   address: string;
+  lat: number;
+  lng: number;
   phone?: string;
   distance?: number;
 };
+
+const SEARCH_KEYWORDS = [
+  '아이폰 수리',
+  '갤럭시 수리',
+  '삼성폰 수리',
+  '애플 서비스센터',
+  '애플 수리',
+  '삼성전자 서비스센터',
+  '휴대폰 수리',
+  '핸드폰 수리',
+  '액정',
+];
 
 export default function RepairPage() {
   const mapRef = useRef<HTMLDivElement | null>(null);
@@ -19,10 +33,14 @@ export default function RepairPage() {
   useEffect(() => {
     const kakao = (window as any).kakao;
 
-    if (!mapRef.current) return;
+    if (!mapRef.current) {
+      return;
+    }
 
     const initMap = () => {
-      if (!kakao?.maps || !mapRef.current) return;
+      if (!kakao?.maps || !mapRef.current) {
+        return;
+      }
 
       const center = new kakao.maps.LatLng(37.5665, 126.978);
       const options = { center, level: 4 };
@@ -54,8 +72,12 @@ export default function RepairPage() {
     const kakao = (window as any).kakao;
     const map = mapInstanceRef.current;
 
-    if (!kakao?.maps?.services || !map) {return;}
-    if (!query.trim()) {return;}
+    if (!kakao?.maps?.services || !map) {
+      return;
+    }
+    if (!query.trim()) {
+      return;
+    }
 
     const geocoder = new kakao.maps.services.Geocoder();
 
@@ -70,56 +92,78 @@ export default function RepairPage() {
       const center = new kakao.maps.LatLng(y, x);
       map.setCenter(center);
 
-      const places = new kakao.maps.services.Places();
+      const searchByKeyword = (keyword: string) =>
+        new Promise<RepairShop[]>((resolve) => {
+          const collected: RepairShop[] = [];
+          const places = new kakao.maps.services.Places();
 
-      places.keywordSearch(
-        '수리점',
-        (data: any[], placesStatus: string) => {
-          clearMarkers();
+          const handleResult = (data: any[], placesStatus: string, pagination: any) => {
+            if (placesStatus === kakao.maps.services.Status.OK && data?.length) {
+              data.forEach((place) => {
+                collected.push({
+                  id: place.id,
+                  name: place.place_name,
+                  address: place.road_address_name || place.address_name,
+                  lat: Number(place.y),
+                  lng: Number(place.x),
+                  phone: place.phone,
+                  distance: place.distance ? Number(place.distance) : undefined,
+                });
+              });
+            }
 
-          if (placesStatus !== kakao.maps.services.Status.OK || !data?.length) {
-            setShops([]);
-            return;
+            if (pagination?.hasNextPage) {
+              pagination.nextPage();
+              return;
+            }
+
+            resolve(collected);
+          };
+
+          places.keywordSearch(keyword, handleResult, { location: center, radius: 5000 });
+        });
+
+      Promise.all(SEARCH_KEYWORDS.map((keyword) => searchByKeyword(keyword))).then((results) => {
+        clearMarkers();
+
+        const uniqueMap = new Map<string, RepairShop>();
+        results.flat().forEach((shop) => {
+          if (!uniqueMap.has(shop.id)) {
+            uniqueMap.set(shop.id, shop);
           }
+        });
 
-          const bounds = new kakao.maps.LatLngBounds();
-          const nextShops: RepairShop[] = data.map((place) => {
-            const position = new kakao.maps.LatLng(place.y, place.x);
-            const marker = new kakao.maps.Marker({ map, position });
-            markersRef.current.push(marker);
-            bounds.extend(position);
+        const nextShops = Array.from(uniqueMap.values());
 
-            return {
-              id: place.id,
-              name: place.place_name,
-              address: place.road_address_name || place.address_name,
-              phone: place.phone,
-              distance: place.distance ? Number(place.distance) : undefined,
-            };
-          });
+        if (nextShops.length === 0) {
+          setShops([]);
+          return;
+        }
 
-          map.setBounds(bounds);
+        const bounds = new kakao.maps.LatLngBounds();
+        nextShops.forEach((shop) => {
+          const position = new kakao.maps.LatLng(shop.lat, shop.lng);
+          const marker = new kakao.maps.Marker({ map, position });
+          markersRef.current.push(marker);
+          bounds.extend(position);
+        });
 
-          nextShops.sort((a, b) => (a.distance ?? Number.MAX_VALUE) - (b.distance ?? Number.MAX_VALUE));
-          setShops(nextShops);
-        },
-        { location: center, radius: 3000 }
-      );
+        map.setBounds(bounds);
+
+        nextShops.sort((a, b) => (a.distance ?? Number.MAX_VALUE) - (b.distance ?? Number.MAX_VALUE));
+        setShops(nextShops);
+      });
     });
   };
 
   return (
-    <main className="mx-auto flex w-full max-w-[1440px] flex-col items-center gap-[47px] px-4 pb-16 pt-[47px]">
+    <main className="mx-auto flex w-full max-w-[1440px] flex-col items-center gap-[47px] px-4 pt-[47px] pb-16">
       <section
-        className="relative flex h-[395px] w-full flex-col items-start gap-[10px] self-stretch rounded-[var(--Radius-radius-L,24px)] border-2 border-solid border-[var(--Container-container-surface-default,#00B39B)] bg-[lightgray] px-[201px] pb-[18px] pt-[47px]"
+        className="relative flex h-[395px] w-full flex-col items-start gap-[10px] self-stretch rounded-[var(--Radius-radius-L,24px)] border-2 border-solid border-[var(--Container-container-surface-default,#00B39B)] bg-[lightgray] px-[201px] pt-[47px] pb-[18px]"
         aria-label="수리점 카카오 맵 지도 영역"
       >
-        <div
-          ref={mapRef}
-          className="absolute inset-0 z-0 rounded-[var(--Radius-radius-L,24px)]"
-          aria-hidden="true"
-        />
-        <div className="absolute left-1/2 top-[28px] z-10 w-[790px] -translate-x-1/2">
+        <div ref={mapRef} className="absolute inset-0 z-0 rounded-[var(--Radius-radius-L,24px)]" aria-hidden="true" />
+        <div className="absolute top-[28px] left-1/2 z-10 w-[790px] -translate-x-1/2">
           <SearchBar
             className="w-full max-w-none"
             placeholder="현재 위치하고 계신 곳의 주소를 적어주세요."
@@ -129,7 +173,7 @@ export default function RepairPage() {
       </section>
       <section className="flex flex-1 flex-col items-start gap-[45px] self-stretch" aria-label="수리점 목록 헤더">
         <div className="flex w-full items-center justify-between">
-          <span className="font-pretendard text-[24px] font-semibold leading-[28px] text-black">
+          <span className="font-pretendard text-[24px] leading-[28px] font-semibold text-black">
             총 {shops.length}개
           </span>
           <button type="button" className="typo-body-1 text-[var(--Text-text-3,#C7C7CC)]">
@@ -139,11 +183,7 @@ export default function RepairPage() {
       </section>
       <section className="flex w-full flex-col gap-6" aria-label="수리점 목록">
         {shops.map((shop) => (
-          <RepairShopCard
-            key={shop.id}
-            name={shop.name}
-            address={shop.address}
-          />
+          <RepairShopCard key={shop.id} name={shop.name} address={shop.address} />
         ))}
       </section>
     </main>
