@@ -92,7 +92,7 @@ export default function BuyPage() {
   const showEmpty = filteredItems.length === 0;
 
   return (
-    <main className="min-h-screen bg-white pb-20" style={{ zoom: 1.1111 }}>
+    <main className="min-h-screen bg-white pb-20">
       <div className="mx-auto w-full max-w-300 px-4 pt-10">
         <div className="flex justify-center">
           <SearchBar
