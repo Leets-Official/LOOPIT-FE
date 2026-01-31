@@ -12,13 +12,13 @@ export default function MainPage() {
 
   return (
     <main className="flex w-full flex-col items-center gap-[68px] px-4 pb-24">
-      <section className="h-79.25 w-full max-w-300" aria-label="메인 슬로건 영역">
+      <section className="h-[317px] w-full max-w-[1200px]" aria-label="메인 슬로건 영역">
         <ClientOnly>
           <Carousel3D slides={CAROUSEL_SLIDES} />
         </ClientOnly>
       </section>
 
-      <section className="grid w-full max-w-300 grid-cols-1 gap-6 xl:grid-cols-3" aria-label="서비스 배너 영역">
+      <section className="grid w-full max-w-[1200px] grid-cols-1 gap-6 xl:grid-cols-3" aria-label="서비스 배너 영역">
         {BANNER_CARDS.map((card) => (
           <BannerCard
             key={card.id}

@@ -44,11 +44,11 @@ export default function BuyDetailPage() {
   }
 
   return (
-    <main className="min-h-screen bg-white pb-20" style={{ zoom: 1.1111 }}>
-      <div className="mx-auto w-full max-w-300 px-4 pt-10">
+    <main className="min-h-screen bg-white pb-20">
+      <div className="mx-auto w-full max-w-[1200px] px-4 pt-10">
         <section className="bg-white pb-12">
           <div className="grid gap-6 lg:grid-cols-[1fr_590px]">
-            <div className="h-142 overflow-hidden rounded-(--radius-l) bg-gray-50">
+            <div className="h-[568px] overflow-hidden rounded-(--radius-l) bg-gray-50">
               <img src={item.image} alt={item.title} className="h-full w-full object-cover" />
             </div>
             <div className="flex flex-col gap-4">
@@ -113,7 +113,7 @@ export default function BuyDetailPage() {
                     title={entry.title}
                     price={entry.priceLabel}
                     date={entry.dateLabel}
-                    className="h-99.75 w-70.5"
+                    className="h-[399px] w-[282px]"
                   />
                 </Link>
               ))}

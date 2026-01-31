@@ -93,7 +93,7 @@ export default function BuyPage() {
 
   return (
     <main className="min-h-screen bg-white pb-20">
-      <div className="mx-auto w-full max-w-300 px-4 pt-10">
+      <div className="mx-auto w-full max-w-[1200px] px-4 pt-10">
         <div className="flex justify-center">
           <SearchBar
             placeholder="어떤 제품을 찾으시나요?"
@@ -103,8 +103,8 @@ export default function BuyPage() {
           />
         </div>
 
-        <div className="mt-8 flex flex-col gap-8 lg:flex-row lg:gap-5.5">
-          <aside className="w-full shrink-0 lg:h-165.75 lg:w-45.75">
+        <div className="mt-8 flex flex-col gap-8 lg:flex-row lg:gap-[22px]">
+          <aside className="w-full shrink-0 lg:h-[663px] lg:w-[183px]">
             <div className="flex items-center justify-between">
               <h2 className="typo-body-2 text-gray-900">필터</h2>
               <button type="button" className="text-[12px] font-medium text-gray-400" onClick={resetFilters}>
@@ -120,7 +120,7 @@ export default function BuyPage() {
               />
             </div>
 
-            <div className="mt-4 flex flex-col gap-5.25">
+            <div className="mt-4 flex flex-col gap-[21px]">
               <FilterSection title="제조사">
                 {MANUFACTURERS.map((item) => (
                   <Checkbox
@@ -191,11 +191,11 @@ export default function BuyPage() {
 
             <div className="mt-4">
               {showEmpty ? (
-                <div className="flex h-248 w-full max-w-252 items-center justify-center rounded-(--radius-m) bg-gray-50 text-gray-500">
+                <div className="flex h-[992px] w-full max-w-[1008px] items-center justify-center rounded-(--radius-m) bg-gray-50 text-gray-500">
                   관련된 상품이 없어요.
                 </div>
               ) : (
-                <div className="grid w-full max-w-252 grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-[repeat(5,180px)] lg:gap-[24px]">
+                <div className="grid w-full max-w-[1008px] grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-[repeat(5,180px)] lg:gap-[24px]">
                   {filteredItems.map((item) => (
                     <Link key={item.id} to={`${ROUTES.BUY}/${item.id}`} className="block focus-visible:outline-none">
                       <Card
@@ -203,7 +203,7 @@ export default function BuyPage() {
                         title={item.title}
                         price={item.priceLabel}
                         date={item.dateLabel}
-                        className={cn('h-74.75 w-45', !item.available && 'opacity-50')}
+                        className={cn('h-[299px] w-[180px]', !item.available && 'opacity-50')}
                       />
                     </Link>
                   ))}
