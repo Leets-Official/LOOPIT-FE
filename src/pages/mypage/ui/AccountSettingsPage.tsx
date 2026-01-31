@@ -50,7 +50,7 @@ export default function AccountSettingsPage() {
               className="right-xxxs bottom-xxxs h-xxxl w-xxxl p-xxxs absolute flex items-center justify-center rounded-full border border-gray-300 bg-white"
               aria-label="프로필 사진 변경"
             >
-              <PictureIcon className="h-4.5 w-4.5 text-gray-500" />
+              <PictureIcon className="h-[18px] w-[18px] text-gray-500" />
             </button>
             <input ref={fileInputRef} type="file" accept="image/*" className="sr-only" onChange={handleProfileChange} />
           </div>
@@ -65,7 +65,7 @@ export default function AccountSettingsPage() {
               className="px-xxs py-xxs flex h-11 w-full items-center justify-between text-left"
             >
               <span className="typo-body-1 text-gray-900">개인정보 관리</span>
-              <ChevronRightIcon className="h-6 w-5.75 text-gray-900" />
+              <ChevronRightIcon className="h-6 w-[23px] text-gray-900" />
             </button>
             <button
               type="button"
@@ -73,7 +73,7 @@ export default function AccountSettingsPage() {
               className="px-xxs py-xxs flex h-11 w-full items-center justify-between text-left"
             >
               <span className="typo-body-1 text-gray-900">로그아웃</span>
-              <ChevronRightIcon className="h-6 w-5.75 text-gray-900" />
+              <ChevronRightIcon className="h-6 w-[23px] text-gray-900" />
             </button>
           </div>
         </section>
