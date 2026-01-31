@@ -86,30 +86,37 @@ export const useRepairSearch = () => {
           places.keywordSearch(keyword, handleResult, { location: center, radius: SEARCH_RADIUS_METERS });
         });
 
-      Promise.all(SEARCH_KEYWORDS.map((keyword) => searchByKeyword(keyword))).then((results) => {
-        clearMarkers();
+      Promise.all(SEARCH_KEYWORDS.map((keyword) => searchByKeyword(keyword)))
+        .then((results) => {
+          clearMarkers();
 
-        const uniqueMap = new Map<string, RepairShop>();
-        results.flat().forEach((shop) => {
-          if (!uniqueMap.has(shop.id)) {
-            uniqueMap.set(shop.id, shop);
+          const uniqueMap = new Map<string, RepairShop>();
+          results.flat().forEach((shop) => {
+            if (!uniqueMap.has(shop.id)) {
+              uniqueMap.set(shop.id, shop);
+            }
+          });
+
+          const nextShops = Array.from(uniqueMap.values());
+
+          if (nextShops.length === 0) {
+            setShops([]);
+            setIsSearching(false);
+            return;
           }
-        });
 
-        const nextShops = Array.from(uniqueMap.values());
+          setMarkers(nextShops);
 
-        if (nextShops.length === 0) {
+          nextShops.sort((a, b) => (a.distance ?? Number.MAX_VALUE) - (b.distance ?? Number.MAX_VALUE));
+          setShops(nextShops);
+          setIsSearching(false);
+        })
+        .catch(() => {
+          clearMarkers();
           setShops([]);
           setIsSearching(false);
-          return;
-        }
-
-        setMarkers(nextShops);
-
-        nextShops.sort((a, b) => (a.distance ?? Number.MAX_VALUE) - (b.distance ?? Number.MAX_VALUE));
-        setShops(nextShops);
-        setIsSearching(false);
-      });
+          setErrorMessage('검색에 실패했습니다.');
+        });
     });
   };
 
