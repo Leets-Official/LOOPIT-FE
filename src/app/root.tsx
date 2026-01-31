@@ -11,9 +11,10 @@ export const links = () => [
   { rel: 'manifest', href: '/site.webmanifest' },
 ];
 
+const KAKAO_SDK_URL_BASE = 'https://dapi.kakao.com/v2/maps/sdk.js';
 const kakaoMapKey = import.meta.env.VITE_KAKAO_JS_KEY;
 const kakaoMapSrc = kakaoMapKey
-  ? `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoMapKey}&libraries=services&autoload=false`
+  ? `${KAKAO_SDK_URL_BASE}?appkey=${kakaoMapKey}&libraries=services&autoload=false`
   : null;
 
 export default function Root() {
