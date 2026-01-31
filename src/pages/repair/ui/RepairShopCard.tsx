@@ -89,18 +89,10 @@ export const RepairShopCard = ({
       <div className="flex w-full items-center justify-between gap-4 md:w-auto md:gap-[31px]">
         <FavoriteButton defaultActive={favoriteActive} variant="inverse" onClick={(event) => event.stopPropagation()} />
         <div className="flex w-full flex-1 flex-col items-start gap-[15px] md:w-[159px] md:flex-none">
-          <Button
-            variant="light"
-            size="full"
-            onClick={handleContactClick}
-          >
+          <Button variant="light" size="full" onClick={handleContactClick}>
             연락하기
           </Button>
-          <Button
-            variant="lightOutline"
-            size="full"
-            onClick={handleFindRouteClick}
-          >
+          <Button variant="lightOutline" size="full" onClick={handleFindRouteClick}>
             길 찾기
           </Button>
         </div>
