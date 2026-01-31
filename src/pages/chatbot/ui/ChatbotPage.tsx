@@ -1,7 +1,8 @@
 import { Logo4 } from '@shared/assets/logo';
 import { ChatInput } from '@shared/ui/ChatInput';
 import { useEffect, useRef, useState } from 'react';
-import { ChatMessageList, type ChatMessage } from './ChatMessageList';
+import { ChatMessageList } from './ChatMessageList';
+import type { ChatMessage } from '../model/types';
 
 const INITIAL_BOT_MESSAGE = `루핏이 예상 수리비를 빠르게 계산해드릴게요. 아래 3가지만 알려주세요. 
 (견적은 추정치이며 실제 비용은 수리점/부품/상태에 따라 달라질 수 있어요.)
@@ -18,7 +19,7 @@ const INITIAL_BOT_MESSAGE = `루핏이 예상 수리비를 빠르게 계산해�
 
 `;
 
-export default function ChatbotPage() {
+const ChatbotPage = () => {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState<ChatMessage[]>(() => [
     {
@@ -104,4 +105,6 @@ export default function ChatbotPage() {
       </div>
     </div>
   );
-}
+};
+
+export default ChatbotPage;

@@ -1,11 +1,5 @@
 import { ChatBubble } from '@shared/ui/ChatBubble';
-
-export type ChatMessage = {
-  id: string;
-  role: 'bot' | 'user';
-  content: string;
-  status?: 'loading' | 'done';
-};
+import type { ChatMessage } from '../model/types';
 
 type ChatMessageListProps = {
   messages: ChatMessage[];
