@@ -14,7 +14,7 @@ const RepairPage = () => {
   return (
     <main className="mx-auto flex w-full max-w-[1440px] flex-col items-center gap-[47px] px-4 pt-8 pb-16 md:pt-[47px]">
       <section
-        className="relative flex h-[320px] w-full flex-col items-start gap-[var(--spacing-xxs)] self-stretch rounded-[var(--radius-l)] border-2 border-solid border-[var(--color-green-700)] bg-[lightgray] px-4 pt-8 pb-4 md:h-[360px] md:px-12 md:pt-[47px] md:pb-[18px] xl:h-[395px] xl:px-[201px]"
+        className="relative mx-auto flex h-[320px] w-full max-w-[1200px] flex-col items-start gap-[var(--spacing-xxs)] self-stretch rounded-[var(--radius-l)] border-2 border-solid border-[var(--color-green-700)] bg-[lightgray] px-4 pt-8 pb-4 md:h-[360px] md:px-12 md:pt-[47px] md:pb-[18px] xl:h-[395px] xl:px-[201px]"
         aria-label="수리점 카카오 맵 지도 영역"
       >
         <div ref={mapRef} className="absolute inset-0 z-0 rounded-[var(--radius-l)]" aria-hidden="true" />
@@ -27,7 +27,7 @@ const RepairPage = () => {
         </div>
       </section>
       <section className="flex flex-1 flex-col items-start gap-[45px] self-stretch" aria-label="수리점 목록 헤더">
-        <div className="flex w-full items-center justify-between">
+        <div className="mx-auto flex w-full max-w-[1200px] items-center justify-between">
           <span className="font-pretendard text-[24px] leading-[28px] font-semibold text-[var(--color-black)]">
             총 {shops.length}개
           </span>
@@ -36,7 +36,7 @@ const RepairPage = () => {
           </button>
         </div>
       </section>
-      <section className="flex w-full flex-col gap-6" aria-label="수리점 목록">
+      <section className="mx-auto flex w-full max-w-[1200px] flex-col gap-6" aria-label="수리점 목록">
         {isSearching && <MessageText>검색 중...</MessageText>}
         {!isSearching && errorMessage && <MessageText>{errorMessage}</MessageText>}
         {!isSearching && !errorMessage && hasSearched && shops.length === 0 && (
