@@ -71,6 +71,7 @@ export type KakaoMaps = {
     zIndex: number;
     content?: string;
     position?: unknown;
+    clickable?: boolean;
   }) => KakaoOverlay;
   Marker: new (options: { map: KakaoMapInstance; position: unknown; image?: unknown }) => KakaoMarker;
   MarkerImage: new (src: string, size: unknown, options: { offset: unknown }) => unknown;
