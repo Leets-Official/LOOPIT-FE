@@ -5,7 +5,7 @@ import { Card } from '@shared/ui/Card';
 import { Checkbox } from '@shared/ui/Checkbox';
 import { SearchBar } from '@shared/ui/SearchBar';
 import { cn } from '@shared/utils/cn';
-import { useMemo, useState, type ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { Link } from 'react-router';
 import { getBuyItems } from '../model/buyRepository';
 import { filterBuyItems } from '../model/filterBuyItems';
@@ -42,46 +42,40 @@ export default function BuyPage() {
   const [showAllModels, setShowAllModels] = useState(false);
   const defaultModelCount = 8;
 
-  const activeChips = useMemo(() => {
-    const manufacturerChips = selectedManufacturers.map((id) => ({
-      id,
-      label: MANUFACTURERS.find((item) => item.id === id)?.label ?? id,
-      type: 'manufacturer' as const,
-    }));
-    const modelChips = selectedModels.map((id) => ({
-      id,
-      label: MODELS.find((item) => item.id === id)?.label ?? id,
-      type: 'model' as const,
-    }));
-    const priceChips = selectedPrices.map((id) => ({
-      id,
-      label: PRICE_RANGES.find((item) => item.id === id)?.label ?? id,
-      type: 'price' as const,
-    }));
-    const availabilityChip = availableOnly
-      ? [
-          {
-            id: 'available-only',
-            label: '구매가능만',
-            type: 'availability' as const,
-          },
-        ]
-      : [];
-    return [...manufacturerChips, ...modelChips, ...priceChips, ...availabilityChip];
-  }, [selectedManufacturers, selectedModels, selectedPrices, availableOnly]);
+  const manufacturerChips = selectedManufacturers.map((id) => ({
+    id,
+    label: MANUFACTURERS.find((item) => item.id === id)?.label ?? id,
+    type: 'manufacturer' as const,
+  }));
+  const modelChips = selectedModels.map((id) => ({
+    id,
+    label: MODELS.find((item) => item.id === id)?.label ?? id,
+    type: 'model' as const,
+  }));
+  const priceChips = selectedPrices.map((id) => ({
+    id,
+    label: PRICE_RANGES.find((item) => item.id === id)?.label ?? id,
+    type: 'price' as const,
+  }));
+  const availabilityChip = availableOnly
+    ? [
+        {
+          id: 'available-only',
+          label: '구매가능만',
+          type: 'availability' as const,
+        },
+      ]
+    : [];
+  const activeChips = [...manufacturerChips, ...modelChips, ...priceChips, ...availabilityChip];
 
-  const filteredItems = useMemo(
-    () =>
-      filterBuyItems({
-        items: getBuyItems(),
-        query,
-        selectedManufacturers,
-        selectedModels,
-        selectedPrices,
-        availableOnly,
-      }),
-    [query, selectedManufacturers, selectedModels, selectedPrices, availableOnly]
-  );
+  const filteredItems = filterBuyItems({
+    items: getBuyItems(),
+    query,
+    selectedManufacturers,
+    selectedModels,
+    selectedPrices,
+    availableOnly,
+  });
 
   const toggleSelection = (value: string, setter: (next: string[]) => void, state: string[]) => {
     setter(state.includes(value) ? state.filter((item) => item !== value) : [...state, value]);
@@ -99,7 +93,7 @@ export default function BuyPage() {
 
   return (
     <main className="min-h-screen bg-white pb-20" style={{ zoom: 1.1111 }}>
-      <div className="mx-auto w-full max-w-[1200px] px-4 pt-10">
+      <div className="mx-auto w-full max-w-300 px-4 pt-10">
         <div className="flex justify-center">
           <SearchBar
             placeholder="어떤 제품을 찾으시나요?"
@@ -109,8 +103,8 @@ export default function BuyPage() {
           />
         </div>
 
-        <div className="mt-8 flex flex-col gap-8 lg:flex-row lg:gap-[22px]">
-          <aside className="w-full shrink-0 lg:h-[663px] lg:w-[183px]">
+        <div className="mt-8 flex flex-col gap-8 lg:flex-row lg:gap-5.5">
+          <aside className="w-full shrink-0 lg:h-165.75 lg:w-45.75">
             <div className="flex items-center justify-between">
               <h2 className="typo-body-2 text-gray-900">필터</h2>
               <button type="button" className="text-[12px] font-medium text-gray-400" onClick={resetFilters}>
@@ -126,7 +120,7 @@ export default function BuyPage() {
               />
             </div>
 
-            <div className="mt-4 flex flex-col gap-[21px]">
+            <div className="mt-4 flex flex-col gap-5.25">
               <FilterSection title="제조사">
                 {MANUFACTURERS.map((item) => (
                   <Checkbox
@@ -197,11 +191,11 @@ export default function BuyPage() {
 
             <div className="mt-4">
               {showEmpty ? (
-                <div className="flex h-[992px] w-full max-w-[1008px] items-center justify-center rounded-[var(--radius-m)] bg-gray-50 text-gray-500">
+                <div className="flex h-248 w-full max-w-252 items-center justify-center rounded-(--radius-m) bg-gray-50 text-gray-500">
                   관련된 상품이 없어요.
                 </div>
               ) : (
-                <div className="grid w-full max-w-[1008px] grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-[repeat(5,_180px)] lg:gap-[24px]">
+                <div className="grid w-full max-w-252 grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-[repeat(5,180px)] lg:gap-[24px]">
                   {filteredItems.map((item) => (
                     <Link key={item.id} to={`${ROUTES.BUY}/${item.id}`} className="block focus-visible:outline-none">
                       <Card
@@ -209,7 +203,7 @@ export default function BuyPage() {
                         title={item.title}
                         price={item.priceLabel}
                         date={item.dateLabel}
-                        className={cn('h-[299px] w-[180px]', !item.available && 'opacity-50')}
+                        className={cn('h-74.75 w-45', !item.available && 'opacity-50')}
                       />
                     </Link>
                   ))}
