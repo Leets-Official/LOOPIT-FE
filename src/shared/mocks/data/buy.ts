@@ -1,4 +1,3 @@
-import { PhoneRecycleImage, PhoneRepairImage, PhoneSellImage, SmartphoneImage } from '@shared/assets/images';
 import type { BuyItem } from '@shared/types/buy';
 
 export const BUY_ITEMS: BuyItem[] = [
@@ -8,7 +7,7 @@ export const BUY_ITEMS: BuyItem[] = [
     priceLabel: '1,450,000원',
     priceValue: 1450000,
     dateLabel: '1일 전',
-    image: SmartphoneImage,
+    image: '/iphone12.png',
     brand: 'apple',
     model: 'iphone-17',
     available: true,
@@ -40,7 +39,7 @@ export const BUY_ITEMS: BuyItem[] = [
     priceLabel: '1,550,000원',
     priceValue: 1550000,
     dateLabel: '2일 전',
-    image: PhoneSellImage,
+    image: '/iphone11.png',
     brand: 'apple',
     model: 'iphone-17',
     available: true,
@@ -67,7 +66,7 @@ export const BUY_ITEMS: BuyItem[] = [
     priceLabel: '2,000,000원',
     priceValue: 2000000,
     dateLabel: '5일 전',
-    image: PhoneRepairImage,
+    image: '/iphone12.png',
     brand: 'apple',
     model: 'iphone-17',
     available: true,
@@ -94,7 +93,7 @@ export const BUY_ITEMS: BuyItem[] = [
     priceLabel: '1,200,000원',
     priceValue: 1200000,
     dateLabel: '1주 전',
-    image: PhoneRecycleImage,
+    image: '/iphone11.png',
     brand: 'apple',
     model: 'iphone-15',
     available: true,
