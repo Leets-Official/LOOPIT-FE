@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import type { KakaoMapInstance, KakaoMaps, KakaoMarker, KakaoOverlay, RepairShop } from './types';
 
+const getKakaoMaps = () => (window as Window & { kakao?: { maps?: KakaoMaps } }).kakao?.maps;
+
 const buildOverlayContent = (shop: RepairShop) => {
   const phoneLink = shop.phone ? `<a href="tel:${shop.phone}">전화</a>` : '';
   const routeLink = `https://map.kakao.com/link/to/${encodeURIComponent(shop.name)},${shop.lat},${shop.lng}`;
@@ -30,38 +32,38 @@ export const useRepairMap = () => {
   const [isMapReady, setIsMapReady] = useState(false);
 
   useEffect(() => {
-    const kakao = (window as Window & { kakao?: { maps?: KakaoMaps } }).kakao;
+    const maps = getKakaoMaps();
 
     if (!mapRef.current) {
       return;
     }
 
     const initMap = () => {
-      if (!kakao?.maps || !mapRef.current) {
+      if (!maps || !mapRef.current) {
         return;
       }
 
-      const center = new kakao.maps.LatLng(37.5665, 126.978);
+      const center = new maps.LatLng(37.5665, 126.978);
       const options = { center, level: 4 };
 
-      const map = new kakao.maps.Map(mapRef.current, options);
+      const map = new maps.Map(mapRef.current, options);
       mapInstanceRef.current = map;
-      overlayRef.current = new kakao.maps.CustomOverlay({ yAnchor: 1, zIndex: 10, clickable: true });
-      kakao.maps.event.addListener(map, 'click', () => {
+      overlayRef.current = new maps.CustomOverlay({ yAnchor: 1, zIndex: 10, clickable: true });
+      maps.event.addListener(map, 'click', () => {
         overlayRef.current?.setMap(null);
       });
       setIsMapReady(true);
     };
 
-    if (kakao?.maps?.load) {
-      kakao.maps.load(initMap);
+    if (maps?.load) {
+      maps.load(initMap);
       return;
     }
 
     const timer = window.setInterval(() => {
-      if (kakao?.maps?.load) {
+      if (maps?.load) {
         window.clearInterval(timer);
-        kakao.maps.load(initMap);
+        maps.load(initMap);
       }
     }, 50);
 
@@ -74,26 +76,26 @@ export const useRepairMap = () => {
   };
 
   const setCenter = (lat: number, lng: number) => {
-    const kakao = (window as Window & { kakao?: { maps?: KakaoMaps } }).kakao;
+    const maps = getKakaoMaps();
     const map = mapInstanceRef.current;
-    if (!kakao?.maps || !map) {
+    if (!maps || !map) {
       return;
     }
-    map.setCenter(new kakao.maps.LatLng(lat, lng));
+    map.setCenter(new maps.LatLng(lat, lng));
   };
 
   const openOverlayForShop = (shop: RepairShop) => {
-    const kakao = (window as Window & { kakao?: { maps?: KakaoMaps } }).kakao;
+    const maps = getKakaoMaps();
     const map = mapInstanceRef.current;
-    if (!kakao?.maps || !map) {
+    if (!maps || !map) {
       return;
     }
 
-    const position = new kakao.maps.LatLng(shop.lat, shop.lng);
+    const position = new maps.LatLng(shop.lat, shop.lng);
     map.panTo(position);
     overlayRef.current?.setMap(null);
 
-    const overlay = new kakao.maps.CustomOverlay({
+    const overlay = new maps.CustomOverlay({
       content: buildOverlayContent(shop),
       position,
       yAnchor: 1,
@@ -106,9 +108,9 @@ export const useRepairMap = () => {
   };
 
   const setMarkers = (shops: RepairShop[]) => {
-    const kakao = (window as Window & { kakao?: { maps?: KakaoMaps } }).kakao;
+    const maps = getKakaoMaps();
     const map = mapInstanceRef.current;
-    if (!kakao?.maps || !map) {
+    if (!maps || !map) {
       return;
     }
 
@@ -117,15 +119,15 @@ export const useRepairMap = () => {
       return;
     }
 
-    const markerImage = new kakao.maps.MarkerImage('/repair-marker.svg', new kakao.maps.Size(36, 48), {
-      offset: new kakao.maps.Point(18, 48),
+    const markerImage = new maps.MarkerImage('/repair-marker.svg', new maps.Size(36, 48), {
+      offset: new maps.Point(18, 48),
     });
 
-    const bounds = new kakao.maps.LatLngBounds();
+    const bounds = new maps.LatLngBounds();
     shops.forEach((shop) => {
-      const position = new kakao.maps.LatLng(shop.lat, shop.lng);
-      const marker = new kakao.maps.Marker({ map, position, image: markerImage });
-      kakao.maps.event.addListener(marker, 'click', () => {
+      const position = new maps.LatLng(shop.lat, shop.lng);
+      const marker = new maps.Marker({ map, position, image: markerImage });
+      maps.event.addListener(marker, 'click', () => {
         openOverlayForShop(shop);
       });
 
