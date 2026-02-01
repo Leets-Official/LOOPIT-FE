@@ -1,6 +1,6 @@
 import { HeartIcon } from '@shared/assets/icons';
 import { cn } from '@shared/utils/cn';
-import { useState } from 'react';
+import { useState, type ComponentPropsWithoutRef } from 'react';
 import { favoriteButtonVariants } from './FavoriteButton.variants';
 
 export interface FavoriteButtonProps {
@@ -8,6 +8,7 @@ export interface FavoriteButtonProps {
   onToggle?: (isActive: boolean) => void;
   ariaLabel?: string;
   variant?: 'default' | 'inverse';
+  onClick?: ComponentPropsWithoutRef<'button'>['onClick'];
 }
 
 export const FavoriteButton = ({
@@ -15,12 +16,14 @@ export const FavoriteButton = ({
   onToggle,
   ariaLabel = '찜',
   variant = 'default',
+  onClick,
 }: FavoriteButtonProps) => {
   const [isActive, setActive] = useState<boolean>(defaultActive);
 
   const styles = favoriteButtonVariants({ variant });
 
-  const handleClick = () => {
+  const handleClick: ComponentPropsWithoutRef<'button'>['onClick'] = (event) => {
+    onClick?.(event);
     const nextActive = !isActive;
     setActive(nextActive);
     onToggle?.(nextActive);

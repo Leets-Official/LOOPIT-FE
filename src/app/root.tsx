@@ -11,15 +11,22 @@ export const links = () => [
   { rel: 'manifest', href: '/site.webmanifest' },
 ];
 
+const KAKAO_SDK_URL_BASE = 'https://dapi.kakao.com/v2/maps/sdk.js';
+const kakaoMapKey = import.meta.env.VITE_KAKAO_JS_KEY;
+const kakaoMapSrc = kakaoMapKey
+  ? `${KAKAO_SDK_URL_BASE}?appkey=${kakaoMapKey}&libraries=services&autoload=false`
+  : null;
+
 export default function Root() {
   return (
     <html lang="ko">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="apple-mobile-web-app-title" content="LOOPiT" />
+        <meta name="apple-mobile-web-app-title" content="LOOPIT" />
         <Meta />
         <Links />
+        {kakaoMapSrc && <script src={kakaoMapSrc} defer />}
       </head>
       <body className="w-full overflow-x-hidden">
         <AppProviders>

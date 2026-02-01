@@ -9,6 +9,7 @@ export default [
     route('buy/:id', 'routes/(main)/buy.detail.tsx'),
     route('sell', 'routes/(main)/sell.tsx'),
     route('sell/confirm', 'routes/(main)/sell.confirm.tsx'),
+    route('repair', 'routes/(main)/repair.tsx'),
     route('mypage', 'routes/(main)/mypage.tsx'),
     route('chatbot', 'routes/(main)/chatbot.tsx'),
     route('mypage/settings', 'routes/(main)/mypage.settings.tsx'),

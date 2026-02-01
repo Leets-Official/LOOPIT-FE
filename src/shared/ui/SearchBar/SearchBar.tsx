@@ -7,9 +7,10 @@ export interface SearchBarProps {
   onSearch: (query: string) => void;
   value?: string;
   onChange?: (value: string) => void;
+  className?: string;
 }
 
-export const SearchBar = ({ placeholder, onSearch, value, onChange }: SearchBarProps) => {
+export const SearchBar = ({ placeholder, onSearch, value, onChange, className }: SearchBarProps) => {
   const [internalQuery, setInternalQuery] = useState('');
   const [isFocused, setFocused] = useState(false);
 
@@ -37,7 +38,7 @@ export const SearchBar = ({ placeholder, onSearch, value, onChange }: SearchBarP
   };
 
   return (
-    <search className={styles.root()}>
+    <search className={styles.root({ className })}>
       <div className={styles.wrapper()} role="search">
         <SearchMagnifyingGlassIcon className={styles.icon()} aria-hidden="true" />
         <input

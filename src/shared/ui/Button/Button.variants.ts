@@ -55,6 +55,41 @@ export const buttonVariants = tv({
         'disabled:text-gray-400',
         'disabled:cursor-not-allowed',
       ],
+      light: [
+        /* default */
+        'bg-white text-gray-900',
+
+        /* hover */
+        'hover:bg-gray-100',
+
+        /* focus */
+        'focus:bg-gray-200 focus:text-gray-900',
+
+        /* disabled */
+        'disabled:bg-gray-100',
+        'disabled:text-gray-400',
+        'disabled:cursor-not-allowed',
+      ],
+      lightOutline: [
+        /* default */
+        'bg-transparent',
+        'border-2',
+        'border-white',
+        'text-white',
+
+        /* hover */
+        'hover:border-gray-200',
+        'hover:text-gray-200',
+
+        /* focus */
+        'focus:border-gray-300',
+        'focus:text-gray-300',
+
+        /* disabled */
+        'disabled:border-gray-300',
+        'disabled:text-gray-400',
+        'disabled:cursor-not-allowed',
+      ],
     },
 
     size: {
