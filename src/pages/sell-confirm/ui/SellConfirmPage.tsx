@@ -55,7 +55,7 @@ const SellConfirmPage = () => {
 
   return (
     <div className="w-full bg-white">
-      <div className="mx-auto flex min-h-screen w-full max-w-[1440px] flex-col items-center bg-white px-4">
+      <div className="md:px-xxxl mx-auto flex min-h-screen w-full max-w-[1440px] flex-col items-center bg-white px-(--margin-l) lg:px-0">
         <main className="gap-l mt-[90px] flex items-start">
           {showImage ? (
             <img
