@@ -43,16 +43,20 @@ export const TradeItem = ({
   const resolvedStatusLabel = statusLabel ?? statusConfig?.text;
 
   return (
-    <div className="gap-xxs flex w-full max-w-[1200px] flex-col rounded-(--radius-l) bg-gray-900 px-[42px] py-[44px]">
+    <div className="gap-xxs flex w-full max-w-[1200px] flex-col rounded-(--radius-l) bg-gray-900 px-4 py-6 md:px-[42px] md:py-[44px]">
       <div className="flex w-full items-center justify-between">
-        <div className="flex items-center gap-[36px]">
+        <div className="flex items-center gap-4 md:gap-[36px]">
           {imageUrl ? (
-            <img src={imageUrl} alt={modelName} className="rounded-m h-[79px] w-[79px] shrink-0 object-cover" />
+            <img
+              src={imageUrl}
+              alt={modelName}
+              className="rounded-m h-16 w-16 shrink-0 object-cover md:h-[79px] md:w-[79px]"
+            />
           ) : (
             <div
               role="img"
               aria-label={`${modelName} 이미지 없음`}
-              className="rounded-m h-[79px] w-[79px] shrink-0 bg-gray-200"
+              className="rounded-m h-16 w-16 shrink-0 bg-gray-200 md:h-[79px] md:w-[79px]"
             />
           )}
 
@@ -66,7 +70,7 @@ export const TradeItem = ({
         {status === 'favorite' ? (
           <FavoriteButton defaultActive={favoriteActive} onToggle={onToggleFavorite} variant="inverse" />
         ) : (
-          <span className={statusConfig?.className}>{resolvedStatusLabel}</span>
+          <span className={`${statusConfig?.className} whitespace-nowrap`}>{resolvedStatusLabel}</span>
         )}
       </div>
     </div>
