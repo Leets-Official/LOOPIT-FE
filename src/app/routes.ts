@@ -4,6 +4,7 @@ export default [
   // (auth) - 레이아웃 없는 인증 페이지
   route('login', 'routes/(auth)/login.tsx'),
   route('signup', 'routes/(auth)/signup.tsx'),
+  route('auth/kakao/callback', 'routes/auth.kakao.callback.tsx'),
 
   // (main) - MainLayout 적용 페이지
   layout('layout/MainLayout.tsx', [
