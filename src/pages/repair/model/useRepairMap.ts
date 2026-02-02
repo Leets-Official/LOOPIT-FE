@@ -3,10 +3,12 @@ import { buildKakaoRouteUrl, getKakaoMaps } from './kakaoMapUtils';
 import type { KakaoMapInstance, KakaoMarker, KakaoOverlay, RepairShop } from './types';
 
 const buildOverlayContent = (shop: RepairShop) => {
-  const phoneLink = shop.phone ? `<a href="tel:${shop.phone}">전화</a>` : '';
+  const phoneDisplay = shop.phone
+    ? `<a href="tel:${shop.phone}" style="color:var(--color-green-800); text-decoration:none;">${shop.phone}</a>`
+    : '';
   const routeLink = buildKakaoRouteUrl(shop.name, shop.lat, shop.lng);
   const detailLink = shop.placeUrl ? `<a href="${shop.placeUrl}" target="_blank" rel="noreferrer">상세</a>` : '';
-  const actions = [phoneLink, detailLink, `<a href="${routeLink}" target="_blank" rel="noreferrer">길찾기</a>`]
+  const actions = [detailLink, `<a href="${routeLink}" target="_blank" rel="noreferrer">길찾기</a>`]
     .filter(Boolean)
     .join(' · ');
 
@@ -14,7 +16,8 @@ const buildOverlayContent = (shop: RepairShop) => {
     <div style="position:relative; transform:translateY(-8px);">
       <div style="padding:var(--padding-m) var(--spacing-s); font-size:12px; line-height:1.4; width:260px; background:var(--color-green-100); border-radius:var(--radius-m); border:2px solid var(--color-green-700); box-shadow:0 8px 20px rgba(17,203,176,0.18);">
         <div style="font-weight:700; margin-bottom:var(--spacing-xxxxs); word-break:break-word; color:var(--color-green-900);">${shop.name}</div>
-        <div style="color:var(--color-green-800); margin-bottom:6px; word-break:break-word;">${shop.address}</div>
+        <div style="color:var(--color-green-800); margin-bottom:4px; word-break:break-word;">${shop.address}</div>
+        ${phoneDisplay ? `<div style="color:var(--color-green-800); margin-bottom:6px; word-break:break-word;">${phoneDisplay}</div>` : '<div style="margin-bottom:6px;"></div>'}
         <div style="color:var(--color-green-900); font-weight:600; word-break:keep-all;">${actions}</div>
       </div>
       <div style="position:absolute; left:50%; bottom:-8px; transform:translateX(-50%); width:0; height:0; border-left:8px solid transparent; border-right:8px solid transparent; border-top:8px solid var(--color-green-100);"></div>

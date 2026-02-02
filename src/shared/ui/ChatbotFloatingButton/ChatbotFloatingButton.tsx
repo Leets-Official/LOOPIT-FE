@@ -1,4 +1,4 @@
-import { chatbotImg } from '@shared/assets/icons';
+import { ChatbotIcon } from '@shared/assets/icons';
 import { chatbotFloatingButtonVariants } from './ChatbotFloatingButton.variants';
 import type { ComponentPropsWithoutRef } from 'react';
 
@@ -17,7 +17,7 @@ export const ChatbotFloatingButton = ({
   return (
     <button type={type} className={styles.root({ className })} aria-label={label} {...props}>
       <span className={styles.content()}>
-        <img src={chatbotImg} alt="" className={styles.icon()} aria-hidden="true" />
+        <ChatbotIcon className={styles.icon()} aria-hidden="true" />
         <span className={styles.label()}>{label}</span>
       </span>
     </button>

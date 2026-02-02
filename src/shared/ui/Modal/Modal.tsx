@@ -1,4 +1,4 @@
-import { useFocusTrap } from '@shared/hooks';
+import { useBodyScrollLock, useFocusTrap } from '@shared/hooks';
 import { Button } from '@shared/ui/Button/Button';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { modalStyles } from './Modal.styles';
@@ -24,6 +24,7 @@ export const Modal = ({
   const modalRef = useRef<HTMLDivElement>(null);
 
   useFocusTrap(modalRef, !closing);
+  useBodyScrollLock(true);
 
   const handleClose = useCallback(
     (callback: () => void) => {

@@ -40,7 +40,7 @@ const BuyDetailPage = () => {
   }
 
   return (
-    <main className="mx-auto flex w-[1200px] flex-col items-start gap-[157px] pt-10">
+    <main className="md:px-xxxl mx-auto flex w-full max-w-[1200px] flex-col items-start gap-10 px-(--margin-l) pt-10 lg:gap-[157px] lg:px-0">
       <div className="flex flex-col items-start justify-center gap-[30px] self-stretch">
         <div className="grid gap-6 lg:grid-cols-[590px_590px]">
           <div className="h-[568px] w-[590px] overflow-hidden rounded-(--radius-l) bg-gray-50">

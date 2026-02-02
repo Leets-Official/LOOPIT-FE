@@ -48,7 +48,7 @@ describe('Card', () => {
       const { container } = render(<Card {...defaultProps} />);
 
       const card = container.firstChild;
-      expect(card).toHaveClass('w-[180px]', 'h-[299px]');
+      expect(card).toHaveClass('w-full', 'h-auto', 'lg:w-[180px]', 'lg:h-[299px]');
     });
 
     it('seller variant 적용', () => {

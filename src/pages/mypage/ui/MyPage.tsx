@@ -66,12 +66,12 @@ const MyPage = () => {
               tabs={favoriteTabs}
               activeId={favoriteCategory}
               onChange={setFavoriteCategory}
-              gridClassName="w-full grid-cols-2 px-[434.5px]"
+              gridClassName="w-full grid grid-cols-2 lg:flex lg:justify-center lg:gap-[261px] lg:px-[434.5px]"
               labelClassName="typo-body-1"
               countClassName="typo-title-3"
               countActiveClassName="text-green-700"
               countInactiveClassName="text-gray-900"
-              itemClassName="first:justify-self-start last:justify-self-end"
+              itemClassName="lg:first:justify-self-start lg:last:justify-self-end"
             />
             {favoriteCategory === 'product' ? (
               <TradeItemList items={favoriteProductItems} emptyMessage="찜한 목록이 아직 없어요." />
@@ -91,12 +91,12 @@ const MyPage = () => {
               tabs={currentStatusTabs}
               activeId={currentStatus}
               onChange={handleStatusChange}
-              gridClassName="w-full grid-cols-3 px-[276px]"
+              gridClassName="w-full grid grid-cols-3 lg:flex lg:justify-center lg:gap-[261px] lg:px-[276px]"
               labelClassName="typo-body-1"
               countClassName="typo-title-3"
               countActiveClassName="text-green-700"
               countInactiveClassName="text-gray-900"
-              itemClassName="first:justify-self-start last:justify-self-end"
+              itemClassName="lg:first:justify-self-start lg:last:justify-self-end"
             />
             <TradeItemList items={currentFilteredItems} emptyMessage="선택한 조건에 해당하는 상품은 없어요." />
           </>

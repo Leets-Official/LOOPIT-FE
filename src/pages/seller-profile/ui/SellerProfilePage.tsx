@@ -6,7 +6,7 @@ const SellerProfilePage = () => {
   const productRows = chunkArray(MOCK_SELLER_PRODUCTS, 4);
 
   return (
-    <main className="mx-auto flex w-full max-w-[1200px] flex-col items-start gap-[93px] px-4 md:px-0">
+    <main className="md:px-xxxl mx-auto flex w-full max-w-[1200px] flex-col items-start gap-10 px-(--margin-l) lg:gap-[93px] lg:px-0">
       <section className="flex flex-col items-start justify-center gap-[30px] self-stretch">
         <div className="flex w-[184px] items-center gap-[23px]">
           <img src="/profile.jpg" alt="판매자 프로필" className="h-20 w-20 shrink-0 rounded-full object-cover" />

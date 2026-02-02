@@ -5,7 +5,9 @@ const MainLayout = () => {
   return (
     <div className="min-h-screen bg-white">
       <Header />
-      <Outlet />
+      <div className="mt-header-total">
+        <Outlet />
+      </div>
     </div>
   );
 };

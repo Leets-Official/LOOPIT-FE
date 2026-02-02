@@ -10,7 +10,14 @@ export const CAROUSEL_SLIDES = [
   },
   {
     id: 2,
-    content: <CarouselImageSlide imageSrc={Carousel2Image} title="중고폰 구매" subtitle="합리적인 가격, 검증된 상품" />,
+    content: (
+      <CarouselImageSlide
+        imageSrc={Carousel2Image}
+        title="중고폰 구매"
+        subtitle="합리적인 가격, 검증된 상품"
+        href="/buy"
+      />
+    ),
   },
   {
     id: 3,
@@ -19,13 +26,19 @@ export const CAROUSEL_SLIDES = [
         imageSrc={Carousel3Image}
         title="나의 폰 판매"
         subtitle="나는 쓰지 않는 폰, 다른 사람은 쓰기 좋은 폰"
+        href="/sell"
       />
     ),
   },
   {
     id: 4,
     content: (
-      <CarouselImageSlide imageSrc={Carousel4Image} title="수리점 찾기" subtitle="내 집 근처 수리점 어디에 있을까?" />
+      <CarouselImageSlide
+        imageSrc={Carousel4Image}
+        title="수리점 찾기"
+        subtitle="내 집 근처 수리점 어디에 있을까?"
+        href="/repair"
+      />
     ),
   },
   {
