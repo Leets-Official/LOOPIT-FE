@@ -21,7 +21,7 @@ export const MyPageTabs = <TId extends string>({ tabs, activeId, onChange }: MyP
             type="button"
             onClick={() => onChange(tab.id)}
             className={cn(
-              'flex items-center justify-center transition-colors',
+              'flex cursor-pointer items-center justify-center transition-colors',
               activeId === tab.id ? 'text-gray-900' : 'text-gray-500'
             )}
             aria-pressed={activeId === tab.id}
