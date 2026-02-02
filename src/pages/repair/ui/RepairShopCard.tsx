@@ -10,7 +10,6 @@ export type RepairShopCardProps = {
   lat?: number;
   lng?: number;
   placeUrl?: string;
-  onContact?: () => void;
   onFindRoute?: () => void;
   onSelect?: () => void;
 };
@@ -27,19 +26,9 @@ export const RepairShopCard = ({
   lat,
   lng,
   placeUrl,
-  onContact,
   onFindRoute,
   onSelect,
 }: RepairShopCardProps) => {
-  const handleContact = () => {
-    if (onContact) {
-      return onContact();
-    }
-    if (phone) {
-      window.location.href = `tel:${phone}`;
-    }
-  };
-
   const handleFindRoute = () => {
     if (onFindRoute) {
       return onFindRoute();
@@ -66,8 +55,15 @@ export const RepairShopCard = ({
       className="flex w-full flex-col items-start justify-between gap-6 rounded-(--radius-l) bg-gray-900 px-6 py-8 text-left md:flex-row md:items-center md:gap-[31px] md:px-[42px] md:py-[44px]"
     >
       <div className="flex flex-1 flex-col items-start gap-[5px]">
-        <span className="text-l leading-m font-bold text-white">{name}</span>
-        <span className="text-m leading-s text-brand-primary font-semibold">{address}</span>
+        <span className="typo-title-3 text-white">{name}</span>
+        <span className="typo-body-2 text-brand-primary">{address}</span>
+        {phone ? (
+          <a href={`tel:${phone}`} onClick={(e) => e.stopPropagation()} className="typo-body-2 text-brand-primary">
+            {phone}
+          </a>
+        ) : (
+          <span className="typo-body-2">&nbsp;</span>
+        )}
       </div>
 
       <div className="flex w-full items-center justify-between gap-4 md:w-auto md:gap-[31px]">
@@ -75,16 +71,6 @@ export const RepairShopCard = ({
         <div className="flex w-full flex-1 flex-col items-start gap-[15px] md:w-[159px] md:flex-none">
           <Button
             variant="light"
-            size="full"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleContact();
-            }}
-          >
-            연락하기
-          </Button>
-          <Button
-            variant="lightOutline"
             size="full"
             onClick={(e) => {
               e.stopPropagation();

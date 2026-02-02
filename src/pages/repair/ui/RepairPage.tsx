@@ -44,7 +44,7 @@ const RepairPage = () => {
   };
 
   return (
-    <main className="mx-auto flex w-full max-w-[1440px] flex-col items-center gap-[47px] px-4 pt-8 pb-16 md:pt-[47px]">
+    <main className="md:px-xxxl mx-auto flex w-full max-w-[1440px] flex-col items-center gap-6 px-(--margin-l) md:gap-8 lg:gap-[45px] lg:px-0">
       <section
         className={cn(
           containerClass,
@@ -62,14 +62,14 @@ const RepairPage = () => {
         </div>
       </section>
 
-      <section className={cn(containerClass, 'flex flex-col gap-[45px]')} aria-label="수리점 목록">
+      <section className={cn(containerClass, 'flex flex-col gap-4')} aria-label="수리점 목록">
         <div className="flex items-center justify-between">
           <span className="typo-title-2 text-black">총 {shops.length}개</span>
           <button type="button" className="typo-body-1 text-gray-300">
             거리순
           </button>
         </div>
-        <div className="flex flex-col gap-6">{renderShopList()}</div>
+        <div className="flex flex-col items-start gap-5">{renderShopList()}</div>
       </section>
     </main>
   );
