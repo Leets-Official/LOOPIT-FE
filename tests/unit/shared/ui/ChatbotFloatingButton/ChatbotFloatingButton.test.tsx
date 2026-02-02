@@ -19,10 +19,10 @@ describe('ChatbotFloatingButton', () => {
       expect(screen.getByRole('button')).toBeInTheDocument();
     });
 
-    it('아이콘 이미지 렌더링', () => {
+    it('아이콘 렌더링', () => {
       const { container } = render(<ChatbotFloatingButton />);
-      const img = container.querySelector('img');
-      expect(img).toBeInTheDocument();
+      const icon = container.querySelector('svg');
+      expect(icon).toBeInTheDocument();
     });
   });
 
@@ -46,8 +46,8 @@ describe('ChatbotFloatingButton', () => {
 
     it('아이콘에 aria-hidden 적용', () => {
       const { container } = render(<ChatbotFloatingButton />);
-      const img = container.querySelector('img');
-      expect(img).toHaveAttribute('aria-hidden', 'true');
+      const icon = container.querySelector('svg');
+      expect(icon).toHaveAttribute('aria-hidden', 'true');
     });
 
     it('키보드로 클릭 가능', async () => {
