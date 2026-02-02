@@ -1,3 +1,3 @@
-import { BuyDetailPage } from '@pages/buy';
+import { BuyDetailPage } from '@pages/buy-detail';
 
 export default BuyDetailPage;
