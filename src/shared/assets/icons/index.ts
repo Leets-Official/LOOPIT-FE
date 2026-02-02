@@ -12,7 +12,7 @@ export {
   PictureIcon,
   SearchMagnifyingGlassIcon,
   SendIcon,
-  chatbotImg,
+  ChatbotIcon,
   ChevronRightIcon,
 } from './common';
 export { GearIcon, ShoppingIcon, SellIcon } from './banner';
