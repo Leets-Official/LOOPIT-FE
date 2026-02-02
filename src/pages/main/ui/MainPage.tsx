@@ -11,7 +11,7 @@ const MainPage = () => {
   const navigate = useNavigate();
 
   return (
-    <main className="flex w-full flex-col items-center gap-[68px] px-4 pb-24">
+    <main className="md:px-xxxl flex w-full flex-col items-center gap-6 px-(--margin-l) pb-24 md:gap-10 lg:gap-[68px] lg:px-0">
       <section className="h-[317px] w-full max-w-[1200px]" aria-label="메인 슬로건 영역">
         <ClientOnly>
           <Carousel3D slides={CAROUSEL_SLIDES} />
