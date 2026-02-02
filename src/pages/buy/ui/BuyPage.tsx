@@ -1,23 +1,12 @@
 import { useBuyFilter } from '@pages/buy/model/useBuyFilter';
+import { BuyFilter } from '@pages/buy/ui/BuyFilter';
 import { CloseIcon } from '@shared/assets/icons';
 import { ROUTES } from '@shared/constants';
 import { MANUFACTURERS, MODELS, PRICE_RANGES } from '@shared/mocks/data/buy';
 import { Card } from '@shared/ui/Card';
-import { Checkbox } from '@shared/ui/Checkbox';
 import { SearchBar } from '@shared/ui/SearchBar';
 import { cn } from '@shared/utils/cn';
 import { Link } from 'react-router';
-import type { ReactNode } from 'react';
-
-const FilterSection = ({ title, children }: { title: string; children: ReactNode }) => {
-  return (
-    <section className="flex flex-col gap-3 pb-4">
-      <h3 className="typo-body-2 text-gray-900">{title}</h3>
-      <div className="flex flex-col gap-2">{children}</div>
-      <div className="h-px w-full bg-gray-100" />
-    </section>
-  );
-};
 
 const FilterChip = ({ label, onRemove }: { label: string; onRemove: () => void }) => {
   return (
@@ -31,8 +20,6 @@ const FilterChip = ({ label, onRemove }: { label: string; onRemove: () => void }
     </button>
   );
 };
-
-const DEFAULT_MODEL_COUNT = 8;
 
 const BuyPage = () => {
   const {
@@ -66,62 +53,22 @@ const BuyPage = () => {
       />
 
       <div className="flex w-full flex-col gap-8 lg:flex-row lg:gap-[22px]">
-        <aside className="flex w-full shrink-0 flex-col items-start gap-[21px] lg:h-[702px] lg:w-[183px]">
-          <div className="flex items-center justify-between self-stretch">
-            <h2 className="typo-body-2 text-gray-900">필터</h2>
-            <button type="button" className="typo-caption-2 font-medium text-gray-400" onClick={resetFilters}>
-              초기화
-            </button>
-          </div>
-
-          <Checkbox
-            label="구매가능만 보기"
-            checked={availableOnly}
-            onChange={(e) => setAvailableOnly(e.target.checked)}
-          />
-
-          <div className="flex flex-col gap-[21px] self-stretch">
-            <FilterSection title="제조사">
-              {MANUFACTURERS.map((item) => (
-                <Checkbox
-                  key={item.id}
-                  label={item.label}
-                  checked={selectedManufacturers.includes(item.id)}
-                  onChange={() => toggleManufacturer(item.id)}
-                />
-              ))}
-            </FilterSection>
-
-            <FilterSection title="모델명">
-              {(showAllModels ? MODELS : MODELS.slice(0, DEFAULT_MODEL_COUNT)).map((item) => (
-                <Checkbox
-                  key={item.id}
-                  label={item.label}
-                  checked={selectedModels.includes(item.id)}
-                  onChange={() => toggleModel(item.id)}
-                />
-              ))}
-              <button
-                type="button"
-                className="typo-caption-1 mt-2 text-left text-green-700"
-                onClick={() => setShowAllModels((prev) => !prev)}
-              >
-                {showAllModels ? '접기' : '더보기'}
-              </button>
-            </FilterSection>
-
-            <FilterSection title="가격">
-              {PRICE_RANGES.map((item) => (
-                <Checkbox
-                  key={item.id}
-                  label={item.label}
-                  checked={selectedPrices.includes(item.id)}
-                  onChange={() => togglePrice(item.id)}
-                />
-              ))}
-            </FilterSection>
-          </div>
-        </aside>
+        <BuyFilter
+          manufacturers={MANUFACTURERS}
+          models={MODELS}
+          priceRanges={PRICE_RANGES}
+          selectedManufacturers={selectedManufacturers}
+          selectedModels={selectedModels}
+          selectedPrices={selectedPrices}
+          availableOnly={availableOnly}
+          showAllModels={showAllModels}
+          onToggleManufacturer={toggleManufacturer}
+          onToggleModel={toggleModel}
+          onTogglePrice={togglePrice}
+          onSetAvailableOnly={setAvailableOnly}
+          onSetShowAllModels={setShowAllModels}
+          onReset={resetFilters}
+        />
 
         <section className="flex w-full flex-1 flex-col items-start gap-[17px]">
           <div className="min-h-xxl flex flex-wrap items-start gap-2 self-stretch md:gap-[18px]">
