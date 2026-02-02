@@ -18,7 +18,7 @@ export const ChatMessageList = ({ messages }: ChatMessageListProps) => {
           return (
             <div key={message.id} className="flex w-full justify-start">
               {message.status === 'loading' ? (
-                <div className="inline-flex min-h-[60px] items-center justify-start gap-[var(--spacing-xxxs)] rounded-(--radius-l) bg-gray-100 px-[31px] py-[18px]">
+                <div className="gap-xxxs inline-flex min-h-[60px] items-center justify-start rounded-(--radius-l) bg-gray-100 px-[31px] py-[18px]">
                   <span className="h-[6px] w-[6px] animate-bounce rounded-full bg-gray-400 [animation-delay:-0.2s]" />
                   <span className="h-[6px] w-[6px] animate-bounce rounded-full bg-gray-400 [animation-delay:-0.1s]" />
                   <span className="h-[6px] w-[6px] animate-bounce rounded-full bg-gray-400" />
