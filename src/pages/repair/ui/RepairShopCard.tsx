@@ -1,5 +1,6 @@
-import { Button } from '@shared/ui/Button/Button';
+import { Button } from '@shared/ui/Button';
 import { FavoriteButton } from '@shared/ui/FavoriteButton';
+import { buildKakaoRouteUrl } from '../model/kakaoMapUtils';
 
 export type RepairShopCardProps = {
   name: string;
@@ -12,6 +13,10 @@ export type RepairShopCardProps = {
   onContact?: () => void;
   onFindRoute?: () => void;
   onSelect?: () => void;
+};
+
+const openExternalLink = (url: string) => {
+  window.open(url, '_blank', 'noopener,noreferrer');
 };
 
 export const RepairShopCard = ({
@@ -28,8 +33,7 @@ export const RepairShopCard = ({
 }: RepairShopCardProps) => {
   const handleContact = () => {
     if (onContact) {
-      onContact();
-      return;
+      return onContact();
     }
     if (phone) {
       window.location.href = `tel:${phone}`;
@@ -38,36 +42,13 @@ export const RepairShopCard = ({
 
   const handleFindRoute = () => {
     if (onFindRoute) {
-      onFindRoute();
-      return;
+      return onFindRoute();
     }
-    if (lat !== undefined && lng !== undefined) {
-      const url = `https://map.kakao.com/link/to/${encodeURIComponent(name)},${lat},${lng}`;
-      window.open(url, '_blank', 'noopener,noreferrer');
-      return;
-    }
-    if (placeUrl) {
-      window.open(placeUrl, '_blank', 'noopener,noreferrer');
-    }
-  };
 
-  const handleContactClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
-    event.stopPropagation();
-    handleContact();
-  };
+    const routeUrl = lat !== undefined && lng !== undefined ? buildKakaoRouteUrl(name, lat, lng) : placeUrl;
 
-  const handleFindRouteClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
-    event.stopPropagation();
-    handleFindRoute();
-  };
-
-  const handleCardKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (event) => {
-    if (!onSelect) {
-      return;
-    }
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      onSelect();
+    if (routeUrl) {
+      openExternalLink(routeUrl);
     }
   };
 
@@ -76,23 +57,40 @@ export const RepairShopCard = ({
       role="button"
       tabIndex={0}
       onClick={onSelect}
-      onKeyDown={handleCardKeyDown}
-      className="flex w-full flex-col items-start justify-between gap-6 rounded-[var(--radius-l)] bg-[var(--color-gray-900)] px-6 py-8 text-left md:flex-row md:items-center md:gap-[31px] md:px-[42px] md:py-[44px]"
+      onKeyDown={(e) => {
+        if (onSelect && (e.key === 'Enter' || e.key === ' ')) {
+          e.preventDefault();
+          onSelect();
+        }
+      }}
+      className="flex w-full flex-col items-start justify-between gap-6 rounded-(--radius-l) bg-gray-900 px-6 py-8 text-left md:flex-row md:items-center md:gap-[31px] md:px-[42px] md:py-[44px]"
     >
       <div className="flex flex-1 flex-col items-start gap-[5px]">
-        <span className="font-pretendard text-[20px] leading-[24px] font-bold text-[var(--color-white)]">{name}</span>
-        <span className="font-pretendard text-[16px] leading-[20px] font-semibold text-[var(--color-brand-primary)]">
-          {address}
-        </span>
+        <span className="text-l leading-m font-bold text-white">{name}</span>
+        <span className="text-m leading-s text-brand-primary font-semibold">{address}</span>
       </div>
 
       <div className="flex w-full items-center justify-between gap-4 md:w-auto md:gap-[31px]">
-        <FavoriteButton defaultActive={favoriteActive} variant="inverse" onClick={(event) => event.stopPropagation()} />
+        <FavoriteButton defaultActive={favoriteActive} variant="inverse" onClick={(e) => e.stopPropagation()} />
         <div className="flex w-full flex-1 flex-col items-start gap-[15px] md:w-[159px] md:flex-none">
-          <Button variant="light" size="full" onClick={handleContactClick}>
+          <Button
+            variant="light"
+            size="full"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleContact();
+            }}
+          >
             연락하기
           </Button>
-          <Button variant="lightOutline" size="full" onClick={handleFindRouteClick}>
+          <Button
+            variant="lightOutline"
+            size="full"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleFindRoute();
+            }}
+          >
             길 찾기
           </Button>
         </div>

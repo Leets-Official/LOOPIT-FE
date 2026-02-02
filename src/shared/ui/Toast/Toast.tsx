@@ -15,7 +15,7 @@ const TOAST_ICONS: Record<ToastTone, React.FC<React.SVGProps<SVGSVGElement>>> = 
   success: ChatCircleCheckIcon,
 };
 
-export function Toast({ message, tone = 'default', dismissible = true, onDismiss }: ToastProps) {
+export const Toast = ({ message, tone = 'default', dismissible = true, onDismiss }: ToastProps) => {
   const styles = toastVariants({ tone });
   const Icon = TOAST_ICONS[tone];
 
@@ -34,4 +34,4 @@ export function Toast({ message, tone = 'default', dismissible = true, onDismiss
       </div>
     </div>
   );
-}
+};

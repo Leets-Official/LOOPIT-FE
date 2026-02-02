@@ -1,1 +1,1 @@
-export { BuyPage, BuyDetailPage } from './ui';
+export { BuyPage } from './ui';

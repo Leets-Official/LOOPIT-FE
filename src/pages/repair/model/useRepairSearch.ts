@@ -12,6 +12,8 @@ const SEARCH_KEYWORDS = [
   '휴대폰 수리',
   '핸드폰 수리',
   '액정',
+  '스마트폰 수리',
+  '휴대폰 사설 수리',
 ];
 
 const SEARCH_RADIUS_METERS = 5000;
@@ -25,8 +27,10 @@ export const useRepairSearch = () => {
 
   const handleSearch = (query: string) => {
     const kakao = (window as Window & { kakao?: { maps?: KakaoMaps } }).kakao;
+    const maps = kakao?.maps;
+    const services = maps?.services;
 
-    if (!kakao?.maps?.services || !isMapReady) {
+    if (!maps || !services || !isMapReady) {
       return;
     }
     if (!query.trim()) {
@@ -37,11 +41,11 @@ export const useRepairSearch = () => {
     setHasSearched(true);
     setErrorMessage(null);
 
-    const geocoder = new kakao.maps.services.Geocoder();
+    const geocoder = new services.Geocoder();
 
     geocoder.addressSearch(query, (result: unknown[], status: string) => {
       const [firstResult] = result as KakaoAddressResult[];
-      if (status !== kakao.maps.services.Status.OK || !firstResult) {
+      if (status !== services.Status.OK || !firstResult) {
         clearMarkers();
         setShops([]);
         setIsSearching(false);
@@ -55,12 +59,12 @@ export const useRepairSearch = () => {
       const searchByKeyword = (keyword: string) =>
         new Promise<RepairShop[]>((resolve) => {
           const collected: RepairShop[] = [];
-          const places = new kakao.maps.services.Places();
-          const center = new kakao.maps.LatLng(y, x);
+          const places = new services.Places();
+          const center = new maps.LatLng(Number(y), Number(x));
 
           const handleResult = (data: unknown[], placesStatus: string, pagination: KakaoPagination) => {
             const placeResults = data as KakaoPlace[];
-            if (placesStatus === kakao.maps.services.Status.OK && data?.length) {
+            if (placesStatus === services.Status.OK && data?.length) {
               placeResults.forEach((place) => {
                 collected.push({
                   id: place.id,

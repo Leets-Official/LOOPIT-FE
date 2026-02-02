@@ -3,7 +3,7 @@ import { kakaoLoginImg } from '@shared/assets/icons';
 import { Logo } from '@shared/ui/Logo';
 import { loginStyles as s } from './LoginPage.styles';
 
-export default function LoginPage() {
+const LoginPage = () => {
   return (
     <div className={s.wrapper} style={{ backgroundImage: `url(${loginBackgroundImg})` }}>
       <div className="flex h-full w-full flex-col items-center justify-center gap-[26px] px-6 py-12">
@@ -19,4 +19,6 @@ export default function LoginPage() {
       </div>
     </div>
   );
-}
+};
+
+export default LoginPage;

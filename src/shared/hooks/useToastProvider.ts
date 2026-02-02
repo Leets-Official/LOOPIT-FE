@@ -5,7 +5,7 @@ const ANIMATION_DELAY_MS = 10;
 const FADE_OUT_DELAY_MS = 2700;
 const HIDE_DELAY_MS = 3000;
 
-export function useToastProvider() {
+export const useToastProvider = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [message, setMessage] = useState('');
@@ -32,4 +32,4 @@ export function useToastProvider() {
     isAnimating,
     toastProps: { message, tone, onDismiss: handleDismiss },
   };
-}
+};

@@ -1,6 +1,6 @@
 import { Logo } from '@shared/ui/Logo';
 
-export function SignupHeader() {
+export const SignupHeader = () => {
   return (
     <section className="gap-xxs flex w-full flex-col items-center bg-green-50 px-6 py-10">
       <header className="gap-m flex flex-col items-center xl:flex-row xl:gap-[35px]">
@@ -12,4 +12,4 @@ export function SignupHeader() {
       </header>
     </section>
   );
-}
+};

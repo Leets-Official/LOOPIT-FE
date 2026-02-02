@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router';
 import { BANNER_CARDS } from './BannerCards';
 import { CAROUSEL_SLIDES } from './CarouselSlides';
 
-export default function MainPage() {
+const MainPage = () => {
   const navigate = useNavigate();
 
   return (
@@ -36,4 +36,6 @@ export default function MainPage() {
       />
     </main>
   );
-}
+};
+
+export default MainPage;

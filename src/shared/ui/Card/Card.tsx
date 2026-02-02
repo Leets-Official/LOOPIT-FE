@@ -10,7 +10,7 @@ export type CardProps = ComponentPropsWithoutRef<'div'> &
     date: string;
   };
 
-export const Card = ({ image, title, price, date, className, ...props }: CardProps) => {
+export const Card = ({ image, title, price, date, variant, className, ...props }: CardProps) => {
   const {
     root,
     imageWrapper,
@@ -20,7 +20,7 @@ export const Card = ({ image, title, price, date, className, ...props }: CardPro
     price: priceStyle,
     date: dateStyle,
     textWrapper,
-  } = cardVariants();
+  } = cardVariants({ variant });
 
   return (
     <div {...props} className={root({ className })}>

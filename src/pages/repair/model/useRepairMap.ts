@@ -1,11 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-import type { KakaoMapInstance, KakaoMaps, KakaoMarker, KakaoOverlay, RepairShop } from './types';
-
-const getKakaoMaps = () => (window as Window & { kakao?: { maps?: KakaoMaps } }).kakao?.maps;
+import { buildKakaoRouteUrl, getKakaoMaps } from './kakaoMapUtils';
+import type { KakaoMapInstance, KakaoMarker, KakaoOverlay, RepairShop } from './types';
 
 const buildOverlayContent = (shop: RepairShop) => {
   const phoneLink = shop.phone ? `<a href="tel:${shop.phone}">전화</a>` : '';
-  const routeLink = `https://map.kakao.com/link/to/${encodeURIComponent(shop.name)},${shop.lat},${shop.lng}`;
+  const routeLink = buildKakaoRouteUrl(shop.name, shop.lat, shop.lng);
   const detailLink = shop.placeUrl ? `<a href="${shop.placeUrl}" target="_blank" rel="noreferrer">상세</a>` : '';
   const actions = [phoneLink, detailLink, `<a href="${routeLink}" target="_blank" rel="noreferrer">길찾기</a>`]
     .filter(Boolean)

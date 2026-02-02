@@ -17,7 +17,7 @@ const kakaoMapSrc = kakaoMapKey
   ? `${KAKAO_SDK_URL_BASE}?appkey=${kakaoMapKey}&libraries=services&autoload=false`
   : null;
 
-export default function Root() {
+const Root = () => {
   return (
     <html lang="ko">
       <head>
@@ -37,4 +37,6 @@ export default function Root() {
       </body>
     </html>
   );
-}
+};
+
+export default Root;

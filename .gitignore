@@ -42,3 +42,7 @@ storybook-static
 
 # Vercel
 .vercel
+
+# AI
+CLAUDE.md
+.claude/

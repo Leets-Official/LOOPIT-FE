@@ -1,0 +1,1 @@
+export { BuyDetailPage } from './ui';

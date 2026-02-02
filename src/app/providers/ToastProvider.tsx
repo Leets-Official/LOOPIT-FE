@@ -22,7 +22,7 @@ interface ToastProviderProps {
   children: ReactNode;
 }
 
-export function ToastProvider({ children }: ToastProviderProps) {
+export const ToastProvider = ({ children }: ToastProviderProps) => {
   const { contextValue, isVisible, isAnimating, toastProps } = useToastProvider();
 
   return (
@@ -37,4 +37,4 @@ export function ToastProvider({ children }: ToastProviderProps) {
       )}
     </ToastContext.Provider>
   );
-}
+};

@@ -1,6 +1,10 @@
 import { useEffect, type RefObject } from 'react';
 
-export function useClickOutside<T extends HTMLElement>(ref: RefObject<T | null>, isOpen: boolean, onClose: () => void) {
+export const useClickOutside = <T extends HTMLElement>(
+  ref: RefObject<T | null>,
+  isOpen: boolean,
+  onClose: () => void
+) => {
   useEffect(() => {
     if (!isOpen) {
       return;
@@ -25,4 +29,4 @@ export function useClickOutside<T extends HTMLElement>(ref: RefObject<T | null>,
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, [ref, isOpen, onClose]);
-}
+};
