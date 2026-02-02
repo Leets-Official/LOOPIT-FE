@@ -16,7 +16,7 @@ const SEARCH_KEYWORDS = [
   '휴대폰 사설 수리',
 ];
 
-const SEARCH_RADIUS_METERS = 5000;
+const SEARCH_RADIUS_METERS = 2500;
 
 export const useRepairSearch = () => {
   const { mapRef, isMapReady, setCenter, setMarkers, clearMarkers, openOverlayForShop } = useRepairMap();
