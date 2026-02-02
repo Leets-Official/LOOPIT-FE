@@ -32,8 +32,8 @@ export const cardVariants = tv({
   variants: {
     variant: {
       default: {
-        root: ['w-[180px]', 'h-[299px]'],
-        imageWrapper: ['py-[10px]', 'px-[var(--padding-s)]', 'flex-[1_0_0]'],
+        root: ['w-full', 'h-auto', 'lg:w-[180px]', 'lg:h-[299px]'],
+        imageWrapper: ['py-[10px]', 'px-[var(--padding-s)]', 'aspect-square', 'lg:aspect-auto', 'lg:flex-[1_0_0]'],
         image: ['absolute', 'inset-0'],
         title: ['line-clamp-2', 'text-gray-900'],
         price: ['text-gray-900'],
