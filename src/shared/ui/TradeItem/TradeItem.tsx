@@ -60,7 +60,7 @@ export const TradeItem = ({
             />
           )}
 
-          <div className="flex flex-col gap-[4px]">
+          <div className="gap-xxxxs flex flex-col">
             <span className="typo-body-1 text-white">{modelName}</span>
             <span className="typo-body-2 text-white">{price}</span>
             <span className="typo-caption-2 text-white">{date}</span>
