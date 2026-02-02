@@ -57,7 +57,7 @@ const BuyPage = () => {
   const showEmpty = filteredItems.length === 0;
 
   return (
-    <main className="mx-auto flex w-[1200px] flex-col items-center gap-[68px]">
+    <main className="md:px-xxxl mx-auto flex w-full max-w-[1200px] flex-col items-center gap-6 px-(--margin-l) md:gap-10 lg:gap-[68px] lg:px-0">
       <SearchBar
         placeholder="어떤 제품을 찾으시나요?"
         onSearch={(value) => setQuery(value)}
@@ -123,19 +123,19 @@ const BuyPage = () => {
           </div>
         </aside>
 
-        <section className="flex w-[1008px] flex-col items-start gap-[17px]">
-          <div className="min-h-xxl flex items-start gap-[18px] self-stretch">
+        <section className="flex w-full flex-1 flex-col items-start gap-[17px]">
+          <div className="min-h-xxl flex flex-wrap items-start gap-2 self-stretch md:gap-[18px]">
             {activeChips.map((chip) => (
               <FilterChip key={`${chip.type}-${chip.id}`} label={chip.label} onRemove={() => removeChip(chip)} />
             ))}
           </div>
 
           {showEmpty ? (
-            <div className="rounded-m flex h-[992px] w-full items-center justify-center bg-gray-50 text-gray-500">
+            <div className="rounded-m flex min-h-[400px] w-full flex-1 items-center justify-center bg-gray-50 text-gray-500 lg:min-h-[992px]">
               관련된 상품이 없어요.
             </div>
           ) : (
-            <div className="lg:gap-xl grid w-full grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-[repeat(5,180px)]">
+            <div className="lg:gap-xl grid w-full grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 md:grid-cols-4 md:gap-6 lg:grid-cols-5">
               {filteredItems.map((item) => (
                 <Link key={item.id} to={`${ROUTES.BUY}/${item.id}`} className="block focus-visible:outline-none">
                   <Card
