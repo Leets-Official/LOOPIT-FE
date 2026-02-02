@@ -18,7 +18,7 @@ export default [
     route('sell/confirm', 'routes/(main)/sell/confirm.tsx'),
 
     // repair
-    route('repair', 'routes/(main)/repair.tsx'),
+    route('repair', 'routes/(main)/repair/index.tsx'),
 
     // mypage
     route('mypage', 'routes/(main)/mypage/index.tsx'),
