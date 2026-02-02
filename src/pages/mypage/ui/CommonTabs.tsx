@@ -35,14 +35,14 @@ export const CommonTabs = <TId extends string>({
     <section className="mt-10">
       <h2 className="typo-title-3 text-gray-900">{title}</h2>
       <div className="mt-6 border-b border-gray-200">
-        <div className={cn('grid', gridClassName)}>
+        <div className={cn('items-center self-stretch', gridClassName)}>
           {tabs.map((tab) => (
             <button
               key={tab.id}
               type="button"
               onClick={() => onChange(tab.id)}
               className={cn(
-                'relative flex flex-col items-center gap-1 pb-4 text-center transition-colors',
+                'relative flex cursor-pointer flex-col items-center gap-1 pb-4 text-center transition-colors',
                 itemClassName,
                 activeId === tab.id
                   ? 'text-gray-900 after:absolute after:-bottom-px after:left-1/2 after:h-0.5 after:w-29.5 after:-translate-x-1/2 after:bg-black'
