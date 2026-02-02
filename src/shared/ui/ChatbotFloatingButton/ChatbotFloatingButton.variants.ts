@@ -3,12 +3,12 @@ import { tv } from 'tailwind-variants';
 export const chatbotFloatingButtonVariants = tv({
   slots: {
     root: [
-      'group flex items-center',
+      'group flex flex-col justify-center items-center',
       'w-[80px] h-[80px]',
       'rounded-full',
       'bg-gray-50',
       'shadow-[0_4px_4px_0_var(--color-gray-100)]',
-      'p-0',
+      'py-[9px] px-[8px]',
       'overflow-hidden',
       'transition-[width,background-color,box-shadow] duration-200 ease-out',
       'hover:py-[9px] hover:pl-[8px] hover:pr-[19px]',
@@ -19,12 +19,11 @@ export const chatbotFloatingButtonVariants = tv({
     content: [
       'flex items-center justify-center w-full h-full',
       'gap-0 transition-[gap] duration-200 ease-out',
-      'group-hover:justify-start group-focus-visible:justify-start',
-      'group-hover:gap-0 group-focus-visible:gap-0',
-      'group-hover:w-[144px] group-hover:h-[67px] group-focus-visible:w-[144px] group-focus-visible:h-[67px]',
-      'group-hover:mx-auto group-focus-visible:mx-auto',
+      'group-hover:justify-center group-focus-visible:justify-center',
+      'group-hover:gap-[8px] group-focus-visible:gap-[8px]',
+      'group-hover:w-[144px] group-focus-visible:w-[144px]',
     ],
-    icon: ['w-[74px] h-[67px] shrink-0'],
+    icon: ['w-[47px] h-[38px] shrink-0'],
     label: [
       'typo-title-3 text-black whitespace-nowrap',
       'opacity-0 max-w-0 translate-x-2',
