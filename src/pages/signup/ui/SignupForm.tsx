@@ -7,6 +7,7 @@ import { DateField } from '@shared/ui/TextField';
 import { TextField } from '@shared/ui/TextField/TextField';
 import { signupSchema, type SignupFormData } from '@shared/utils/schemas';
 import { useForm } from 'react-hook-form';
+import { useNavigate, useSearchParams } from 'react-router';
 
 const sectionLabel = 'typo-body-2 text-black';
 const sectionStyle = 'flex w-full flex-col gap-m';
@@ -19,7 +20,11 @@ const FORM_FIELDS = [
 ] as const;
 
 export const SignupForm = () => {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { imageUrl: profileImage, fileInputRef, handleSelectImage, handleImageChange } = useImageUpload();
+  const kakaoId = searchParams.get('kakaoId') ?? '';
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
   const {
     register,
@@ -27,8 +32,31 @@ export const SignupForm = () => {
     formState: { errors },
   } = useForm<SignupFormData>({ resolver: zodResolver(signupSchema) });
 
-  const onSubmit = (data: SignupFormData) => {
-    void data;
+  const onSubmit = async (data: SignupFormData) => {
+    if (!apiBaseUrl || !kakaoId) {
+      return;
+    }
+
+    // 콜백에서 받은 kakaoId로 신규 회원 가입 요청.
+    const response = await fetch(`${apiBaseUrl}/user/register/kakao`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        kakaoId,
+        nickname: data.nickname,
+        name: data.name,
+        email: data.email,
+        birthdate: data.birthDate,
+        profileImage: profileImage ?? '',
+      }),
+    });
+
+    if (!response.ok) {
+      return;
+    }
+
+    // 가입 완료 후 메인으로 이동.
+    navigate('/', { replace: true });
   };
 
   return (
