@@ -1,3 +1,4 @@
+import { QueryProvider } from './QueryProvider';
 import { ToastProvider } from './ToastProvider';
 import type { ReactNode } from 'react';
 
@@ -6,5 +7,9 @@ type AppProvidersProps = {
 };
 
 export const AppProviders = ({ children }: AppProvidersProps) => {
-  return <ToastProvider>{children}</ToastProvider>;
+  return (
+    <QueryProvider>
+      <ToastProvider>{children}</ToastProvider>
+    </QueryProvider>
+  );
 };
