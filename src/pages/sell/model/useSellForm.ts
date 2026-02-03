@@ -1,8 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { ROUTES } from '@shared/constants';
 import { useClickOutside, useToast } from '@shared/hooks';
 import { validateImageFile } from '@shared/utils';
 import { MAX_IMAGE_BYTES, sellSchema, type SellFormData } from '@shared/utils/schemas';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router';
 import { getSellFormDefaults, mapSellDraftToForm } from './initialValues';
@@ -65,33 +66,27 @@ export const useSellForm = () => {
     setValue('imageFile', file, { shouldValidate: true });
   };
 
-  const closeDropdown = useCallback(() => {
+  const closeDropdown = () => {
     setIsDropdownOpen(false);
-  }, []);
+  };
 
-  const toggleDropdown = useCallback(() => {
+  const toggleDropdown = () => {
     setIsDropdownOpen((prev) => !prev);
-  }, []);
+  };
 
-  const selectManufacturer = useCallback(
-    (item: string) => {
-      setValue('manufacturer', item, { shouldValidate: true });
-      setIsDropdownOpen(false);
-    },
-    [setValue]
-  );
+  const selectManufacturer = (item: string) => {
+    setValue('manufacturer', item, { shouldValidate: true });
+    setIsDropdownOpen(false);
+  };
 
   type ConditionField = keyof Pick<
     SellFormData,
     'productCondition' | 'scratchCondition' | 'screenCondition' | 'batteryCondition'
   >;
 
-  const setConditionValue = useCallback(
-    <K extends ConditionField>(field: K, value: SellFormData[K]) => {
-      setValue(field, value as never, { shouldValidate: true });
-    },
-    [setValue]
-  );
+  const setConditionValue = <K extends ConditionField>(field: K, value: SellFormData[K]) => {
+    setValue(field, value as never, { shouldValidate: true });
+  };
 
   useClickOutside(dropdownRef, isDropdownOpen, closeDropdown);
 
@@ -116,7 +111,7 @@ export const useSellForm = () => {
   const onSubmit = handleSubmit((data) => {
     // API 추후 연결
     showToast('등록되었습니다', 'success');
-    navigate('/sell/confirm', {
+    navigate(ROUTES.SELL_CONFIRM, {
       state: {
         ...data,
         imageUrl: previewUrl,

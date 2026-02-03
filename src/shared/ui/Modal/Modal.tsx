@@ -1,6 +1,6 @@
 import { useBodyScrollLock, useFocusTrap } from '@shared/hooks';
 import { Button } from '@shared/ui/Button/Button';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { modalStyles } from './Modal.styles';
 
 export interface ModalProps {
@@ -26,22 +26,20 @@ export const Modal = ({
   useFocusTrap(modalRef, !closing);
   useBodyScrollLock(true);
 
-  const handleClose = useCallback(
-    (callback: () => void) => {
-      if (closing) {
-        return;
-      }
+  const handleClose = (callback: () => void) => {
+    if (closing) {
+      return;
+    }
 
-      setClosing(true);
-      setTimeout(callback, 150);
-    },
-    [closing]
-  );
+    setClosing(true);
+    setTimeout(callback, 150);
+  };
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        handleClose(onCancel);
+      if (e.key === 'Escape' && !closing) {
+        setClosing(true);
+        setTimeout(onCancel, 150);
       }
     };
 
@@ -49,7 +47,7 @@ export const Modal = ({
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [handleClose, onCancel]);
+  }, [onCancel, closing]);
 
   const handleOverlayMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {

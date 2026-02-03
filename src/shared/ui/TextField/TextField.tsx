@@ -1,6 +1,6 @@
 import { textFieldVariants } from '@shared/ui/TextField/TextField.variants';
 import { cn } from '@shared/utils/cn';
-import { forwardRef, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { forwardRef, useLayoutEffect, useRef, useState } from 'react';
 import type { TextFieldProps } from '@shared/ui/TextField/TextField.types';
 
 const TEXTAREA_LINE_HEIGHT = 24;
@@ -77,12 +77,7 @@ export const TextField = forwardRef<HTMLInputElement | HTMLTextAreaElement, Text
     const maxLen = getMaxLength({ isChar, isTextarea, maxLength });
     const normalizedValue = isPrice ? rawValue.replace(/\D/g, '') : rawValue;
 
-    const displayValue = useMemo(() => {
-      if (!isPrice) {
-        return normalizedValue;
-      }
-      return formatNumberWithComma(normalizedValue);
-    }, [isPrice, normalizedValue]);
+    const displayValue = isPrice ? formatNumberWithComma(normalizedValue) : normalizedValue;
 
     const currentLength = normalizedValue.length;
 
