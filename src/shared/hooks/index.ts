@@ -1,8 +1,9 @@
 export { useBodyScrollLock } from './useBodyScrollLock';
 export { useClickOutside } from './useClickOutside';
 export { useFocusTrap } from './useFocusTrap';
-export { useImageUpload } from './useImageUpload';
+export { useImagePreview } from './useImagePreview';
 export { useModal } from './useModal';
+export { useS3ImageUpload } from './useS3ImageUpload';
 export { useScrolled } from './useScrolled';
 export { useToast } from './useToast';
 export { useToastProvider } from './useToastProvider';
