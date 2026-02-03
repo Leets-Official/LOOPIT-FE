@@ -10,7 +10,7 @@ export const KakaoLogin = () => {
       ) : (
         <>
           <div className="border-brand-primary h-10 w-10 animate-spin rounded-full border-4 border-t-transparent" />
-          <p className="typo-body-1 text-gray-600">카카오 로그인 처리중</p>
+          <p className="typo-body-1 text-gray-600">로그인 처리 중</p>
         </>
       )}
     </div>
