@@ -1,13 +1,6 @@
-import { zodResolver } from '@hookform/resolvers/zod';
 import pictureIcon from '@shared/assets/icons/common/picture.svg';
-import { useImageUpload } from '@shared/hooks';
-import { Button } from '@shared/ui/Button/Button';
-import { Profile } from '@shared/ui/Profile';
-import { DateField } from '@shared/ui/TextField';
-import { TextField } from '@shared/ui/TextField/TextField';
-import { signupSchema, type SignupFormData } from '@shared/utils/schemas';
-import { useForm } from 'react-hook-form';
-import { useNavigate, useSearchParams } from 'react-router';
+import { Button, DateField, Profile, TextField } from '@shared/ui';
+import { useSignupForm } from '../model';
 
 const sectionLabel = 'typo-body-2 text-black';
 const sectionStyle = 'flex w-full flex-col gap-m';
@@ -20,44 +13,17 @@ const FORM_FIELDS = [
 ] as const;
 
 export const SignupForm = () => {
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const { imageUrl: profileImage, fileInputRef, handleSelectImage, handleImageChange } = useImageUpload();
-  const kakaoId = searchParams.get('kakaoId') ?? '';
-  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
-
   const {
+    profileImage,
+    fileInputRef,
+    handleSelectImage,
+    handleImageChange,
     register,
+    errors,
     handleSubmit,
-    formState: { errors },
-  } = useForm<SignupFormData>({ resolver: zodResolver(signupSchema) });
-
-  const onSubmit = async (data: SignupFormData) => {
-    if (!apiBaseUrl || !kakaoId) {
-      return;
-    }
-
-    // 콜백에서 받은 kakaoId로 신규 회원 가입 요청.
-    const response = await fetch(`${apiBaseUrl}/user/register/kakao`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        kakaoId,
-        nickname: data.nickname,
-        name: data.name,
-        email: data.email,
-        birthdate: data.birthDate,
-        profileImage: profileImage ?? '',
-      }),
-    });
-
-    if (!response.ok) {
-      return;
-    }
-
-    // 가입 완료 후 메인으로 이동.
-    navigate('/', { replace: true });
-  };
+    onSubmit,
+    isPending,
+  } = useSignupForm();
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex w-full flex-col items-center">
@@ -105,8 +71,8 @@ export const SignupForm = () => {
       </section>
 
       <section className="mt-[127px] flex w-full justify-center xl:justify-end">
-        <Button variant="fill" size="auto" className="w-full max-w-[286px]" type="submit">
-          회원가입 완료
+        <Button variant="fill" size="auto" className="w-full max-w-[286px]" type="submit" disabled={isPending}>
+          {isPending ? '처리중...' : '회원가입 완료'}
         </Button>
       </section>
     </form>
