@@ -1,6 +1,5 @@
 import { type PersonalInfoValues } from '@shared/types/mypage';
-import { Button } from '@shared/ui/Button/Button';
-import { TextField } from '@shared/ui/TextField/TextField';
+import { Button, TextField } from '@shared/ui';
 import { useEffect, useState } from 'react';
 
 export type PersonalInfoFormProps = {
