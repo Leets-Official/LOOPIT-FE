@@ -28,6 +28,9 @@ export default [
     // seller
     route('seller/:userId', 'routes/(main)/seller/index.tsx'),
 
+    // chat
+    route('chat', 'routes/(main)/chat/index.tsx'),
+
     // chatbot
     route('chatbot', 'routes/(main)/chatbot/index.tsx'),
   ]),
