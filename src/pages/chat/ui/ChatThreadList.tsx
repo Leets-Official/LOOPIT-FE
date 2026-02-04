@@ -28,7 +28,7 @@ export const ChatThreadList = ({ threads, selectedThreadId, unreadByThread, onSe
               )}
               aria-pressed={isActive}
             >
-              <Profile size="sm" image={thread.avatar} alt={`${thread.name} 프로필`} className="h-[80px] w-[80px]" />
+              <Profile size="chat" image={thread.avatar} alt={`${thread.name} 프로필`} />
               <div className="flex flex-1 flex-col gap-xxxs">
                 <span className={cn('typo-title-3 text-gray-900', isUnread && 'font-bold text-black')}>
                   {thread.name}
