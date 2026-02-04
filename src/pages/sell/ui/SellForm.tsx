@@ -10,9 +10,7 @@ import { useSellForm } from '@pages/sell/model/useSellForm';
 import { ConditionRadioGroup } from '@pages/sell/ui/ConditionRadioGroup';
 import { FormTextField } from '@pages/sell/ui/FormTextField';
 import { PictureIcon } from '@shared/assets/icons';
-import { Button } from '@shared/ui/Button/Button';
-import { DropDown } from '@shared/ui/DropDown';
-import { PriceField, TextAreaField } from '@shared/ui/TextField';
+import { Button, DropDown, PriceField, TextAreaField } from '@shared/ui';
 import { Controller } from 'react-hook-form';
 
 export const SellForm = () => {

@@ -1,5 +1,4 @@
-import { Button } from '@shared/ui/Button/Button';
-import { Profile } from '@shared/ui/Profile';
+import { Button, Profile } from '@shared/ui';
 import { cn } from '@shared/utils/cn';
 import type { ComponentPropsWithoutRef } from 'react';
 

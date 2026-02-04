@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { ROUTES } from '@shared/constants';
 import { useNavigate } from 'react-router';
 import { PageContainer } from './PageContainer';
 import { PersonalInfoForm } from './PersonalInfoForm';
@@ -6,7 +6,7 @@ import { getPersonalInfoDefaults, saveProfile } from '../model/profileStorage';
 
 const ProfileInfoPage = () => {
   const navigate = useNavigate();
-  const defaultValues = useMemo(() => getPersonalInfoDefaults(), []);
+  const defaultValues = getPersonalInfoDefaults();
 
   return (
     <main className="min-h-screen bg-white">
@@ -16,7 +16,7 @@ const ProfileInfoPage = () => {
           defaultValues={defaultValues}
           onSave={(values) => {
             saveProfile(values);
-            navigate('/mypage', { viewTransition: true });
+            navigate(ROUTES.MYPAGE, { viewTransition: true });
           }}
         />
       </PageContainer>

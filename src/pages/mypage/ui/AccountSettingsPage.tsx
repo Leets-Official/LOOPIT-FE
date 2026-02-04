@@ -1,4 +1,5 @@
 import { ChevronRightIcon, PictureIcon } from '@shared/assets/icons';
+import { ROUTES } from '@shared/constants';
 import { MY_PAGE_PROFILE } from '@shared/mocks/data/mypage';
 import { Profile } from '@shared/ui/Profile';
 import { useRef, useState } from 'react';
@@ -61,7 +62,7 @@ const AccountSettingsPage = () => {
           <div className="mt-xxxl flex flex-col gap-12.25">
             <button
               type="button"
-              onClick={() => navigate('/mypage/profile', { viewTransition: true })}
+              onClick={() => navigate(ROUTES.MYPAGE_PROFILE, { viewTransition: true })}
               className="px-xxs py-xxs flex h-11 w-full items-center justify-between text-left"
             >
               <span className="typo-body-1 text-gray-900">개인정보 관리</span>

@@ -17,6 +17,7 @@ const NAV_ITEMS = [
 ] as const;
 
 export type HeaderProps = Omit<ComponentPropsWithoutRef<'header'>, 'children'> & {
+  isLoading?: boolean;
   isLoggedIn?: boolean;
   user?: { profileImage?: string; nickname?: string };
   onLogoutClick?: () => void;
@@ -25,6 +26,7 @@ export type HeaderProps = Omit<ComponentPropsWithoutRef<'header'>, 'children'> &
 
 export const Header = ({
   className,
+  isLoading = false,
   isLoggedIn = false,
   user,
   onLogoutClick,
@@ -66,7 +68,9 @@ export const Header = ({
             </button>
           ))}
         </nav>
-        {isLoggedIn ? (
+        {isLoading ? (
+          <div className="h-[44px] w-[89px] animate-pulse rounded-(--radius-l) bg-gray-200" />
+        ) : isLoggedIn ? (
           <UserMenu
             profileImage={user?.profileImage}
             nickname={user?.nickname}
@@ -108,18 +112,18 @@ export const Header = ({
             </nav>
             <div className={styles.mobileDivider()} />
             {isLoggedIn ? (
-              <div className={styles.mobileAuthSection()}>
-                <button type="button" onClick={handleMyPageClick} className={styles.mobileAuthButton()}>
+              <>
+                <button type="button" onClick={handleMyPageClick} className={styles.mobileNavItem()}>
                   마이페이지
                 </button>
                 <button
                   type="button"
                   onClick={onLogoutClick}
-                  className={styles.mobileAuthButton({ className: 'text-gray-500' })}
+                  className={styles.mobileNavItem({ className: 'text-gray-500' })}
                 >
                   로그아웃
                 </button>
-              </div>
+              </>
             ) : (
               <div className={styles.mobileLoginWrapper()}>
                 <Button variant="fill" size="full" onClick={handleLoginClick}>
