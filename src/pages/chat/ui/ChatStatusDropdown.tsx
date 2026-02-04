@@ -2,7 +2,7 @@ import { CaretDownMdIcon } from '@shared/assets/icons';
 import { useClickOutside, useModal } from '@shared/hooks';
 import { STATUS_OPTIONS } from '@shared/mocks/data/chat';
 import { cn } from '@shared/utils/cn';
-import { useRef } from 'react';
+import { useId, useRef } from 'react';
 
 type ChatStatusDropdownProps = {
   activeStatus: (typeof STATUS_OPTIONS)[number];
@@ -10,6 +10,7 @@ type ChatStatusDropdownProps = {
 };
 
 export const ChatStatusDropdown = ({ activeStatus, onStatusChange }: ChatStatusDropdownProps) => {
+  const dropdownId = useId();
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const { isOpen, toggle, close } = useModal();
 
@@ -26,16 +27,26 @@ export const ChatStatusDropdown = ({ activeStatus, onStatusChange }: ChatStatusD
           statusClassName
         )}
         onClick={toggle}
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
+        aria-controls={dropdownId}
       >
         {activeStatus}
         <CaretDownMdIcon className={cn('h-[14px] w-[14px]', statusClassName)} />
       </button>
       {isOpen && (
-        <div className="absolute top-full right-0 mt-2 flex h-[95px] w-[96px] flex-col items-center justify-center gap-[21px] rounded-(--radius-s) bg-gradient-to-b from-[#48484A]/80 to-[#636366]/80 shadow-lg">
+        <div
+          id={dropdownId}
+          role="listbox"
+          aria-label="판매 상태 변경"
+          className="absolute top-full right-0 mt-2 flex h-[95px] w-[96px] flex-col items-center justify-center gap-[21px] rounded-(--radius-s) bg-gradient-to-b from-[#48484A]/80 to-[#636366]/80 shadow-lg"
+        >
           {STATUS_OPTIONS.filter((option) => option !== activeStatus).map((option) => (
             <button
               key={option}
               type="button"
+              role="option"
+              aria-selected={false}
               className="text-brand-primary flex h-[24px] w-[70px] items-center justify-center text-[20px] leading-[24px] font-semibold opacity-100"
               onClick={() => {
                 onStatusChange(option);
