@@ -34,15 +34,18 @@ export const useChatState = () => {
     [selectedThreadId, threadContent]
   );
 
-  const markThreadReadIfNeeded = (threadId: string | null) => {
-    if (!threadId) {
-      return;
-    }
-    if (!unreadByThread[threadId]) {
-      return;
-    }
-    setUnreadByThread((prev) => ({ ...prev, [threadId]: false }));
-  };
+  const markThreadReadIfNeeded = useCallback(
+    (threadId: string | null) => {
+      if (!threadId) {
+        return;
+      }
+      if (!unreadByThread[threadId]) {
+        return;
+      }
+      setUnreadByThread((prev) => ({ ...prev, [threadId]: false }));
+    },
+    [unreadByThread]
+  );
 
   const handleSend = (nextMessage: string) => {
     if (!selectedThreadId || !nextMessage.trim()) {
@@ -101,7 +104,7 @@ export const useChatState = () => {
     if (isAtBottom) {
       markThreadReadIfNeeded(selectedThreadId);
     }
-  }, [selectedThreadId, unreadByThread]);
+  }, [selectedThreadId, markThreadReadIfNeeded]);
 
   useEffect(() => {
     if (!selectedThreadId) {
