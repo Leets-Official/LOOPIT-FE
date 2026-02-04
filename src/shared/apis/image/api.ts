@@ -48,7 +48,7 @@ export const getPresignedUrls = async (domain: ImageDomain, fileNames: string[])
   return response.data.data;
 };
 
-// 여러 이미지 업로드 (presigned URLs 일괄 발급 + S3 업로드)
+// 여러 이미지 업로드
 export const uploadImages = async (domain: ImageDomain, files: File[]): Promise<UploadImagesResult> => {
   const fileNames = files.map((file) => file.name);
   const presignedData = await getPresignedUrls(domain, fileNames);
