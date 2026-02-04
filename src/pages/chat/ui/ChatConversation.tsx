@@ -69,7 +69,7 @@ export const ChatConversation = ({
                   type="button"
                   className={cn(
                     'inline-flex h-[24px] items-center gap-[6px] text-[20px] leading-[24px] font-semibold',
-                    activeStatus === '판매완료' ? 'text-gray-400' : 'text-brand-primary'
+                    statusClassName
                   )}
                   onClick={toggle}
                 >
