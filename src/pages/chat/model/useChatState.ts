@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
 import { CHAT_THREADS, INITIAL_STATUS_BY_THREAD, THREAD_CONTENT } from '@shared/mocks/data/chat';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { ThreadContent } from '@shared/types/chat';
 
 type StatusOption = (typeof INITIAL_STATUS_BY_THREAD)[string];
@@ -25,8 +25,7 @@ export const useChatState = () => {
     }, {})
   );
   const [threadContent, setThreadContent] = useState<Record<string, ThreadContent>>(THREAD_CONTENT);
-  const [statusByThread, setStatusByThread] =
-    useState<Record<string, StatusOption>>(INITIAL_STATUS_BY_THREAD);
+  const [statusByThread, setStatusByThread] = useState<Record<string, StatusOption>>(INITIAL_STATUS_BY_THREAD);
   const messageListRef = useRef<HTMLDivElement | null>(null);
 
   const hasSelection = selectedThreadId !== null;
@@ -88,7 +87,7 @@ export const useChatState = () => {
     container.scrollTop = container.scrollHeight;
   };
 
-  const handleScroll = () => {
+  const handleScroll = useCallback(() => {
     if (!selectedThreadId) {
       return;
     }
@@ -102,7 +101,7 @@ export const useChatState = () => {
     if (isAtBottom) {
       markThreadReadIfNeeded(selectedThreadId);
     }
-  };
+  }, [selectedThreadId, unreadByThread]);
 
   useEffect(() => {
     if (!selectedThreadId) {
@@ -113,7 +112,7 @@ export const useChatState = () => {
       handleScroll();
     });
     return () => window.cancelAnimationFrame(handle);
-  }, [selectedThreadId, activeThread?.timeline.length]);
+  }, [selectedThreadId, activeThread?.timeline.length, handleScroll]);
 
   return {
     activeThread,
