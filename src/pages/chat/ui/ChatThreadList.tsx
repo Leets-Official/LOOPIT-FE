@@ -30,10 +30,7 @@ export const ChatThreadList = ({ threads, selectedThreadId, unreadByThread, onSe
             >
               <Profile size="sm" image={thread.avatar} alt={`${thread.name} 프로필`} className="h-[80px] w-[80px]" />
               <div className="flex flex-1 flex-col gap-[6px]">
-                <span
-                  className={cn('typo-title-3 text-gray-900', isUnread && 'text-black')}
-                  style={isUnread ? { fontWeight: 700 } : undefined}
-                >
+                <span className={cn('typo-title-3 text-gray-900', isUnread && 'font-bold text-black')}>
                   {thread.name}
                 </span>
                 <span
