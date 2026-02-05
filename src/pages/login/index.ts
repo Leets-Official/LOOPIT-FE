@@ -1,1 +1,1 @@
-export { LoginPage } from './ui';
+export { LoginPage, KakaoLogin } from './ui';

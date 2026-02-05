@@ -1,4 +1,4 @@
-import { TradeItem, type TradeItemProps } from '@shared/ui/TradeItem/TradeItem';
+import { TradeItem, type TradeItemProps } from '@shared/ui';
 
 export type TradeListItem = TradeItemProps & { id: string };
 

@@ -1,12 +1,6 @@
-import { zodResolver } from '@hookform/resolvers/zod';
 import pictureIcon from '@shared/assets/icons/common/picture.svg';
-import { useImageUpload } from '@shared/hooks';
-import { Button } from '@shared/ui/Button/Button';
-import { Profile } from '@shared/ui/Profile';
-import { DateField } from '@shared/ui/TextField';
-import { TextField } from '@shared/ui/TextField/TextField';
-import { signupSchema, type SignupFormData } from '@shared/utils/schemas';
-import { useForm } from 'react-hook-form';
+import { Button, DateField, Profile, TextField } from '@shared/ui';
+import { useSignupForm } from '../model';
 
 const sectionLabel = 'typo-body-2 text-black';
 const sectionStyle = 'flex w-full flex-col gap-m';
@@ -19,17 +13,17 @@ const FORM_FIELDS = [
 ] as const;
 
 export const SignupForm = () => {
-  const { imageUrl: profileImage, fileInputRef, handleSelectImage, handleImageChange } = useImageUpload();
-
   const {
+    profileImage,
+    fileInputRef,
+    handleSelectImage,
+    handleImageChange,
     register,
+    errors,
     handleSubmit,
-    formState: { errors },
-  } = useForm<SignupFormData>({ resolver: zodResolver(signupSchema) });
-
-  const onSubmit = (data: SignupFormData) => {
-    void data;
-  };
+    onSubmit,
+    isPending,
+  } = useSignupForm();
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex w-full flex-col items-center">
@@ -77,8 +71,8 @@ export const SignupForm = () => {
       </section>
 
       <section className="mt-[127px] flex w-full justify-center xl:justify-end">
-        <Button variant="fill" size="auto" className="w-full max-w-[286px]" type="submit">
-          회원가입 완료
+        <Button variant="fill" size="auto" className="w-full max-w-[286px]" type="submit" disabled={isPending}>
+          {isPending ? '처리중...' : '회원가입 완료'}
         </Button>
       </section>
     </form>

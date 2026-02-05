@@ -1,4 +1,4 @@
-import { RadioButton } from '@shared/ui/RadioButton/RadioButton';
+import { RadioButton } from '@shared/ui';
 
 type ConditionOption<T extends string> = {
   readonly label: string;

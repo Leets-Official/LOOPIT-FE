@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 
-export const useImageUpload = () => {
+export const useImagePreview = () => {
   const [imageUrl, setImageUrl] = useState<string | undefined>();
+  const [file, setFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSelectImage = () => {
@@ -9,14 +10,15 @@ export const useImageUpload = () => {
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) {
+    const selectedFile = e.target.files?.[0];
+    if (!selectedFile) {
       return;
     }
     if (imageUrl) {
       URL.revokeObjectURL(imageUrl);
     }
-    setImageUrl(URL.createObjectURL(file));
+    setFile(selectedFile);
+    setImageUrl(URL.createObjectURL(selectedFile));
   };
 
   useEffect(() => {
@@ -29,6 +31,7 @@ export const useImageUpload = () => {
 
   return {
     imageUrl,
+    file,
     fileInputRef,
     handleSelectImage,
     handleImageChange,

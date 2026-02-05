@@ -1,5 +1,6 @@
 import { getProfileSummary } from '@pages/mypage/model/profileStorage';
 import { useMyPageState } from '@pages/mypage/model/useMyPageState';
+import { ROUTES } from '@shared/constants';
 import { RepairList, type RepairListItem } from '@shared/ui/RepairList';
 import { useNavigate } from 'react-router';
 import { CommonTabs } from './CommonTabs';
@@ -51,7 +52,7 @@ const MyPage = () => {
             nickname={profileSummary.nickname}
             email={profileSummary.email}
             profileImage={profileSummary.profileImage}
-            onSettingsClick={() => navigate('/mypage/settings', { viewTransition: true })}
+            onSettingsClick={() => navigate(ROUTES.MYPAGE_SETTINGS, { viewTransition: true })}
           />
         </div>
 

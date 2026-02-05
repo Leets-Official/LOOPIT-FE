@@ -1,8 +1,8 @@
 import checkerImg from '@shared/assets/icons/common/checker.png';
+import { ROUTES } from '@shared/constants';
 import { useModal, useToast } from '@shared/hooks';
 import { MOCK_SELL_CONFIRM_DATA } from '@shared/mocks/data';
-import { Button } from '@shared/ui/Button/Button';
-import { Modal } from '@shared/ui/Modal/Modal';
+import { Button, Modal } from '@shared/ui';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import type { SellState } from '@shared/types/sell';
@@ -45,7 +45,7 @@ const SellConfirmPage = () => {
   ];
 
   const actionButtons = [
-    { label: '수정', variant: 'outline' as const, onClick: () => navigate('/sell', { state }) },
+    { label: '수정', variant: 'outline' as const, onClick: () => navigate(ROUTES.SELL, { state }) },
     { label: '삭제', variant: 'fill' as const, onClick: deleteModal.open },
   ];
 
@@ -120,7 +120,7 @@ const SellConfirmPage = () => {
             onConfirm={() => {
               deleteModal.close();
               showToast('삭제되었습니다', 'success');
-              navigate('/');
+              navigate(ROUTES.MAIN);
             }}
             cancelText="취소"
             confirmText="삭제"
