@@ -13,7 +13,7 @@ export const ChatThreadList = ({ threads, selectedThreadId, unreadByThread, onSe
   return (
     <aside className="flex w-full flex-col gap-4 lg:gap-6 xl:h-[932px] xl:w-[510px] xl:max-w-[510px] xl:shrink-0 xl:px-[10px]">
       <h1 className="typo-title-2 text-gray-900">대화목록</h1>
-      <div className="flex min-h-0 flex-1 flex-col gap-xs overflow-y-auto pr-2">
+      <div className="gap-xs flex min-h-0 flex-1 flex-col overflow-y-auto pr-2">
         {threads.map((thread) => {
           const isActive = thread.id === selectedThreadId;
           const isUnread = unreadByThread[thread.id] ?? false;
@@ -23,13 +23,13 @@ export const ChatThreadList = ({ threads, selectedThreadId, unreadByThread, onSe
               type="button"
               onClick={() => onSelect(thread.id)}
               className={cn(
-                'flex h-[130px] w-full items-center gap-xxs rounded-[16px] px-[16px] py-[16px] text-left transition-colors',
+                'gap-xxs flex h-[130px] w-full items-center rounded-[16px] px-[16px] py-[16px] text-left transition-colors',
                 isActive ? 'bg-gray-50' : 'hover:bg-gray-50'
               )}
               aria-pressed={isActive}
             >
               <Profile size="chat" image={thread.avatar} alt={`${thread.name} 프로필`} />
-              <div className="flex flex-1 flex-col gap-xxxs">
+              <div className="gap-xxxs flex flex-1 flex-col">
                 <span className={cn('typo-title-3 text-gray-900', isUnread && 'font-bold text-black')}>
                   {thread.name}
                 </span>
