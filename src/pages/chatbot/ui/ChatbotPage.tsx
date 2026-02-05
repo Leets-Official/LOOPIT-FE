@@ -1,85 +1,17 @@
-import { useChatHistoryQuery, useSendMessageMutation } from '@shared/apis/chatbot';
 import { Logo4 } from '@shared/assets/logo';
 import { ChatInput } from '@shared/ui/ChatInput';
 import { LoadingFallback } from '@shared/ui/LoadingFallback';
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { ChatMessageList } from './ChatMessageList';
-import type { ChatMessage } from '../model/types';
-
-const INITIAL_BOT_MESSAGE = `루핏이 예상 수리비를 빠르게 계산해드릴게요. 아래 3가지만 알려주세요.
-(견적은 추정치이며 실제 비용은 수리점/부품/상태에 따라 달라질 수 있어요.)
-
-기종: 예) 아이폰 15, 갤럭시 S23
-
-어디가 고장났는지: 예) 액정/배터리/카메라/후면/충전/침수
-
-보험/케어 가입 여부: 예) 애플케어 O/X, 통신사 보험 O/X
-
-가능하면 원하는 방향도 한 줄로 적어주세요: "정품 우선" / "최대한 저렴하게" / "빨리"
-
-예시) "아이폰 15, 액정 깨짐, 애플케어 X, 최대한 저렴하게"
-
-`;
+import { useChatMessages } from '../model/useChatMessages';
 
 const ChatbotPage = () => {
-  const { data: history, isLoading: isHistoryLoading } = useChatHistoryQuery();
-  const sendMutation = useSendMessageMutation();
+  const { displayMessages, isHistoryLoading, errorMessage, handleSend } = useChatMessages();
   const endOfMessagesRef = useRef<HTMLDivElement | null>(null);
-
-  const messages: ChatMessage[] = useMemo(() => {
-    if (!history || history.length === 0) {
-      return [
-        {
-          id: 'bot-initial',
-          role: 'bot' as const,
-          content: INITIAL_BOT_MESSAGE,
-          status: 'done',
-        },
-      ];
-    }
-
-    return history.map((item, index) => ({
-      id: `history-${index}`,
-      role: item.role === 'User' ? ('user' as const) : ('bot' as const),
-      content: item.message,
-      status: 'done' as const,
-    }));
-  }, [history]);
-
-  const displayMessages: ChatMessage[] = useMemo(() => {
-    if (!sendMutation.isPending) {
-      return messages;
-    }
-
-    const pendingUserMessage: ChatMessage = {
-      id: 'pending-user',
-      role: 'user',
-      content: sendMutation.variables ?? '',
-      status: 'done',
-    };
-
-    const loadingBotMessage: ChatMessage = {
-      id: 'pending-bot',
-      role: 'bot',
-      content: '',
-      status: 'loading',
-    };
-
-    return [...messages, pendingUserMessage, loadingBotMessage];
-  }, [messages, sendMutation.isPending, sendMutation.variables]);
 
   useEffect(() => {
     endOfMessagesRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
-  }, [displayMessages]);
-
-  const handleSend = (value: string) => {
-    const trimmed = value.trim();
-    if (!trimmed || sendMutation.isPending) {
-      return;
-    }
-
-    sendMutation.mutate(trimmed);
-  };
+  }, [displayMessages.length]);
 
   if (isHistoryLoading) {
     return <LoadingFallback message="대화를 불러오는 중" />;
@@ -97,9 +29,7 @@ const ChatbotPage = () => {
               <h1 className="typo-title-2 text-black">루핏봇</h1>
             </div>
             <ChatMessageList messages={displayMessages} />
-            {sendMutation.isError && (
-              <div className="w-full text-center text-red-500">메시지 전송에 실패했습니다. 다시 시도해주세요.</div>
-            )}
+            {errorMessage && <div className="w-full text-center text-red-500">{errorMessage}</div>}
             <div ref={endOfMessagesRef} className="scroll-mb-[96px]" />
           </section>
           <div className="md:px-xxxl fixed inset-x-0 bottom-0 z-50 bg-white px-(--margin-l) pt-4 pb-(--margin-s) xl:px-[120px]">
