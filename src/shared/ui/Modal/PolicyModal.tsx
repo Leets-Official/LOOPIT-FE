@@ -1,7 +1,7 @@
 import { CloseIcon } from '@shared/assets/icons';
 import { useBodyScrollLock, useFocusTrap } from '@shared/hooks';
+import { Portal } from '@shared/ui/Portal';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
 import { policyModalStyles } from './PolicyModal.styles';
 
 export interface PolicyModalProps {
@@ -53,22 +53,23 @@ export const PolicyModal = ({ isOpen, onClose, title, children }: PolicyModalPro
     return null;
   }
 
-  return createPortal(
-    <div className={policyModalStyles.container} role="dialog" aria-modal="true" onMouseDown={handleOverlayMouseDown}>
-      <div
-        ref={modalRef}
-        className={`${policyModalStyles.content} ${closing ? 'animate-fade-out' : 'animate-fade-in'}`}
-      >
-        <div className={policyModalStyles.header}>
-          <h2 className={policyModalStyles.title}>{title}</h2>
-          <button type="button" onClick={handleClose} className={policyModalStyles.closeButton} aria-label="닫기">
-            <CloseIcon className="h-6 w-6" />
-          </button>
-        </div>
+  return (
+    <Portal>
+      <div className={policyModalStyles.container} role="dialog" aria-modal="true" onMouseDown={handleOverlayMouseDown}>
+        <div
+          ref={modalRef}
+          className={`${policyModalStyles.content} ${closing ? 'animate-fade-out' : 'animate-fade-in'}`}
+        >
+          <div className={policyModalStyles.header}>
+            <h2 className={policyModalStyles.title}>{title}</h2>
+            <button type="button" onClick={handleClose} className={policyModalStyles.closeButton} aria-label="닫기">
+              <CloseIcon className="h-6 w-6" />
+            </button>
+          </div>
 
-        <div className={policyModalStyles.body}>{children}</div>
+          <div className={policyModalStyles.body}>{children}</div>
+        </div>
       </div>
-    </div>,
-    document.body
+    </Portal>
   );
 };

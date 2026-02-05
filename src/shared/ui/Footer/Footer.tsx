@@ -1,16 +1,16 @@
 import { Logo } from '@shared/ui/Logo';
 import { PolicyModal } from '@shared/ui/Modal';
 import { useState } from 'react';
-import { footerVariants } from './Footer.variants';
+import { footerStyles } from './Footer.styles';
 import { POLICY_CONTENTS } from './policyData';
 
-type FooterLink = {
+type FooterText = {
   label: string;
-  href: string; // 실제로는 id 역할
+  href: string;
   isBold?: boolean;
 };
 
-const FOOTER_LINKS: FooterLink[] = [
+const POLICY_KEYS: FooterText[] = [
   { label: '이용약관', href: '/terms' },
   { label: '개인정보처리방침', href: '/privacy', isBold: true },
   { label: '운영정책', href: '/policy' },
@@ -20,7 +20,6 @@ const FOOTER_LINKS: FooterLink[] = [
 ];
 
 export const Footer = () => {
-  const styles = footerVariants();
   const [activePolicy, setActivePolicy] = useState<string | null>(null);
 
   const handlePolicyClick = (href: string) => {
@@ -32,41 +31,41 @@ export const Footer = () => {
   };
 
   const getPolicyTitle = (href: string) => {
-    return FOOTER_LINKS.find((link) => link.href === href)?.label ?? '약관';
+    return POLICY_KEYS.find((link) => link.href === href)?.label ?? '약관';
   };
 
   return (
     <>
-      <footer className={styles.root()}>
-        <div className={styles.inner()}>
-          <Logo className={styles.logo()} />
+      <footer className={footerStyles.root}>
+        <div className={footerStyles.inner}>
+          <Logo className={footerStyles.logo} />
 
-          <div className={styles.infoSection()}>
-            <h3 className={styles.infoTitle()}>루핏(주) 사업자정보</h3>
+          <div className={footerStyles.infoSection}>
+            <h3 className={footerStyles.infoTitle}>루핏(주) 사업자정보</h3>
 
-            <div className={styles.infoRow()}>
+            <div className={footerStyles.infoRow}>
               <span>Members 이정윤, 도채연, 김기찬, 김민지, 박소윤, 이경준, 정원준, 최예빈</span>
-              <span className="h-[10px] w-[1px] bg-gray-300" />
+              <span className={footerStyles.separator} />
               <span>사업자번호 287-38-01540</span>
             </div>
 
-            <div className={styles.infoRow()}>
+            <div className={footerStyles.infoRow}>
               <span>주소 경기 성남시 수정구 복정동 495</span>
             </div>
 
-            <div className={styles.infoRow()}>
+            <div className={footerStyles.infoRow}>
               <span>전화 010-5324-0756</span>
-              <span className="h-[10px] w-[1px] bg-gray-300" />
+              <span className={footerStyles.separator} />
             </div>
           </div>
 
-          <div className={styles.linkSection()}>
-            {FOOTER_LINKS.map((link) => (
+          <div className={footerStyles.linkSection}>
+            {POLICY_KEYS.map((link) => (
               <button
                 type="button"
                 key={link.label}
                 onClick={() => handlePolicyClick(link.href)}
-                className={styles.linkItem({ className: link.isBold ? styles.boldLink() : '' })}
+                className={`${footerStyles.linkItem} ${link.isBold ? footerStyles.boldLink : ''}`}
               >
                 {link.label}
               </button>

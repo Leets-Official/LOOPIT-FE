@@ -2,7 +2,7 @@ export const policyModalStyles = {
   container: [
     'fixed',
     'inset-0', // 전체 화면
-    'z-[9999]', // 최상단 노출 보장
+    'z-50', // 최상단 노출 보장
     'w-full',
     'h-full',
     'flex',
@@ -18,11 +18,11 @@ export const policyModalStyles = {
     'relative',
     'flex',
     'flex-col',
-    'gap-5',
+    'gap-xl',
     'rounded-(--radius-l)',
     'bg-white',
-    'px-8',
-    'py-6',
+    'px-xxl',
+    'py-xl',
     'shadow-xl',
   ].join(' '),
 
