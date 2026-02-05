@@ -1,6 +1,6 @@
 import { CloseIcon } from '@shared/assets/icons';
 import { useBodyScrollLock, useFocusTrap } from '@shared/hooks';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { policyModalStyles } from './PolicyModal.styles';
 
@@ -24,11 +24,11 @@ export const PolicyModal = ({ isOpen, onClose, title, children }: PolicyModalPro
         }
     }, [isOpen]);
 
-    const handleClose = () => {
-        if (closing) return;
+    const handleClose = useCallback(() => {
+        if (closing) {return;}
         setClosing(true);
         setTimeout(onClose, 150);
-    };
+    }, [closing, onClose]);
 
     const handleOverlayMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
         if (event.target === event.currentTarget) {
@@ -45,9 +45,9 @@ export const PolicyModal = ({ isOpen, onClose, title, children }: PolicyModalPro
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [isOpen]);
+    }, [isOpen, handleClose]);
 
-    if (!isOpen && !closing) return null;
+    if (!isOpen && !closing) {return null;}
 
     return createPortal(
         <div

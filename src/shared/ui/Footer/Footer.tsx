@@ -1,8 +1,7 @@
 import { Logo } from '@shared/ui/Logo';
-import { footerVariants } from './Footer.variants';
-
 import { PolicyModal } from '@shared/ui/Modal';
 import { useState } from 'react';
+import { footerVariants } from './Footer.variants';
 import { POLICY_CONTENTS } from './policyData';
 
 type FooterLink = {
@@ -79,7 +78,7 @@ export const Footer = () => {
             </footer>
 
             <PolicyModal
-                isOpen={!!activePolicy}
+                isOpen={Boolean(activePolicy)}
                 onClose={handleClosePolicy}
                 title={activePolicy ? getPolicyTitle(activePolicy) : ''}
             >
