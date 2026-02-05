@@ -20,6 +20,9 @@ export const profileVariants = tv({
       sm: {
         root: ['w-[44px]', 'h-[44px]'],
       },
+      chat: {
+        root: ['w-[80px]', 'h-[80px]'],
+      },
       md: {
         root: ['w-[152px]', 'h-[152px]'],
       },

@@ -1,6 +1,7 @@
 export { useBodyScrollLock } from './useBodyScrollLock';
 export { useClickOutside } from './useClickOutside';
 export { useFocusTrap } from './useFocusTrap';
+export { useHeaderNavigation } from './useHeaderNavigation';
 export { useImagePreview } from './useImagePreview';
 export { useModal } from './useModal';
 export { useS3ImageUpload } from './useS3ImageUpload';

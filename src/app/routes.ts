@@ -36,6 +36,9 @@ export default [
       route('mypage/settings', 'routes/(main)/mypage/settings.tsx'),
       route('mypage/profile', 'routes/(main)/mypage/profile.tsx'),
 
+      // chat
+      route('chat', 'routes/(main)/chat/index.tsx'),
+
       // chatbot
       route('chatbot', 'routes/(main)/chatbot/index.tsx'),
     ]),

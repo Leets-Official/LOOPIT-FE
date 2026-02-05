@@ -1,17 +1,30 @@
 import { ROUTES } from '@shared/constants';
+import { useAuthStore } from '@shared/stores';
 import { BannerCard } from '@shared/ui/BannerCard';
 import { Carousel3D } from '@shared/ui/Carousel3D';
 import { ChatbotFloatingButton } from '@shared/ui/ChatbotFloatingButton';
 import { ClientOnly } from '@shared/ui/ClientOnly';
+import { Modal } from '@shared/ui/Modal';
+import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { BANNER_CARDS } from './BannerCards';
 import { CAROUSEL_SLIDES } from './CarouselSlides';
 
 const MainPage = () => {
   const navigate = useNavigate();
+  const { accessToken } = useAuthStore();
+  const [showLoginModal, setShowLoginModal] = useState(false);
+
+  const handleChatbotClick = () => {
+    if (!accessToken) {
+      setShowLoginModal(true);
+      return;
+    }
+    navigate(ROUTES.CHATBOT, { viewTransition: true });
+  };
 
   return (
-    <main className="md:px-xxxl flex w-full flex-col items-center gap-6 px-(--margin-l) pb-24 md:gap-10 lg:gap-[68px] lg:px-0">
+    <main className="md:px-xxxl flex w-full flex-col items-center gap-6 px-(--margin-l) md:gap-10 lg:gap-[68px] lg:px-0">
       <section className="h-[317px] w-full max-w-[1200px]" aria-label="메인 슬로건 영역">
         <ClientOnly>
           <Carousel3D slides={CAROUSEL_SLIDES} />
@@ -31,9 +44,23 @@ const MainPage = () => {
       </section>
 
       <ChatbotFloatingButton
-        className="fixed right-4 bottom-4"
-        onClick={() => navigate(ROUTES.CHATBOT, { viewTransition: true })}
+        className="fixed right-[calc(1rem+var(--scrollbar-width))] bottom-4"
+        onClick={handleChatbotClick}
       />
+
+      {showLoginModal && (
+        <Modal
+          title="로그인이 필요합니다"
+          subtitle="로그인 페이지로 이동하시겠습니까?"
+          cancelText="취소"
+          confirmText="로그인"
+          onCancel={() => setShowLoginModal(false)}
+          onConfirm={() => {
+            setShowLoginModal(false);
+            navigate(ROUTES.LOGIN, { viewTransition: true });
+          }}
+        />
+      )}
     </main>
   );
 };
