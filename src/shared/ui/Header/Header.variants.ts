@@ -19,8 +19,10 @@ export const headerVariants = tv({
       'justify-between',
       'items-center',
       'bg-white',
-      'px-10',
-      'xl:px-[120px]',
+      'pl-10',
+      'pr-[calc(40px+var(--scrollbar-width))]',
+      'xl:pl-[120px]',
+      'xl:pr-[calc(120px+var(--scrollbar-width))]',
     ],
     logo: ['w-[192px]', 'h-[36px]', 'shrink-0'],
 
