@@ -1,20 +1,12 @@
 import { AlertDotIcon, HamburgerIcon } from '@shared/assets/icons';
-import { ROUTES } from '@shared/constants';
-import { useClickOutside, useModal } from '@shared/hooks';
+import { NAV_ITEMS } from '@shared/constants';
+import { useClickOutside, useHeaderNavigation, useModal } from '@shared/hooks';
 import { Button } from '@shared/ui/Button/Button';
 import { headerVariants } from '@shared/ui/Header/Header.variants';
 import { UserMenu } from '@shared/ui/Header/UserMenu';
 import { Logo } from '@shared/ui/Logo';
+import { Modal } from '@shared/ui/Modal';
 import { type ComponentPropsWithoutRef, useRef } from 'react';
-import { useNavigate } from 'react-router';
-
-const NAV_ITEMS = [
-  { id: 'buy', label: '구매하기', path: ROUTES.BUY },
-  { id: 'sell', label: '판매하기', path: ROUTES.SELL },
-  { id: 'repair', label: '수리점찾기', path: ROUTES.REPAIR },
-  { id: 'chat', label: '루핏톡', path: ROUTES.CHAT },
-  { id: 'chatbot', label: '챗봇', path: ROUTES.CHATBOT },
-] as const;
 
 export type HeaderProps = Omit<ComponentPropsWithoutRef<'header'>, 'children'> & {
   isLoading?: boolean;
@@ -33,25 +25,18 @@ export const Header = ({
   hasChatAlert = false,
   ...props
 }: HeaderProps) => {
-  const navigate = useNavigate();
   const { isOpen: isMobileMenuOpen, toggle: toggleMobileMenu, close: closeMobileMenu } = useModal();
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const styles = headerVariants();
 
-  const handleLoginClick = () => {
-    navigate(ROUTES.LOGIN, { viewTransition: true });
-    closeMobileMenu();
-  };
-
-  const handleMyPageClick = () => {
-    navigate(ROUTES.MYPAGE, { viewTransition: true });
-    closeMobileMenu();
-  };
-
-  const handleNavClick = (path: string) => {
-    navigate(path, { viewTransition: true });
-    closeMobileMenu();
-  };
+  const {
+    showLoginModal,
+    handleLoginClick,
+    handleMyPageClick,
+    handleNavClick,
+    handleLoginModalConfirm,
+    handleLoginModalCancel,
+  } = useHeaderNavigation({ isLoggedIn, closeMobileMenu });
 
   useClickOutside(mobileMenuRef, isMobileMenuOpen, closeMobileMenu);
 
@@ -134,6 +119,17 @@ export const Header = ({
           </div>
         )}
       </div>
+
+      {showLoginModal && (
+        <Modal
+          title="로그인이 필요합니다"
+          subtitle="로그인 페이지로 이동하시겠습니까?"
+          cancelText="취소"
+          confirmText="로그인"
+          onCancel={handleLoginModalCancel}
+          onConfirm={handleLoginModalConfirm}
+        />
+      )}
     </header>
   );
 };
