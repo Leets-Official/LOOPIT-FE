@@ -2,7 +2,7 @@ import { tv } from 'tailwind-variants';
 
 export const chatBubbleVariants = tv({
   slots: {
-    root: ['flex w-full items-end gap-[10px]'],
+    root: ['flex w-full items-end gap-[10px] self-stretch'],
     bubble: [
       'inline-flex',
       'items-center',
@@ -21,13 +21,13 @@ export const chatBubbleVariants = tv({
   variants: {
     variant: {
       receiver: {
-        root: ['justify-start'],
+        root: ['justify-start', 'pl-[20px]'],
         bubble: ['bg-gray-100'],
         text: ['text-gray-900'],
         meta: ['order-last'],
       },
       sender: {
-        root: ['justify-end', 'flex-row-reverse'],
+        root: ['justify-start', 'flex-row-reverse', 'pr-[23px]'],
         bubble: ['bg-brand-primary'],
         text: ['text-gray-900'],
         meta: ['order-last'],
