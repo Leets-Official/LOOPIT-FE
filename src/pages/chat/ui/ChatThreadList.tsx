@@ -11,7 +11,7 @@ type ChatThreadListProps = {
 
 export const ChatThreadList = ({ threads, selectedThreadId, unreadByThread, onSelect }: ChatThreadListProps) => {
   return (
-    <aside className="flex w-full flex-col gap-4 lg:gap-6 xl:h-[932px] xl:w-[510px] xl:max-w-[510px] xl:shrink-0 xl:px-[10px]">
+    <aside className="xl:px-xxs flex w-full flex-col gap-4 lg:gap-6 xl:h-[932px] xl:w-[510px] xl:max-w-[510px] xl:shrink-0">
       <h1 className="typo-title-2 text-gray-900">대화목록</h1>
       <div className="gap-xs flex min-h-0 flex-1 flex-col overflow-y-auto pr-2">
         {threads.map((thread) => {
@@ -23,7 +23,7 @@ export const ChatThreadList = ({ threads, selectedThreadId, unreadByThread, onSe
               type="button"
               onClick={() => onSelect(thread.id)}
               className={cn(
-                'gap-xxs flex h-[130px] w-full items-center rounded-[16px] px-[16px] py-[16px] text-left transition-colors',
+                'gap-xxs rounded-m px-l py-l flex h-[130px] w-full items-center text-left transition-colors',
                 isActive ? 'bg-gray-50' : 'hover:bg-gray-50'
               )}
               aria-pressed={isActive}
@@ -39,7 +39,7 @@ export const ChatThreadList = ({ threads, selectedThreadId, unreadByThread, onSe
                     isUnread ? 'text-gray-900' : 'text-gray-500'
                   )}
                 >
-                  {isUnread && <span className="bg-brand-primary h-[8px] w-[8px] rounded-full" aria-hidden="true" />}
+                  {isUnread && <span className="bg-brand-primary h-xxxs w-xxxs rounded-full" aria-hidden="true" />}
                   {thread.preview}
                 </span>
                 <span className="typo-caption-1 text-gray-400">{thread.dateLabel}</span>
