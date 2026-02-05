@@ -1,5 +1,5 @@
 export const POLICY_CONTENTS: Record<string, string> = {
-    '/terms': `이용약관
+  '/terms': `이용약관
 
 제1조(목적)
 본 약관은 루핏(LOOPIT)(이하 “회사”)이 제공하는 중고 디지털 기기 및 수리 정보 통합 플랫폼 서비스(이하 “서비스”)의 이용과 관련하여 회사와 이용자 간 권리·의무 및 책임사항, 기타 필요한 사항을 규정함을 목적으로 합니다.
@@ -50,8 +50,7 @@ export const POLICY_CONTENTS: Record<string, string> = {
 제12조(준거법 및 관할)
 본 약관은 대한민국 법령을 준거법으로 하며, 분쟁 발생 시 회사 소재지 관할 법원을 전속 관할로 합니다.`,
 
-    
-    '/privacy': `개인정보처리방침
+  '/privacy': `개인정보처리방침
 
 1. 개인정보의 처리 목적
 
@@ -115,7 +114,7 @@ export const POLICY_CONTENTS: Record<string, string> = {
 
 본 방침 변경 시 최소 7일 전 공지하며, 중요한 변경은 30일 전 공지합니다.`,
 
-    '/policy': `운영정책
+  '/policy': `운영정책
 
 1. 목적
 
@@ -142,7 +141,7 @@ export const POLICY_CONTENTS: Record<string, string> = {
 
 이용자는 신고 기능 또는 고객센터를 통해 신고할 수 있으며, 회사는 신속히 검토 후 조치합니다.`,
 
-    '/location-terms': `위치기반서비스 이용약관
+  '/location-terms': `위치기반서비스 이용약관
 
 제1조(목적)
 
@@ -165,8 +164,7 @@ export const POLICY_CONTENTS: Record<string, string> = {
 
 이용자는 위치정보 이용 동의를 언제든 철회할 수 있습니다.`,
 
-    
-    '/protection': `이용자보호 비전과 계획
+  '/protection': `이용자보호 비전과 계획
 
 루핏은 “중고·수리 시장에서 이용자가 안전하고 합리적인 선택을 할 수 있도록 돕는 것”을 이용자보호의 핵심 가치로 삼습니다.
 
@@ -182,7 +180,7 @@ export const POLICY_CONTENTS: Record<string, string> = {
 4. **고객지원 강화**: 신고/문의의 처리기한 명시, 분쟁 조정 가이드 제공
 5. **데이터 보호**: 개인정보 최소 수집 및 보안 강화, 접근권한 관리,`,
 
-    '/youth-protection': `청소년보호정책
+  '/youth-protection': `청소년보호정책
 
 루핏은 청소년이 안전하게 서비스를 이용할 수 있도록 다음과 같은 정책을 운영합니다.
 
@@ -190,5 +188,5 @@ export const POLICY_CONTENTS: Record<string, string> = {
 2. **신고/모니터링**: 이용자 신고 및 모니터링 체계를 운영하고, 신속히 조치합니다.
 3. **개인정보 보호 강화**: 청소년 개인정보는 최소한으로 수집하며, 불필요한 노출을 방지합니다.
 4. **청소년 보호 책임자**: 청소년 보호를 위한 담당자를 지정하고 문의 창구를 운영합니다.
-5. **교육 및 안내**: 안전한 거래/사기 예방 안내를 지속적으로 제공합니다.`
+5. **교육 및 안내**: 안전한 거래/사기 예방 안내를 지속적으로 제공합니다.`,
 };
