@@ -3,9 +3,7 @@ import { ChatInput } from '@shared/ui/ChatInput';
 import { type RefObject } from 'react';
 import { ChatConversationHeader } from './ChatConversationHeader';
 import { ChatStatusDropdown } from './ChatStatusDropdown';
-import type { ChatMessageItem, ChatRoomData } from '@shared/apis/chat';
-
-type PostStatus = '판매중' | '예약중' | '판매완료';
+import type { ChatMessageItem, ChatRoomData, PostStatus } from '@shared/apis/chat';
 
 type ChatConversationProps = {
   room: ChatRoomData | null;

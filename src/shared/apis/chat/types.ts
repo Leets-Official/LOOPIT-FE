@@ -2,6 +2,8 @@ import type { ApiResponse } from '../types';
 
 export type ChatMessageType = 'TEXT' | 'IMAGE';
 
+export type PostStatus = '판매중' | '예약중' | '판매완료';
+
 // REST API Types
 
 export interface CreateRoomRequest {
@@ -19,7 +21,7 @@ export interface ChatRoomData {
   postPrice: number;
   postCreatedAt: string;
   thumbnail: string;
-  postStatus: '판매중' | '예약중' | '판매완료';
+  postStatus: PostStatus;
 }
 
 export type CreateRoomResponseBody = ApiResponse<ChatRoomData>;

@@ -2,8 +2,7 @@ import { CaretDownMdIcon } from '@shared/assets/icons';
 import { useClickOutside, useModal } from '@shared/hooks';
 import { cn } from '@shared/utils/cn';
 import { useId, useRef } from 'react';
-
-type PostStatus = '판매중' | '예약중' | '판매완료';
+import type { PostStatus } from '@shared/apis/chat';
 
 const STATUS_OPTIONS: PostStatus[] = ['판매중', '예약중', '판매완료'];
 

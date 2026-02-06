@@ -1,6 +1,7 @@
 import {
   type ChatMessageItem,
   type ChatRoomData,
+  type PostStatus,
   type WebSocketMessage,
   chatSocket,
   isReadNotification,
@@ -10,8 +11,6 @@ import {
 } from '@shared/apis/chat';
 import { useAuthStore } from '@shared/stores';
 import { useCallback, useEffect, useRef, useState } from 'react';
-
-type PostStatus = '판매중' | '예약중' | '판매완료';
 
 export const useChatState = () => {
   const { userId } = useAuthStore();
@@ -23,7 +22,7 @@ export const useChatState = () => {
 
   const { data: rooms = [], refetch: refetchRooms } = useChatRoomsQuery();
   const { data: serverMessages = [] } = useChatMessagesQuery(selectedRoomId);
-  const createRoomMutation = useCreateRoomMutation();
+  const { mutate: createRoom } = useCreateRoomMutation();
 
   const messages = [
     ...serverMessages,
@@ -97,7 +96,7 @@ export const useChatState = () => {
 
     const room = rooms.find((r) => r.roomId === selectedRoomId);
     if (room) {
-      createRoomMutation.mutate(
+      createRoom(
         { sellerId: room.partnerId, buyerId: userId, sellPostId: 0 },
         {
           onSuccess: (data) => {
@@ -107,8 +106,7 @@ export const useChatState = () => {
         }
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedRoomId, userId, rooms]);
+  }, [selectedRoomId, userId, rooms, createRoom]);
 
   const handleSend = useCallback(
     (content: string) => {
