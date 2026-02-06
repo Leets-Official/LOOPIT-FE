@@ -24,9 +24,9 @@ export const useLogoutMutation = () => {
   const { clearAuth } = useAuthStore();
 
   const cleanup = () => {
+    navigate(ROUTES.MAIN, { replace: true });
     clearAuth();
     queryClient.removeQueries({ queryKey: userKeys.all });
-    navigate(ROUTES.MAIN, { replace: true });
   };
 
   return useMutation({
