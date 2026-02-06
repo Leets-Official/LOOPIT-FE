@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router';
 import { carousel3DVariants } from './Carousel3D.variants';
-import type { ComponentPropsWithoutRef, MouseEvent } from 'react';
+import type { ComponentPropsWithoutRef } from 'react';
 
 const { imageSlide, imageBackground, imageOverlay, imageContent, imageTitle, imageSubtitle } = carousel3DVariants();
 
@@ -9,7 +9,7 @@ export interface CarouselImageSlideProps extends ComponentPropsWithoutRef<'div'>
   title: string;
   subtitle?: string;
   href?: string;
-  onClick?: (e: MouseEvent) => boolean | void;
+  onClick?: () => boolean | void;
 }
 
 export const CarouselImageSlide = ({
@@ -34,9 +34,9 @@ export const CarouselImageSlide = ({
     </>
   );
 
-  const handleClick = (e: MouseEvent) => {
+  const handleClick = () => {
     if (onClick) {
-      const shouldNavigate = onClick(e);
+      const shouldNavigate = onClick();
       if (shouldNavigate === false) {
         return;
       }
@@ -52,8 +52,8 @@ export const CarouselImageSlide = ({
         role="button"
         tabIndex={0}
         onClick={handleClick}
-        onKeyDown={(e) => e.key === 'Enter' && handleClick(e as unknown as MouseEvent)}
-        className={imageSlide({ className: `block cursor-pointer ${className ?? ''}` })}
+        onKeyDown={(e) => e.key === 'Enter' && handleClick()}
+        className={imageSlide({ className: `block cursor-pointer ${className}` })}
         {...props}
       >
         {content}
