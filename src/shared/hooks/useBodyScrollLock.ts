@@ -6,7 +6,7 @@ export const useBodyScrollLock = (isLocked: boolean) => {
       return;
     }
 
-    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth + 1;
 
     const previousOverflow = document.body.style.overflow;
     const previousPaddingRight = document.body.style.paddingRight;
