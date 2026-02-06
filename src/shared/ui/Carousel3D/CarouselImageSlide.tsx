@@ -1,6 +1,6 @@
-import { Link } from 'react-router';
+import { useNavigate } from 'react-router';
 import { carousel3DVariants } from './Carousel3D.variants';
-import type { ComponentPropsWithoutRef } from 'react';
+import type { ComponentPropsWithoutRef, MouseEvent } from 'react';
 
 const { imageSlide, imageBackground, imageOverlay, imageContent, imageTitle, imageSubtitle } = carousel3DVariants();
 
@@ -9,6 +9,7 @@ export interface CarouselImageSlideProps extends ComponentPropsWithoutRef<'div'>
   title: string;
   subtitle?: string;
   href?: string;
+  onClick?: (e: MouseEvent) => boolean | void;
 }
 
 export const CarouselImageSlide = ({
@@ -16,9 +17,12 @@ export const CarouselImageSlide = ({
   title: titleText,
   subtitle,
   href,
+  onClick,
   className,
   ...props
 }: CarouselImageSlideProps) => {
+  const navigate = useNavigate();
+
   const content = (
     <>
       <img src={imageSrc} alt="" className={imageBackground()} loading="lazy" />
@@ -30,11 +34,30 @@ export const CarouselImageSlide = ({
     </>
   );
 
-  if (href) {
+  const handleClick = (e: MouseEvent) => {
+    if (onClick) {
+      const shouldNavigate = onClick(e);
+      if (shouldNavigate === false) {
+        return;
+      }
+    }
+    if (href) {
+      navigate(href, { viewTransition: true });
+    }
+  };
+
+  if (href || onClick) {
     return (
-      <Link to={href} viewTransition className={imageSlide({ className: `block cursor-pointer ${className ?? ''}` })}>
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={handleClick}
+        onKeyDown={(e) => e.key === 'Enter' && handleClick(e as unknown as MouseEvent)}
+        className={imageSlide({ className: `block cursor-pointer ${className ?? ''}` })}
+        {...props}
+      >
         {content}
-      </Link>
+      </div>
     );
   }
 
