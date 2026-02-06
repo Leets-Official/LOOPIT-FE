@@ -11,6 +11,11 @@ class ChatSocketClient {
 
   connect = (onConnect?: () => void, onError?: (error: string) => void) => {
     const accessToken = getAccessToken();
+    if (!accessToken) {
+      onError?.('No access token available');
+      return;
+    }
+
     const baseUrl = (import.meta.env.VITE_API_BASE_URL as string).replace(/^https:/, 'wss:').replace(/^http:/, 'ws:');
     const wsUrl = `${baseUrl}${STOMP_ENDPOINTS.CONNECT}`;
 
