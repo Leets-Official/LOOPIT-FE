@@ -48,7 +48,12 @@ const MainPage = () => {
             title={card.title}
             description={card.description}
             imageSrc={card.imageSrc}
-            onClick={() => navigate(card.route, { viewTransition: true })}
+            onClick={() => {
+              if (card.id === 'sell' && !handleProtectedClick()) {
+                return;
+              }
+              navigate(card.route, { viewTransition: true });
+            }}
           />
         ))}
       </section>
