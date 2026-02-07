@@ -137,7 +137,7 @@ export const useSellForm = () => {
         },
       });
     } catch {
-      showToast('판매글 처리에 실패했습니다. 다시 시도해 주세요.');
+      showToast('판매글 처리에 실패했습니다.\n다시 시도해 주세요.');
     }
   });
 
