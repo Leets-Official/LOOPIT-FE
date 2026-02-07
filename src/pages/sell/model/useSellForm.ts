@@ -1,9 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { uploadImage } from '@shared/apis/image';
+import { useCreateSellPostMutation, useUpdateSellPostMutation } from '@shared/apis/sell';
+import type { CreateSellPostRequest } from '@shared/apis/sell';
 import { ROUTES } from '@shared/constants';
 import { useClickOutside, useToast } from '@shared/hooks';
 import { validateImageFile } from '@shared/utils';
 import { MAX_IMAGE_BYTES, sellSchema, type SellFormData } from '@shared/utils/schemas';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router';
 import { getSellFormDefaults, mapSellDraftToForm } from './initialValues';
@@ -13,6 +16,11 @@ export const useSellForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { showToast } = useToast();
+  const createSellPostMutation = useCreateSellPostMutation();
+  const locationState = useMemo(() => (location.state ?? {}) as SellState, [location.state]);
+  const editPostId = locationState.postId ?? null;
+  const existingImageUrl = locationState.imageUrl ?? null;
+  const updateSellPostMutation = useUpdateSellPostMutation(editPostId ?? '');
 
   const {
     control,
@@ -94,29 +102,79 @@ export const useSellForm = () => {
     if (hasInitialized.current) {
       return;
     }
-    const state = (location.state ?? {}) as SellState;
-    if (Object.keys(state).length === 0) {
+    if (Object.keys(locationState).length === 0) {
       return;
     }
-    reset(mapSellDraftToForm(state));
-    if (state.imageFile) {
-      setValue('imageFile', state.imageFile, { shouldValidate: true });
+    reset(mapSellDraftToForm(locationState));
+    if (locationState.imageFile) {
+      setValue('imageFile', locationState.imageFile, { shouldValidate: true });
     } else {
       resetField('imageFile');
     }
-    setPreviewUrl(state.imageUrl ?? null);
+    setPreviewUrl(locationState.imageUrl ?? null);
     hasInitialized.current = true;
-  }, [location.state, reset, resetField, setValue]);
+  }, [locationState, reset, resetField, setValue]);
 
-  const onSubmit = handleSubmit((data) => {
-    // API 추후 연결
-    showToast('등록되었습니다', 'success');
-    navigate(ROUTES.SELL_CONFIRM, {
-      state: {
-        ...data,
-        imageUrl: previewUrl,
-      },
-    });
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      const imageFile = data.imageFile;
+      if (!imageFile && !existingImageUrl) {
+        const message = '이미지를 업로드해 주세요.';
+        showToast(message);
+        setError('imageFile', { type: 'validate', message });
+        return;
+      }
+
+      let imageUrl = existingImageUrl ?? '';
+      if (imageFile) {
+        const uploaded = await uploadImage('PRODUCT', imageFile);
+        imageUrl = uploaded.fileUrl;
+      }
+
+      const batteryStatus: CreateSellPostRequest['batteryStatus'] =
+        data.batteryCondition === '80plus' ? 'GREAT' : data.batteryCondition === '80minus' ? 'GOOD' : 'BAD';
+
+      const request: CreateSellPostRequest = {
+        title: data.title,
+        manufacturer: data.manufacturer,
+        model: data.modelName,
+        color: data.colorName,
+        capacity: data.storageSize,
+        price: Number(data.price),
+        description: data.description,
+        imageUrls: [imageUrl],
+        hasScratch: data.scratchCondition === 'scratch',
+        batteryStatus,
+        screenCracked: data.screenCondition === 'broken',
+        used: data.productCondition === 'used',
+      };
+
+      if (editPostId) {
+        await updateSellPostMutation.mutateAsync(request);
+        showToast('수정되었습니다', 'success');
+      } else {
+        const created = await createSellPostMutation.mutateAsync(request);
+        showToast('등록되었습니다', 'success');
+        navigate(ROUTES.SELL_CONFIRM, {
+          state: {
+            ...data,
+            postId: created.id,
+            imageUrl,
+          },
+        });
+        return;
+      }
+
+      navigate(ROUTES.SELL_CONFIRM, {
+        state: {
+          ...data,
+          postId: editPostId,
+          imageUrl,
+        },
+      });
+    } catch (error) {
+      showToast('판매글 처리에 실패했습니다. 다시 시도해 주세요.');
+    }
   });
 
   return {

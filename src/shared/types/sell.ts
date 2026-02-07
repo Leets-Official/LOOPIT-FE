@@ -1,4 +1,5 @@
 export type SellState = {
+  postId?: number;
   title?: string;
   price?: string;
   manufacturer?: string | null;
