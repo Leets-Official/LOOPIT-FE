@@ -18,8 +18,6 @@ const MAIN_TABS: Array<MyPageTab<MainTabId>> = [
 
 const MyPage = () => {
   const navigate = useNavigate();
-  const profileSummary = getProfileSummary();
-
   const {
     activeTab,
     setActiveTab,
@@ -32,7 +30,14 @@ const MyPage = () => {
     currentFilteredItems,
     favoriteProductItems,
     favoriteRepairItems,
+    profileData,
   } = useMyPageState();
+  const fallbackProfile = getProfileSummary();
+  const profileSummary = {
+    nickname: profileData?.nickname ?? fallbackProfile.nickname,
+    email: profileData?.email ?? fallbackProfile.email,
+    profileImage: profileData?.profileImageUrl ?? fallbackProfile.profileImage,
+  };
 
   const handleRepairContact = (_item: RepairListItem) => {
     // NOTE: 수리점 연락하기 기능 연동 후 처리 예정
