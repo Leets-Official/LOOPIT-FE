@@ -1,7 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { uploadImage } from '@shared/apis/image';
-import { useCreateSellPostMutation, useUpdateSellPostMutation } from '@shared/apis/sell';
-import type { CreateSellPostRequest } from '@shared/apis/sell';
 import { ROUTES } from '@shared/constants';
 import { useClickOutside, useToast } from '@shared/hooks';
 import { validateImageFile } from '@shared/utils';
@@ -10,6 +8,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router';
 import { getSellFormDefaults, mapSellDraftToForm } from './initialValues';
+import { useCreateSellPostMutation, useUpdateSellPostMutation, type CreateSellPostRequest } from '@shared/apis/sell';
 import type { SellState } from '@shared/types/sell';
 
 export const useSellForm = () => {
