@@ -16,7 +16,7 @@ export const createSellPost = async (request: CreateSellPostRequest): Promise<Cr
 export const updateSellPost = async (
   postId: number | string,
   request: UpdateSellPostRequest
-): Promise<{ postId: number }> => {
+): Promise<{ id: number }> => {
   const response = await axiosInstance.put<UpdateSellPostResponseBody>(SELL_ENDPOINTS.ITEM(postId), request);
   return response.data.data;
 };
