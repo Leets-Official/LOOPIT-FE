@@ -1,14 +1,15 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { uploadImage } from '@shared/apis/image';
-import { useCreateSellPostMutation, useUpdateSellPostMutation, type CreateSellPostRequest } from '@shared/apis/sell';
+import { useCreateSellPostMutation, useUpdateSellPostMutation } from '@shared/apis/sell';
 import { ROUTES } from '@shared/constants';
 import { useClickOutside, useToast } from '@shared/hooks';
-import { validateImageFile } from '@shared/utils';
-import { MAX_IMAGE_BYTES, sellSchema, type SellFormData } from '@shared/utils/schemas';
+import { sellSchema, type SellFormData } from '@shared/utils/schemas';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router';
+import { buildSellPostRequest } from './buildSellPostRequest';
 import { getSellFormDefaults, mapSellDraftToForm } from './initialValues';
+import { useSellImage } from './useSellImage';
 import type { SellState } from '@shared/types/sell';
 
 export const useSellForm = () => {
@@ -36,7 +37,6 @@ export const useSellForm = () => {
   });
 
   const hasInitialized = useRef(false);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
@@ -47,31 +47,12 @@ export const useSellForm = () => {
   const screenCondition = watch('screenCondition');
   const batteryCondition = watch('batteryCondition');
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) {
-      return;
-    }
-
-    const validation = validateImageFile(file, MAX_IMAGE_BYTES);
-    if (!validation.ok) {
-      showToast(validation.message);
-      setPreviewUrl(null);
-      resetField('imageFile');
-      setError('imageFile', {
-        type: 'validate',
-        message: validation.message,
-      });
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = () => {
-      setPreviewUrl(reader.result as string);
-    };
-    reader.readAsDataURL(file);
-    setValue('imageFile', file, { shouldValidate: true });
-  };
+  const { previewUrl, setPreviewUrl, handleImageChange } = useSellImage({
+    showToast,
+    setError,
+    resetField,
+    setValue,
+  });
 
   const closeDropdown = () => {
     setIsDropdownOpen(false);
@@ -112,7 +93,7 @@ export const useSellForm = () => {
     }
     setPreviewUrl(locationState.imageUrl ?? null);
     hasInitialized.current = true;
-  }, [locationState, reset, resetField, setValue]);
+  }, [locationState, reset, resetField, setValue, setPreviewUrl]);
 
   const onSubmit = handleSubmit(async (data) => {
     try {
@@ -130,23 +111,7 @@ export const useSellForm = () => {
         imageUrl = uploaded.fileUrl;
       }
 
-      const batteryStatus: CreateSellPostRequest['batteryStatus'] =
-        data.batteryCondition === '80plus' ? 'GREAT' : data.batteryCondition === '80minus' ? 'GOOD' : 'BAD';
-
-      const request: CreateSellPostRequest = {
-        title: data.title,
-        manufacturer: data.manufacturer,
-        model: data.modelName,
-        color: data.colorName,
-        capacity: data.storageSize,
-        price: Number(data.price),
-        description: data.description,
-        imageUrls: [imageUrl],
-        hasScratch: data.scratchCondition === 'scratch',
-        batteryStatus,
-        screenCracked: data.screenCondition === 'broken',
-        used: data.productCondition === 'used',
-      };
+      const request = buildSellPostRequest(data, imageUrl);
 
       if (editPostId) {
         await updateSellPostMutation.mutateAsync(request);
