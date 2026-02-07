@@ -55,7 +55,7 @@ export const BuyFilter = ({
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <aside className="flex w-full shrink-0 flex-col items-start gap-[21px] lg:h-[702px] lg:w-[183px]">
+    <aside className="flex w-full shrink-0 flex-col items-start gap-[21px] pb-10 lg:w-[183px]">
       {/* 모바일: 토글 버튼 */}
       <button
         type="button"
