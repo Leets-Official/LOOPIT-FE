@@ -1,4 +1,4 @@
-import { getBuyItems } from '@shared/apis';
+import { useBuyItemsQuery, type PriceRangeEnum } from '@shared/apis/buy';
 import { MANUFACTURERS, MODELS, PRICE_RANGES } from '@shared/mocks/data/buy';
 import { useState } from 'react';
 import { filterBuyItems } from './filterBuyItems';
@@ -13,11 +13,49 @@ export type FilterChip = {
 
 export const useBuyFilter = () => {
   const [query, setQuery] = useState('');
+  const [appliedQuery, setAppliedQuery] = useState('');
   const [selectedManufacturers, setSelectedManufacturers] = useState<string[]>([]);
   const [selectedModels, setSelectedModels] = useState<string[]>([]);
   const [selectedPrices, setSelectedPrices] = useState<string[]>([]);
   const [availableOnly, setAvailableOnly] = useState(false);
   const [showAllModels, setShowAllModels] = useState(false);
+
+  const priceRangeMap: Record<string, PriceRangeEnum> = {
+    'under-100': 'UNDER_10',
+    '100-130': 'FROM_10_TO_30',
+    '130-160': 'FROM_30_TO_60',
+    '160-200': 'FROM_60_TO_90',
+    '200+': 'OVER_100',
+  };
+  const selectedPriceRange =
+    selectedPrices.length === 1 ? priceRangeMap[selectedPrices[0]] ?? undefined : undefined;
+  const shouldClientManufacturerFilter = selectedManufacturers.length > 0;
+  const shouldClientPriceFilter = selectedPrices.length > 0;
+
+  const manufacturerMap: Record<string, string> = {
+    apple: 'APPLE',
+    samsung: 'SAMSUNG',
+  };
+  const selectedManufacturer =
+    selectedManufacturers.length === 1 ? manufacturerMap[selectedManufacturers[0]] : undefined;
+
+  const selectedSeries = (() => {
+    if (selectedModels.length !== 1) {
+      return undefined;
+    }
+    const label = MODELS.find((item) => item.id === selectedModels[0])?.label ?? '';
+    return label.replace(' 시리즈', '');
+  })();
+
+  const keyword = appliedQuery.trim().length >= 2 ? appliedQuery.trim() : undefined;
+
+  const { data: items = [], isLoading, isError } = useBuyItemsQuery({
+    page: 0,
+    manufacturer: shouldClientManufacturerFilter ? undefined : selectedManufacturer,
+    series: selectedSeries,
+    priceRange: shouldClientPriceFilter ? undefined : selectedPriceRange,
+    keyword,
+  });
 
   const manufacturerChips = selectedManufacturers.map((id) => ({
     id,
@@ -41,12 +79,16 @@ export const useBuyFilter = () => {
   const activeChips: FilterChip[] = [...manufacturerChips, ...modelChips, ...priceChips, ...availabilityChip];
 
   const filteredItems = filterBuyItems({
-    items: getBuyItems(),
+    items,
     query,
     selectedManufacturers,
     selectedModels,
     selectedPrices,
     availableOnly,
+    skipServerSyncedFilters: true,
+    applyManufacturerFilter: shouldClientManufacturerFilter,
+    applyPriceFilter: shouldClientPriceFilter,
+    applyQueryFilter: query.trim().length > 0,
   });
 
   const toggleManufacturer = (id: string) => {
@@ -90,6 +132,7 @@ export const useBuyFilter = () => {
     // 검색
     query,
     setQuery,
+    applySearch: () => setAppliedQuery(query),
 
     // 필터 상태
     selectedManufacturers,
@@ -114,5 +157,9 @@ export const useBuyFilter = () => {
     toggleModel,
     togglePrice,
     resetFilters,
+
+    // api 상태
+    isLoading,
+    isError,
   };
 };
