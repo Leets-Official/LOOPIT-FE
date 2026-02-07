@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { uploadImage } from '@shared/apis/image';
+import { useCreateSellPostMutation, useUpdateSellPostMutation, type CreateSellPostRequest } from '@shared/apis/sell';
 import { ROUTES } from '@shared/constants';
 import { useClickOutside, useToast } from '@shared/hooks';
 import { validateImageFile } from '@shared/utils';
@@ -8,7 +9,6 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router';
 import { getSellFormDefaults, mapSellDraftToForm } from './initialValues';
-import { useCreateSellPostMutation, useUpdateSellPostMutation, type CreateSellPostRequest } from '@shared/apis/sell';
 import type { SellState } from '@shared/types/sell';
 
 export const useSellForm = () => {
@@ -171,7 +171,7 @@ export const useSellForm = () => {
           imageUrl,
         },
       });
-    } catch (error) {
+    } catch {
       showToast('판매글 처리에 실패했습니다. 다시 시도해 주세요.');
     }
   });
