@@ -1,5 +1,5 @@
-import checkerImg from '@shared/assets/icons/common/checker.png';
 import { useDeleteSellPostMutation } from '@shared/apis/sell';
+import checkerImg from '@shared/assets/icons/common/checker.png';
 import { ROUTES } from '@shared/constants';
 import { useModal, useToast } from '@shared/hooks';
 import { MOCK_SELL_CONFIRM_DATA } from '@shared/mocks/data';
@@ -130,7 +130,7 @@ const SellConfirmPage = () => {
                 await deleteSellPostMutation.mutateAsync();
                 showToast('삭제되었습니다', 'success');
                 navigate(ROUTES.MAIN);
-              } catch (error) {
+              } catch {
                 showToast('삭제에 실패했습니다. 다시 시도해 주세요.');
               }
             }}
