@@ -1,9 +1,10 @@
 import { buildDetailInfo } from '@pages/buy-detail/model/buildDetailInfo';
-import { getBuyItemById, getBuyItems } from '@shared/apis';
+import { useBuyItemQuery, useBuyItemsQuery } from '@shared/apis/buy';
 import { ROUTES } from '@shared/constants';
 import { Button } from '@shared/ui/Button';
 import { Card } from '@shared/ui/Card';
 import { FavoriteButton } from '@shared/ui/FavoriteButton';
+import { LoadingFallback } from '@shared/ui/LoadingFallback';
 import { NotFoundFallback } from '@shared/ui/NotFoundFallback';
 import { Profile } from '@shared/ui/Profile';
 import { Link, useNavigate, useParams } from 'react-router';
@@ -20,14 +21,12 @@ const BuyDetailPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const item = getBuyItemById(id);
-  const detailInfo = item ? buildDetailInfo(item) : '';
-  // NOTE: API 연동 시 추천/유사 상품 서버 로직으로 대체
-  const similarItems = item
-    ? getBuyItems()
-        .filter((entry) => entry.id !== item.id && entry.model === item.model)
-        .slice(0, 4)
-    : [];
+  const { data: item, isLoading } = useBuyItemQuery(id);
+  const { data: items = [] } = useBuyItemsQuery();
+
+  if (isLoading) {
+    return <LoadingFallback message="상품 정보를 불러오는 중이에요." />;
+  }
 
   if (!item) {
     return (
@@ -38,6 +37,11 @@ const BuyDetailPage = () => {
       />
     );
   }
+
+  const detailInfo = buildDetailInfo(item);
+  const similarItems = items
+    .filter((entry) => entry.id !== item.id && entry.model === item.model)
+    .slice(0, 4);
 
   return (
     <main className="md:px-xxxl mx-auto flex w-full max-w-[1200px] flex-col items-start gap-10 px-(--margin-l) pt-10 lg:gap-[157px] lg:px-0">
@@ -90,13 +94,7 @@ const BuyDetailPage = () => {
         <div className="flex h-[412px] items-center gap-[22px] self-stretch">
           {similarItems.map((entry) => (
             <Link key={entry.id} to={`${ROUTES.BUY}/${entry.id}`} className="block focus-visible:outline-none">
-              <Card
-                image={entry.image}
-                title={entry.title}
-                price={entry.priceLabel}
-                date={entry.dateLabel}
-                variant="seller"
-              />
+              <Card image={entry.image} title={entry.title} price={entry.priceLabel} date={entry.dateLabel} variant="seller" />
             </Link>
           ))}
         </div>
