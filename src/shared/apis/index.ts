@@ -1,3 +1,3 @@
 export { axiosInstance, getAccessToken, setAccessToken } from './axiosInstance';
-export { getBuyItems, getBuyItemById } from './buyRepository';
+export { getBuyAutocomplete, getBuyItemById, getBuyItems } from './buy';
 export type { ApiResponse } from './types';
