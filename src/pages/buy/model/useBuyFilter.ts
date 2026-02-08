@@ -56,7 +56,7 @@ export const useBuyFilter = () => {
   const { data, isLoading, isError } = useBuyItemsQuery({
     page: currentPage,
     manufacturer: shouldClientManufacturerFilter ? undefined : selectedManufacturer,
-    series: selectedSeries,
+    series: selectedSeries ? [selectedSeries] : undefined,
     priceRange: shouldClientPriceFilter ? undefined : selectedPriceRange,
     keyword,
   });
