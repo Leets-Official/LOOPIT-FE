@@ -67,10 +67,7 @@ const normalizeCondition = (
   return fallback;
 };
 
-const normalizeScratch = (
-  value?: string | boolean,
-  fallback: BuyItem['scratch'] = 'clean'
-): BuyItem['scratch'] => {
+const normalizeScratch = (value?: string | boolean, fallback: BuyItem['scratch'] = 'clean'): BuyItem['scratch'] => {
   if (typeof value === 'boolean') {
     return value ? 'scratch' : 'clean';
   }
