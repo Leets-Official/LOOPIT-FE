@@ -4,10 +4,10 @@ import { useState, type ReactNode } from 'react';
 
 const FilterSection = ({ title, children }: { title: string; children: ReactNode }) => {
   return (
-    <section className="flex flex-col gap-3 pb-4">
-      <h3 className="typo-body-2 text-gray-900">{title}</h3>
+    <section className="flex flex-col gap-0">
+      <h3 className="typo-body-2 mb-[21px] text-gray-900">{title}</h3>
       <div className="flex flex-col gap-2">{children}</div>
-      <div className="h-px w-full bg-gray-100" />
+      <div className="my-[21px] h-px w-full bg-gray-100" />
     </section>
   );
 };
@@ -55,7 +55,7 @@ export const BuyFilter = ({
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <aside className="flex w-full shrink-0 flex-col items-start gap-[21px] pb-10 lg:w-[183px]">
+    <aside className="flex w-full shrink-0 flex-col items-start gap-0 pb-10 lg:w-[183px]">
       {/* 모바일: 토글 버튼 */}
       <button
         type="button"
@@ -75,7 +75,7 @@ export const BuyFilter = ({
       </div>
 
       {/* 모바일: 토글 콘텐츠 / 데스크탑: 항상 표시 */}
-      <div className={cn('w-full flex-col gap-[21px] lg:flex', isOpen ? 'flex' : 'hidden')}>
+      <div className={cn('w-full flex-col gap-0 lg:flex', isOpen ? 'flex' : 'hidden')}>
         {/* 모바일용 초기화 버튼 */}
         <div className="flex items-center justify-end self-stretch lg:hidden">
           <button type="button" className="typo-caption-2 font-medium text-gray-400" onClick={onReset}>
@@ -83,13 +83,16 @@ export const BuyFilter = ({
           </button>
         </div>
 
-        <Checkbox
-          label="구매가능만 보기"
-          checked={availableOnly}
-          onChange={(e) => onSetAvailableOnly(e.target.checked)}
-        />
+        <div className="mt-[21px]">
+          <Checkbox
+            label="구매가능만 보기"
+            checked={availableOnly}
+            onChange={(e) => onSetAvailableOnly(e.target.checked)}
+          />
+        </div>
+        <div className="my-[21px] h-px w-full bg-gray-100" />
 
-        <div className="flex flex-col gap-[21px] self-stretch">
+        <div className="flex flex-col gap-0 self-stretch">
           <FilterSection title="제조사">
             {manufacturers.map((item) => (
               <Checkbox
