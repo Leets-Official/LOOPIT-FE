@@ -4,7 +4,7 @@ export const buyKeys = {
     params?: {
       page?: number;
       manufacturer?: string;
-      series?: string | string[];
+      series?: string[];
       priceRange?: string;
       keyword?: string;
     } | null
@@ -14,7 +14,7 @@ export const buyKeys = {
       'list',
       params?.page ?? 0,
       params?.manufacturer ?? '',
-      Array.isArray(params?.series) ? params?.series.join(',') : params?.series ?? '',
+      params?.series?.join(',') ?? '',
       params?.priceRange ?? '',
       params?.keyword ?? '',
     ] as const,
