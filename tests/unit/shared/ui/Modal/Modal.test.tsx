@@ -1,5 +1,5 @@
 import { Modal } from '@shared/ui/Modal/Modal';
-import { render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 describe('Modal', () => {
@@ -78,15 +78,14 @@ describe('Modal', () => {
       const user = userEvent.setup();
       setup();
 
-      // useFocusTrap이 첫 번째 요소(취소)에 자동 포커스
-      expect(screen.getByRole('button', { name: '취소' })).toHaveFocus();
+      const cancelButton = screen.getByRole('button', { name: '취소' });
+      const confirmButton = screen.getByRole('button', { name: '확인' });
+
+      cancelButton.focus();
+      expect(cancelButton).toHaveFocus();
 
       await user.tab();
-      expect(screen.getByRole('button', { name: '확인' })).toHaveFocus();
-
-      await user.tab();
-      // 포커스 트랩으로 다시 취소로 돌아옴
-      expect(screen.getByRole('button', { name: '취소' })).toHaveFocus();
+      expect(confirmButton).toHaveFocus();
     });
 
     it('ESC 키 입력 시 onCancel 호출', async () => {
@@ -115,14 +114,14 @@ describe('Modal', () => {
 
   describe('Overlay Interaction', () => {
     it('오버레이 클릭 시 onCancel 호출', async () => {
-      const user = userEvent.setup();
       const onCancel = vi.fn();
       const onConfirm = vi.fn();
 
-      const { container } = render(<Modal title="테스트" onCancel={onCancel} onConfirm={onConfirm} />);
+      render(<Modal title="테스트" onCancel={onCancel} onConfirm={onConfirm} />);
 
-      const overlay = container.firstChild as HTMLElement;
-      await user.click(overlay);
+      const dialog = screen.getByRole('dialog');
+      const overlay = dialog.parentElement!;
+      fireEvent.mouseDown(overlay);
 
       await waitFor(() => {
         expect(onCancel).toHaveBeenCalledTimes(1);

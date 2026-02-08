@@ -1415,6 +1415,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@stomp/stompjs@npm:^7.3.0":
+  version: 7.3.0
+  resolution: "@stomp/stompjs@npm:7.3.0"
+  checksum: 10c0/10eef1a9ae1f3c735e719bc01eb28faddad5dc718d85d4381d8ad896dc39f14d306a764d1229f601a274cba48de5e7543985de645ec254b0a8ee82ef453826c9
+  languageName: node
+  linkType: hard
+
 "@storybook/addon-a11y@npm:^10.1.10":
   version: 10.1.10
   resolution: "@storybook/addon-a11y@npm:10.1.10"
@@ -6245,6 +6252,7 @@ __metadata:
     "@hookform/resolvers": "npm:^5.2.2"
     "@react-router/dev": "npm:^7.12.0"
     "@react-router/node": "npm:^7.12.0"
+    "@stomp/stompjs": "npm:^7.3.0"
     "@storybook/addon-a11y": "npm:^10.1.10"
     "@storybook/addon-docs": "npm:^10.1.10"
     "@storybook/addon-onboarding": "npm:^10.1.10"

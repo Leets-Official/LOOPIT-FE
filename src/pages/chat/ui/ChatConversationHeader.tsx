@@ -1,29 +1,34 @@
-import type { ThreadContent } from '@shared/types/chat';
+import type { ChatRoomData } from '@shared/apis/chat';
 import type { ReactNode } from 'react';
 
 type ChatConversationHeaderProps = {
-  thread: ThreadContent;
+  room: ChatRoomData;
   statusDropdown: ReactNode;
 };
 
-export const ChatConversationHeader = ({ thread, statusDropdown }: ChatConversationHeaderProps) => {
+const formatPrice = (price: number) => {
+  return `${price.toLocaleString()}원`;
+};
+
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
+};
+
+export const ChatConversationHeader = ({ room, statusDropdown }: ChatConversationHeaderProps) => {
   return (
     <div className="h-[167px] rounded-(--radius-l) bg-gray-900 px-[42px] py-[44px]">
       <div className="flex items-center justify-between gap-4">
         <div className="flex items-center gap-4">
-          {thread.product.image ? (
-            <img
-              src={thread.product.image}
-              alt={thread.product.title}
-              className="h-[80px] w-[80px] rounded-(--radius-m) object-cover"
-            />
+          {room.thumbnail ? (
+            <img src={room.thumbnail} alt={room.postTitle} className="rounded-m h-[80px] w-[80px] object-cover" />
           ) : (
-            <div className="h-[80px] w-[80px] rounded-(--radius-m) bg-gray-200" />
+            <div className="rounded-m h-[80px] w-[80px] bg-gray-200" />
           )}
           <div className="flex flex-col gap-[6px]">
-            <span className="typo-body-1 text-white">{thread.product.title}</span>
-            <span className="typo-body-2 text-white">{thread.product.price}</span>
-            <span className="typo-caption-2 text-white">{thread.product.date}</span>
+            <span className="typo-body-1 text-white">{room.postTitle}</span>
+            <span className="typo-body-2 text-white">{formatPrice(room.postPrice)}</span>
+            <span className="typo-caption-2 text-white">{formatDate(room.postCreatedAt)}</span>
           </div>
         </div>
 
