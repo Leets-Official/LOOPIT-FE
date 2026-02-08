@@ -1,6 +1,6 @@
 import { useBuyItemsQuery, type PriceRangeEnum } from '@shared/apis/buy';
 import { MANUFACTURERS, MODELS, PRICE_RANGES } from '@shared/mocks/data/buy';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { filterBuyItems } from './filterBuyItems';
 
 type ChipType = 'manufacturer' | 'model' | 'price' | 'availability';
@@ -19,6 +19,7 @@ export const useBuyFilter = () => {
   const [selectedPrices, setSelectedPrices] = useState<string[]>([]);
   const [availableOnly, setAvailableOnly] = useState(false);
   const [showAllModels, setShowAllModels] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0);
 
   const priceRangeMap: Record<string, PriceRangeEnum> = {
     'under-100': 'UNDER_10',
@@ -28,7 +29,7 @@ export const useBuyFilter = () => {
     '200+': 'OVER_100',
   };
   const selectedPriceRange =
-    selectedPrices.length === 1 ? priceRangeMap[selectedPrices[0]] ?? undefined : undefined;
+    selectedPrices.length === 1 ? (priceRangeMap[selectedPrices[0]] ?? undefined) : undefined;
   const shouldClientManufacturerFilter = selectedManufacturers.length > 0;
   const shouldClientPriceFilter = selectedPrices.length > 0;
 
@@ -49,13 +50,19 @@ export const useBuyFilter = () => {
 
   const keyword = appliedQuery.trim().length >= 2 ? appliedQuery.trim() : undefined;
 
-  const { data: items = [], isLoading, isError } = useBuyItemsQuery({
-    page: 0,
+  useEffect(() => {
+    setCurrentPage(0);
+  }, [selectedManufacturer, selectedSeries, selectedPriceRange, keyword]);
+
+  const { data, isLoading, isError } = useBuyItemsQuery({
+    page: currentPage,
     manufacturer: shouldClientManufacturerFilter ? undefined : selectedManufacturer,
     series: selectedSeries,
     priceRange: shouldClientPriceFilter ? undefined : selectedPriceRange,
     keyword,
   });
+
+  const items = data?.content ?? [];
 
   const manufacturerChips = selectedManufacturers.map((id) => ({
     id,
@@ -76,7 +83,12 @@ export const useBuyFilter = () => {
     ? [{ id: 'available-only', label: '구매가능만', type: 'availability' as const }]
     : [];
 
-  const activeChips: FilterChip[] = [...manufacturerChips, ...modelChips, ...priceChips, ...availabilityChip];
+  const activeChips: FilterChip[] = [
+    ...manufacturerChips,
+    ...modelChips,
+    ...priceChips,
+    ...availabilityChip,
+  ];
 
   const filteredItems = filterBuyItems({
     items,
@@ -161,5 +173,12 @@ export const useBuyFilter = () => {
     // api 상태
     isLoading,
     isError,
+
+    // 페이지네이션
+    currentPage,
+    totalPages: data?.totalPages ?? 0,
+    isFirstPage: data?.first ?? true,
+    isLastPage: data?.last ?? true,
+    setCurrentPage,
   };
 };
