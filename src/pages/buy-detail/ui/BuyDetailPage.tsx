@@ -22,7 +22,8 @@ const BuyDetailPage = () => {
   const { id } = useParams();
 
   const { data: item, isLoading } = useBuyItemQuery(id);
-  const { data: items = [] } = useBuyItemsQuery();
+  const { data } = useBuyItemsQuery();
+  const items = data?.content ?? [];
 
   if (isLoading) {
     return <LoadingFallback message="상품 정보를 불러오는 중이에요." />;
@@ -94,7 +95,13 @@ const BuyDetailPage = () => {
         <div className="flex h-[412px] items-center gap-[22px] self-stretch">
           {similarItems.map((entry) => (
             <Link key={entry.id} to={`${ROUTES.BUY}/${entry.id}`} className="block focus-visible:outline-none">
-              <Card image={entry.image} title={entry.title} price={entry.priceLabel} date={entry.dateLabel} variant="seller" />
+              <Card
+                image={entry.image}
+                title={entry.title}
+                price={entry.priceLabel}
+                date={entry.dateLabel}
+                variant="seller"
+              />
             </Link>
           ))}
         </div>
