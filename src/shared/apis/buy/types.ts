@@ -25,7 +25,7 @@ export interface BuyListCondition {
 export interface BuyListParams {
   page?: number;
   manufacturer?: string;
-  series?: string;
+  series?: string | string[];
   priceRange?: PriceRangeEnum;
   keyword?: string;
 }
