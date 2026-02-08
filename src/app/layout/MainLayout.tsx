@@ -1,5 +1,6 @@
 import { useLogoutMutation } from '@shared/apis/auth';
 import { useAuth } from '@shared/apis/user';
+import { Footer } from '@shared/ui/Footer';
 import { Header } from '@shared/ui/Header';
 import { Outlet } from 'react-router';
 
@@ -22,6 +23,7 @@ const MainLayout = () => {
       <div className="mt-header-total">
         <Outlet />
       </div>
+      <Footer />
     </div>
   );
 };
