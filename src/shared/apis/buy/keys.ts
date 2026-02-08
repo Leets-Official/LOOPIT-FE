@@ -1,12 +1,20 @@
 export const buyKeys = {
   all: ['buy'] as const,
-  list: (params?: { page?: number; manufacturer?: string; series?: string; priceRange?: string; keyword?: string }) =>
+  list: (
+    params?: {
+      page?: number;
+      manufacturer?: string;
+      series?: string | string[];
+      priceRange?: string;
+      keyword?: string;
+    } | null
+  ) =>
     [
       ...buyKeys.all,
       'list',
       params?.page ?? 0,
       params?.manufacturer ?? '',
-      params?.series ?? '',
+      Array.isArray(params?.series) ? params?.series.join(',') : params?.series ?? '',
       params?.priceRange ?? '',
       params?.keyword ?? '',
     ] as const,
