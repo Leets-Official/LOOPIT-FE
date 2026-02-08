@@ -9,7 +9,7 @@ import { useLocation, useNavigate } from 'react-router';
 import type { SellState } from '@shared/types/sell';
 
 const CONDITION_LABELS = {
-  productCondition: { used: '개봉-중고', unopened: '미개봉-새상품' },
+  productCondition: { used: '개봉-중고', new: '미개봉-새상품' },
   scratchCondition: { clean: '스크래치 없음', scratch: '스크래치 있음' },
   screenCondition: { clean: '화면 깨짐 없음', broken: '화면 깨짐' },
   batteryCondition: {
