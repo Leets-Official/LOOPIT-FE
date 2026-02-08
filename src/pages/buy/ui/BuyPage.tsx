@@ -28,6 +28,7 @@ const BuyPage = () => {
   const {
     query,
     setQuery,
+    applySearch,
     selectedManufacturers,
     selectedModels,
     selectedPrices,
@@ -44,6 +45,11 @@ const BuyPage = () => {
     resetFilters,
     isLoading,
     isError,
+    currentPage,
+    totalPages,
+    isFirstPage,
+    isLastPage,
+    setCurrentPage,
   } = useBuyFilter();
 
   const [isSearchFocused, setIsSearchFocused] = useState(false);
@@ -100,6 +106,13 @@ const BuyPage = () => {
   };
 
   const showEmpty = filteredItems.length === 0;
+  const pageCount = Math.max(totalPages, 0);
+  const effectiveTotalPages = pageCount > 0 ? pageCount : filteredItems.length > 0 ? 1 : 0;
+  const maxPageButtons = 5;
+  const currentPageNumber = currentPage + 1;
+  const startPage = Math.max(1, currentPageNumber - Math.floor(maxPageButtons / 2));
+  const endPage = Math.min(effectiveTotalPages, startPage + maxPageButtons - 1);
+  const pageNumbers = Array.from({ length: Math.max(endPage - startPage + 1, 0) }, (_, index) => startPage + index);
 
   if (isLoading) {
     return <LoadingFallback message="상품을 불러오는 중이에요." />;
@@ -110,7 +123,7 @@ const BuyPage = () => {
       <div className="relative flex w-full justify-center">
         <SearchBar
           placeholder="어떤 제품을 찾으시나요?"
-          onSearch={(value) => setQuery(value)}
+          onSearch={() => applySearch()}
           value={query}
           onChange={setQuery}
           onFocus={() => setIsSearchFocused(true)}
@@ -175,19 +188,68 @@ const BuyPage = () => {
               관련된 상품이 없어요.
             </div>
           ) : (
-            <div className="lg:gap-xl grid w-full grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 md:grid-cols-4 md:gap-6 lg:grid-cols-5">
-              {filteredItems.map((item) => (
-                <Link key={item.id} to={`${ROUTES.BUY}/${item.id}`} className="block focus-visible:outline-none">
-                  <Card
-                    image={item.image}
-                    title={item.title}
-                    price={item.priceLabel}
-                    date={item.dateLabel}
-                    className={cn(!item.available && 'opacity-50')}
-                  />
-                </Link>
-              ))}
-            </div>
+            <>
+              <div className="lg:gap-xl grid w-full grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 md:grid-cols-4 md:gap-6 lg:grid-cols-5">
+                {filteredItems.map((item) => (
+                  <Link key={item.id} to={`${ROUTES.BUY}/${item.id}`} className="block focus-visible:outline-none">
+                    <Card
+                      image={item.image}
+                      title={item.title}
+                      price={item.priceLabel}
+                      date={item.dateLabel}
+                      className={cn(!item.available && 'opacity-50')}
+                    />
+                  </Link>
+                ))}
+              </div>
+              {effectiveTotalPages > 0 && (
+                <div className="mt-6 flex w-full items-center justify-center gap-5">
+                  <button
+                    type="button"
+                    className={cn(
+                      'flex h-[30px] w-[30px] items-center justify-center rounded-[6px] border border-gray-200 text-gray-500',
+                      isFirstPage ? 'cursor-not-allowed text-gray-300' : 'hover:border-gray-300'
+                    )}
+                    onClick={() => setCurrentPage(Math.max(currentPage - 1, 0))}
+                    disabled={isFirstPage}
+                    aria-label="이전 페이지"
+                  >
+                    ‹
+                  </button>
+                  {pageNumbers.map((page) => {
+                    const isActive = page === currentPageNumber;
+                    return (
+                      <button
+                        key={page}
+                        type="button"
+                        className={cn(
+                          'flex h-[30px] w-[30px] items-center justify-center rounded-[6px] border text-sm font-medium',
+                          isActive
+                            ? 'border-green-600 bg-green-600 text-white'
+                            : 'border-gray-200 text-gray-500 hover:border-gray-300'
+                        )}
+                        onClick={() => setCurrentPage(page - 1)}
+                        aria-current={isActive ? 'page' : undefined}
+                      >
+                        {page}
+                      </button>
+                    );
+                  })}
+                  <button
+                    type="button"
+                    className={cn(
+                      'flex h-[30px] w-[30px] items-center justify-center rounded-[6px] border border-gray-200 text-gray-500',
+                      isLastPage ? 'cursor-not-allowed text-gray-300' : 'hover:border-gray-300'
+                    )}
+                    onClick={() => setCurrentPage(currentPage + 1)}
+                    disabled={effectiveTotalPages <= 1 || isLastPage}
+                    aria-label="다음 페이지"
+                  >
+                    ›
+                  </button>
+                </div>
+              )}
+            </>
           )}
         </section>
       </div>
