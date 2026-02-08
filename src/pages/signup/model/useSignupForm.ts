@@ -1,15 +1,17 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useKakaoRegisterMutation } from '@shared/apis/auth';
 import { ROUTES } from '@shared/constants';
-import { useImagePreview, useS3ImageUpload } from '@shared/hooks';
+import { useImagePreview, useS3ImageUpload, useToast } from '@shared/hooks';
 import { useAuthStore } from '@shared/stores';
 import { signupSchema, type SignupFormData } from '@shared/utils/schemas';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 
 export const useSignupForm = () => {
   const navigate = useNavigate();
+  const { showToast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { kakaoId, setKakaoId, setAccessToken, setUserId } = useAuthStore();
   const {
     imageUrl: profileImage,
@@ -19,7 +21,7 @@ export const useSignupForm = () => {
     handleImageChange,
   } = useImagePreview();
   const { upload } = useS3ImageUpload();
-  const { mutate, isPending } = useKakaoRegisterMutation();
+  const { mutate } = useKakaoRegisterMutation();
 
   // kakaoId 없으면 로그인 페이지로 리다이렉트
   useEffect(() => {
@@ -39,11 +41,14 @@ export const useSignupForm = () => {
       return;
     }
 
+    setIsSubmitting(true);
+
     let uploadedImageUrl = '';
 
     if (profileFile) {
       const fileUrl = await upload('PROFILE', profileFile);
       if (!fileUrl) {
+        setIsSubmitting(false);
         return;
       }
       uploadedImageUrl = fileUrl;
@@ -65,7 +70,12 @@ export const useSignupForm = () => {
             setAccessToken(res.accessToken);
           }
           setUserId(res.userId);
+          showToast('회원가입이 완료되었습니다', 'success');
           navigate(ROUTES.MAIN, { replace: true });
+        },
+        onError: () => {
+          showToast('회원가입에 실패했습니다');
+          setIsSubmitting(false);
         },
       }
     );
@@ -80,6 +90,6 @@ export const useSignupForm = () => {
     errors,
     handleSubmit,
     onSubmit,
-    isPending,
+    isSubmitting,
   };
 };

@@ -8,12 +8,22 @@ import { Modal } from '@shared/ui/Modal';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { BANNER_CARDS } from './BannerCards';
-import { CAROUSEL_SLIDES } from './CarouselSlides';
+import { createCarouselSlides } from './CarouselSlides';
 
 const MainPage = () => {
   const navigate = useNavigate();
   const { accessToken } = useAuthStore();
   const [showLoginModal, setShowLoginModal] = useState(false);
+
+  const handleProtectedClick = () => {
+    if (!accessToken) {
+      setShowLoginModal(true);
+      return false;
+    }
+    return true;
+  };
+
+  const carouselSlides = createCarouselSlides({ onProtectedClick: handleProtectedClick });
 
   const handleChatbotClick = () => {
     if (!accessToken) {
@@ -27,7 +37,7 @@ const MainPage = () => {
     <main className="md:px-xxxl flex w-full flex-col items-center gap-6 px-(--margin-l) md:gap-10 lg:gap-[68px] lg:px-0">
       <section className="h-[317px] w-full max-w-[1200px]" aria-label="메인 슬로건 영역">
         <ClientOnly>
-          <Carousel3D slides={CAROUSEL_SLIDES} />
+          <Carousel3D slides={carouselSlides} />
         </ClientOnly>
       </section>
 
@@ -38,7 +48,12 @@ const MainPage = () => {
             title={card.title}
             description={card.description}
             imageSrc={card.imageSrc}
-            onClick={() => navigate(card.route, { viewTransition: true })}
+            onClick={() => {
+              if (card.id === 'sell' && !handleProtectedClick()) {
+                return;
+              }
+              navigate(card.route, { viewTransition: true });
+            }}
           />
         ))}
       </section>

@@ -22,7 +22,7 @@ export const SignupForm = () => {
     errors,
     handleSubmit,
     onSubmit,
-    isPending,
+    isSubmitting,
   } = useSignupForm();
 
   return (
@@ -71,8 +71,8 @@ export const SignupForm = () => {
       </section>
 
       <section className="mt-[127px] flex w-full justify-center xl:justify-end">
-        <Button variant="fill" size="auto" className="w-full max-w-[286px]" type="submit" disabled={isPending}>
-          {isPending ? '처리중...' : '회원가입 완료'}
+        <Button variant="fill" size="auto" className="w-full max-w-[286px]" type="submit" disabled={isSubmitting}>
+          {isSubmitting ? '처리중...' : '회원가입 완료'}
         </Button>
       </section>
     </form>

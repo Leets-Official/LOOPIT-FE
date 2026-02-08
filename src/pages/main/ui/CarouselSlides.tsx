@@ -1,7 +1,11 @@
 import { Carousel1Image, Carousel2Image, Carousel3Image, Carousel4Image, Carousel5Image } from '@shared/assets/images';
 import { CarouselImageSlide } from '@shared/ui/Carousel3D';
 
-export const CAROUSEL_SLIDES = [
+interface CarouselSlidesOptions {
+  onProtectedClick?: () => boolean | void;
+}
+
+export const createCarouselSlides = ({ onProtectedClick }: CarouselSlidesOptions = {}) => [
   {
     id: 1,
     content: (
@@ -27,6 +31,7 @@ export const CAROUSEL_SLIDES = [
         title="나의 폰 판매"
         subtitle="나는 쓰지 않는 폰, 다른 사람은 쓰기 좋은 폰"
         href="/sell"
+        onClick={onProtectedClick}
       />
     ),
   },

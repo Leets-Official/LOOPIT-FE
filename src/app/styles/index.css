@@ -101,6 +101,10 @@
 }
 
 @layer base {
+  :root {
+    --scrollbar-width: 0px;
+  }
+
   html {
     font-family: var(--font-sans);
     zoom: 0.9;
