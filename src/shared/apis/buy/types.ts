@@ -25,43 +25,34 @@ export interface BuyListCondition {
 export interface BuyListParams {
   page?: number;
   manufacturer?: string;
-  series?: string | string[];
+  series?: string[];
   priceRange?: PriceRangeEnum;
   keyword?: string;
 }
 
 export interface BuyPostApiItem {
   id?: number | string;
-  postId?: number | string;
   title?: string;
   price?: number | string;
-  createdAt?: string;
-  date?: string;
-  imageUrl?: string;
-  thumbnail?: string;
-  thumbnailUrl?: string;
-  imageUrls?: string[];
-  brand?: string;
   manufacturer?: string;
   model?: string;
-  modelName?: string;
-  available?: boolean;
+  color?: string;
+  capacity?: string;
+  description?: string | string[];
+  imageUrls?: string[];
+  thumbnail?: string;
+  hasScratch?: boolean;
+  batteryStatus?: string;
+  screenCracked?: boolean;
+  used?: boolean;
   status?: string;
-  condition?: string;
-  productCondition?: string;
-  scratch?: string;
-  scratchCondition?: string;
-  screenCrack?: string;
-  screenCondition?: string;
-  battery?: string;
-  batteryCondition?: string;
-  seller?: BuyPostApiSeller;
+  createdAt?: string;
+  updatedAt?: string;
   sellerNickname?: string;
   sellerProfileImage?: string;
+  seller?: BuyPostApiSeller;
+  brand?: string;
   specs?: BuyPostApiSpecs;
-  colorName?: string;
-  storageSize?: string;
-  description?: string | string[];
 }
 
 export interface BuyListPage<T> {
