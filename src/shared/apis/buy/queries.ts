@@ -3,7 +3,7 @@ import { getBuyAutocomplete, getBuyItemById, getBuyItemsByCondition } from './ap
 import { buyKeys } from './keys';
 import type { BuyListParams } from './types';
 
-export const useBuyItemsQuery = (params?: BuyListParams) => {
+export const useBuyItemsQuery = (params: BuyListParams = {}) => {
   return useQuery({
     queryKey: buyKeys.list(params),
     queryFn: () => getBuyItemsByCondition(params),
