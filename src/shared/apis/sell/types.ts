@@ -21,7 +21,6 @@ export interface CreateSellPostResponse {
   updatedAt: string;
 }
 
-// TEMP: 등록/수정 응답 공통 타입
 export type CreateSellPostResponseBody = ApiResponse<CreateSellPostResponse>;
-export type UpdateSellPostRequest = Partial<CreateSellPostRequest>;
+export type UpdateSellPostRequest = CreateSellPostRequest;
 export type UpdateSellPostResponseBody = ApiResponse<{ id: number }>;

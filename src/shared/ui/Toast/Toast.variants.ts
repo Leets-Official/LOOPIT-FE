@@ -3,7 +3,7 @@ import { tv } from 'tailwind-variants';
 export const toastVariants = tv({
   slots: {
     container:
-      'flex w-[314px] items-center justify-center rounded-(--radius-s) border px-[21px] py-[17px] shadow-[0_4px_4px_0_var(--color-gray-300)]',
+      'flex w-[360px] items-center justify-center rounded-(--radius-s) border px-[21px] py-[17px] shadow-[0_4px_4px_0_var(--color-gray-300)]',
     content: 'flex w-full items-start justify-between gap-[20px]',
     messageWrapper: 'flex min-w-0 items-start gap-[11px]',
     message: 'typo-body-2 whitespace-pre-line break-words text-gray-900',
@@ -18,6 +18,9 @@ export const toastVariants = tv({
       },
       success: {
         container: 'border-green-700 bg-green-50',
+      },
+      error: {
+        container: 'w-[420px] border-gray-600 bg-gray-50',
       },
     },
   },

@@ -121,7 +121,7 @@ const SellConfirmPage = () => {
             onCancel={deleteModal.close}
             onConfirm={async () => {
               if (!state.postId) {
-                showToast('삭제할 판매글을 찾을 수 없습니다.');
+                showToast('삭제할 판매글을 찾을 수 없습니다.', 'error');
                 deleteModal.close();
                 return;
               }
@@ -131,7 +131,7 @@ const SellConfirmPage = () => {
                 showToast('삭제되었습니다', 'success');
                 navigate(ROUTES.MAIN);
               } catch {
-                showToast('삭제에 실패했습니다. 다시 시도해 주세요.');
+                showToast('삭제에 실패했습니다. 다시 시도해 주세요.', 'error');
               }
             }}
             cancelText="취소"
