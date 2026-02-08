@@ -27,23 +27,25 @@ export const useChatMessages = () => {
   const sendMutation = useSendMessageMutation();
 
   const messages: ChatMessage[] = (() => {
+    const initialMessage: ChatMessage = {
+      id: 'bot-initial',
+      role: 'bot' as const,
+      content: INITIAL_BOT_MESSAGE,
+      status: 'done',
+    };
+
     if (!history || history.length === 0) {
-      return [
-        {
-          id: 'bot-initial',
-          role: 'bot' as const,
-          content: INITIAL_BOT_MESSAGE,
-          status: 'done',
-        },
-      ];
+      return [initialMessage];
     }
 
-    return history.map((item, index) => ({
+    const historyMessages = history.map((item, index) => ({
       id: `history-${index}`,
       role: item.role === 'User' ? ('user' as const) : ('bot' as const),
       content: item.message,
       status: 'done' as const,
     }));
+
+    return [initialMessage, ...historyMessages];
   })();
 
   const displayMessages: ChatMessage[] = (() => {

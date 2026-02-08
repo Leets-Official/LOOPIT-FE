@@ -10,7 +10,7 @@ const ProtectedLayout = () => {
   }
 
   if (!accessToken) {
-    return <Navigate to={ROUTES.LOGIN} replace />;
+    return <Navigate to={ROUTES.MAIN} replace />;
   }
 
   return <Outlet />;
