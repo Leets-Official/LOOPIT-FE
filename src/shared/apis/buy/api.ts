@@ -24,6 +24,32 @@ export const getBuyItemsByCondition = async (params?: BuyListParams): Promise<Bu
       priceRange: params?.priceRange,
       keyword: params?.keyword,
     },
+    paramsSerializer: {
+      serialize: (payload) => {
+        const searchParams = new URLSearchParams();
+
+        const appendValue = (key: string, value: unknown) => {
+          if (value === undefined || value === null || value === '') {
+            return;
+          }
+          if (Array.isArray(value)) {
+            value.forEach((entry) => {
+              if (entry !== undefined && entry !== null && entry !== '') {
+                searchParams.append(key, String(entry));
+              }
+            });
+            return;
+          }
+          searchParams.append(key, String(value));
+        };
+
+        Object.entries(payload).forEach(([key, value]) => {
+          appendValue(key, value);
+        });
+
+        return searchParams.toString();
+      },
+    },
   });
   return {
     ...response.data.data,
