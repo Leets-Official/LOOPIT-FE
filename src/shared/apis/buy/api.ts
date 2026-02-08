@@ -1,7 +1,13 @@
 import { axiosInstance } from '../axiosInstance';
 import { BUY_ENDPOINTS } from './endpoints';
 import { mapBuyPostToItem } from './mapper';
-import type { BuyAutocompleteResponseBody, BuyDetailResponseBody, BuyListParams, BuyListResponseBody } from './types';
+import type {
+  BuyAutocompleteResponseBody,
+  BuyDetailResponseBody,
+  BuyListPage,
+  BuyListParams,
+  BuyListResponseBody,
+} from './types';
 import type { BuyItem } from '@shared/types/buy';
 
 export const getBuyItems = async (): Promise<BuyItem[]> => {
@@ -9,7 +15,7 @@ export const getBuyItems = async (): Promise<BuyItem[]> => {
   return response.data.data.content.map(mapBuyPostToItem);
 };
 
-export const getBuyItemsByCondition = async (params?: BuyListParams): Promise<BuyItem[]> => {
+export const getBuyItemsByCondition = async (params?: BuyListParams): Promise<BuyListPage<BuyItem>> => {
   const response = await axiosInstance.get<BuyListResponseBody>(BUY_ENDPOINTS.LIST, {
     params: {
       page: params?.page ?? 0,
@@ -19,7 +25,10 @@ export const getBuyItemsByCondition = async (params?: BuyListParams): Promise<Bu
       keyword: params?.keyword,
     },
   });
-  return response.data.data.content.map(mapBuyPostToItem);
+  return {
+    ...response.data.data,
+    content: response.data.data.content.map(mapBuyPostToItem),
+  };
 };
 
 export const getBuyItemById = async (id: string | number): Promise<BuyItem> => {
