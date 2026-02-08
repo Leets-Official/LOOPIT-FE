@@ -37,8 +37,10 @@ export type SignupFormData = zod.infer<typeof signupSchema>;
 
 export const sellSchema = zod.object({
   imageFile: zod
-    .instanceof(File, { message: '이미지를 업로드해 주세요.' })
-    .refine((file) => file.size <= MAX_IMAGE_BYTES, '이미지는 5MB 이하로 업로드해 주세요.'),
+    .instanceof(File)
+    .optional()
+    .nullable()
+    .refine((file) => !file || file.size <= MAX_IMAGE_BYTES, '이미지는 5MB 이하로 업로드해 주세요.'),
   title: requiredString('제목을 입력해 주세요.'),
   price: requiredString('가격을 입력해 주세요.').regex(/^\d+$/, '가격은 숫자만 입력해 주세요.'),
   manufacturer: requiredString('제조사를 선택해 주세요.'),

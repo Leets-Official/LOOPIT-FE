@@ -1,3 +1,4 @@
+import { useDeleteSellPostMutation } from '@shared/apis/sell';
 import checkerImg from '@shared/assets/icons/common/checker.png';
 import { ROUTES } from '@shared/constants';
 import { useModal, useToast } from '@shared/hooks';
@@ -8,7 +9,7 @@ import { useLocation, useNavigate } from 'react-router';
 import type { SellState } from '@shared/types/sell';
 
 const CONDITION_LABELS = {
-  productCondition: { used: '개봉-중고', unopened: '미개봉-새상품' },
+  productCondition: { used: '개봉-중고', new: '미개봉-새상품' },
   scratchCondition: { clean: '스크래치 없음', scratch: '스크래치 있음' },
   screenCondition: { clean: '화면 깨짐 없음', broken: '화면 깨짐' },
   batteryCondition: {
@@ -27,6 +28,7 @@ const SellConfirmPage = () => {
   const [imageError, setImageError] = useState(false);
   const deleteModal = useModal();
   const state = (location.state ?? MOCK_SELL_CONFIRM_DATA) as SellConfirmState;
+  const deleteSellPostMutation = useDeleteSellPostMutation(state.postId ?? '');
 
   const displayPrice = `${new Intl.NumberFormat('ko-KR').format(Number(state.price))}원`;
   const showImage = Boolean(state.imageUrl) && !imageError;
@@ -117,10 +119,20 @@ const SellConfirmPage = () => {
             title="삭제하시겠어요?"
             subtitle="삭제하면 복구할 수 없어요."
             onCancel={deleteModal.close}
-            onConfirm={() => {
+            onConfirm={async () => {
+              if (!state.postId) {
+                showToast('삭제할 판매글을 찾을 수 없습니다.', 'error');
+                deleteModal.close();
+                return;
+              }
               deleteModal.close();
-              showToast('삭제되었습니다', 'success');
-              navigate(ROUTES.MAIN);
+              try {
+                await deleteSellPostMutation.mutateAsync();
+                showToast('삭제되었습니다', 'success');
+                navigate(ROUTES.MAIN);
+              } catch {
+                showToast('삭제에 실패했습니다. 다시 시도해 주세요.', 'error');
+              }
             }}
             cancelText="취소"
             confirmText="삭제"

@@ -3,6 +3,7 @@ import type { SellFormData } from '@shared/utils/schemas';
 import type { DefaultValues } from 'react-hook-form';
 
 export const getSellFormDefaults = (): DefaultValues<SellFormData> => ({
+  imageFile: null,
   title: '',
   price: '',
   manufacturer: '',
@@ -17,6 +18,7 @@ export const getSellFormDefaults = (): DefaultValues<SellFormData> => ({
 });
 
 export const mapSellDraftToForm = (state: SellState): DefaultValues<SellFormData> => ({
+  imageFile: null,
   title: state.title ?? '',
   price: state.price ?? '',
   manufacturer: state.manufacturer ?? '',

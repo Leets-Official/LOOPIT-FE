@@ -1,18 +1,26 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { uploadImage } from '@shared/apis/image';
+import { useCreateSellPostMutation, useUpdateSellPostMutation } from '@shared/apis/sell';
 import { ROUTES } from '@shared/constants';
 import { useClickOutside, useToast } from '@shared/hooks';
-import { validateImageFile } from '@shared/utils';
-import { MAX_IMAGE_BYTES, sellSchema, type SellFormData } from '@shared/utils/schemas';
-import { useEffect, useRef, useState } from 'react';
+import { sellSchema, type SellFormData } from '@shared/utils/schemas';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router';
+import { buildSellPostRequest } from './buildSellPostRequest';
 import { getSellFormDefaults, mapSellDraftToForm } from './initialValues';
+import { useSellImage } from './useSellImage';
 import type { SellState } from '@shared/types/sell';
 
 export const useSellForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { showToast } = useToast();
+  const createSellPostMutation = useCreateSellPostMutation();
+  const locationState = useMemo(() => (location.state ?? {}) as SellState, [location.state]);
+  const editPostId = locationState.postId ?? null;
+  const existingImageUrl = locationState.imageUrl ?? null;
+  const updateSellPostMutation = useUpdateSellPostMutation(editPostId ?? '');
 
   const {
     control,
@@ -29,7 +37,6 @@ export const useSellForm = () => {
   });
 
   const hasInitialized = useRef(false);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
@@ -40,31 +47,12 @@ export const useSellForm = () => {
   const screenCondition = watch('screenCondition');
   const batteryCondition = watch('batteryCondition');
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) {
-      return;
-    }
-
-    const validation = validateImageFile(file, MAX_IMAGE_BYTES);
-    if (!validation.ok) {
-      showToast(validation.message);
-      setPreviewUrl(null);
-      resetField('imageFile');
-      setError('imageFile', {
-        type: 'validate',
-        message: validation.message,
-      });
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = () => {
-      setPreviewUrl(reader.result as string);
-    };
-    reader.readAsDataURL(file);
-    setValue('imageFile', file, { shouldValidate: true });
-  };
+  const { previewUrl, setPreviewUrl, handleImageChange } = useSellImage({
+    showToast,
+    setError,
+    resetField,
+    setValue,
+  });
 
   const closeDropdown = () => {
     setIsDropdownOpen(false);
@@ -94,29 +82,63 @@ export const useSellForm = () => {
     if (hasInitialized.current) {
       return;
     }
-    const state = (location.state ?? {}) as SellState;
-    if (Object.keys(state).length === 0) {
+    if (Object.keys(locationState).length === 0) {
       return;
     }
-    reset(mapSellDraftToForm(state));
-    if (state.imageFile) {
-      setValue('imageFile', state.imageFile, { shouldValidate: true });
+    reset(mapSellDraftToForm(locationState));
+    if (locationState.imageFile) {
+      setValue('imageFile', locationState.imageFile, { shouldValidate: true });
     } else {
       resetField('imageFile');
     }
-    setPreviewUrl(state.imageUrl ?? null);
+    setPreviewUrl(locationState.imageUrl ?? null);
     hasInitialized.current = true;
-  }, [location.state, reset, resetField, setValue]);
+  }, [locationState, reset, resetField, setValue, setPreviewUrl]);
 
-  const onSubmit = handleSubmit((data) => {
-    // API 추후 연결
-    showToast('등록되었습니다', 'success');
-    navigate(ROUTES.SELL_CONFIRM, {
-      state: {
-        ...data,
-        imageUrl: previewUrl,
-      },
-    });
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      const imageFile = data.imageFile;
+      if (!imageFile && !existingImageUrl) {
+        const message = '이미지를 업로드해 주세요.';
+        showToast(message);
+        setError('imageFile', { type: 'validate', message });
+        return;
+      }
+
+      let imageUrl = existingImageUrl ?? '';
+      if (imageFile) {
+        const uploaded = await uploadImage('PRODUCT', imageFile);
+        imageUrl = uploaded.fileUrl;
+      }
+
+      const request = buildSellPostRequest(data, imageUrl);
+
+      if (editPostId) {
+        await updateSellPostMutation.mutateAsync(request);
+        showToast('수정되었습니다', 'success');
+      } else {
+        const created = await createSellPostMutation.mutateAsync(request);
+        showToast('등록되었습니다', 'success');
+        navigate(ROUTES.SELL_CONFIRM, {
+          state: {
+            ...data,
+            postId: created.id,
+            imageUrl,
+          },
+        });
+        return;
+      }
+
+      navigate(ROUTES.SELL_CONFIRM, {
+        state: {
+          ...data,
+          postId: editPostId,
+          imageUrl,
+        },
+      });
+    } catch {
+      showToast('판매글 처리 실패. 다시 시도해 주세요.', 'error');
+    }
   });
 
   return {
