@@ -8,9 +8,21 @@ export interface SearchBarProps {
   value?: string;
   onChange?: (value: string) => void;
   className?: string;
+  onFocus?: () => void;
+  onBlur?: () => void;
+  onKeyDown?: KeyboardEventHandler<HTMLInputElement>;
 }
 
-export const SearchBar = ({ placeholder, onSearch, value, onChange, className }: SearchBarProps) => {
+export const SearchBar = ({
+  placeholder,
+  onSearch,
+  value,
+  onChange,
+  className,
+  onFocus,
+  onBlur,
+  onKeyDown,
+}: SearchBarProps) => {
   const [internalQuery, setInternalQuery] = useState('');
   const [isFocused, setFocused] = useState(false);
 
@@ -32,6 +44,10 @@ export const SearchBar = ({ placeholder, onSearch, value, onChange, className }:
   };
 
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (event) => {
+    onKeyDown?.(event);
+    if (event.defaultPrevented) {
+      return;
+    }
     if (event.key === 'Enter') {
       onSearch(query);
     }
@@ -44,8 +60,14 @@ export const SearchBar = ({ placeholder, onSearch, value, onChange, className }:
         <input
           type="search"
           value={query}
-          onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
+          onFocus={() => {
+            setFocused(true);
+            onFocus?.();
+          }}
+          onBlur={() => {
+            setFocused(false);
+            onBlur?.();
+          }}
           onChange={handleChange}
           className={styles.input()}
           placeholder={placeholder}

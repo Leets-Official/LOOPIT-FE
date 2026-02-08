@@ -8,6 +8,10 @@ type FilterParams = {
   selectedModels: string[];
   selectedPrices: string[];
   availableOnly: boolean;
+  skipServerSyncedFilters?: boolean;
+  applyManufacturerFilter?: boolean;
+  applyPriceFilter?: boolean;
+  applyQueryFilter?: boolean;
 };
 
 export const filterBuyItems = ({
@@ -17,10 +21,34 @@ export const filterBuyItems = ({
   selectedModels,
   selectedPrices,
   availableOnly,
+  skipServerSyncedFilters = false,
+  applyManufacturerFilter = false,
+  applyPriceFilter = false,
+  applyQueryFilter = false,
 }: FilterParams) => {
   const trimmedQuery = query.trim();
 
   return items.filter((item) => {
+    const matchesAvailability = !availableOnly || item.available;
+    if (skipServerSyncedFilters) {
+      const matchesManufacturer =
+        !applyManufacturerFilter || selectedManufacturers.length === 0 || selectedManufacturers.includes(item.brand);
+      const matchesQuery = !applyQueryFilter || trimmedQuery.length === 0 || item.title.includes(trimmedQuery);
+      if (!applyPriceFilter) {
+        return matchesAvailability && matchesManufacturer && matchesQuery;
+      }
+      const matchesPrice =
+        selectedPrices.length === 0 ||
+        selectedPrices.some((priceId) => {
+          const range = PRICE_RANGES.find((price) => price.id === priceId);
+          if (!range) {
+            return false;
+          }
+          return item.priceValue >= range.min && item.priceValue < range.max;
+        });
+      return matchesAvailability && matchesManufacturer && matchesPrice && matchesQuery;
+    }
+
     const matchesManufacturer = selectedManufacturers.length === 0 || selectedManufacturers.includes(item.brand);
     const matchesModel = selectedModels.length === 0 || selectedModels.includes(item.model);
     const matchesPrice =
@@ -32,7 +60,6 @@ export const filterBuyItems = ({
         }
         return item.priceValue >= range.min && item.priceValue < range.max;
       });
-    const matchesAvailability = !availableOnly || item.available;
     const matchesQuery = trimmedQuery.length === 0 || item.title.includes(trimmedQuery);
 
     return matchesManufacturer && matchesModel && matchesPrice && matchesAvailability && matchesQuery;

@@ -13,7 +13,14 @@ export const axiosInstance: AxiosInstance = axios.create({
 export { getAccessToken, setAccessToken };
 
 // 인증 제외 경로
-const AUTH_EXCLUDED_PATHS = ['/auth/login', '/auth/register', '/auth/refresh', '/auth/kakao'] as const;
+const AUTH_EXCLUDED_PATHS = [
+  '/auth/login',
+  '/auth/register',
+  '/auth/refresh',
+  '/auth/kakao',
+  '/sell-post',
+  '/search/autocomplete',
+] as const;
 
 const isAuthExcluded = (url?: string) => {
   if (!url) {
