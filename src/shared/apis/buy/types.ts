@@ -64,7 +64,7 @@ export interface BuyPostApiItem {
   description?: string | string[];
 }
 
-export interface BuyListPage {
+export interface BuyListPage<T> {
   totalPages: number;
   totalElements: number;
   numberOfElements: number;
@@ -73,9 +73,9 @@ export interface BuyListPage {
   size: number;
   number: number;
   empty: boolean;
-  content: BuyPostApiItem[];
+  content: T[];
 }
 
-export type BuyListResponseBody = ApiResponse<BuyListPage>;
+export type BuyListResponseBody = ApiResponse<BuyListPage<BuyPostApiItem>>;
 export type BuyDetailResponseBody = ApiResponse<BuyPostApiItem>;
 export type BuyAutocompleteResponseBody = ApiResponse<string[]>;
