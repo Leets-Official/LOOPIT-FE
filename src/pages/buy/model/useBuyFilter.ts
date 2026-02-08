@@ -28,8 +28,7 @@ export const useBuyFilter = () => {
     '160-200': 'FROM_60_TO_90',
     '200+': 'OVER_100',
   };
-  const selectedPriceRange =
-    selectedPrices.length === 1 ? (priceRangeMap[selectedPrices[0]] ?? undefined) : undefined;
+  const selectedPriceRange = selectedPrices.length === 1 ? (priceRangeMap[selectedPrices[0]] ?? undefined) : undefined;
   const shouldClientManufacturerFilter = selectedManufacturers.length > 0;
   const shouldClientPriceFilter = selectedPrices.length > 0;
 
@@ -83,12 +82,7 @@ export const useBuyFilter = () => {
     ? [{ id: 'available-only', label: '구매가능만', type: 'availability' as const }]
     : [];
 
-  const activeChips: FilterChip[] = [
-    ...manufacturerChips,
-    ...modelChips,
-    ...priceChips,
-    ...availabilityChip,
-  ];
+  const activeChips: FilterChip[] = [...manufacturerChips, ...modelChips, ...priceChips, ...availabilityChip];
 
   const filteredItems = filterBuyItems({
     items,

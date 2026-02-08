@@ -40,9 +40,7 @@ const BuyDetailPage = () => {
   }
 
   const detailInfo = buildDetailInfo(item);
-  const similarItems = items
-    .filter((entry) => entry.id !== item.id && entry.model === item.model)
-    .slice(0, 4);
+  const similarItems = items.filter((entry) => entry.id !== item.id && entry.model === item.model).slice(0, 4);
 
   return (
     <main className="md:px-xxxl mx-auto flex w-full max-w-[1200px] flex-col items-start gap-10 px-(--margin-l) pt-10 lg:gap-[157px] lg:px-0">
