@@ -47,7 +47,13 @@ const normalizeBrand = (value?: string, manufacturer?: string, model?: string, t
   return 'apple';
 };
 
-const normalizeCondition = (value?: string, fallback: BuyItem['condition'] = 'used'): BuyItem['condition'] => {
+const normalizeCondition = (
+  value?: string | boolean,
+  fallback: BuyItem['condition'] = 'used'
+): BuyItem['condition'] => {
+  if (typeof value === 'boolean') {
+    return value ? 'used' : 'new';
+  }
   if (!value) {
     return fallback;
   }
@@ -61,7 +67,13 @@ const normalizeCondition = (value?: string, fallback: BuyItem['condition'] = 'us
   return fallback;
 };
 
-const normalizeScratch = (value?: string, fallback: BuyItem['scratch'] = 'clean'): BuyItem['scratch'] => {
+const normalizeScratch = (
+  value?: string | boolean,
+  fallback: BuyItem['scratch'] = 'clean'
+): BuyItem['scratch'] => {
+  if (typeof value === 'boolean') {
+    return value ? 'scratch' : 'clean';
+  }
   if (!value) {
     return fallback;
   }
@@ -75,7 +87,13 @@ const normalizeScratch = (value?: string, fallback: BuyItem['scratch'] = 'clean'
   return fallback;
 };
 
-const normalizeScreen = (value?: string, fallback: BuyItem['screenCrack'] = 'clean'): BuyItem['screenCrack'] => {
+const normalizeScreen = (
+  value?: string | boolean,
+  fallback: BuyItem['screenCrack'] = 'clean'
+): BuyItem['screenCrack'] => {
+  if (typeof value === 'boolean') {
+    return value ? 'broken' : 'clean';
+  }
   if (!value) {
     return fallback;
   }
@@ -94,6 +112,15 @@ const normalizeBattery = (value?: string, fallback: BuyItem['battery'] = '80plus
     return fallback;
   }
   const label = value.toLowerCase();
+  if (label.includes('great')) {
+    return '80plus';
+  }
+  if (label.includes('good')) {
+    return '80minus';
+  }
+  if (label.includes('bad')) {
+    return '50minus';
+  }
   if (label.includes('50')) {
     return '50minus';
   }
@@ -191,30 +218,30 @@ const normalizeDescription = (value?: string | string[]) => {
 
 export const mapBuyPostToItem = (item: BuyPostApiItem): BuyItem => {
   const priceValue = parsePrice(item.price);
-  const createdAt = item.createdAt ?? item.date;
-  const modelName = item.modelName ?? item.model ?? '';
+  const createdAt = item.createdAt;
+  const modelName = item.model ?? '';
   const specs = item.specs ?? {
     manufacturer: item.manufacturer ?? '',
     model: modelName,
-    color: item.colorName ?? '',
-    storage: item.storageSize ?? '',
-    battery: item.battery ?? '',
+    color: item.color ?? '',
+    storage: item.capacity ?? '',
+    battery: item.batteryStatus ?? '',
   };
 
   return {
-    id: String(item.id ?? item.postId ?? ''),
+    id: String(item.id ?? ''),
     title: item.title ?? '제목 없음',
     priceLabel: priceValue ? formatPriceLabel(priceValue) : '',
     priceValue,
     dateLabel: formatDateLabel(createdAt),
-    image: item.thumbnail ?? item.thumbnailUrl ?? item.imageUrl ?? item.imageUrls?.[0] ?? '',
+    image: item.thumbnail ?? item.imageUrls?.[0] ?? '',
     brand: normalizeBrand(item.brand, item.manufacturer, item.model, item.title),
     model: item.model ?? normalizeModelId(modelName),
-    available: normalizeAvailability(item.available, item.status),
-    condition: normalizeCondition(item.condition ?? item.productCondition),
-    scratch: normalizeScratch(item.scratch ?? item.scratchCondition),
-    screenCrack: normalizeScreen(item.screenCrack ?? item.screenCondition),
-    battery: normalizeBattery(item.battery ?? item.batteryCondition),
+    available: normalizeAvailability(undefined, item.status),
+    condition: normalizeCondition(item.used),
+    scratch: normalizeScratch(item.hasScratch),
+    screenCrack: normalizeScreen(item.screenCracked),
+    battery: normalizeBattery(item.batteryStatus),
     seller: {
       nickname: item.seller?.nickname ?? item.sellerNickname ?? '알 수 없음',
       profileImage: item.seller?.profileImage ?? item.sellerProfileImage,
