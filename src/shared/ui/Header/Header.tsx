@@ -6,7 +6,7 @@ import { headerVariants } from '@shared/ui/Header/Header.variants';
 import { UserMenu } from '@shared/ui/Header/UserMenu';
 import { Logo } from '@shared/ui/Logo';
 import { Modal } from '@shared/ui/Modal';
-import { type ComponentPropsWithoutRef, useRef } from 'react';
+import { type ComponentPropsWithoutRef, useEffect, useRef, useState } from 'react';
 
 export type HeaderProps = Omit<ComponentPropsWithoutRef<'header'>, 'children'> & {
   isLoading?: boolean;
@@ -27,7 +27,15 @@ export const Header = ({
 }: HeaderProps) => {
   const { isOpen: isMobileMenuOpen, toggle: toggleMobileMenu, close: closeMobileMenu } = useModal();
   const mobileMenuRef = useRef<HTMLDivElement>(null);
-  const styles = headerVariants();
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 0);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const styles = headerVariants({ scrolled: isScrolled });
 
   const {
     showLoginModal,
@@ -42,82 +50,89 @@ export const Header = ({
 
   return (
     <header {...props} className={styles.root({ className })}>
-      <Logo className={styles.logo()} />
+      <div className={styles.inner()}>
+        <Logo className={styles.logo()} />
 
-      <div className={styles.desktopNav()}>
-        <nav className={styles.navList()}>
-          {NAV_ITEMS.map((item) => (
-            <button type="button" key={item.id} onClick={() => handleNavClick(item.path)} className={styles.navItem()}>
-              {item.label}
-              {item.id === 'chat' && hasChatAlert && <AlertDotIcon className="absolute -top-1 -right-2" />}
-            </button>
-          ))}
-        </nav>
-        {isLoading ? (
-          <div className="h-[44px] w-[89px] animate-pulse rounded-(--radius-l) bg-gray-200" />
-        ) : isLoggedIn ? (
-          <UserMenu
-            profileImage={user?.profileImage}
-            nickname={user?.nickname}
-            onMyPageClick={handleMyPageClick}
-            onLogoutClick={onLogoutClick}
-          />
-        ) : (
-          <Button variant="fill" size="auto" onClick={handleLoginClick}>
-            로그인
-          </Button>
-        )}
-      </div>
+        <div className={styles.desktopNav()}>
+          <nav className={styles.navList()}>
+            {NAV_ITEMS.map((item) => (
+              <button
+                type="button"
+                key={item.id}
+                onClick={() => handleNavClick(item.path)}
+                className={styles.navItem()}
+              >
+                {item.label}
+                {item.id === 'chat' && hasChatAlert && <AlertDotIcon className="absolute -top-1 -right-2" />}
+              </button>
+            ))}
+          </nav>
+          {isLoading ? (
+            <div className="h-[44px] w-[89px] animate-pulse rounded-(--radius-l) bg-gray-200" />
+          ) : isLoggedIn ? (
+            <UserMenu
+              profileImage={user?.profileImage}
+              nickname={user?.nickname}
+              onMyPageClick={handleMyPageClick}
+              onLogoutClick={onLogoutClick}
+            />
+          ) : (
+            <Button variant="fill" size="auto" onClick={handleLoginClick}>
+              로그인
+            </Button>
+          )}
+        </div>
 
-      <div className={styles.mobileMenuWrapper()} ref={mobileMenuRef}>
-        <button
-          type="button"
-          onClick={toggleMobileMenu}
-          className={styles.mobileMenuButton()}
-          aria-expanded={isMobileMenuOpen}
-          aria-label="메뉴 열기"
-        >
-          <HamburgerIcon className={styles.mobileMenuIcon()} />
-        </button>
+        <div className={styles.mobileMenuWrapper()} ref={mobileMenuRef}>
+          <button
+            type="button"
+            onClick={toggleMobileMenu}
+            className={styles.mobileMenuButton()}
+            aria-expanded={isMobileMenuOpen}
+            aria-label="메뉴 열기"
+          >
+            <HamburgerIcon className={styles.mobileMenuIcon()} />
+          </button>
 
-        {isMobileMenuOpen && (
-          <div className={styles.mobileDropdown()}>
-            <nav className="flex flex-col">
-              {NAV_ITEMS.map((item) => (
-                <button
-                  type="button"
-                  key={item.id}
-                  onClick={() => handleNavClick(item.path)}
-                  className={styles.mobileNavItem()}
-                >
-                  {item.label}
-                  {item.id === 'chat' && hasChatAlert && <AlertDotIcon className="ml-1" />}
-                </button>
-              ))}
-            </nav>
-            <div className={styles.mobileDivider()} />
-            {isLoggedIn ? (
-              <>
-                <button type="button" onClick={handleMyPageClick} className={styles.mobileNavItem()}>
-                  마이페이지
-                </button>
-                <button
-                  type="button"
-                  onClick={onLogoutClick}
-                  className={styles.mobileNavItem({ className: 'text-gray-500' })}
-                >
-                  로그아웃
-                </button>
-              </>
-            ) : (
-              <div className={styles.mobileLoginWrapper()}>
-                <Button variant="fill" size="full" onClick={handleLoginClick}>
-                  로그인
-                </Button>
-              </div>
-            )}
-          </div>
-        )}
+          {isMobileMenuOpen && (
+            <div className={styles.mobileDropdown()}>
+              <nav className="flex flex-col">
+                {NAV_ITEMS.map((item) => (
+                  <button
+                    type="button"
+                    key={item.id}
+                    onClick={() => handleNavClick(item.path)}
+                    className={styles.mobileNavItem()}
+                  >
+                    {item.label}
+                    {item.id === 'chat' && hasChatAlert && <AlertDotIcon className="ml-1" />}
+                  </button>
+                ))}
+              </nav>
+              <div className={styles.mobileDivider()} />
+              {isLoggedIn ? (
+                <>
+                  <button type="button" onClick={handleMyPageClick} className={styles.mobileNavItem()}>
+                    마이페이지
+                  </button>
+                  <button
+                    type="button"
+                    onClick={onLogoutClick}
+                    className={styles.mobileNavItem({ className: 'text-gray-500' })}
+                  >
+                    로그아웃
+                  </button>
+                </>
+              ) : (
+                <div className={styles.mobileLoginWrapper()}>
+                  <Button variant="fill" size="full" onClick={handleLoginClick}>
+                    로그인
+                  </Button>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </div>
 
       {showLoginModal && (
