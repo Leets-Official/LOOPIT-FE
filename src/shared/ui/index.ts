@@ -9,6 +9,7 @@ export * from './ChatbotFloatingButton';
 export * from './Checkbox';
 export * from './ClientOnly';
 export * from './DropDown';
+export * from './EmptyState';
 export * from './FavoriteButton';
 export * from './Header';
 export * from './Logo';
