@@ -9,8 +9,8 @@ export type SellState = {
   description?: string;
   imageFile?: File | null;
   imageUrl?: string | null;
-  productCondition?: 'new' | 'used';
-  scratchCondition?: 'scratch' | 'clean';
-  screenCondition?: 'broken' | 'clean';
-  batteryCondition?: '80plus' | '80minus' | '50minus';
+  productCondition?: boolean;
+  scratchCondition?: boolean;
+  screenCondition?: boolean;
+  batteryCondition?: 'GREAT' | 'GOOD' | 'BAD';
 };
