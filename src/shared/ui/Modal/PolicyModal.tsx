@@ -29,7 +29,10 @@ export const PolicyModal = ({ isOpen, onClose, title, children }: PolicyModalPro
       return;
     }
     setClosing(true);
-    setTimeout(onClose, 150);
+    setTimeout(() => {
+      onClose();
+      setClosing(false);
+    }, 150);
   }, [closing, onClose]);
 
   const handleOverlayMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
