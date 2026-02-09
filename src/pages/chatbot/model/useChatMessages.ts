@@ -5,17 +5,20 @@ import type { ChatMessage } from './types';
 
 const getErrorMessage = (error: unknown): string => {
   if (error instanceof AxiosError) {
-    const serverMessage = error.response?.data?.message;
-    if (serverMessage) {
-      return serverMessage;
-    }
-
     const status = error.response?.status;
+    const serverMessage = error.response?.data?.message;
+
     if (status === 429) {
-      return ERROR_MESSAGES.RATE_LIMIT;
+      const timeMatch = serverMessage?.match(/(\d+시간)/);
+      const timeInfo = timeMatch ? ` ${timeMatch[1]} 후에 다시 시도해주세요.` : '';
+      return `${ERROR_MESSAGES.RATE_LIMIT}${timeInfo}`;
     }
     if (status === 502) {
       return ERROR_MESSAGES.API_CONNECTION;
+    }
+
+    if (serverMessage) {
+      return serverMessage;
     }
   }
 
