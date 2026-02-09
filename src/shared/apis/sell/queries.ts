@@ -37,5 +37,7 @@ export const useSellAutocompleteQuery = (keyword: string) => {
     queryKey: sellKeys.autocomplete(keyword),
     queryFn: () => getSellAutocomplete(keyword),
     enabled: keyword.trim().length > 0,
+    staleTime: 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 };

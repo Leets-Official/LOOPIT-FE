@@ -32,6 +32,7 @@ export const useBuyItemQuery = (id?: string | number) => {
     queryKey: buyKeys.detail(id),
     queryFn: () => getBuyItemById(id!),
     enabled: Boolean(id),
+    staleTime: 60 * 1000,
   });
 };
 
@@ -40,5 +41,7 @@ export const useBuyAutocompleteQuery = (keyword: string) => {
     queryKey: buyKeys.autocomplete(keyword),
     queryFn: () => getBuyAutocomplete(keyword),
     enabled: keyword.trim().length > 0,
+    staleTime: 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 };
