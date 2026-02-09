@@ -1,6 +1,6 @@
 import { useDeleteSellPostMutation } from '@shared/apis/sell';
 import checkerImg from '@shared/assets/icons/common/checker.png';
-import { ROUTES } from '@shared/constants';
+import { BATTERY_OPTIONS, PRODUCT_CONDITION_OPTIONS, ROUTES, SCRATCH_OPTIONS, SCREEN_OPTIONS } from '@shared/constants';
 import { useModal, useToast } from '@shared/hooks';
 import { MOCK_SELL_CONFIRM_DATA } from '@shared/mocks/data';
 import { Button, Modal } from '@shared/ui';
@@ -8,16 +8,8 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import type { SellState } from '@shared/types/sell';
 
-const CONDITION_LABELS = {
-  productCondition: { used: '개봉-중고', new: '미개봉-새상품' },
-  scratchCondition: { clean: '스크래치 없음', scratch: '스크래치 있음' },
-  screenCondition: { clean: '화면 깨짐 없음', broken: '화면 깨짐' },
-  batteryCondition: {
-    '80plus': '배터리 성능 80% 이상',
-    '80minus': '배터리 성능 80% 미만',
-    '50minus': '배터리 성능 50% 미만',
-  },
-} as const;
+const getConditionLabel = <T,>(options: ReadonlyArray<{ label: string; value: T }>, value: T | undefined): string =>
+  options.find((option) => option.value === value)?.label ?? '';
 
 type SellConfirmState = SellState;
 
@@ -37,13 +29,14 @@ const SellConfirmPage = () => {
     { label: '제조사', value: state.manufacturer },
     { label: '모델명', value: state.modelName },
     { label: '색상', value: state.colorName },
+    { label: '저장용량', value: state.storageSize },
   ];
 
   const conditionTags = [
-    CONDITION_LABELS.productCondition[state.productCondition as keyof typeof CONDITION_LABELS.productCondition],
-    CONDITION_LABELS.scratchCondition[state.scratchCondition as keyof typeof CONDITION_LABELS.scratchCondition],
-    CONDITION_LABELS.screenCondition[state.screenCondition as keyof typeof CONDITION_LABELS.screenCondition],
-    CONDITION_LABELS.batteryCondition[state.batteryCondition as keyof typeof CONDITION_LABELS.batteryCondition],
+    getConditionLabel(PRODUCT_CONDITION_OPTIONS, state.productCondition),
+    getConditionLabel(SCRATCH_OPTIONS, state.scratchCondition),
+    getConditionLabel(SCREEN_OPTIONS, state.screenCondition),
+    getConditionLabel(BATTERY_OPTIONS, state.batteryCondition),
   ];
 
   const actionButtons = [
@@ -63,12 +56,12 @@ const SellConfirmPage = () => {
             <img
               src={state.imageUrl ?? ''}
               alt="업로드된 이미지"
-              className="h-[568px] w-[590px] rounded-s object-cover"
+              className="h-[568px] w-[590px] rounded-(--radius-s) object-cover"
               onError={() => setImageError(true)}
             />
           ) : (
             <div
-              className="h-[568px] w-[590px] rounded-s bg-gray-100 bg-cover bg-center"
+              className="h-[568px] w-[590px] rounded-(--radius-s) bg-gray-100 bg-cover bg-center"
               style={{ backgroundImage: `url(${checkerImg})` }}
               aria-label="확인 이미지"
             />
