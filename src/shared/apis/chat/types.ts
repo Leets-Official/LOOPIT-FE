@@ -53,6 +53,8 @@ export interface ChatMessageItem {
 
 export type ChatMessagesResponseBody = ApiResponse<ChatMessageItem[]>;
 
+export type HasUnreadMessagesResponseBody = ApiResponse<boolean>;
+
 // WebSocket/STOMP Types
 
 export interface SendMessagePayload {

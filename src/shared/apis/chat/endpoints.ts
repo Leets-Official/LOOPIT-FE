@@ -1,7 +1,8 @@
 export const CHAT_ENDPOINTS = {
   ROOM: '/chat/room',
   ROOMS: '/chat/rooms',
-  MESSAGES: (roomId: number) => `/chat/room/${roomId}/message`,
+  MESSAGES: (roomId: number) => `/chat/room/${roomId}/messages`,
+  CHECK: '/chat/check',
 } as const;
 
 export const STOMP_ENDPOINTS = {

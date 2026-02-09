@@ -8,6 +8,7 @@ import type {
   ChatRoomListResponseBody,
   CreateRoomRequest,
   CreateRoomResponseBody,
+  HasUnreadMessagesResponseBody,
 } from './types';
 
 export const createOrGetRoom = async (request: CreateRoomRequest): Promise<ChatRoomData> => {
@@ -22,5 +23,10 @@ export const getChatRooms = async (): Promise<ChatRoomListItem[]> => {
 
 export const getChatMessages = async (roomId: number): Promise<ChatMessageItem[]> => {
   const response = await axiosInstance.get<ChatMessagesResponseBody>(CHAT_ENDPOINTS.MESSAGES(roomId));
+  return response.data.data;
+};
+
+export const checkUnreadMessages = async (): Promise<boolean> => {
+  const response = await axiosInstance.get<HasUnreadMessagesResponseBody>(CHAT_ENDPOINTS.CHECK);
   return response.data.data;
 };
