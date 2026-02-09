@@ -126,26 +126,12 @@ export const useSellForm = () => {
       if (editPostId) {
         await updateSellPostMutation.mutateAsync(request);
         showToast('수정되었습니다', 'success');
+        navigate(`${ROUTES.BUY}/${editPostId}`);
       } else {
         const created = await createSellPostMutation.mutateAsync(request);
         showToast('등록되었습니다', 'success');
-        navigate(ROUTES.SELL_CONFIRM, {
-          state: {
-            ...data,
-            postId: created.id,
-            imageUrl,
-          },
-        });
-        return;
+        navigate(`${ROUTES.BUY}/${created.id}`);
       }
-
-      navigate(ROUTES.SELL_CONFIRM, {
-        state: {
-          ...data,
-          postId: editPostId,
-          imageUrl,
-        },
-      });
     } catch {
       showToast('오류가 발생했습니다. 다시 시도해 주세요.', 'error');
     }

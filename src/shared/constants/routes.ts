@@ -7,7 +7,6 @@ export const ROUTES = {
   MYPAGE_PROFILE: '/mypage/profile',
   BUY: '/buy',
   SELL: '/sell',
-  SELL_CONFIRM: '/sell/confirm',
   REPAIR: '/repair',
   CHAT: '/chat',
   CHATBOT: '/chatbot',

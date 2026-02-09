@@ -29,7 +29,6 @@ export default [
     layout('layout/ProtectedLayout.tsx', [
       // sell
       route('sell', 'routes/(main)/sell/index.tsx'),
-      route('sell/confirm', 'routes/(main)/sell/confirm.tsx'),
 
       // mypage
       route('mypage', 'routes/(main)/mypage/index.tsx'),
