@@ -11,10 +11,10 @@ export const BUY_ITEMS: BuyItem[] = [
     brand: 'apple',
     model: 'iphone-17',
     available: true,
-    condition: 'used',
-    scratch: 'clean',
-    screenCrack: 'clean',
-    battery: '80plus',
+    used: true,
+    hasScratch: false,
+    screenCracked: false,
+    batteryStatus: 'GREAT',
     seller: {
       nickname: '김철수',
       profileImage: '/profile-sample.jpg',
@@ -32,6 +32,8 @@ export const BUY_ITEMS: BuyItem[] = [
       '풀박, 미개봉 케이스 포함',
       '직거래 및 택배거래 가능합니다.',
     ],
+    liked: false,
+    owner: false,
   },
   {
     id: 'iphone-17-256-pink',
@@ -43,10 +45,10 @@ export const BUY_ITEMS: BuyItem[] = [
     brand: 'apple',
     model: 'iphone-17',
     available: true,
-    condition: 'used',
-    scratch: 'scratch',
-    screenCrack: 'clean',
-    battery: '80plus',
+    used: true,
+    hasScratch: true,
+    screenCracked: false,
+    batteryStatus: 'GREAT',
     seller: {
       nickname: '김민수',
       profileImage: '/profile-sample.jpg',
@@ -59,6 +61,8 @@ export const BUY_ITEMS: BuyItem[] = [
       battery: '배터리 성능 90%',
     },
     description: ['생활기스 거의 없고 상태 좋습니다.', '충전 케이블 새것 포함', '쿨거래 시 네고 가능합니다.'],
+    liked: false,
+    owner: false,
   },
   {
     id: 'iphone-17-1tb-cream',
@@ -70,10 +74,10 @@ export const BUY_ITEMS: BuyItem[] = [
     brand: 'apple',
     model: 'iphone-17',
     available: true,
-    condition: 'new',
-    scratch: 'clean',
-    screenCrack: 'clean',
-    battery: '80plus',
+    used: false,
+    hasScratch: false,
+    screenCracked: false,
+    batteryStatus: 'GREAT',
     seller: {
       nickname: '김루핏',
       profileImage: '/profile-sample.jpg',
@@ -86,6 +90,8 @@ export const BUY_ITEMS: BuyItem[] = [
       battery: '배터리 성능 88%',
     },
     description: ['구성품 모두 있고 사용감 적습니다.', '보호필름 부착 상태로 배송합니다.'],
+    liked: false,
+    owner: false,
   },
   {
     id: 'iphone-15-pro-blue',
@@ -97,10 +103,10 @@ export const BUY_ITEMS: BuyItem[] = [
     brand: 'apple',
     model: 'iphone-15',
     available: true,
-    condition: 'used',
-    scratch: 'scratch',
-    screenCrack: 'clean',
-    battery: '80plus',
+    used: true,
+    hasScratch: true,
+    screenCracked: false,
+    batteryStatus: 'GREAT',
     seller: {
       nickname: '김이름',
       profileImage: '/profile-sample.jpg',
@@ -113,6 +119,8 @@ export const BUY_ITEMS: BuyItem[] = [
       battery: '배터리 성능 87%',
     },
     description: ['생활기스 조금 있습니다.', '직거래 우선입니다.'],
+    liked: false,
+    owner: false,
   },
   {
     id: 'galaxy-s20-black',
@@ -124,10 +132,10 @@ export const BUY_ITEMS: BuyItem[] = [
     brand: 'samsung',
     model: 'galaxy-s20',
     available: true,
-    condition: 'used',
-    scratch: 'scratch',
-    screenCrack: 'clean',
-    battery: '80plus',
+    used: true,
+    hasScratch: true,
+    screenCracked: false,
+    batteryStatus: 'GREAT',
     seller: {
       nickname: '김유저',
       profileImage: '/profile-sample.jpg',
@@ -140,6 +148,8 @@ export const BUY_ITEMS: BuyItem[] = [
       battery: '배터리 성능 83%',
     },
     description: ['잔기스 있으나 사용에 문제 없습니다.', '구성품 일부 없습니다.'],
+    liked: false,
+    owner: false,
   },
   {
     id: 'galaxy-fold-white',
@@ -151,10 +161,10 @@ export const BUY_ITEMS: BuyItem[] = [
     brand: 'samsung',
     model: 'galaxy-fold',
     available: false,
-    condition: 'used',
-    scratch: 'scratch',
-    screenCrack: 'broken',
-    battery: '80plus',
+    used: true,
+    hasScratch: true,
+    screenCracked: true,
+    batteryStatus: 'GREAT',
     seller: {
       nickname: '김민철',
       profileImage: '/profile-sample.jpg',
@@ -167,31 +177,7 @@ export const BUY_ITEMS: BuyItem[] = [
       battery: '배터리 성능 80%',
     },
     description: ['구매 예약 중입니다.', '상세 문의는 채팅으로 부탁드립니다.'],
+    liked: false,
+    owner: false,
   },
-];
-
-export const MANUFACTURERS = [
-  { id: 'apple', label: '애플' },
-  { id: 'samsung', label: '삼성' },
-];
-
-export const MODELS = [
-  { id: 'iphone-12', label: '아이폰 12 시리즈' },
-  { id: 'iphone-13', label: '아이폰 13 시리즈' },
-  { id: 'iphone-14', label: '아이폰 14 시리즈' },
-  { id: 'iphone-15', label: '아이폰 15 시리즈' },
-  { id: 'iphone-17', label: '아이폰 17 시리즈' },
-  { id: 'ipad-pro', label: '아이패드 프로' },
-  { id: 'galaxy-flip4', label: '삼성 플립4' },
-  { id: 'galaxy-flip5', label: '삼성 플립5' },
-  { id: 'galaxy-s20', label: '갤럭시 S20' },
-  { id: 'galaxy-fold', label: '갤럭시 폴드' },
-];
-
-export const PRICE_RANGES = [
-  { id: 'under-100', label: '100만원 이하', min: 0, max: 1000000 },
-  { id: '100-130', label: '100만원~130만원대', min: 1000000, max: 1300000 },
-  { id: '130-160', label: '130만원~160만원대', min: 1300000, max: 1600000 },
-  { id: '160-200', label: '160만원~200만원대', min: 1600000, max: 2000000 },
-  { id: '200+', label: '200만원 이상', min: 2000000, max: Infinity },
 ];

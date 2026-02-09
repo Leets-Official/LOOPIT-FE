@@ -1,3 +1,11 @@
+export type SimilarItem = {
+  id: string;
+  title: string;
+  priceLabel: string;
+  dateLabel: string;
+  image: string;
+};
+
 export type BuyItem = {
   id: string;
   title: string;
@@ -8,10 +16,10 @@ export type BuyItem = {
   brand: 'apple' | 'samsung';
   model: string;
   available: boolean;
-  condition: 'new' | 'used';
-  scratch: 'scratch' | 'clean';
-  screenCrack: 'broken' | 'clean';
-  battery: '80plus' | '80minus' | '50minus';
+  used: boolean;
+  hasScratch: boolean;
+  screenCracked: boolean;
+  batteryStatus: 'GREAT' | 'GOOD' | 'BAD';
   seller: {
     nickname: string;
     profileImage?: string;
@@ -24,4 +32,7 @@ export type BuyItem = {
     battery: string;
   };
   description: string[];
+  similarItems?: SimilarItem[];
+  liked: boolean;
+  owner: boolean;
 };
