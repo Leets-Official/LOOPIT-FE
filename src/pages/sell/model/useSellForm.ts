@@ -1,8 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { uploadImage } from '@shared/apis/image';
-import { useCreateSellPostMutation, useUpdateSellPostMutation } from '@shared/apis/sell';
+import { useCreateSellPostMutation, useSellAutocompleteQuery, useUpdateSellPostMutation } from '@shared/apis/sell';
 import { ROUTES } from '@shared/constants';
-import { useClickOutside, useToast } from '@shared/hooks';
+import { useClickOutside, useDebounce, useToast } from '@shared/hooks';
 import { sellSchema, type SellFormData } from '@shared/utils/schemas';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -42,10 +42,20 @@ export const useSellForm = () => {
 
   const manufacturerValue = watch('manufacturer');
   const priceValue = watch('price');
+  const modelNameValue = watch('modelName');
   const productCondition = watch('productCondition');
   const scratchCondition = watch('scratchCondition');
   const screenCondition = watch('screenCondition');
   const batteryCondition = watch('batteryCondition');
+
+  const debouncedModelName = useDebounce(modelNameValue ?? '', 300);
+  const { data: modelSuggestions = [] } = useSellAutocompleteQuery(debouncedModelName);
+  const [isModelAutocompleteOpen, setIsModelAutocompleteOpen] = useState(false);
+
+  const selectModelName = (value: string) => {
+    setValue('modelName', value, { shouldValidate: true });
+    setIsModelAutocompleteOpen(false);
+  };
 
   const { previewUrl, setPreviewUrl, handleImageChange } = useSellImage({
     showToast,
@@ -137,7 +147,7 @@ export const useSellForm = () => {
         },
       });
     } catch {
-      showToast('판매글 처리 실패. 다시 시도해 주세요.', 'error');
+      showToast('오류가 발생했습니다. 다시 시도해 주세요.', 'error');
     }
   });
 
@@ -149,6 +159,11 @@ export const useSellForm = () => {
     dropdownRef,
     manufacturerValue,
     priceValue,
+    modelNameValue,
+    modelSuggestions,
+    isModelAutocompleteOpen,
+    setIsModelAutocompleteOpen,
+    selectModelName,
     productCondition,
     scratchCondition,
     screenCondition,
