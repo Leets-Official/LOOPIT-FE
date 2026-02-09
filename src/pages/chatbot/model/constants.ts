@@ -1,6 +1,6 @@
 export const ERROR_MESSAGES = {
   DEFAULT: '메시지 전송에 실패했습니다. 다시 시도해주세요.',
-  RATE_LIMIT: '질문 횟수를 초과했습니다. 잠시 후 다시 시도해주세요.',
+  RATE_LIMIT: '질문 횟수를 초과했습니다.',
   API_CONNECTION: '서비스 연결에 문제가 발생했습니다. 잠시 후 다시 시도해주세요.',
   API_PARSING: '응답 처리 중 오류가 발생했습니다. 다시 시도해주세요.',
 } as const;

@@ -10,6 +10,7 @@ export const chatbotFloatingButtonVariants = tv({
       'shadow-[0_4px_4px_0_var(--color-gray-100)]',
       'py-[9px] px-[8px]',
       'overflow-hidden',
+      '[view-transition-name:none]',
       'transition-[width,background-color,box-shadow] duration-200 ease-out',
       'hover:py-[9px] hover:pl-[8px] hover:pr-[19px]',
       'focus-visible:py-[9px] focus-visible:pl-[8px] focus-visible:pr-[19px]',

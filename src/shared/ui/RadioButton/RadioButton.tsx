@@ -1,10 +1,10 @@
 import { radioButtonVariants } from '@shared/ui/RadioButton/RadioButton.variants';
-import { useState, type ComponentPropsWithoutRef } from 'react';
+import { useState, type ComponentPropsWithoutRef, type ReactNode } from 'react';
 import type { VariantProps } from 'tailwind-variants';
 
 export type RadioButtonProps = Omit<ComponentPropsWithoutRef<'input'>, 'type'> &
   Omit<VariantProps<typeof radioButtonVariants>, 'checked'> & {
-    label?: string;
+    label?: ReactNode;
     checked?: boolean;
   };
 
@@ -51,7 +51,7 @@ export const RadioButton = ({
         disabled={disabled}
         onFocus={handleFocus}
         onBlur={handleBlur}
-        {...(label && { 'aria-label': label })}
+        {...(typeof label === 'string' && { 'aria-label': label })}
         {...props}
       />
 

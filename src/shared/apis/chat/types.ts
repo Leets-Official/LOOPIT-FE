@@ -6,12 +6,6 @@ export type PostStatus = '판매중' | '예약중' | '판매완료';
 
 // REST API Types
 
-export interface CreateRoomRequest {
-  sellerId: number;
-  buyerId: number;
-  sellPostId: number;
-}
-
 export interface ChatRoomData {
   roomId: number;
   sellerId: number;
@@ -20,8 +14,9 @@ export interface ChatRoomData {
   postTitle: string;
   postPrice: number;
   postCreatedAt: string;
+  postUpdatedAt: string;
   thumbnail: string;
-  postStatus: PostStatus;
+  postStatus: string;
 }
 
 export type CreateRoomResponseBody = ApiResponse<ChatRoomData>;
@@ -52,6 +47,8 @@ export interface ChatMessageItem {
 }
 
 export type ChatMessagesResponseBody = ApiResponse<ChatMessageItem[]>;
+
+export type HasUnreadMessagesResponseBody = ApiResponse<boolean>;
 
 // WebSocket/STOMP Types
 

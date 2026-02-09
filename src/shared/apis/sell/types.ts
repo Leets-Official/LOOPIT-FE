@@ -24,3 +24,4 @@ export interface CreateSellPostResponse {
 export type CreateSellPostResponseBody = ApiResponse<CreateSellPostResponse>;
 export type UpdateSellPostRequest = CreateSellPostRequest;
 export type UpdateSellPostResponseBody = ApiResponse<{ id: number }>;
+export type SellAutocompleteResponseBody = ApiResponse<string[]>;

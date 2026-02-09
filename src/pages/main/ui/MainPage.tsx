@@ -41,7 +41,7 @@ const MainPage = () => {
         </ClientOnly>
       </section>
 
-      <section className="grid w-full max-w-[1200px] grid-cols-1 gap-6 xl:grid-cols-3" aria-label="서비스 배너 영역">
+      <section className="grid w-full max-w-[1200px] grid-cols-1 gap-6 md:grid-cols-3" aria-label="서비스 배너 영역">
         {BANNER_CARDS.map((card) => (
           <BannerCard
             key={card.id}

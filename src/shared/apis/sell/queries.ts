@@ -1,5 +1,5 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createSellPost, deleteSellPost, updateSellPost } from './api';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { createSellPost, deleteSellPost, getSellAutocomplete, updateSellPost } from './api';
 import { sellKeys } from './keys';
 import type { CreateSellPostRequest, UpdateSellPostRequest } from './types';
 export const useCreateSellPostMutation = () => {
@@ -29,5 +29,15 @@ export const useDeleteSellPostMutation = (postId: number | string) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: sellKeys.lists() });
     },
+  });
+};
+
+export const useSellAutocompleteQuery = (keyword: string) => {
+  return useQuery({
+    queryKey: sellKeys.autocomplete(keyword),
+    queryFn: () => getSellAutocomplete(keyword),
+    enabled: keyword.trim().length > 0,
+    staleTime: 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 };

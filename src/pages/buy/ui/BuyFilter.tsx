@@ -17,19 +17,22 @@ type FilterItem = {
   label: string;
 };
 
+type ModelItem = FilterItem & {
+  brand: string;
+  hasSeries?: boolean;
+};
+
 export type BuyFilterProps = {
   manufacturers: FilterItem[];
-  models: FilterItem[];
+  models: ModelItem[];
   priceRanges: FilterItem[];
   selectedManufacturers: string[];
   selectedModels: string[];
   selectedPrices: string[];
-  availableOnly: boolean;
   showAllModels: boolean;
   onToggleManufacturer: (id: string) => void;
   onToggleModel: (id: string) => void;
   onTogglePrice: (id: string) => void;
-  onSetAvailableOnly: (value: boolean) => void;
   onSetShowAllModels: (value: boolean) => void;
   onReset: () => void;
   defaultModelCount?: number;
@@ -42,17 +45,20 @@ export const BuyFilter = ({
   selectedManufacturers,
   selectedModels,
   selectedPrices,
-  availableOnly,
   showAllModels,
   onToggleManufacturer,
   onToggleModel,
   onTogglePrice,
-  onSetAvailableOnly,
   onSetShowAllModels,
   onReset,
   defaultModelCount = 8,
 }: BuyFilterProps) => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const filteredModels =
+    selectedManufacturers.length === 0 ? models : models.filter((model) => selectedManufacturers.includes(model.brand));
+
+  const displayedModels = showAllModels ? filteredModels : filteredModels.slice(0, defaultModelCount);
 
   return (
     <aside className="flex w-full shrink-0 flex-col items-start gap-0 pb-10 lg:w-[183px]">
@@ -69,7 +75,7 @@ export const BuyFilter = ({
       {/* 데스크탑: 기존 헤더 */}
       <div className="hidden items-center justify-between self-stretch lg:flex">
         <h2 className="typo-body-2 text-gray-900">필터</h2>
-        <button type="button" className="typo-caption-2 font-medium text-gray-400" onClick={onReset}>
+        <button type="button" className="typo-caption-2 cursor-pointer font-medium text-gray-400" onClick={onReset}>
           초기화
         </button>
       </div>
@@ -78,21 +84,12 @@ export const BuyFilter = ({
       <div className={cn('w-full flex-col gap-0 lg:flex', isOpen ? 'flex' : 'hidden')}>
         {/* 모바일용 초기화 버튼 */}
         <div className="flex items-center justify-end self-stretch lg:hidden">
-          <button type="button" className="typo-caption-2 font-medium text-gray-400" onClick={onReset}>
+          <button type="button" className="typo-caption-2 cursor-pointer font-medium text-gray-400" onClick={onReset}>
             초기화
           </button>
         </div>
 
-        <div className="mt-[21px]">
-          <Checkbox
-            label="구매가능만 보기"
-            checked={availableOnly}
-            onChange={(e) => onSetAvailableOnly(e.target.checked)}
-          />
-        </div>
-        <div className="my-[21px] h-px w-full bg-gray-100" />
-
-        <div className="flex flex-col gap-0 self-stretch">
+        <div className="mt-[21px] flex flex-col gap-0 self-stretch">
           <FilterSection title="제조사">
             {manufacturers.map((item) => (
               <Checkbox
@@ -105,7 +102,7 @@ export const BuyFilter = ({
           </FilterSection>
 
           <FilterSection title="모델명">
-            {(showAllModels ? models : models.slice(0, defaultModelCount)).map((item) => (
+            {displayedModels.map((item) => (
               <Checkbox
                 key={item.id}
                 label={item.label}
@@ -113,13 +110,16 @@ export const BuyFilter = ({
                 onChange={() => onToggleModel(item.id)}
               />
             ))}
-            <button
-              type="button"
-              className="typo-caption-1 mt-2 text-left text-green-700"
-              onClick={() => onSetShowAllModels(!showAllModels)}
-            >
-              {showAllModels ? '접기' : '더보기'}
-            </button>
+            {filteredModels.length > defaultModelCount && (
+              <button
+                type="button"
+                className="typo-caption-1 mt-2 cursor-pointer text-left text-green-700"
+                onClick={() => onSetShowAllModels(!showAllModels)}
+              >
+                {showAllModels ? '접기' : '더보기'}
+              </button>
+            )}
+            <span className="typo-caption-2 mt-2 text-gray-400">시리즈 모델 포함</span>
           </FilterSection>
 
           <FilterSection title="가격">

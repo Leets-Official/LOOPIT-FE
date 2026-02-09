@@ -46,12 +46,15 @@ export const sellSchema = zod.object({
   manufacturer: requiredString('제조사를 선택해 주세요.'),
   modelName: requiredString('모델명을 입력해 주세요.'),
   colorName: requiredString('색상을 입력해 주세요.'),
-  storageSize: requiredString('저장 용량을 입력해 주세요.'),
+  storageSize: requiredString('저장 용량을 입력해 주세요.').regex(
+    /^\d+(GB|TB)$/,
+    '저장 용량은 숫자와 GB 또는 TB를 포함해야 해요. (예: 128GB)'
+  ),
   description: zod.string().trim().min(MIN_DESCRIPTION_LENGTH, '설명은 10자 이상 입력해 주세요.'),
-  productCondition: zod.enum(['new', 'used']),
-  scratchCondition: zod.enum(['scratch', 'clean']),
-  screenCondition: zod.enum(['broken', 'clean']),
-  batteryCondition: zod.enum(['80plus', '80minus', '50minus']),
+  productCondition: zod.boolean(),
+  scratchCondition: zod.boolean(),
+  screenCondition: zod.boolean(),
+  batteryCondition: zod.enum(['GREAT', 'GOOD', 'BAD']),
 });
 
 export type SellFormData = zod.infer<typeof sellSchema>;

@@ -11,10 +11,10 @@ export const getSellFormDefaults = (): DefaultValues<SellFormData> => ({
   colorName: '',
   storageSize: '',
   description: '',
-  productCondition: 'new',
-  scratchCondition: 'scratch',
-  screenCondition: 'broken',
-  batteryCondition: '80plus',
+  productCondition: false,
+  scratchCondition: true,
+  screenCondition: true,
+  batteryCondition: 'GREAT',
 });
 
 export const mapSellDraftToForm = (state: SellState): DefaultValues<SellFormData> => ({
@@ -26,8 +26,8 @@ export const mapSellDraftToForm = (state: SellState): DefaultValues<SellFormData
   colorName: state.colorName ?? '',
   storageSize: state.storageSize ?? '',
   description: state.description ?? '',
-  productCondition: state.productCondition ?? 'new',
-  scratchCondition: state.scratchCondition ?? 'scratch',
-  screenCondition: state.screenCondition ?? 'broken',
-  batteryCondition: state.batteryCondition ?? '80plus',
+  productCondition: state.productCondition ?? false,
+  scratchCondition: state.scratchCondition ?? false,
+  screenCondition: state.screenCondition ?? false,
+  batteryCondition: state.batteryCondition ?? 'GREAT',
 });

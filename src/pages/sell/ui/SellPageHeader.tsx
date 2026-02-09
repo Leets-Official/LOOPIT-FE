@@ -1,9 +1,10 @@
 export const SellPageHeader = () => {
   return (
-    <section className="rounded-t-l flex h-[266px] items-center justify-center bg-[linear-gradient(180deg,var(--color-brand-primary)_0%,var(--color-white)_100%)] py-[67px]">
-      <div className="gap-xxs flex w-full max-w-[1200px] flex-col items-center text-center">
-        <h1 className="typo-title-1 text-gray-900">나의 전자 기기 판매하기</h1>
+    <section className="flex h-[100px] flex-col items-start justify-end gap-[35px] self-stretch pt-(--radius-l)">
+      <div className="flex items-center pr-[79px]">
+        <h1 className="typo-title-1 text-gray-500">판매할 상품 등록</h1>
       </div>
+      <div className="h-[3px] w-full bg-gray-300" />
     </section>
   );
 };

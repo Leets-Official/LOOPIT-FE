@@ -9,16 +9,23 @@ export const headerVariants = tv({
       'fixed',
       'top-0',
       'left-0',
-      'right-[var(--scrollbar-width)]',
+      'right-0',
       'z-50',
+      'w-full',
+      'h-(--header-height)',
+      'bg-white',
+      'transition-shadow',
+      'duration-200',
+      'pr-[var(--scrollbar-width)]',
+    ],
+    inner: [
       'flex',
       'w-full',
       'max-w-[1440px]',
       'mx-auto',
-      'h-(--header-height)',
+      'h-full',
       'justify-between',
       'items-center',
-      'bg-white',
       'pl-10',
       'pr-10',
       'xl:pl-[120px]',
@@ -32,7 +39,7 @@ export const headerVariants = tv({
     navItem: [...baseButton, 'relative', 'text-center', 'typo-body-1', 'text-gray-900', 'whitespace-nowrap'],
 
     // Mobile Menu
-    mobileMenuWrapper: ['relative', 'xl:hidden'],
+    mobileMenuWrapper: ['relative', 'flex', 'xl:hidden'],
     mobileMenuButton: ['flex', 'items-center', 'justify-center', 'p-2', 'cursor-pointer'],
     mobileMenuIcon: ['w-6', 'h-6', 'text-gray-900'],
     mobileDropdown: [
@@ -90,5 +97,12 @@ export const headerVariants = tv({
       'p-0',
       'text-left',
     ],
+  },
+  variants: {
+    scrolled: {
+      true: {
+        root: ['shadow-[0_4px_6px_-4px_rgba(0,0,0,0.1)]'],
+      },
+    },
   },
 });
