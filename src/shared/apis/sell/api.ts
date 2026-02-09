@@ -4,6 +4,7 @@ import type {
   CreateSellPostRequest,
   CreateSellPostResponse,
   CreateSellPostResponseBody,
+  SellAutocompleteResponseBody,
   UpdateSellPostRequest,
   UpdateSellPostResponseBody,
 } from './types';
@@ -23,4 +24,11 @@ export const updateSellPost = async (
 
 export const deleteSellPost = async (postId: number | string): Promise<void> => {
   await axiosInstance.delete(SELL_ENDPOINTS.ITEM(postId));
+};
+
+export const getSellAutocomplete = async (keyword: string): Promise<string[]> => {
+  const response = await axiosInstance.get<SellAutocompleteResponseBody>(SELL_ENDPOINTS.AUTOCOMPLETE, {
+    params: { keyword },
+  });
+  return response.data.data;
 };
