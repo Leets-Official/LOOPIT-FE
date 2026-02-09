@@ -15,14 +15,12 @@ import { MANUFACTURERS, MODELS, PRICE_RANGES } from '../model/filters';
 
 const FilterChip = ({ label, onRemove }: { label: string; onRemove: () => void }) => {
   return (
-    <button
-      type="button"
-      className="typo-body-2 flex items-center justify-center gap-1.5 rounded-full bg-gray-900 px-3 py-1 text-white"
-      onClick={onRemove}
-    >
+    <div className="typo-body-2 flex items-center justify-center gap-1.5 rounded-full bg-gray-900 px-3 py-1 text-white">
       <span>{label}</span>
-      <CloseIcon className="size-6 text-gray-100" aria-hidden="true" />
-    </button>
+      <button type="button" onClick={onRemove} aria-label={`${label} 필터 제거`}>
+        <CloseIcon className="size-6 cursor-pointer text-gray-100" aria-hidden="true" />
+      </button>
+    </div>
   );
 };
 

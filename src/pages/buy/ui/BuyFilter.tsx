@@ -75,7 +75,7 @@ export const BuyFilter = ({
       {/* 데스크탑: 기존 헤더 */}
       <div className="hidden items-center justify-between self-stretch lg:flex">
         <h2 className="typo-body-2 text-gray-900">필터</h2>
-        <button type="button" className="typo-caption-2 font-medium text-gray-400" onClick={onReset}>
+        <button type="button" className="typo-caption-2 cursor-pointer font-medium text-gray-400" onClick={onReset}>
           초기화
         </button>
       </div>
@@ -84,7 +84,7 @@ export const BuyFilter = ({
       <div className={cn('w-full flex-col gap-0 lg:flex', isOpen ? 'flex' : 'hidden')}>
         {/* 모바일용 초기화 버튼 */}
         <div className="flex items-center justify-end self-stretch lg:hidden">
-          <button type="button" className="typo-caption-2 font-medium text-gray-400" onClick={onReset}>
+          <button type="button" className="typo-caption-2 cursor-pointer font-medium text-gray-400" onClick={onReset}>
             초기화
           </button>
         </div>
@@ -113,7 +113,7 @@ export const BuyFilter = ({
             {filteredModels.length > defaultModelCount && (
               <button
                 type="button"
-                className="typo-caption-1 mt-2 text-left text-green-700"
+                className="typo-caption-1 mt-2 cursor-pointer text-left text-green-700"
                 onClick={() => onSetShowAllModels(!showAllModels)}
               >
                 {showAllModels ? '접기' : '더보기'}
