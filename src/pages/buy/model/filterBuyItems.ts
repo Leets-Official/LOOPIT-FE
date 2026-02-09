@@ -1,4 +1,4 @@
-import { PRICE_RANGES } from '@shared/mocks/data/buy';
+import { MODELS, PRICE_RANGES } from './filters';
 import type { BuyItem } from '@shared/types/buy';
 
 type FilterParams = {
@@ -7,7 +7,6 @@ type FilterParams = {
   selectedManufacturers: string[];
   selectedModels: string[];
   selectedPrices: string[];
-  availableOnly: boolean;
   skipServerSyncedFilters?: boolean;
   applyManufacturerFilter?: boolean;
   applyPriceFilter?: boolean;
@@ -20,7 +19,6 @@ export const filterBuyItems = ({
   selectedManufacturers,
   selectedModels,
   selectedPrices,
-  availableOnly,
   skipServerSyncedFilters = false,
   applyManufacturerFilter = false,
   applyPriceFilter = false,
@@ -29,13 +27,12 @@ export const filterBuyItems = ({
   const trimmedQuery = query.trim();
 
   return items.filter((item) => {
-    const matchesAvailability = !availableOnly || item.available;
     if (skipServerSyncedFilters) {
       const matchesManufacturer =
         !applyManufacturerFilter || selectedManufacturers.length === 0 || selectedManufacturers.includes(item.brand);
       const matchesQuery = !applyQueryFilter || trimmedQuery.length === 0 || item.title.includes(trimmedQuery);
       if (!applyPriceFilter) {
-        return matchesAvailability && matchesManufacturer && matchesQuery;
+        return matchesManufacturer && matchesQuery;
       }
       const matchesPrice =
         selectedPrices.length === 0 ||
@@ -46,11 +43,16 @@ export const filterBuyItems = ({
           }
           return item.priceValue >= range.min && item.priceValue < range.max;
         });
-      return matchesAvailability && matchesManufacturer && matchesPrice && matchesQuery;
+      return matchesManufacturer && matchesPrice && matchesQuery;
     }
 
     const matchesManufacturer = selectedManufacturers.length === 0 || selectedManufacturers.includes(item.brand);
-    const matchesModel = selectedModels.length === 0 || selectedModels.includes(item.model);
+    const matchesModel =
+      selectedModels.length === 0 ||
+      selectedModels.some((id) => {
+        const label = MODELS.find((m) => m.id === id)?.label;
+        return label && item.model.startsWith(label);
+      });
     const matchesPrice =
       selectedPrices.length === 0 ||
       selectedPrices.some((priceId) => {
@@ -62,6 +64,6 @@ export const filterBuyItems = ({
       });
     const matchesQuery = trimmedQuery.length === 0 || item.title.includes(trimmedQuery);
 
-    return matchesManufacturer && matchesModel && matchesPrice && matchesAvailability && matchesQuery;
+    return matchesManufacturer && matchesModel && matchesPrice && matchesQuery;
   });
 };
