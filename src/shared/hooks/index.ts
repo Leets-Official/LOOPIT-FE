@@ -1,8 +1,10 @@
 export { useBodyScrollLock } from './useBodyScrollLock';
 export { useClickOutside } from './useClickOutside';
+export { useDebounce } from './useDebounce';
 export { useFocusTrap } from './useFocusTrap';
 export { useHeaderNavigation } from './useHeaderNavigation';
 export { useImagePreview } from './useImagePreview';
+export { useInfiniteScroll } from './useInfiniteScroll';
 export { useModal } from './useModal';
 export { useS3ImageUpload } from './useS3ImageUpload';
 export { useScrolled } from './useScrolled';
