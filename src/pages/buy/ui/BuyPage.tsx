@@ -3,23 +3,25 @@ import { BuyFilter } from '@pages/buy/ui/BuyFilter';
 import { useBuyAutocompleteQuery } from '@shared/apis/buy';
 import { CloseIcon } from '@shared/assets/icons';
 import { ROUTES } from '@shared/constants';
-import { MANUFACTURERS, MODELS, PRICE_RANGES } from '@shared/mocks/data/buy';
+import { useDebounce } from '@shared/hooks';
 import { Card } from '@shared/ui/Card';
+import { EmptyState } from '@shared/ui/EmptyState';
 import { LoadingFallback } from '@shared/ui/LoadingFallback';
 import { SearchBar } from '@shared/ui/SearchBar';
 import { cn } from '@shared/utils/cn';
-import { type KeyboardEvent, useEffect, useMemo, useState } from 'react';
+import { type KeyboardEvent, useMemo, useState } from 'react';
 import { Link } from 'react-router';
+import { MANUFACTURERS, MODELS, PRICE_RANGES } from '../model/filters';
 
 const FilterChip = ({ label, onRemove }: { label: string; onRemove: () => void }) => {
   return (
     <button
       type="button"
-      className="typo-caption-1 flex items-center gap-2 rounded-full bg-gray-900 px-3 py-1 text-white"
+      className="typo-body-2 flex items-center justify-center gap-1.5 rounded-full bg-gray-900 px-3 py-1 text-white"
       onClick={onRemove}
     >
       <span>{label}</span>
-      <CloseIcon className="h-3 w-3" aria-hidden="true" />
+      <CloseIcon className="size-6 text-gray-100" aria-hidden="true" />
     </button>
   );
 };
@@ -28,12 +30,9 @@ const BuyPage = () => {
   const {
     query,
     setQuery,
-    applySearch,
     selectedManufacturers,
     selectedModels,
     selectedPrices,
-    availableOnly,
-    setAvailableOnly,
     showAllModels,
     setShowAllModels,
     activeChips,
@@ -45,25 +44,12 @@ const BuyPage = () => {
     resetFilters,
     isLoading,
     isError,
-    currentPage,
-    totalPages,
-    isFirstPage,
-    isLastPage,
-    setCurrentPage,
+    observerRef,
   } = useBuyFilter();
 
   const [isSearchFocused, setIsSearchFocused] = useState(false);
-  const [debouncedQuery, setDebouncedQuery] = useState('');
   const [activeIndex, setActiveIndex] = useState(-1);
-
-  useEffect(() => {
-    const handle = window.setTimeout(() => {
-      setDebouncedQuery(query.trim());
-      setActiveIndex(-1);
-    }, 250);
-
-    return () => window.clearTimeout(handle);
-  }, [query]);
+  const debouncedQuery = useDebounce(query.trim(), 300);
 
   const { data: suggestions = [] } = useBuyAutocompleteQuery(debouncedQuery);
 
@@ -106,13 +92,6 @@ const BuyPage = () => {
   };
 
   const showEmpty = filteredItems.length === 0;
-  const pageCount = Math.max(totalPages, 0);
-  const effectiveTotalPages = pageCount > 0 ? pageCount : filteredItems.length > 0 ? 1 : 0;
-  const maxPageButtons = 5;
-  const currentPageNumber = currentPage + 1;
-  const startPage = Math.max(1, currentPageNumber - Math.floor(maxPageButtons / 2));
-  const endPage = Math.min(effectiveTotalPages, startPage + maxPageButtons - 1);
-  const pageNumbers = Array.from({ length: Math.max(endPage - startPage + 1, 0) }, (_, index) => startPage + index);
 
   if (isLoading) {
     return <LoadingFallback message="상품을 불러오는 중이에요." />;
@@ -120,38 +99,40 @@ const BuyPage = () => {
 
   return (
     <main className="md:px-xxxl mx-auto flex w-full max-w-[1200px] flex-col items-center gap-6 px-(--margin-l) md:gap-10 lg:gap-[68px] lg:px-0">
-      <div className="relative flex w-full justify-center">
-        <SearchBar
-          placeholder="어떤 제품을 찾으시나요?"
-          onSearch={() => applySearch()}
-          value={query}
-          onChange={setQuery}
-          onFocus={() => setIsSearchFocused(true)}
-          onBlur={() => setIsSearchFocused(false)}
-          onKeyDown={handleSearchKeyDown}
-        />
+      <div className="flex w-full justify-center">
+        <div className="relative w-full max-w-[550px]">
+          <SearchBar
+            placeholder="어떤 제품을 찾으시나요?"
+            value={query}
+            onChange={setQuery}
+            onSearch={() => {}}
+            onFocus={() => setIsSearchFocused(true)}
+            onBlur={() => setIsSearchFocused(false)}
+            onKeyDown={handleSearchKeyDown}
+          />
 
-        {showSuggestions && (
-          <div className="rounded-m absolute top-[calc(100%+8px)] right-0 left-0 z-10 border border-gray-100 bg-white shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
-            <ul className="max-h-[240px] overflow-auto py-2">
-              {filteredSuggestions.map((item, index) => (
-                <li key={item}>
-                  <button
-                    type="button"
-                    className={cn(
-                      'typo-body-2 flex w-full items-center px-4 py-2 text-left text-gray-900 hover:bg-gray-50',
-                      activeIndex === index && 'bg-gray-50'
-                    )}
-                    onMouseDown={(event) => event.preventDefault()}
-                    onClick={() => selectSuggestion(item)}
-                  >
-                    {item}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+          {showSuggestions && (
+            <div className="rounded-m absolute top-[calc(100%+8px)] right-0 left-0 z-10 border border-gray-100 bg-white shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
+              <ul className="max-h-[240px] overflow-auto py-2">
+                {filteredSuggestions.map((item, index) => (
+                  <li key={item}>
+                    <button
+                      type="button"
+                      className={cn(
+                        'typo-body-2 flex w-full items-center px-4 py-2 text-left text-gray-900 hover:bg-gray-50',
+                        activeIndex === index && 'bg-gray-50'
+                      )}
+                      onMouseDown={(event) => event.preventDefault()}
+                      onClick={() => selectSuggestion(item)}
+                    >
+                      {item}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="flex w-full flex-col gap-8 lg:flex-row lg:gap-[22px]">
@@ -162,31 +143,25 @@ const BuyPage = () => {
           selectedManufacturers={selectedManufacturers}
           selectedModels={selectedModels}
           selectedPrices={selectedPrices}
-          availableOnly={availableOnly}
           showAllModels={showAllModels}
           onToggleManufacturer={toggleManufacturer}
           onToggleModel={toggleModel}
           onTogglePrice={togglePrice}
-          onSetAvailableOnly={setAvailableOnly}
           onSetShowAllModels={setShowAllModels}
           onReset={resetFilters}
         />
 
         <section className="flex w-full flex-1 flex-col items-start gap-[17px]">
-          <div className="min-h-xxl flex flex-wrap items-start gap-2 self-stretch md:gap-[18px]">
+          <div className="flex min-h-8 flex-wrap items-start gap-2 self-stretch md:gap-[18px]">
             {activeChips.map((chip) => (
               <FilterChip key={`${chip.type}-${chip.id}`} label={chip.label} onRemove={() => removeChip(chip)} />
             ))}
           </div>
 
           {isError ? (
-            <div className="rounded-m flex min-h-[400px] w-full items-center justify-center bg-gray-50 text-gray-500 lg:min-h-[992px]">
-              상품 목록을 불러오지 못했어요.
-            </div>
+            <EmptyState message="상품 목록을 불러오지 못했어요." className="min-h-[400px] lg:min-h-[992px]" />
           ) : showEmpty ? (
-            <div className="rounded-m flex min-h-[400px] w-full flex-1 items-center justify-center bg-gray-50 text-gray-500 lg:min-h-[992px]">
-              관련된 상품이 없어요.
-            </div>
+            <EmptyState message="관련된 상품이 없어요." className="min-h-[400px] flex-1 lg:min-h-[992px]" />
           ) : (
             <>
               <div className="lg:gap-xl grid w-full grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 md:grid-cols-4 md:gap-6 lg:grid-cols-5">
@@ -202,53 +177,7 @@ const BuyPage = () => {
                   </Link>
                 ))}
               </div>
-              {effectiveTotalPages > 0 && (
-                <div className="mt-6 flex w-full items-center justify-center gap-5">
-                  <button
-                    type="button"
-                    className={cn(
-                      'flex h-[30px] w-[30px] items-center justify-center rounded-[6px] border border-gray-200 text-gray-500',
-                      isFirstPage ? 'cursor-not-allowed text-gray-300' : 'hover:border-gray-300'
-                    )}
-                    onClick={() => setCurrentPage(Math.max(currentPage - 1, 0))}
-                    disabled={isFirstPage}
-                    aria-label="이전 페이지"
-                  >
-                    ‹
-                  </button>
-                  {pageNumbers.map((page) => {
-                    const isActive = page === currentPageNumber;
-                    return (
-                      <button
-                        key={page}
-                        type="button"
-                        className={cn(
-                          'flex h-[30px] w-[30px] items-center justify-center rounded-[6px] border text-sm font-medium',
-                          isActive
-                            ? 'border-green-600 bg-green-600 text-white'
-                            : 'border-gray-200 text-gray-500 hover:border-gray-300'
-                        )}
-                        onClick={() => setCurrentPage(page - 1)}
-                        aria-current={isActive ? 'page' : undefined}
-                      >
-                        {page}
-                      </button>
-                    );
-                  })}
-                  <button
-                    type="button"
-                    className={cn(
-                      'flex h-[30px] w-[30px] items-center justify-center rounded-[6px] border border-gray-200 text-gray-500',
-                      isLastPage ? 'cursor-not-allowed text-gray-300' : 'hover:border-gray-300'
-                    )}
-                    onClick={() => setCurrentPage(currentPage + 1)}
-                    disabled={effectiveTotalPages <= 1 || isLastPage}
-                    aria-label="다음 페이지"
-                  >
-                    ›
-                  </button>
-                </div>
-              )}
+              <div ref={observerRef} className="h-10 w-full" />
             </>
           )}
         </section>
