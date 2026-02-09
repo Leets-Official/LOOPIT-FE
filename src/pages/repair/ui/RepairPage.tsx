@@ -1,3 +1,4 @@
+import { EmptyState } from '@shared/ui/EmptyState';
 import { SearchBar } from '@shared/ui/SearchBar';
 import { cn } from '@shared/utils/cn';
 import { RepairShopCard } from './RepairShopCard';
@@ -5,28 +6,24 @@ import { useRepairSearch } from '../model/useRepairSearch';
 
 const containerClass = 'mx-auto w-full max-w-[1200px]';
 
-const MessageText = ({ children }: { children: string }) => (
-  <p className="text-l leading-m w-full py-12 text-center font-semibold text-gray-300">{children}</p>
-);
-
 const RepairPage = () => {
   const { mapRef, shops, isSearching, hasSearched, errorMessage, handleSearch, openOverlayForShop } = useRepairSearch();
 
   const renderShopList = () => {
-    if (isSearching) {
-      return <MessageText>검색 중...</MessageText>;
-    }
-
     if (errorMessage) {
-      return <MessageText>{errorMessage}</MessageText>;
-    }
-
-    if (hasSearched && shops.length === 0) {
-      return <MessageText>주변에 수리점이 없습니다.</MessageText>;
+      return <EmptyState message={errorMessage} />;
     }
 
     if (!hasSearched) {
-      return <MessageText>주소를 입력하면 주변 수리점을 보여드려요.</MessageText>;
+      return <EmptyState message="주소를 입력하면 주변 수리점을 보여드려요." />;
+    }
+
+    if (isSearching) {
+      return <div className="min-h-[200px] w-full" />;
+    }
+
+    if (shops.length === 0) {
+      return <EmptyState message="주변에 수리점이 없습니다." />;
     }
 
     return shops.map((shop) => (
