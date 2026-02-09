@@ -6,13 +6,12 @@ import type {
   ChatRoomData,
   ChatRoomListItem,
   ChatRoomListResponseBody,
-  CreateRoomRequest,
   CreateRoomResponseBody,
   HasUnreadMessagesResponseBody,
 } from './types';
 
-export const createOrGetRoom = async (request: CreateRoomRequest): Promise<ChatRoomData> => {
-  const response = await axiosInstance.post<CreateRoomResponseBody>(CHAT_ENDPOINTS.ROOM, request);
+export const createOrGetRoom = async (postId: number): Promise<ChatRoomData> => {
+  const response = await axiosInstance.post<CreateRoomResponseBody>(CHAT_ENDPOINTS.ROOM(postId));
   return response.data.data;
 };
 
