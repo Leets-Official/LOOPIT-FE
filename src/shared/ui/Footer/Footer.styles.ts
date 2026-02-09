@@ -1,5 +1,5 @@
 export const footerStyles = {
-  root: ['w-full', 'bg-white', 'py-[60px]', 'border-t', 'border-gray-100', 'mt-[72px]'].join(' '),
+  root: ['w-full', 'bg-white', 'py-[60px]', 'border-t', 'border-gray-100', 'mt-[168px]'].join(' '),
   inner: ['max-w-[1440px]', 'mx-auto', 'px-5', 'xl:px-[120px]', 'flex', 'flex-col', 'gap-[30px]'].join(' '),
   logo: ['w-[160px]', 'h-[36px]', 'mb-[10px]'].join(' '),
 

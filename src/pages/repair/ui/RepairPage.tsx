@@ -19,7 +19,7 @@ const RepairPage = () => {
     }
 
     if (isSearching) {
-      return <div className="min-h-[200px] w-full" />;
+      return <div className="min-h-[240px] w-full" />;
     }
 
     if (shops.length === 0) {
