@@ -22,12 +22,17 @@ export interface BuyListCondition {
   keyword?: string;
 }
 
-export interface BuyListParams {
+export interface BuyListParams extends BuyListCondition {
   page?: number;
-  manufacturer?: string;
-  series?: string[];
-  priceRange?: PriceRangeEnum;
-  keyword?: string;
+}
+
+export interface SimilarPost {
+  id: number;
+  title: string;
+  price: number;
+  thumbnail: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface BuyPostApiItem {
@@ -38,7 +43,7 @@ export interface BuyPostApiItem {
   model?: string;
   color?: string;
   capacity?: string;
-  description?: string | string[];
+  content?: string;
   imageUrls?: string[];
   thumbnail?: string;
   hasScratch?: boolean;
@@ -46,6 +51,7 @@ export interface BuyPostApiItem {
   screenCracked?: boolean;
   used?: boolean;
   status?: string;
+  postStatus?: string;
   createdAt?: string;
   updatedAt?: string;
   sellerNickname?: string;
@@ -53,6 +59,9 @@ export interface BuyPostApiItem {
   seller?: BuyPostApiSeller;
   brand?: string;
   specs?: BuyPostApiSpecs;
+  similarPosts?: SimilarPost[];
+  liked?: boolean;
+  owner?: boolean;
 }
 
 export interface BuyListPage<T> {

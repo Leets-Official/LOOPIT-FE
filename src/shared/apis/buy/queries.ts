@@ -1,13 +1,29 @@
-import { useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { getBuyAutocomplete, getBuyItemById, getBuyItemsByCondition } from './api';
 import { buyKeys } from './keys';
-import type { BuyListParams } from './types';
+import type { BuyListCondition, BuyListParams } from './types';
 
 export const useBuyItemsQuery = (params: BuyListParams = {}) => {
   return useQuery({
     queryKey: buyKeys.list(params),
     queryFn: () => getBuyItemsByCondition(params),
     staleTime: 0,
+  });
+};
+
+export const useInfiniteBuyItemsQuery = (params: BuyListCondition = {}) => {
+  return useInfiniteQuery({
+    queryKey: buyKeys.infinite(params),
+    queryFn: ({ pageParam = 0 }) => getBuyItemsByCondition({ ...params, page: pageParam }),
+    getNextPageParam: (lastPage) => {
+      if (lastPage.last) {
+        return undefined;
+      }
+      return lastPage.number + 1;
+    },
+    initialPageParam: 0,
+    staleTime: 0,
+    placeholderData: keepPreviousData,
   });
 };
 
