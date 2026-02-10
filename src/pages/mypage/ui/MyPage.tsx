@@ -77,6 +77,7 @@ const MyPage = () => {
               countClassName="typo-title-3"
               countActiveClassName="text-green-700"
               countInactiveClassName="text-gray-900"
+              countColorMode="positive"
               itemClassName="lg:first:justify-self-start lg:last:justify-self-end"
             />
             {favoriteCategory === 'product' ? (
@@ -102,6 +103,7 @@ const MyPage = () => {
               countClassName="typo-title-3"
               countActiveClassName="text-green-700"
               countInactiveClassName="text-gray-900"
+              countColorMode="positive"
               itemClassName="lg:first:justify-self-start lg:last:justify-self-end"
             />
             <TradeItemList items={currentFilteredItems} emptyMessage="선택한 조건에 해당하는 상품은 없어요." />
