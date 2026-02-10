@@ -45,11 +45,21 @@ export const UserMenu = ({ profileImage, nickname = '홍길동', onMyPageClick, 
               type="button"
               role="menuitem"
               className="typo-caption-1 cursor-pointer self-stretch border-none bg-transparent p-0 text-left text-gray-500"
-              onClick={onMyPageClick}
+              onClick={() => {
+                close();
+                onMyPageClick?.();
+              }}
             >
               마이페이지
             </button>
-            <Button variant="fill" size="full" onClick={onLogoutClick}>
+            <Button
+              variant="fill"
+              size="full"
+              onClick={() => {
+                close();
+                onLogoutClick?.();
+              }}
+            >
               로그아웃
             </Button>
           </div>
