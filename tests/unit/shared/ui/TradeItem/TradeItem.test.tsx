@@ -26,8 +26,8 @@ describe('TradeItem', () => {
     });
 
     it('상태별 텍스트 렌더링', () => {
-      const { rerender } = render(<TradeItem {...defaultProps} status="reserved" />);
-      expect(screen.getByText('예약중')).toBeInTheDocument();
+      const { rerender } = render(<TradeItem {...defaultProps} status="buying" />);
+      expect(screen.getByText('구매중')).toBeInTheDocument();
 
       rerender(<TradeItem {...defaultProps} status="completed" />);
       expect(screen.getByText('구매완료')).toBeInTheDocument();

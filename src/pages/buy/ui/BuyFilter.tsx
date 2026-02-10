@@ -15,6 +15,7 @@ const FilterSection = ({ title, children }: { title: string; children: ReactNode
 type FilterItem = {
   id: string;
   label: string;
+  [key: string]: unknown;
 };
 
 type ModelItem = FilterItem & {
@@ -36,6 +37,8 @@ export type BuyFilterProps = {
   onSetShowAllModels: (value: boolean) => void;
   onReset: () => void;
   defaultModelCount?: number;
+  availableOnly?: boolean;
+  onSetAvailableOnly?: (value: boolean) => void;
 };
 
 export const BuyFilter = ({

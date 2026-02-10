@@ -6,7 +6,7 @@ export const filterTradeItems = (items: TradeListItem[], status: StatusFilter): 
     return items;
   }
   if (status === 'buying') {
-    return items.filter((item) => item.status === 'buying' || item.status === 'reserved');
+    return items.filter((item) => item.status === 'buying');
   }
   return items.filter((item) => item.status === status);
 };

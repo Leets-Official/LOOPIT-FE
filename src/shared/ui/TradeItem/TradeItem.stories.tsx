@@ -14,7 +14,7 @@ const meta = {
     date: { control: 'text' },
     status: {
       control: 'select',
-      options: ['buying', 'reserved', 'completed', 'favorite'],
+      options: ['buying', 'completed', 'favorite'],
     },
     favoriteActive: { control: 'boolean' },
   },
@@ -56,13 +56,6 @@ export const AllStates = {
             price="850,000원"
             date="2026.01.22"
             status="buying"
-          />
-          <TradeItem
-            imageUrl="/iphone11.png"
-            modelName="iPhone 11 Pro 256GB"
-            price="850,000원"
-            date="2026.01.22"
-            status="reserved"
           />
           <TradeItem
             imageUrl="/iphone11.png"

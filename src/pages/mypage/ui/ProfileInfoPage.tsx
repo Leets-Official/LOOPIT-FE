@@ -1,3 +1,4 @@
+import { useMyPageProfileQuery } from '@shared/apis/mypage';
 import { ROUTES } from '@shared/constants';
 import { useNavigate } from 'react-router';
 import { PageContainer } from './PageContainer';
@@ -6,7 +7,13 @@ import { getPersonalInfoDefaults, saveProfile } from '../model/profileStorage';
 
 const ProfileInfoPage = () => {
   const navigate = useNavigate();
-  const defaultValues = getPersonalInfoDefaults();
+  const { data: profileData } = useMyPageProfileQuery();
+  const storedDefaults = getPersonalInfoDefaults();
+  const defaultValues = {
+    ...storedDefaults,
+    nickname: profileData?.nickname ?? storedDefaults.nickname,
+    email: profileData?.email ?? storedDefaults.email,
+  };
 
   return (
     <main className="min-h-screen bg-white">
