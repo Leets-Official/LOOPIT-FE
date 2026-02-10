@@ -1,14 +1,14 @@
 import { CloseIcon } from '@shared/assets/icons';
 import { useBodyScrollLock, useFocusTrap } from '@shared/hooks';
 import { Portal } from '@shared/ui/Portal';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type MouseEvent, type ReactNode } from 'react';
 import { policyModalStyles } from './PolicyModal.styles';
 
 export interface PolicyModalProps {
   isOpen: boolean;
   onClose: () => void;
   title: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export const PolicyModal = ({ isOpen, onClose, title, children }: PolicyModalProps) => {
@@ -35,7 +35,7 @@ export const PolicyModal = ({ isOpen, onClose, title, children }: PolicyModalPro
     }, 150);
   };
 
-  const handleOverlayMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
+  const handleOverlayMouseDown = (event: MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {
       handleClose();
     }
