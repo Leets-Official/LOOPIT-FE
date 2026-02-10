@@ -75,7 +75,8 @@ export const TextField = forwardRef<HTMLInputElement | HTMLTextAreaElement, Text
     const isDate = type === 'date';
 
     const maxLen = getMaxLength({ isChar, isTextarea, maxLength });
-    const normalizedValue = isPrice ? rawValue.replace(/\D/g, '') : rawValue;
+    const safeRawValue = typeof rawValue === 'string' ? rawValue : String(rawValue ?? '');
+    const normalizedValue = isPrice ? safeRawValue.replace(/\D/g, '') : safeRawValue;
 
     const displayValue = isPrice ? formatNumberWithComma(normalizedValue) : normalizedValue;
 
