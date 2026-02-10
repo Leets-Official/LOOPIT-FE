@@ -9,6 +9,7 @@ import type {
   CreatePostRequest,
   CreatePostResponse,
   CreatePostResponseBody,
+  PostApiItem,
   PostAutocompleteResponseBody,
   PostDetailResponseBody,
   PostListPage,
@@ -23,7 +24,24 @@ import type {
   UpdatePostRequest,
   UpdatePostResponseBody,
 } from './types';
+import type { ApiResponse } from '../types';
 import type { BuyItem } from '@shared/types/post';
+
+// SSR용 서버 fetch 함수 (loader에서 사용)
+const getServerApiBaseUrl = () => process.env.VITE_API_BASE_URL ?? '';
+
+export const getPostByIdServer = async (id: string | number): Promise<BuyItem> => {
+  const response = await fetch(`${getServerApiBaseUrl()}${POST_ENDPOINTS.DETAIL}/${id}`, {
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch post: ${response.status}`);
+  }
+
+  const json = (await response.json()) as ApiResponse<PostApiItem>;
+  return mapPostApiToItem(json.data);
+};
 
 // 게시글 조회
 export const getPostList = async (): Promise<BuyItem[]> => {

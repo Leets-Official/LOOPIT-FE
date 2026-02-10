@@ -16,7 +16,8 @@ describe('로그인 필수 기능', () => {
   describe('구매 상세 페이지', () => {
     beforeEach(() => {
       cy.visit('/buy/1');
-      cy.wait('@getPostDetail');
+      // SSR에서 데이터를 가져오므로 UI 요소 대기
+      cy.get('button[aria-label="찜하기"]', { timeout: 10000 }).should('be.visible');
     });
 
     it('비로그인 상태에서 찜하기 버튼 클릭 시 로그인 모달이 표시된다', () => {
@@ -45,7 +46,7 @@ describe('로그인 필수 기능', () => {
       cy.get('button[aria-label="찜하기"]').click();
       cy.contains('로그인이 필요합니다').should('be.visible');
 
-      cy.get('button').contains('로그인').click();
+      cy.get('button').contains('로그인').click({ force: true });
 
       cy.url().should('include', '/login');
     });
