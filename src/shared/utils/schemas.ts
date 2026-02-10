@@ -42,7 +42,9 @@ export const sellSchema = zod.object({
     .nullable()
     .refine((file) => !file || file.size <= MAX_IMAGE_BYTES, '이미지는 5MB 이하로 업로드해 주세요.'),
   title: requiredString('제목을 입력해 주세요.'),
-  price: requiredString('가격을 입력해 주세요.').regex(/^\d+$/, '가격은 숫자만 입력해 주세요.'),
+  price: requiredString('가격을 입력해 주세요.')
+    .regex(/^\d+$/, '가격은 숫자만 입력해 주세요.')
+    .refine((value) => Number(value) > 0, '가격은 0원 이상만 가능해요.'),
   manufacturer: requiredString('제조사를 선택해 주세요.'),
   modelName: requiredString('모델명을 입력해 주세요.'),
   colorName: requiredString('색상을 입력해 주세요.'),
