@@ -1,4 +1,4 @@
-import type { BuyItem } from '@shared/types/buy';
+import type { BuyItem } from '@shared/types/post';
 
 const SPEC_ITEMS: Array<{ label: string; key: keyof BuyItem['specs'] }> = [
   { label: '제조사', key: 'manufacturer' },

@@ -1,14 +1,14 @@
-import { useDeleteSellPostMutation } from '@shared/apis/sell';
+import { useDeletePostMutation } from '@shared/apis/post';
 import { ROUTES } from '@shared/constants';
 import { useModal, useToast } from '@shared/hooks';
-import { type BuyItem } from '@shared/types/buy';
+import { type BuyItem } from '@shared/types/post';
 import { useNavigate } from 'react-router';
 
 export const useManageActions = (item: BuyItem | undefined) => {
   const navigate = useNavigate();
   const { showToast } = useToast();
   const deleteModal = useModal();
-  const deleteMutation = useDeleteSellPostMutation(item?.id ?? '');
+  const deleteMutation = useDeletePostMutation(item?.id ?? '');
 
   const handleEdit = () => {
     if (!item) {

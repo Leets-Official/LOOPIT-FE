@@ -1,6 +1,6 @@
 import { useBuyFilter } from '@pages/buy/model/useBuyFilter';
 import { BuyFilter } from '@pages/buy/ui/BuyFilter';
-import { useBuyAutocompleteQuery } from '@shared/apis/buy';
+import { useBuyAutocompleteQuery } from '@shared/apis/post';
 import { CloseIcon } from '@shared/assets/icons';
 import { ROUTES } from '@shared/constants';
 import { useDebounce } from '@shared/hooks';
@@ -8,7 +8,7 @@ import { Card, CardSkeleton } from '@shared/ui/Card';
 import { EmptyState } from '@shared/ui/EmptyState';
 import { SearchBar } from '@shared/ui/SearchBar';
 import { cn } from '@shared/utils/cn';
-import { type KeyboardEvent, useMemo, useState } from 'react';
+import { type KeyboardEvent, useState } from 'react';
 import { Link } from 'react-router';
 import { MANUFACTURERS, MODELS, PRICE_RANGES } from '../model/filters';
 
@@ -51,13 +51,10 @@ const BuyPage = () => {
 
   const { data: suggestions = [] } = useBuyAutocompleteQuery(debouncedQuery);
 
-  const filteredSuggestions = useMemo(() => {
-    const normalized = debouncedQuery.trim();
-    if (!normalized) {
-      return [];
-    }
-    return suggestions.filter((item) => item.toLowerCase().includes(normalized.toLowerCase()));
-  }, [debouncedQuery, suggestions]);
+  const normalizedQuery = debouncedQuery.trim();
+  const filteredSuggestions = normalizedQuery
+    ? suggestions.filter((item) => item.toLowerCase().includes(normalizedQuery.toLowerCase()))
+    : [];
 
   const showSuggestions = isSearchFocused && filteredSuggestions.length > 0 && !hasSelected;
 

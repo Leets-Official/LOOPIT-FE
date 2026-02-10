@@ -1,8 +1,10 @@
 import { buildDetailInfo } from '@pages/buy-detail/model/buildDetailInfo';
 import { useManageActions } from '@pages/buy-detail/model/useManageActions';
-import { useBuyItemQuery, useTogglePostWishlistMutation } from '@shared/apis/buy';
 import { useCreateRoomMutation } from '@shared/apis/chat';
+import { usePostQuery } from '@shared/apis/post';
+import { useTogglePostWishlistMutation } from '@shared/apis/wishlist';
 import { ROUTES } from '@shared/constants';
+import { useAuthStore, useUIStore } from '@shared/stores';
 import { NotFoundFallback } from '@shared/ui/NotFoundFallback';
 import { useNavigate, useParams } from 'react-router';
 import { BuyDetailSkeleton } from './BuyDetailSkeleton';
@@ -15,14 +17,20 @@ import { SimilarItemsSection } from './SimilarItemsSection';
 const BuyDetailPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+  const { accessToken } = useAuthStore();
+  const { openLoginModal } = useUIStore();
 
-  const { data: item, isLoading } = useBuyItemQuery(id);
+  const { data: item, isLoading } = usePostQuery(id);
   const { deleteModal, isDeleting, handleEdit, handleDelete } = useManageActions(item);
   const createRoomMutation = useCreateRoomMutation();
   const toggleWishlistMutation = useTogglePostWishlistMutation();
 
   const handleContact = () => {
     if (!item) {
+      return;
+    }
+    if (!accessToken) {
+      openLoginModal();
       return;
     }
     createRoomMutation.mutate(Number(item.id), {
@@ -81,7 +89,13 @@ const BuyDetailPage = () => {
             <ContactActions
               liked={item.liked}
               onContact={handleContact}
-              onToggleFavorite={() => toggleWishlistMutation.mutate(item.id)}
+              onToggleFavorite={() => {
+                if (!accessToken) {
+                  openLoginModal();
+                  return;
+                }
+                toggleWishlistMutation.mutate(item.id);
+              }}
             />
           )}
         </div>

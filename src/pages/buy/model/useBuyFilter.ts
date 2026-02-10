@@ -1,4 +1,4 @@
-import { useInfiniteBuyItemsQuery, type PriceRangeEnum } from '@shared/apis/buy';
+import { useInfinitePostListQuery, type PriceRangeEnum } from '@shared/apis/post';
 import { useDebounce, useInfiniteScroll } from '@shared/hooks';
 import { useState } from 'react';
 import { filterBuyItems } from './filterBuyItems';
@@ -50,7 +50,7 @@ export const useBuyFilter = () => {
 
   const keyword = debouncedQuery.trim().length >= 2 ? debouncedQuery.trim() : undefined;
 
-  const { data, isLoading, isError, hasNextPage, isFetchingNextPage, fetchNextPage } = useInfiniteBuyItemsQuery({
+  const { data, isLoading, isError, hasNextPage, isFetchingNextPage, fetchNextPage } = useInfinitePostListQuery({
     manufacturer: shouldClientManufacturerFilter ? undefined : selectedManufacturer,
     series: selectedSeries,
     priceRange: shouldClientPriceFilter ? undefined : selectedPriceRange,
