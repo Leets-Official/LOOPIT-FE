@@ -35,8 +35,8 @@ describe('구매 플로우', () => {
 
     it('필터 섹션이 표시된다', () => {
       cy.contains('제조사').should('be.visible');
-      cy.contains('모델').should('be.visible');
-      cy.contains('가격대').should('be.visible');
+      cy.contains('모델명').should('be.visible');
+      cy.contains('가격').should('be.visible');
     });
 
     it('검색어 입력 시 자동완성이 표시된다', () => {
@@ -46,20 +46,20 @@ describe('구매 플로우', () => {
     });
 
     it('필터 선택 시 필터 칩이 표시된다', () => {
-      cy.contains('Apple').click();
-      cy.get('[aria-label="Apple 필터 제거"]').should('be.visible');
+      cy.contains('애플').click();
+      cy.get('[aria-label="애플 필터 제거"]').should('be.visible');
     });
 
     it('필터 칩 제거 시 필터가 해제된다', () => {
-      cy.contains('Apple').click();
-      cy.get('[aria-label="Apple 필터 제거"]').click();
-      cy.get('[aria-label="Apple 필터 제거"]').should('not.exist');
+      cy.contains('애플').click();
+      cy.get('[aria-label="애플 필터 제거"]').click();
+      cy.get('[aria-label="애플 필터 제거"]').should('not.exist');
     });
 
     it('초기화 버튼 클릭 시 모든 필터가 해제된다', () => {
-      cy.contains('Apple').click();
+      cy.contains('애플').click();
       cy.contains('초기화').click();
-      cy.get('[aria-label="Apple 필터 제거"]').should('not.exist');
+      cy.get('[aria-label="애플 필터 제거"]').should('not.exist');
     });
   });
 

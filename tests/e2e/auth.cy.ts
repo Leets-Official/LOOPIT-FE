@@ -72,14 +72,14 @@ describe('로그인 필수 기능', () => {
     });
 
     it('주소 검색 후 수리점 목록이 표시된다', () => {
-      cy.get('input[placeholder*="주소"]').type('강남역{enter}');
+      cy.get('input[placeholder*="주소"]').should('not.be.disabled').type('강남역{enter}');
       cy.wait('@getRepairShops');
 
       cy.contains('테스트 수리점').should('be.visible');
     });
 
     it('비로그인 상태에서 수리점 찜 버튼 클릭 시 로그인 모달이 표시된다', () => {
-      cy.get('input[placeholder*="주소"]').type('강남역{enter}');
+      cy.get('input[placeholder*="주소"]').should('not.be.disabled').type('강남역{enter}');
       cy.wait('@getRepairShops');
 
       cy.get('button[aria-label="찜"]').first().click();
@@ -89,15 +89,16 @@ describe('로그인 필수 기능', () => {
   });
 
   describe('헤더 네비게이션', () => {
-    it('비로그인 상태에서 채팅 메뉴 클릭 시 로그인 모달이 표시된다', () => {
+    it('비로그인 상태에서 루핏톡 메뉴 클릭 시 로그인 모달이 표시된다', () => {
       cy.visit('/');
 
-      cy.contains('채팅').click();
+      cy.contains('루핏톡').click();
 
       cy.contains('로그인이 필요합니다').should('be.visible');
     });
 
     it('비로그인 상태에서 마이페이지 메뉴 클릭 시 로그인 모달이 표시된다', () => {
+      cy.viewport('iphone-x');
       cy.visit('/');
 
       cy.get('button[aria-label="메뉴 열기"]').click();
@@ -111,7 +112,7 @@ describe('로그인 필수 기능', () => {
     it('비로그인 상태에서 판매하기 배너 클릭 시 로그인 모달이 표시된다', () => {
       cy.visit('/');
 
-      cy.contains('기기팔기').click();
+      cy.contains('판매하기').click();
 
       cy.contains('로그인이 필요합니다').should('be.visible');
     });
@@ -119,10 +120,7 @@ describe('로그인 필수 기능', () => {
     it('비로그인 상태에서 챗봇 버튼 클릭 시 로그인 모달이 표시된다', () => {
       cy.visit('/');
 
-      cy.get('button[aria-label*="챗봇"], button[aria-label*="채팅"]')
-        .filter(':visible')
-        .first()
-        .click({ force: true });
+      cy.get('button[aria-label="챗봇상담"]').click({ force: true });
 
       cy.contains('로그인이 필요합니다').should('be.visible');
     });
