@@ -1,6 +1,6 @@
 import { useAuthStore } from '@shared/stores';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { checkUnreadMessages, createOrGetRoom, getChatMessages, getChatRooms } from './api';
+import { checkUnreadMessages, createOrGetRoom, getChatMessages, getChatRooms, getRoomByPostId } from './api';
 import { chatKeys } from './keys';
 
 export const useChatRoomsQuery = () => {
@@ -30,11 +30,11 @@ export const useCreateRoomMutation = () => {
   });
 };
 
-export const useChatRoomQuery = (postId: number | null) => {
+export const useChatRoomQuery = (postId: number | null, partnerId: number | null) => {
   return useQuery({
     queryKey: chatKeys.roomByPost(postId!),
-    queryFn: () => createOrGetRoom(postId!),
-    enabled: postId !== null,
+    queryFn: () => getRoomByPostId(postId!, partnerId!),
+    enabled: postId !== null && partnerId !== null,
     staleTime: 5 * 60 * 1000,
   });
 };

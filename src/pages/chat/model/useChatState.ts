@@ -40,7 +40,8 @@ export const useChatState = () => {
   // rooms에서 선택된 방 정보 가져오기
   const selectedRoom = rooms.find((r) => r.roomId === selectedRoomId);
   const postId = selectedRoom?.postId ?? null;
-  const { data: currentRoom, isLoading: isRoomLoading } = useChatRoomQuery(postId);
+  const partnerId = selectedRoom?.partnerId ?? null;
+  const { data: currentRoom, isLoading: isRoomLoading } = useChatRoomQuery(postId, partnerId);
 
   const isLoading = isMessagesLoading || isRoomLoading;
 
