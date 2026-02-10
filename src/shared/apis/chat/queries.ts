@@ -1,5 +1,6 @@
 import { useAuthStore } from '@shared/stores';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect } from 'react';
 import { checkUnreadMessages, createOrGetRoom, getChatMessages, getChatRooms, getRoomByPostId } from './api';
 import { chatKeys } from './keys';
 
@@ -12,11 +13,21 @@ export const useChatRoomsQuery = () => {
 };
 
 export const useChatMessagesQuery = (roomId: number | null) => {
-  return useQuery({
+  const queryClient = useQueryClient();
+
+  const query = useQuery({
     queryKey: chatKeys.messages(roomId!),
     queryFn: () => getChatMessages(roomId!),
     enabled: roomId !== null,
   });
+
+  useEffect(() => {
+    if (roomId !== null && query.isSuccess) {
+      queryClient.invalidateQueries({ queryKey: chatKeys.unread() });
+    }
+  }, [roomId, query.isSuccess, queryClient]);
+
+  return query;
 };
 
 export const useCreateRoomMutation = () => {
