@@ -31,7 +31,7 @@ export const headerVariants = tv({
       'xl:pl-[120px]',
       'xl:pr-[120px]',
     ],
-    logo: ['w-[192px]', 'h-[36px]', 'shrink-0'],
+    logo: ['w-[160px]', 'xl:w-[192px]', 'h-[36px]', 'shrink-0'],
 
     // Desktop Navigation
     desktopNav: ['hidden', 'xl:flex', 'items-center', 'gap-[93px]'],
