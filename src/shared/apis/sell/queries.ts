@@ -1,4 +1,5 @@
 import { buyKeys } from '@shared/apis/buy/keys';
+import { chatKeys } from '@shared/apis/chat/keys';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   activePost,
@@ -66,7 +67,9 @@ export const useReservePostMutation = () => {
   return useMutation({
     mutationFn: (request: ReservePostRequest) => reservePost(request),
     onSuccess: (_, variables) => {
+      queryClient.removeQueries({ queryKey: buyKeys.lists() });
       queryClient.invalidateQueries({ queryKey: buyKeys.detail(variables.postId) });
+      queryClient.invalidateQueries({ queryKey: chatKeys.roomByPost(variables.postId) });
     },
   });
 };
@@ -76,7 +79,9 @@ export const useCompletePostMutation = () => {
   return useMutation({
     mutationFn: (request: CompletePostRequest) => completePost(request),
     onSuccess: (_, variables) => {
+      queryClient.removeQueries({ queryKey: buyKeys.lists() });
       queryClient.invalidateQueries({ queryKey: buyKeys.detail(variables.postId) });
+      queryClient.invalidateQueries({ queryKey: chatKeys.roomByPost(variables.postId) });
     },
   });
 };
@@ -86,7 +91,9 @@ export const useActivePostMutation = () => {
   return useMutation({
     mutationFn: (request: ActivePostRequest) => activePost(request),
     onSuccess: (_, variables) => {
+      queryClient.removeQueries({ queryKey: buyKeys.lists() });
       queryClient.invalidateQueries({ queryKey: buyKeys.detail(variables.postId) });
+      queryClient.invalidateQueries({ queryKey: chatKeys.roomByPost(variables.postId) });
     },
   });
 };

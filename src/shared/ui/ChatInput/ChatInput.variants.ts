@@ -35,6 +35,7 @@ export const chatInputVariants = tv({
         icon: ['[&_.send-circle]:fill-white', '[&_.send-circle]:stroke-gray-400', '[&_.send-arrow]:stroke-gray-400'],
       },
       active: {
+        button: ['cursor-pointer'],
         icon: ['[&_.send-circle]:fill-brand-primary', '[&_.send-circle]:stroke-black', '[&_.send-arrow]:stroke-black'],
       },
     },

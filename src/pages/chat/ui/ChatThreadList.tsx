@@ -30,7 +30,7 @@ export const ChatThreadList = ({ rooms, selectedRoomId, onSelect }: ChatThreadLi
               type="button"
               onClick={() => onSelect(room.roomId)}
               className={cn(
-                'gap-xxs rounded-m px-l py-l flex h-[130px] w-full items-center text-left transition-colors',
+                'gap-xxs rounded-m px-l py-l flex h-[130px] w-full cursor-pointer items-center text-left transition-colors',
                 isActive ? 'bg-gray-50' : 'hover:bg-gray-50'
               )}
               aria-pressed={isActive}
