@@ -1,4 +1,4 @@
-import { useInfiniteSellerPostsQuery } from '@shared/apis/seller';
+import { useInfiniteSellerPostsQuery } from '@shared/apis/post';
 import { ROUTES } from '@shared/constants';
 import { useInfiniteScroll } from '@shared/hooks';
 import { Card, CardSkeleton } from '@shared/ui/Card';
