@@ -8,5 +8,6 @@ export { useInfiniteScroll } from './useInfiniteScroll';
 export { useModal } from './useModal';
 export { useS3ImageUpload } from './useS3ImageUpload';
 export { useScrolled } from './useScrolled';
+export { useScrollToError } from './useScrollToError';
 export { useToast } from './useToast';
 export { useToastProvider } from './useToastProvider';
