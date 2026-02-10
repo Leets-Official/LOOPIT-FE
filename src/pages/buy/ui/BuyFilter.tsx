@@ -119,7 +119,7 @@ export const BuyFilter = ({
                 {showAllModels ? '접기' : '더보기'}
               </button>
             )}
-            <span className="typo-caption-2 mt-2 text-gray-400">시리즈 모델 포함</span>
+            <span className="typo-caption-2 mt-2 text-gray-400">* 시리즈 모델 포함</span>
           </FilterSection>
 
           <FilterSection title="가격">
