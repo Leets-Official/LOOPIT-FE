@@ -1,3 +1,4 @@
+import { useCheckShopWishlistQuery } from '@shared/apis/repair';
 import { useState } from 'react';
 import { useRepairMap } from './useRepairMap';
 import type { KakaoAddressResult, KakaoMaps, KakaoPagination, KakaoPlace, RepairShop } from './types';
@@ -124,10 +125,21 @@ export const useRepairSearch = () => {
     });
   };
 
+  const shopNames = shops.map((shop) => shop.name);
+  const { data: wishlistData, isLoading: isWishlistLoading } = useCheckShopWishlistQuery(shopNames);
+
+  const favoriteMap = new Map<string, boolean>();
+  if (wishlistData) {
+    wishlistData.forEach((item) => {
+      favoriteMap.set(item.shopName, item.shopInWishList);
+    });
+  }
+
   return {
     mapRef,
     shops,
-    isSearching,
+    favoriteMap,
+    isLoading: isSearching || (shops.length > 0 && isWishlistLoading),
     hasSearched,
     errorMessage,
     handleSearch,
