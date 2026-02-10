@@ -1,6 +1,7 @@
 import { ChevronLeftMdIcon } from '@shared/assets/icons';
 import { ChatBubble } from '@shared/ui/ChatBubble';
 import { ChatInput } from '@shared/ui/ChatInput';
+import { formatChatTime } from '@shared/utils';
 import { cn } from '@shared/utils/cn';
 import { type RefObject } from 'react';
 import { ChatConversationHeader } from './ChatConversationHeader';
@@ -20,17 +21,6 @@ type ChatConversationProps = {
   activeStatus: PostStatus;
   onStatusChange: (value: PostStatus) => void;
   onBack: () => void;
-};
-
-const formatMeta = (sendTime: string, isRead: boolean, isSender: boolean) => {
-  const date = new Date(sendTime);
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
-  const meridiem = hours >= 12 ? '오후' : '오전';
-  const hourLabel = `${hours % 12 === 0 ? 12 : hours % 12}`.padStart(2, '0');
-  const minuteLabel = `${minutes}`.padStart(2, '0');
-  const timeStr = `${meridiem} ${hourLabel}:${minuteLabel}`;
-  return isSender && isRead ? `읽음 · ${timeStr}` : timeStr;
 };
 
 export const ChatConversation = ({
@@ -97,7 +87,7 @@ export const ChatConversation = ({
                   key={msg.messageId}
                   variant={isSender ? 'sender' : 'receiver'}
                   message={msg.content}
-                  meta={formatMeta(msg.sendTime, msg.read, isSender)}
+                  meta={formatChatTime(msg.sendTime, msg.read, isSender)}
                   metaDateTime={msg.sendTime}
                 />
               );

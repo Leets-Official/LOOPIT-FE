@@ -1,4 +1,5 @@
 import { Profile } from '@shared/ui/Profile';
+import { formatDateLabel } from '@shared/utils';
 import { cn } from '@shared/utils/cn';
 import type { ChatRoomListItem } from '@shared/apis/chat';
 
@@ -6,14 +7,6 @@ type ChatThreadListProps = {
   rooms: ChatRoomListItem[];
   selectedRoomId: number | null;
   onSelect: (roomId: number) => void;
-};
-
-const formatDateLabel = (dateString: string | null) => {
-  if (!dateString) {
-    return '';
-  }
-  const date = new Date(dateString);
-  return `${date.getFullYear()}년 ${String(date.getMonth() + 1).padStart(2, '0')}월 ${String(date.getDate()).padStart(2, '0')}일`;
 };
 
 export const ChatThreadList = ({ rooms, selectedRoomId, onSelect }: ChatThreadListProps) => {

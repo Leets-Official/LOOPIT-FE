@@ -8,11 +8,11 @@ import {
   useChatRoomQuery,
   useChatRoomsQuery,
 } from '@shared/apis/chat';
-import { useActivePostMutation, useCompletePostMutation, useReservePostMutation } from '@shared/apis/sell';
+import { useActivePostMutation, useCompletePostMutation, useReservePostMutation } from '@shared/apis/post';
 import { useToast } from '@shared/hooks';
 import { useAuthStore } from '@shared/stores';
 import { differenceBy } from 'es-toolkit';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router';
 
 export const useChatState = () => {
@@ -53,29 +53,6 @@ export const useChatState = () => {
     ? (statusByRoom[selectedRoomId] ?? currentRoom?.postStatus ?? '판매중')
     : '판매중';
 
-  const handleWebSocketMessage = useCallback(
-    (message: WebSocketMessage) => {
-      if (isReadNotification(message)) {
-        setLocalMessages((prev) => prev.map((m) => (m.roomId === message.roomId ? { ...m, read: true } : m)));
-      } else {
-        const newMessage: ChatMessageItem = {
-          messageId: message.messageId,
-          roomId: message.roomId,
-          sellPostId: message.sellPostId,
-          senderId: message.senderId,
-          senderNickname: message.senderNickname,
-          content: message.content,
-          type: message.type,
-          sendTime: message.sendTime,
-          read: message.isRead,
-        };
-        setLocalMessages((prev) => [...prev, newMessage]);
-        refetchRooms();
-      }
-    },
-    [refetchRooms]
-  );
-
   // WebSocket 연결 (userId 기반으로만 연결 유지)
   useEffect(() => {
     if (!userId) {
@@ -98,16 +75,13 @@ export const useChatState = () => {
   }, [userId]);
 
   // 방 선택 핸들러 (목록에서 클릭 시, null로 선택 해제)
-  const handleSelectRoom = useCallback(
-    (roomId: number | null) => {
-      if (roomId === selectedRoomId) {
-        return;
-      }
-      setSelectedRoomId(roomId);
-      setLocalMessages([]);
-    },
-    [selectedRoomId]
-  );
+  const handleSelectRoom = (roomId: number | null) => {
+    if (roomId === selectedRoomId) {
+      return;
+    }
+    setSelectedRoomId(roomId);
+    setLocalMessages([]);
+  };
 
   // 방 선택 시 구독 및 읽음 처리
   useEffect(() => {
@@ -115,35 +89,63 @@ export const useChatState = () => {
       return;
     }
 
+    let refetchTimeout: ReturnType<typeof setTimeout> | null = null;
+
+    const debouncedRefetchRooms = () => {
+      if (refetchTimeout) {
+        clearTimeout(refetchTimeout);
+      }
+      refetchTimeout = setTimeout(() => {
+        refetchRooms();
+      }, 300);
+    };
+
+    const handleWebSocketMessage = (message: WebSocketMessage) => {
+      if (isReadNotification(message)) {
+        setLocalMessages((prev) => prev.map((m) => (m.roomId === message.roomId ? { ...m, read: true } : m)));
+      } else {
+        const newMessage: ChatMessageItem = {
+          messageId: message.messageId,
+          roomId: message.roomId,
+          sellPostId: message.sellPostId,
+          senderId: message.senderId,
+          senderNickname: message.senderNickname,
+          content: message.content,
+          type: message.type,
+          sendTime: message.sendTime,
+          read: message.isRead,
+        };
+        setLocalMessages((prev) => [...prev, newMessage]);
+        debouncedRefetchRooms();
+      }
+    };
+
     chatSocket.subscribeRoom(selectedRoomId, handleWebSocketMessage);
     chatSocket.sendRead({ roomId: selectedRoomId });
-  }, [selectedRoomId, isConnected, handleWebSocketMessage]);
 
-  const handleSend = useCallback(
-    (content: string) => {
-      const selectedRoom = rooms.find((r) => r.roomId === selectedRoomId);
-      if (!selectedRoomId || !selectedRoom || !content.trim()) {
-        return;
+    return () => {
+      if (refetchTimeout) {
+        clearTimeout(refetchTimeout);
       }
+      chatSocket.unsubscribeRoom(selectedRoomId);
+    };
+  }, [selectedRoomId, isConnected, refetchRooms]);
 
-      chatSocket.sendMessage({
-        roomId: selectedRoomId,
-        receiverId: selectedRoom.partnerId,
-        content: content.trim(),
-        type: 'TEXT',
-      });
-    },
-    [selectedRoomId, rooms]
-  );
-
-  const scrollToBottom = useCallback(() => {
-    const container = messageListRef.current;
-    if (container) {
-      container.scrollTop = container.scrollHeight;
+  const handleSend = (content: string) => {
+    const selectedRoom = rooms.find((r) => r.roomId === selectedRoomId);
+    if (!selectedRoomId || !selectedRoom || !content.trim()) {
+      return;
     }
-  }, []);
 
-  const handleScroll = useCallback(() => {
+    chatSocket.sendMessage({
+      roomId: selectedRoomId,
+      receiverId: selectedRoom.partnerId,
+      content: content.trim(),
+      type: 'TEXT',
+    });
+  };
+
+  const handleScroll = () => {
     if (!selectedRoomId) {
       return;
     }
@@ -160,39 +162,39 @@ export const useChatState = () => {
     if (isAtBottom) {
       chatSocket.sendRead({ roomId: selectedRoomId });
     }
-  }, [selectedRoomId]);
+  };
 
   useEffect(() => {
-    scrollToBottom();
-  }, [messages.length, scrollToBottom]);
+    const container = messageListRef.current;
+    if (container) {
+      container.scrollTop = container.scrollHeight;
+    }
+  }, [messages.length]);
 
-  const handleStatusChange = useCallback(
-    (newStatus: PostStatus) => {
-      if (!selectedRoomId || !currentRoom) {
-        return;
-      }
+  const handleStatusChange = (newStatus: PostStatus) => {
+    if (!selectedRoomId || !currentRoom) {
+      return;
+    }
 
-      const postId = currentRoom.sellPostId;
-      const buyerId = currentRoom.buyerId;
+    const postId = currentRoom.sellPostId;
+    const buyerId = currentRoom.buyerId;
 
-      const updateLocalStatus = () => {
-        setStatusByRoom((prev) => ({ ...prev, [selectedRoomId]: newStatus }));
-      };
+    const updateLocalStatus = () => {
+      setStatusByRoom((prev) => ({ ...prev, [selectedRoomId]: newStatus }));
+    };
 
-      const handleError = () => {
-        showToast('상태 변경에 실패했습니다. 다시 시도해 주세요.', 'error');
-      };
+    const handleError = () => {
+      showToast('상태 변경에 실패했습니다. 다시 시도해 주세요.', 'error');
+    };
 
-      if (newStatus === '예약중') {
-        reserveMutation.mutate({ postId, buyerId }, { onSuccess: updateLocalStatus, onError: handleError });
-      } else if (newStatus === '판매완료') {
-        completeMutation.mutate({ postId, buyerId }, { onSuccess: updateLocalStatus, onError: handleError });
-      } else if (newStatus === '판매중') {
-        activeMutation.mutate({ postId }, { onSuccess: updateLocalStatus, onError: handleError });
-      }
-    },
-    [selectedRoomId, currentRoom, showToast, reserveMutation, completeMutation, activeMutation]
-  );
+    if (newStatus === '예약중') {
+      reserveMutation.mutate({ postId, buyerId }, { onSuccess: updateLocalStatus, onError: handleError });
+    } else if (newStatus === '판매완료') {
+      completeMutation.mutate({ postId, buyerId }, { onSuccess: updateLocalStatus, onError: handleError });
+    } else if (newStatus === '판매중') {
+      activeMutation.mutate({ postId }, { onSuccess: updateLocalStatus, onError: handleError });
+    }
+  };
 
   return {
     rooms,
