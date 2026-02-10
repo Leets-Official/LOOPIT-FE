@@ -6,12 +6,18 @@ import {
   type TradeHistoryQueryStatus,
   type TradeHistoryStatus,
 } from '@shared/apis/mypage';
-import { FAVORITE_PRODUCT_ITEMS, FAVORITE_REPAIR_ITEMS } from '@shared/mocks/data/mypage';
+import {
+  useWishlistPostListQuery,
+  useWishlistShopListQuery,
+  type WishlistPostItem,
+  type WishlistShopItem,
+} from '@shared/apis/wishlist';
 import { useCallback, useMemo, useState } from 'react';
 import { createStatusTabs } from './createStatusTabs';
 import { filterTradeItems } from './filterTradeItems';
 import type { FavoriteCategory, FavoriteTabs, MainTabId, StatusFilter } from './types';
 import type { TradeListItem } from '@pages/mypage/ui/TradeItemList';
+import type { RepairListItem } from '@shared/ui/RepairList';
 
 const formatPrice = (value: number) => `${new Intl.NumberFormat('ko-KR').format(value)}원`;
 const formatDate = (value: string) => {
@@ -35,8 +41,30 @@ const mapHistoryItem = (item: TradeHistoryItem, options?: { statusLabel?: string
   imageUrl: item.thumbnailUrl ?? undefined,
 });
 
+const mapWishlistPostItem = (item: WishlistPostItem, index: number): TradeListItem => {
+  const resolvedId = item.postId ?? item.id ?? `wishlist-post-${index}`;
+  return {
+    id: String(resolvedId),
+    modelName: item.title ?? '상품',
+    price: item.price !== undefined ? formatPrice(item.price) : '가격 정보 없음',
+    date: item.createdAt ? formatDate(item.createdAt) : '',
+    status: 'favorite',
+    favoriteActive: true,
+    imageUrl: item.thumbnailUrl ?? item.thumbnail ?? undefined,
+  };
+};
+
+const mapWishlistShopItem = (item: WishlistShopItem, index: number): RepairListItem => ({
+  id: `${item.shopName ?? 'shop'}-${index}`,
+  name: item.shopName ?? '수리점',
+  address: item.location ?? '',
+  favoriteActive: true,
+});
+
 export const useMyPageState = () => {
   const { data: profileData } = useMyPageProfileQuery();
+  const { data: wishlistPosts = [] } = useWishlistPostListQuery();
+  const { data: wishlistShops = [] } = useWishlistShopListQuery();
   const [activeTab, setActiveTab] = useState<MainTabId>('buy');
   const [buyStatus, setBuyStatus] = useState<StatusFilter>('all');
   const [sellStatus, setSellStatus] = useState<StatusFilter>('all');
@@ -131,9 +159,18 @@ export const useMyPageState = () => {
   const buyStatusTabs = createStatusTabs(buyItemsForCount, { buying: '구매중', completed: '구매완료' });
   const sellStatusTabs = createStatusTabs(sellItemsForCount, { buying: '판매중', completed: '판매완료' });
 
+  const favoriteProductItems = useMemo(
+    () => wishlistPosts.map((item, index) => mapWishlistPostItem(item, index)),
+    [wishlistPosts]
+  );
+  const favoriteRepairItems = useMemo(
+    () => wishlistShops.map((item, index) => mapWishlistShopItem(item, index)),
+    [wishlistShops]
+  );
+
   const favoriteTabs: FavoriteTabs = [
-    { id: 'product', label: '상품', count: FAVORITE_PRODUCT_ITEMS.length },
-    { id: 'repair', label: '수리점', count: FAVORITE_REPAIR_ITEMS.length },
+    { id: 'product', label: '상품', count: favoriteProductItems.length },
+    { id: 'repair', label: '수리점', count: favoriteRepairItems.length },
   ];
 
   const filteredBuyItems = filterTradeItems(buyItems, buyStatus);
@@ -181,7 +218,7 @@ export const useMyPageState = () => {
     profileData,
     buyItems,
     sellItems,
-    favoriteProductItems: FAVORITE_PRODUCT_ITEMS,
-    favoriteRepairItems: FAVORITE_REPAIR_ITEMS,
+    favoriteProductItems,
+    favoriteRepairItems,
   };
 };
