@@ -1,18 +1,18 @@
 describe('로그인 필수 기능', () => {
   beforeEach(() => {
     cy.fixture('posts').then((posts) => {
-      cy.intercept('GET', '**/sell-post*', {
+      cy.intercept('GET', /\/sell-post(?:\?|$)/, {
         statusCode: 200,
         body: posts.list,
       }).as('getPosts');
 
-      cy.intercept('GET', '**/sell-post/detail/*', {
+      cy.intercept('GET', /\/sell-post\/detail\/\d+/, {
         statusCode: 200,
         body: posts.detail,
       }).as('getPostDetail');
     });
 
-    cy.intercept('GET', '**/repair/search*', {
+    cy.intercept('GET', /\/repair\/search/, {
       statusCode: 200,
       body: [
         {

@@ -1,17 +1,17 @@
 describe('구매 플로우', () => {
   beforeEach(() => {
     cy.fixture('posts').then((posts) => {
-      cy.intercept('GET', '**/sell-post*', {
+      cy.intercept('GET', /\/sell-post(?:\?|$)/, {
         statusCode: 200,
         body: posts.list,
       }).as('getPosts');
 
-      cy.intercept('GET', '**/sell-post/detail/*', {
+      cy.intercept('GET', /\/sell-post\/detail\/\d+/, {
         statusCode: 200,
         body: posts.detail,
       }).as('getPostDetail');
 
-      cy.intercept('GET', '**/search/autocomplete/**', {
+      cy.intercept('GET', /\/search\/autocomplete\//, {
         statusCode: 200,
         body: ['iPhone 15', 'iPhone 14', 'Galaxy S24'],
       }).as('getAutocomplete');
@@ -93,7 +93,7 @@ describe('구매 플로우', () => {
 
   describe('상품 없음 상태', () => {
     it('상품이 없을 때 안내 메시지가 표시된다', () => {
-      cy.intercept('GET', '**/sell-post*', {
+      cy.intercept('GET', /\/sell-post(?:\?|$)/, {
         statusCode: 200,
         body: {
           content: [],
