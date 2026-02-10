@@ -1,8 +1,8 @@
+import { POLICY_CONTENTS } from '@shared/constants';
 import { Logo } from '@shared/ui/Logo';
 import { PolicyModal } from '@shared/ui/Modal';
 import { useState } from 'react';
 import { footerStyles } from './Footer.styles';
-import { POLICY_CONTENTS } from './policyData';
 
 type FooterText = {
   label: string;

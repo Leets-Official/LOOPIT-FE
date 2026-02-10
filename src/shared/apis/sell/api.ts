@@ -1,9 +1,16 @@
 import { axiosInstance } from '../axiosInstance';
 import { SELL_ENDPOINTS } from './endpoints';
 import type {
+  ActivePostRequest,
+  ActivePostResponseBody,
+  CompletePostRequest,
+  CompletePostResponseBody,
   CreateSellPostRequest,
   CreateSellPostResponse,
   CreateSellPostResponseBody,
+  PostStatusResponse,
+  ReservePostRequest,
+  ReservePostResponseBody,
   SellAutocompleteResponseBody,
   UpdateSellPostRequest,
   UpdateSellPostResponseBody,
@@ -30,5 +37,20 @@ export const getSellAutocomplete = async (keyword: string): Promise<string[]> =>
   const response = await axiosInstance.get<SellAutocompleteResponseBody>(SELL_ENDPOINTS.AUTOCOMPLETE, {
     params: { keyword },
   });
+  return response.data.data;
+};
+
+export const reservePost = async (request: ReservePostRequest): Promise<PostStatusResponse> => {
+  const response = await axiosInstance.post<ReservePostResponseBody>(SELL_ENDPOINTS.RESERVE, request);
+  return response.data.data;
+};
+
+export const completePost = async (request: CompletePostRequest): Promise<PostStatusResponse> => {
+  const response = await axiosInstance.post<CompletePostResponseBody>(SELL_ENDPOINTS.COMPLETE, request);
+  return response.data.data;
+};
+
+export const activePost = async (request: ActivePostRequest): Promise<PostStatusResponse> => {
+  const response = await axiosInstance.post<ActivePostResponseBody>(SELL_ENDPOINTS.ACTIVE, request);
   return response.data.data;
 };

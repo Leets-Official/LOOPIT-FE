@@ -1,11 +1,11 @@
 import { buildDetailInfo } from '@pages/buy-detail/model/buildDetailInfo';
 import { useManageActions } from '@pages/buy-detail/model/useManageActions';
-import { useBuyItemQuery } from '@shared/apis/buy';
+import { useBuyItemQuery, useTogglePostWishlistMutation } from '@shared/apis/buy';
 import { useCreateRoomMutation } from '@shared/apis/chat';
 import { ROUTES } from '@shared/constants';
-import { LoadingFallback } from '@shared/ui/LoadingFallback';
 import { NotFoundFallback } from '@shared/ui/NotFoundFallback';
 import { useNavigate, useParams } from 'react-router';
+import { BuyDetailSkeleton } from './BuyDetailSkeleton';
 import { ContactActions } from './ContactActions';
 import { ManageActions } from './ManageActions';
 import { ProductImageSection } from './ProductImageSection';
@@ -19,6 +19,7 @@ const BuyDetailPage = () => {
   const { data: item, isLoading } = useBuyItemQuery(id);
   const { deleteModal, isDeleting, handleEdit, handleDelete } = useManageActions(item);
   const createRoomMutation = useCreateRoomMutation();
+  const toggleWishlistMutation = useTogglePostWishlistMutation();
 
   const handleContact = () => {
     if (!item) {
@@ -32,7 +33,7 @@ const BuyDetailPage = () => {
   };
 
   if (isLoading) {
-    return <LoadingFallback message="상품 정보를 불러오는 중이에요." />;
+    return <BuyDetailSkeleton />;
   }
 
   if (!item) {
@@ -51,7 +52,12 @@ const BuyDetailPage = () => {
   return (
     <main className="md:px-xxxl mx-auto flex w-full max-w-[1200px] flex-col items-start gap-5 px-(--margin-l) lg:gap-[157px] lg:px-0">
       <div className="flex w-full flex-col items-start gap-5 lg:flex-row">
-        <ProductImageSection image={item.image} title={item.title} seller={item.seller} />
+        <ProductImageSection
+          postId={item.id}
+          images={item.imageUrls.length > 0 ? item.imageUrls : [item.image]}
+          title={item.title}
+          seller={item.seller}
+        />
 
         <div className="flex w-full shrink-0 flex-col items-start gap-10 lg:w-[590px] lg:gap-[108px]">
           <ProductInfoSection
@@ -72,7 +78,11 @@ const BuyDetailPage = () => {
               onDeleteConfirm={handleDelete}
             />
           ) : (
-            <ContactActions liked={item.liked} onContact={handleContact} />
+            <ContactActions
+              liked={item.liked}
+              onContact={handleContact}
+              onToggleFavorite={() => toggleWishlistMutation.mutate(item.id)}
+            />
           )}
         </div>
       </div>

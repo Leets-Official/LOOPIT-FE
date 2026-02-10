@@ -1,19 +1,23 @@
 import { ChatConversation } from './ChatConversation';
 import { ChatThreadList } from './ChatThreadList';
+import { ChatThreadListSkeleton } from './ChatThreadListSkeleton';
 import { useChatState } from '../model/useChatState';
 
 const ChatPage = () => {
   const {
     rooms,
+    isRoomsLoading,
     selectedRoomId,
     setSelectedRoomId,
     currentRoom,
     messages,
     currentUserId,
     hasSelection,
+    isSeller,
+    isLoading,
     messageListRef,
     activeStatus,
-    setStatusByRoom,
+    handleStatusChange,
     handleSend,
     handleScroll,
   } = useChatState();
@@ -21,24 +25,28 @@ const ChatPage = () => {
   return (
     <div className="w-full bg-white">
       <div className="mx-auto flex min-h-screen w-full max-w-[1440px] flex-col bg-white xl:min-h-[1024px]">
-        <main className="md:px-xxxl flex flex-1 flex-col px-(--margin-l) pb-[80px] xl:px-0">
-          <section className="mx-auto flex w-full max-w-[1200px] flex-1 flex-col gap-8 lg:flex-row lg:gap-0">
-            <ChatThreadList rooms={rooms} selectedRoomId={selectedRoomId} onSelect={setSelectedRoomId} />
+        <main className="md:px-xxxl flex flex-col px-(--margin-l) xl:flex-1 xl:px-0">
+          <section className="mx-auto flex w-full max-w-[1200px] flex-col gap-8 xl:flex-1 xl:flex-row xl:gap-0">
+            <div className={hasSelection ? 'hidden xl:block' : 'block h-fit'}>
+              {isRoomsLoading ? (
+                <ChatThreadListSkeleton />
+              ) : (
+                <ChatThreadList rooms={rooms} selectedRoomId={selectedRoomId} onSelect={setSelectedRoomId} />
+              )}
+            </div>
             <ChatConversation
-              room={currentRoom}
+              room={currentRoom ?? null}
               messages={messages}
               currentUserId={currentUserId}
               hasSelection={hasSelection}
+              isSeller={isSeller}
+              isLoading={isLoading}
               messageListRef={messageListRef}
               onSend={handleSend}
               onScroll={handleScroll}
               activeStatus={activeStatus}
-              onStatusChange={(value) => {
-                if (!selectedRoomId) {
-                  return;
-                }
-                setStatusByRoom((prev) => ({ ...prev, [selectedRoomId]: value }));
-              }}
+              onStatusChange={handleStatusChange}
+              onBack={() => setSelectedRoomId(null)}
             />
           </section>
         </main>

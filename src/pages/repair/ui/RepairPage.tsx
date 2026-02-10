@@ -1,13 +1,17 @@
+import { useToggleShopWishlistMutation } from '@shared/apis/repair';
 import { EmptyState } from '@shared/ui/EmptyState';
 import { SearchBar } from '@shared/ui/SearchBar';
 import { cn } from '@shared/utils/cn';
 import { RepairShopCard } from './RepairShopCard';
+import { RepairShopCardSkeleton } from './RepairShopCardSkeleton';
 import { useRepairSearch } from '../model/useRepairSearch';
 
 const containerClass = 'mx-auto w-full max-w-[1200px]';
 
 const RepairPage = () => {
-  const { mapRef, shops, isSearching, hasSearched, errorMessage, handleSearch, openOverlayForShop } = useRepairSearch();
+  const { mapRef, shops, favoriteMap, isLoading, hasSearched, errorMessage, handleSearch, openOverlayForShop } =
+    useRepairSearch();
+  const toggleWishlistMutation = useToggleShopWishlistMutation();
 
   const renderShopList = () => {
     if (errorMessage) {
@@ -18,8 +22,8 @@ const RepairPage = () => {
       return <EmptyState message="주소를 입력하면 주변 수리점을 보여드려요." />;
     }
 
-    if (isSearching) {
-      return <div className="min-h-[240px] w-full" />;
+    if (isLoading) {
+      return Array.from({ length: 3 }).map((_, index) => <RepairShopCardSkeleton key={index} />);
     }
 
     if (shops.length === 0) {
@@ -35,6 +39,13 @@ const RepairPage = () => {
         lat={shop.lat}
         lng={shop.lng}
         placeUrl={shop.placeUrl}
+        favoriteActive={favoriteMap.get(shop.name) ?? false}
+        onFavoriteToggle={() => {
+          toggleWishlistMutation.mutate({
+            shopName: shop.name,
+            location: shop.address,
+          });
+        }}
         onSelect={() => openOverlayForShop(shop)}
       />
     ));

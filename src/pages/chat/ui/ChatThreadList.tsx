@@ -8,7 +8,10 @@ type ChatThreadListProps = {
   onSelect: (roomId: number) => void;
 };
 
-const formatDateLabel = (dateString: string) => {
+const formatDateLabel = (dateString: string | null) => {
+  if (!dateString) {
+    return '';
+  }
   const date = new Date(dateString);
   return `${date.getFullYear()}년 ${String(date.getMonth() + 1).padStart(2, '0')}월 ${String(date.getDate()).padStart(2, '0')}일`;
 };

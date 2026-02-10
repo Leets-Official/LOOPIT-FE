@@ -1,4 +1,5 @@
 export { NAV_ITEMS, PROTECTED_PATHS } from './header';
+export { POLICY_CONTENTS } from './policy';
 export {
   BATTERY_OPTIONS,
   MANUFACTURER_OPTIONS,

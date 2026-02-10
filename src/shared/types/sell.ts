@@ -7,8 +7,8 @@ export type SellState = {
   colorName?: string;
   storageSize?: string;
   description?: string;
-  imageFile?: File | null;
   imageUrl?: string | null;
+  imageUrls?: string[];
   productCondition?: boolean;
   scratchCondition?: boolean;
   screenCondition?: boolean;

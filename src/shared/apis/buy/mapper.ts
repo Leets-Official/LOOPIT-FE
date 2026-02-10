@@ -58,12 +58,8 @@ const normalizeDescription = (value?: string | string[]) => {
 };
 
 const normalizeBatteryStatus = (value?: string): BuyItem['batteryStatus'] => {
-  if (!value) {
-    return 'GREAT';
-  }
-  const upper = value.toUpperCase();
-  if (upper === 'GREAT' || upper === 'GOOD' || upper === 'BAD') {
-    return upper;
+  if (value === 'GREAT' || value === 'GOOD' || value === 'BAD') {
+    return value;
   }
   return 'GREAT';
 };
@@ -95,6 +91,7 @@ export const mapBuyPostToItem = (item: BuyPostApiItem): BuyItem => {
     priceValue,
     dateLabel: createdAt ? formatRelativeTime(createdAt) : '',
     image: item.thumbnail ?? item.imageUrls?.[0] ?? '',
+    imageUrls: item.imageUrls ?? (item.thumbnail ? [item.thumbnail] : []),
     brand: normalizeBrand(item.brand, item.manufacturer, item.model, item.title),
     model: item.model ?? '',
     available: normalizeAvailability(undefined, item.status, item.postStatus),

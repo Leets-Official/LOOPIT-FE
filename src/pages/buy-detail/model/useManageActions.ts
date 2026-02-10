@@ -18,13 +18,17 @@ export const useManageActions = (item: BuyItem | undefined) => {
       state: {
         postId: item.id,
         title: item.title,
-        price: item.priceValue,
-        imageUrl: item.image,
+        price: String(item.priceValue),
+        imageUrls: item.imageUrls,
         manufacturer: item.specs.manufacturer,
         modelName: item.specs.model,
         colorName: item.specs.color,
         storageSize: item.specs.storage,
         description: item.description.join('\n'),
+        productCondition: item.used,
+        scratchCondition: item.hasScratch,
+        screenCondition: item.screenCracked,
+        batteryCondition: item.batteryStatus,
       },
     });
   };
@@ -33,7 +37,7 @@ export const useManageActions = (item: BuyItem | undefined) => {
     deleteModal.close();
     try {
       await deleteMutation.mutateAsync();
-      showToast('삭제되었습니다', 'success');
+      showToast('삭제되었습니다', 'error');
       navigate(ROUTES.MAIN);
     } catch {
       showToast('삭제에 실패했습니다. 다시 시도해 주세요.', 'error');

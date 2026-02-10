@@ -9,9 +9,10 @@ import {
 import { useSellForm } from '@pages/sell/model/useSellForm';
 import { ConditionRadioGroup } from '@pages/sell/ui/ConditionRadioGroup';
 import { FormTextField } from '@pages/sell/ui/FormTextField';
-import { PictureIcon } from '@shared/assets/icons';
+import { CloseIcon, PictureIcon } from '@shared/assets/icons';
 import { Button, DropDown, PriceField, TextAreaField, TextField } from '@shared/ui';
 import { cn } from '@shared/utils/cn';
+import { MAX_IMAGE_COUNT } from '@shared/utils/schemas';
 import { Controller } from 'react-hook-form';
 
 const RESPONSIVE_BATTERY_OPTIONS = BATTERY_OPTIONS.map((option) => ({
@@ -28,11 +29,13 @@ export const SellForm = () => {
   const {
     control,
     errors,
-    previewUrl,
+    images,
+    canAddMore,
     isDropdownOpen,
     dropdownRef,
     manufacturerValue,
     priceValue,
+    descriptionValue,
     modelSuggestions,
     isModelAutocompleteOpen,
     setIsModelAutocompleteOpen,
@@ -42,10 +45,13 @@ export const SellForm = () => {
     screenCondition,
     batteryCondition,
     handleImageChange,
+    removeImage,
     toggleDropdown,
     selectManufacturer,
     setConditionValue,
     onSubmit,
+    isSubmitting,
+    isEditMode,
   } = useSellForm();
 
   const showModelSuggestions = isModelAutocompleteOpen && modelSuggestions.length > 0;
@@ -57,27 +63,53 @@ export const SellForm = () => {
           <div className="gap-xl flex w-full flex-col items-start md:flex-row md:gap-[113px]">
             <div className="gap-xxs flex flex-col items-start">
               <h2 className="typo-title-2 text-gray-900">사진 올리기</h2>
-              <p className="typo-body-2 text-gray-900">(최대 1장)</p>
+              <p className="typo-body-2 text-gray-900">(최대 {MAX_IMAGE_COUNT}장)</p>
             </div>
 
-            <div className="gap-xxs flex flex-col items-center">
-              <label
-                htmlFor="sell-photo"
-                className="flex h-[212px] w-[204px] cursor-pointer items-center justify-center overflow-hidden rounded-(--radius-s) bg-green-50"
-              >
-                {previewUrl ? (
-                  <img src={previewUrl} alt="업로드된 이미지" className="h-full w-full object-cover" />
-                ) : (
-                  <div className="gap-ss flex w-[90px] flex-col items-center">
-                    <PictureIcon className="h-[90px] w-[90px] text-gray-500" />
-                    <span className="typo-body-2 text-center text-gray-500">0/1</span>
+            <div className="gap-xxs flex flex-col items-start" data-field="imageFiles">
+              <div className="flex flex-wrap gap-3">
+                {images.map((image) => (
+                  <div key={image.id} className="relative h-[212px] w-[204px]">
+                    <img
+                      src={image.previewUrl}
+                      alt="업로드된 이미지"
+                      className="h-full w-full rounded-(--radius-s) object-cover"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeImage(image.id)}
+                      className="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-gray-800 text-white hover:bg-gray-900"
+                    >
+                      <CloseIcon className="h-4 w-4" />
+                    </button>
                   </div>
+                ))}
+
+                {canAddMore && (
+                  <label
+                    htmlFor="sell-photo"
+                    className="flex h-[212px] w-[204px] cursor-pointer items-center justify-center overflow-hidden rounded-(--radius-s) bg-green-50"
+                  >
+                    <div className="gap-ss flex w-[90px] flex-col items-center">
+                      <PictureIcon className="h-[90px] w-[90px] text-gray-500" />
+                      <span className="typo-body-2 text-center text-gray-500">
+                        {images.length}/{MAX_IMAGE_COUNT}
+                      </span>
+                    </div>
+                  </label>
                 )}
 
-                <input id="sell-photo" type="file" accept="image/*" className="hidden" onChange={handleImageChange} />
-              </label>
-              {errors.imageFile?.message && (
-                <span className="typo-caption-2 text-red-500">{errors.imageFile.message}</span>
+                <input
+                  id="sell-photo"
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  className="hidden"
+                  onChange={handleImageChange}
+                />
+              </div>
+              {errors.imageFiles?.message && (
+                <span className="typo-caption-2 text-red-500">{errors.imageFiles.message}</span>
               )}
             </div>
           </div>
@@ -100,19 +132,21 @@ export const SellForm = () => {
               />
             ))}
 
-            <DropDown
-              label="제조사"
-              value={manufacturerValue ?? ''}
-              options={MANUFACTURER_OPTIONS}
-              isOpen={isDropdownOpen}
-              dropdownRef={dropdownRef}
-              error={Boolean(errors.manufacturer)}
-              helperText={errors.manufacturer?.message}
-              onToggle={toggleDropdown}
-              onSelect={selectManufacturer}
-            />
+            <div data-field="manufacturer">
+              <DropDown
+                label="제조사"
+                value={manufacturerValue ?? ''}
+                options={MANUFACTURER_OPTIONS}
+                isOpen={isDropdownOpen}
+                dropdownRef={dropdownRef}
+                error={Boolean(errors.manufacturer)}
+                helperText={errors.manufacturer?.message}
+                onToggle={toggleDropdown}
+                onSelect={selectManufacturer}
+              />
+            </div>
 
-            <div className="gap-m relative flex flex-col">
+            <div className="gap-m relative flex flex-col" data-field="modelName">
               <span className="typo-body-2 text-gray-900">모델명</span>
               <Controller
                 name="modelName"
@@ -168,7 +202,7 @@ export const SellForm = () => {
               />
             ))}
 
-            <div className="gap-m flex flex-col">
+            <div className="gap-m flex flex-col" data-field="price">
               <span className="typo-body-2 text-gray-900">가격</span>
               <Controller
                 name="price"
@@ -228,8 +262,11 @@ export const SellForm = () => {
       <section className="w-full max-w-[1306px]">
         <div className="gap-xl flex w-full flex-col items-start md:flex-row md:gap-[130px]">
           <h2 className="typo-title-2 w-full text-gray-900 md:w-[120px]">상세 설명</h2>
-          <div className="gap-m flex w-full max-w-[981px] flex-col items-start">
-            <span className="typo-body-2 text-gray-900">설명</span>
+          <div className="gap-m flex w-full max-w-[981px] flex-col items-start" data-field="description">
+            <div className="flex w-full items-center justify-between">
+              <span className="typo-body-2 text-gray-900">설명</span>
+              <span className="typo-body-1 text-gray-500">{(descriptionValue ?? '').length}/5000</span>
+            </div>
             <Controller
               name="description"
               control={control}
@@ -252,8 +289,14 @@ export const SellForm = () => {
 
       <section className="mt-[58px] mb-[112px] flex w-full flex-col items-center">
         <div className="px-s flex w-full items-center justify-end">
-          <Button variant="fill" size="auto" className="px-xl py-m h-[44px] w-[213px]" onClick={onSubmit}>
-            저장
+          <Button
+            variant="fill"
+            size="auto"
+            className="px-xl py-m h-[44px] w-[213px]"
+            onClick={onSubmit}
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? (isEditMode ? '수정 중...' : '등록 중...') : isEditMode ? '수정' : '저장'}
           </Button>
         </div>
       </section>

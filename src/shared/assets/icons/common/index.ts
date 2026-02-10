@@ -13,3 +13,6 @@ export { default as PictureIcon } from './picture.svg?react';
 export { default as kakaoLoginImg } from './kakao.png';
 export { default as ChatbotIcon } from './chatbot.svg?react';
 export { default as ChevronRightIcon } from './chevron-right.svg?react';
+export { default as ChevronLeftMdIcon } from './chevron-left-md.svg?react';
+export { default as ChevronLeftIcon } from './chevron-left.svg?react';
+export { default as EditPencilIcon } from './edit-pencil-line-01.svg?react';

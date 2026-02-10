@@ -30,6 +30,15 @@ export const useCreateRoomMutation = () => {
   });
 };
 
+export const useChatRoomQuery = (postId: number | null) => {
+  return useQuery({
+    queryKey: chatKeys.roomByPost(postId!),
+    queryFn: () => createOrGetRoom(postId!),
+    enabled: postId !== null,
+    staleTime: 5 * 60 * 1000,
+  });
+};
+
 export const useHasUnreadMessagesQuery = () => {
   const { accessToken, _hasHydrated } = useAuthStore();
   const isLoggedIn = _hasHydrated && Boolean(accessToken);

@@ -1,8 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { uploadImage } from '@shared/apis/image';
+import { uploadImages } from '@shared/apis/image';
 import { useCreateSellPostMutation, useSellAutocompleteQuery, useUpdateSellPostMutation } from '@shared/apis/sell';
 import { ROUTES } from '@shared/constants';
-import { useClickOutside, useDebounce, useToast } from '@shared/hooks';
+import { useClickOutside, useDebounce, useScrollToError, useToast } from '@shared/hooks';
 import { sellSchema, type SellFormData } from '@shared/utils/schemas';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -19,14 +19,29 @@ export const useSellForm = () => {
   const createSellPostMutation = useCreateSellPostMutation();
   const locationState = useMemo(() => (location.state ?? {}) as SellState, [location.state]);
   const editPostId = locationState.postId ?? null;
-  const existingImageUrl = locationState.imageUrl ?? null;
+  const existingImageUrls = locationState.imageUrls ?? (locationState.imageUrl ? [locationState.imageUrl] : []);
   const updateSellPostMutation = useUpdateSellPostMutation(editPostId ?? '');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const isEditMode = Boolean(editPostId);
+  const { scrollToFirstError } = useScrollToError<SellFormData>([
+    'imageFiles',
+    'title',
+    'manufacturer',
+    'modelName',
+    'colorName',
+    'storageSize',
+    'price',
+    'productCondition',
+    'scratchCondition',
+    'screenCondition',
+    'batteryCondition',
+    'description',
+  ]);
 
   const {
     control,
     handleSubmit,
     reset,
-    resetField,
     setError,
     setValue,
     watch,
@@ -43,12 +58,13 @@ export const useSellForm = () => {
   const manufacturerValue = watch('manufacturer');
   const priceValue = watch('price');
   const modelNameValue = watch('modelName');
+  const descriptionValue = watch('description');
   const productCondition = watch('productCondition');
   const scratchCondition = watch('scratchCondition');
   const screenCondition = watch('screenCondition');
   const batteryCondition = watch('batteryCondition');
 
-  const debouncedModelName = useDebounce(modelNameValue ?? '', 300);
+  const debouncedModelName = useDebounce(modelNameValue ?? '', 250);
   const { data: modelSuggestions = [] } = useSellAutocompleteQuery(debouncedModelName);
   const [isModelAutocompleteOpen, setIsModelAutocompleteOpen] = useState(false);
 
@@ -57,10 +73,9 @@ export const useSellForm = () => {
     setIsModelAutocompleteOpen(false);
   };
 
-  const { previewUrl, setPreviewUrl, handleImageChange } = useSellImage({
+  const { images, handleImageChange, removeImage, setExistingImages, canAddMore } = useSellImage({
     showToast,
     setError,
-    resetField,
     setValue,
   });
 
@@ -96,36 +111,47 @@ export const useSellForm = () => {
       return;
     }
     reset(mapSellDraftToForm(locationState));
-    if (locationState.imageFile) {
-      setValue('imageFile', locationState.imageFile, { shouldValidate: true });
-    } else {
-      resetField('imageFile');
+    const urls = locationState.imageUrls ?? (locationState.imageUrl ? [locationState.imageUrl] : []);
+    if (urls.length > 0) {
+      setExistingImages(urls);
     }
-    setPreviewUrl(locationState.imageUrl ?? null);
     hasInitialized.current = true;
-  }, [locationState, reset, resetField, setValue, setPreviewUrl]);
+  }, [locationState, reset, setExistingImages]);
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      const imageFile = data.imageFile;
-      if (!imageFile && !existingImageUrl) {
+      // 새로 추가된 파일만 필터링
+      const newFiles = data.imageFiles.filter((file): file is File => file !== null);
+      const hasNewFiles = newFiles.length > 0;
+
+      // 기존 이미지 중 삭제 안된 것
+      const keptExistingUrls = existingImageUrls.filter((url: string) => images.some((img) => img.previewUrl === url));
+      const hasKeptExistingImages = keptExistingUrls.length > 0;
+
+      if (!hasNewFiles && !hasKeptExistingImages) {
         const message = '이미지를 업로드해 주세요.';
         showToast(message);
-        setError('imageFile', { type: 'validate', message });
+        setError('imageFiles', { type: 'validate', message });
         return;
       }
 
-      let imageUrl = existingImageUrl ?? '';
-      if (imageFile) {
-        const uploaded = await uploadImage('PRODUCT', imageFile);
-        imageUrl = uploaded.fileUrl;
+      setIsSubmitting(true);
+
+      let imageUrls: string[] = [];
+
+      // 새 파일이 있으면 업로드
+      if (hasNewFiles) {
+        const uploaded = await uploadImages('PRODUCT', newFiles);
+        imageUrls = uploaded.fileUrls;
       }
 
-      const request = buildSellPostRequest(data, imageUrl);
+      imageUrls = [...keptExistingUrls, ...imageUrls];
+
+      const request = buildSellPostRequest(data, imageUrls);
 
       if (editPostId) {
         await updateSellPostMutation.mutateAsync(request);
-        showToast('수정되었습니다', 'success');
+        showToast('수정되었습니다', 'edit');
         navigate(`${ROUTES.BUY}/${editPostId}`);
       } else {
         const created = await createSellPostMutation.mutateAsync(request);
@@ -134,18 +160,22 @@ export const useSellForm = () => {
       }
     } catch {
       showToast('오류가 발생했습니다. 다시 시도해 주세요.', 'error');
+    } finally {
+      setIsSubmitting(false);
     }
-  });
+  }, scrollToFirstError);
 
   return {
     control,
     errors,
-    previewUrl,
+    images,
+    canAddMore,
     isDropdownOpen,
     dropdownRef,
     manufacturerValue,
     priceValue,
     modelNameValue,
+    descriptionValue,
     modelSuggestions,
     isModelAutocompleteOpen,
     setIsModelAutocompleteOpen,
@@ -155,9 +185,12 @@ export const useSellForm = () => {
     screenCondition,
     batteryCondition,
     handleImageChange,
+    removeImage,
     toggleDropdown,
     selectManufacturer,
     setConditionValue,
     onSubmit,
+    isSubmitting,
+    isEditMode,
   };
 };

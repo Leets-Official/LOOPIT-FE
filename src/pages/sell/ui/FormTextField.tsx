@@ -14,7 +14,7 @@ type FormTextFieldProps = {
 
 export const FormTextField = ({ name, label, placeholder, control, errors }: FormTextFieldProps) => {
   return (
-    <div className="gap-m flex flex-col">
+    <div className="gap-m flex flex-col" data-field={name}>
       <span className="typo-body-2 text-gray-900">{label}</span>
       <Controller
         name={name}

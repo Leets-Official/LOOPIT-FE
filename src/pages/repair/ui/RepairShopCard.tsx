@@ -12,6 +12,7 @@ export type RepairShopCardProps = {
   placeUrl?: string;
   onFindRoute?: () => void;
   onSelect?: () => void;
+  onFavoriteToggle?: () => void;
 };
 
 const openExternalLink = (url: string) => {
@@ -28,6 +29,7 @@ export const RepairShopCard = ({
   placeUrl,
   onFindRoute,
   onSelect,
+  onFavoriteToggle,
 }: RepairShopCardProps) => {
   const handleFindRoute = () => {
     if (onFindRoute) {
@@ -67,7 +69,12 @@ export const RepairShopCard = ({
       </div>
 
       <div className="flex w-full items-center justify-between gap-4 md:w-auto md:gap-[31px]">
-        <FavoriteButton defaultActive={favoriteActive} variant="inverse" onClick={(e) => e.stopPropagation()} />
+        <FavoriteButton
+          defaultActive={favoriteActive}
+          variant="inverse"
+          onClick={(e) => e.stopPropagation()}
+          onToggle={onFavoriteToggle}
+        />
         <div className="flex w-full flex-1 flex-col items-start gap-[15px] md:w-[159px] md:flex-none">
           <Button
             variant="light"

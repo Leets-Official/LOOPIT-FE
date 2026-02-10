@@ -17,7 +17,7 @@ const formatDate = (dateString: string) => {
 
 export const ChatConversationHeader = ({ room, statusDropdown }: ChatConversationHeaderProps) => {
   return (
-    <div className="h-[167px] rounded-(--radius-l) bg-gray-900 px-[42px] py-[44px]">
+    <div className="rounded-(--radius-l) bg-gray-900 px-4 py-4 xl:h-[167px] xl:px-[42px] xl:py-[44px]">
       <div className="flex items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           {room.thumbnail ? (

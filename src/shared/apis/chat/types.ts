@@ -23,13 +23,15 @@ export type CreateRoomResponseBody = ApiResponse<ChatRoomData>;
 
 export interface ChatRoomListItem {
   roomId: number;
+  postId: number;
   partnerId: number;
   partnerNickname: string;
   partnerProfileImage: string;
-  lastMessage: string;
-  lastMessageAt: string;
+  lastMessage: string | null;
+  lastMessageAt: string | null;
   thumbnail: string;
   hasUnreadMessages: boolean;
+  seller: boolean;
 }
 
 export type ChatRoomListResponseBody = ApiResponse<ChatRoomListItem[]>;
@@ -54,6 +56,7 @@ export type HasUnreadMessagesResponseBody = ApiResponse<boolean>;
 
 export interface SendMessagePayload {
   roomId: number;
+  receiverId: number;
   content: string;
   type: ChatMessageType;
 }

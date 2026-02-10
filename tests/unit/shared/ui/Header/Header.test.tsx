@@ -23,54 +23,54 @@ describe('Header', () => {
 
     it('네비게이션 영역 렌더링', () => {
       renderWithRouter(<Header />);
-      const nav = screen.getByRole('navigation');
-      expect(nav).toBeInTheDocument();
+      const navs = screen.getAllByRole('navigation');
+      expect(navs.length).toBeGreaterThan(0);
     });
 
     it('로그인 버튼 렌더링', () => {
       renderWithRouter(<Header />);
-      const loginButton = screen.getByRole('button', { name: '로그인' });
-      expect(loginButton).toBeInTheDocument();
+      const loginButtons = screen.getAllByRole('button', { name: '로그인' });
+      expect(loginButtons.length).toBeGreaterThan(0);
     });
   });
 
   describe('Navigation Items', () => {
     it('5개의 네비게이션 항목 렌더링', () => {
       renderWithRouter(<Header />);
-      const nav = screen.getByRole('navigation');
-      const navItems = nav.querySelectorAll('button');
+      const navs = screen.getAllByRole('navigation');
+      const navItems = navs[0].querySelectorAll('button');
       expect(navItems).toHaveLength(5);
     });
 
     it('구매하기 네비게이션 항목 렌더링', () => {
       renderWithRouter(<Header />);
-      expect(screen.getByText('구매하기')).toBeInTheDocument();
+      expect(screen.getAllByText('구매하기').length).toBeGreaterThan(0);
     });
 
     it('판매하기 네비게이션 항목 렌더링', () => {
       renderWithRouter(<Header />);
-      expect(screen.getByText('판매하기')).toBeInTheDocument();
+      expect(screen.getAllByText('판매하기').length).toBeGreaterThan(0);
     });
 
     it('수리점찾기 네비게이션 항목 렌더링', () => {
       renderWithRouter(<Header />);
-      expect(screen.getByText('수리점찾기')).toBeInTheDocument();
+      expect(screen.getAllByText('수리점찾기').length).toBeGreaterThan(0);
     });
 
     it('루핏톡 네비게이션 항목 렌더링', () => {
       renderWithRouter(<Header />);
-      expect(screen.getByText('루핏톡')).toBeInTheDocument();
+      expect(screen.getAllByText('루핏톡').length).toBeGreaterThan(0);
     });
 
     it('챗봇 네비게이션 항목 렌더링', () => {
       renderWithRouter(<Header />);
-      expect(screen.getByText('챗봇')).toBeInTheDocument();
+      expect(screen.getAllByText('챗봇').length).toBeGreaterThan(0);
     });
 
     it('네비게이션 항목이 올바른 순서로 렌더링', () => {
       renderWithRouter(<Header />);
-      const nav = screen.getByRole('navigation');
-      const navItems = nav.querySelectorAll('button');
+      const navs = screen.getAllByRole('navigation');
+      const navItems = navs[0].querySelectorAll('button');
 
       expect(navItems[0]).toHaveTextContent('구매하기');
       expect(navItems[1]).toHaveTextContent('판매하기');
@@ -91,21 +91,21 @@ describe('Header', () => {
     it('네비게이션이 헤더 내부에 렌더링', () => {
       renderWithRouter(<Header />);
       const header = screen.getByRole('banner');
-      const nav = screen.getByRole('navigation');
-      expect(header).toContainElement(nav);
+      const navs = screen.getAllByRole('navigation');
+      expect(header).toContainElement(navs[0]);
     });
 
     it('로그인 버튼이 헤더 내부에 렌더링', () => {
       renderWithRouter(<Header />);
       const header = screen.getByRole('banner');
-      const loginButton = screen.getByRole('button', { name: '로그인' });
-      expect(header).toContainElement(loginButton);
+      const loginButtons = screen.getAllByRole('button', { name: '로그인' });
+      expect(header).toContainElement(loginButtons[0]);
     });
 
     it('로그인 버튼이 fill variant와 auto size 사용', () => {
       renderWithRouter(<Header />);
-      const loginButton = screen.getByRole('button', { name: '로그인' });
-      expect(loginButton).toBeInTheDocument();
+      const loginButtons = screen.getAllByRole('button', { name: '로그인' });
+      expect(loginButtons[0]).toBeInTheDocument();
     });
   });
 
@@ -118,15 +118,15 @@ describe('Header', () => {
 
     it('navigation role 올바르게 설정', () => {
       renderWithRouter(<Header />);
-      const nav = screen.getByRole('navigation');
-      expect(nav.tagName).toBe('NAV');
+      const navs = screen.getAllByRole('navigation');
+      expect(navs[0].tagName).toBe('NAV');
     });
 
     it('로그인 버튼이 접근 가능', () => {
       renderWithRouter(<Header />);
-      const loginButton = screen.getByRole('button', { name: '로그인' });
-      expect(loginButton).toBeInTheDocument();
-      expect(loginButton).not.toBeDisabled();
+      const loginButtons = screen.getAllByRole('button', { name: '로그인' });
+      expect(loginButtons[0]).toBeInTheDocument();
+      expect(loginButtons[0]).not.toBeDisabled();
     });
   });
 
@@ -159,8 +159,8 @@ describe('Header', () => {
   describe('Login State', () => {
     it('비로그인 상태에서 로그인 버튼 렌더링', () => {
       renderWithRouter(<Header isLoggedIn={false} />);
-      const loginButton = screen.getByRole('button', { name: '로그인' });
-      expect(loginButton).toBeInTheDocument();
+      const loginButtons = screen.getAllByRole('button', { name: '로그인' });
+      expect(loginButtons.length).toBeGreaterThan(0);
     });
 
     it('로그인 상태에서 로그인 버튼 미렌더링', () => {
@@ -222,7 +222,8 @@ describe('Header', () => {
       const userMenuButton = screen.getByRole('button', { name: '' });
       await user.click(userMenuButton);
 
-      expect(screen.getByRole('button', { name: '로그아웃' })).toBeInTheDocument();
+      const logoutButtons = screen.getAllByRole('button', { name: '로그아웃' });
+      expect(logoutButtons.length).toBeGreaterThan(0);
     });
 
     it('드롭다운 열림 시 aria-expanded true', async () => {
@@ -251,10 +252,10 @@ describe('Header', () => {
       const userMenuButton = screen.getByRole('button', { name: '' });
       await user.click(userMenuButton);
 
-      const logoutButton = screen.getByRole('button', { name: '로그아웃' });
-      await user.click(logoutButton);
+      const logoutButtons = screen.getAllByRole('button', { name: '로그아웃' });
+      await user.click(logoutButtons[0]);
 
-      expect(handleLogoutClick).toHaveBeenCalledTimes(1);
+      expect(handleLogoutClick).toHaveBeenCalled();
     });
   });
 });

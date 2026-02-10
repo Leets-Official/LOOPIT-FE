@@ -4,9 +4,8 @@ import { useBuyAutocompleteQuery } from '@shared/apis/buy';
 import { CloseIcon } from '@shared/assets/icons';
 import { ROUTES } from '@shared/constants';
 import { useDebounce } from '@shared/hooks';
-import { Card } from '@shared/ui/Card';
+import { Card, CardSkeleton } from '@shared/ui/Card';
 import { EmptyState } from '@shared/ui/EmptyState';
-import { LoadingFallback } from '@shared/ui/LoadingFallback';
 import { SearchBar } from '@shared/ui/SearchBar';
 import { cn } from '@shared/utils/cn';
 import { type KeyboardEvent, useMemo, useState } from 'react';
@@ -47,6 +46,7 @@ const BuyPage = () => {
 
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
+  const [hasSelected, setHasSelected] = useState(false);
   const debouncedQuery = useDebounce(query.trim(), 300);
 
   const { data: suggestions = [] } = useBuyAutocompleteQuery(debouncedQuery);
@@ -59,11 +59,12 @@ const BuyPage = () => {
     return suggestions.filter((item) => item.toLowerCase().includes(normalized.toLowerCase()));
   }, [debouncedQuery, suggestions]);
 
-  const showSuggestions = isSearchFocused && filteredSuggestions.length > 0;
+  const showSuggestions = isSearchFocused && filteredSuggestions.length > 0 && !hasSelected;
 
   const selectSuggestion = (value: string) => {
     setQuery(value);
     setActiveIndex(-1);
+    setHasSelected(true);
   };
 
   const handleSearchKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -89,11 +90,7 @@ const BuyPage = () => {
     }
   };
 
-  const showEmpty = filteredItems.length === 0;
-
-  if (isLoading) {
-    return <LoadingFallback message="상품을 불러오는 중이에요." />;
-  }
+  const showEmpty = !isLoading && filteredItems.length === 0;
 
   return (
     <main className="md:px-xxxl mx-auto flex w-full max-w-[1200px] flex-col items-center gap-6 px-(--margin-l) md:gap-10 lg:gap-[68px] lg:px-0">
@@ -102,7 +99,10 @@ const BuyPage = () => {
           <SearchBar
             placeholder="어떤 제품을 찾으시나요?"
             value={query}
-            onChange={setQuery}
+            onChange={(value) => {
+              setQuery(value);
+              setHasSelected(false);
+            }}
             onSearch={() => {}}
             onFocus={() => setIsSearchFocused(true)}
             onBlur={() => setIsSearchFocused(false)}
@@ -163,17 +163,19 @@ const BuyPage = () => {
           ) : (
             <>
               <div className="lg:gap-xl grid w-full grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 md:grid-cols-4 md:gap-6 lg:grid-cols-5">
-                {filteredItems.map((item) => (
-                  <Link key={item.id} to={`${ROUTES.BUY}/${item.id}`} className="block focus-visible:outline-none">
-                    <Card
-                      image={item.image}
-                      title={item.title}
-                      price={item.priceLabel}
-                      date={item.dateLabel}
-                      className={cn(!item.available && 'opacity-50')}
-                    />
-                  </Link>
-                ))}
+                {isLoading
+                  ? Array.from({ length: 10 }).map((_, index) => <CardSkeleton key={index} />)
+                  : filteredItems.map((item) => (
+                      <Link key={item.id} to={`${ROUTES.BUY}/${item.id}`} className="block focus-visible:outline-none">
+                        <Card
+                          image={item.image}
+                          title={item.title}
+                          price={item.priceLabel}
+                          date={item.dateLabel}
+                          className={cn(!item.available && 'opacity-50')}
+                        />
+                      </Link>
+                    ))}
               </div>
               <div ref={observerRef} className="h-10 w-full" />
             </>
