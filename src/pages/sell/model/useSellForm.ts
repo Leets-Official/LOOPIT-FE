@@ -1,9 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { uploadImages } from '@shared/apis/image';
-import { useCreateSellPostMutation, useSellAutocompleteQuery, useUpdateSellPostMutation } from '@shared/apis/sell';
+import { useCreatePostMutation, useSellAutocompleteQuery, useUpdatePostMutation } from '@shared/apis/post';
 import { ROUTES } from '@shared/constants';
 import { useClickOutside, useDebounce, useScrollToError, useToast } from '@shared/hooks';
 import { sellSchema, type SellFormData } from '@shared/utils/schemas';
+import { isEmpty } from 'es-toolkit/compat';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router';
@@ -16,11 +17,11 @@ export const useSellForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { showToast } = useToast();
-  const createSellPostMutation = useCreateSellPostMutation();
+  const createSellPostMutation = useCreatePostMutation();
   const locationState = useMemo(() => (location.state ?? {}) as SellState, [location.state]);
   const editPostId = locationState.postId ?? null;
   const existingImageUrls = locationState.imageUrls ?? (locationState.imageUrl ? [locationState.imageUrl] : []);
-  const updateSellPostMutation = useUpdateSellPostMutation(editPostId ?? '');
+  const updateSellPostMutation = useUpdatePostMutation(editPostId ?? '');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const isEditMode = Boolean(editPostId);
   const { scrollToFirstError } = useScrollToError<SellFormData>([
@@ -107,7 +108,7 @@ export const useSellForm = () => {
     if (hasInitialized.current) {
       return;
     }
-    if (Object.keys(locationState).length === 0) {
+    if (isEmpty(locationState)) {
       return;
     }
     reset(mapSellDraftToForm(locationState));
