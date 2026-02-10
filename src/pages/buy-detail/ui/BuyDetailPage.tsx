@@ -52,7 +52,12 @@ const BuyDetailPage = () => {
   return (
     <main className="md:px-xxxl mx-auto flex w-full max-w-[1200px] flex-col items-start gap-5 px-(--margin-l) lg:gap-[157px] lg:px-0">
       <div className="flex w-full flex-col items-start gap-5 lg:flex-row">
-        <ProductImageSection postId={item.id} image={item.image} title={item.title} seller={item.seller} />
+        <ProductImageSection
+          postId={item.id}
+          images={item.imageUrls.length > 0 ? item.imageUrls : [item.image]}
+          title={item.title}
+          seller={item.seller}
+        />
 
         <div className="flex w-full shrink-0 flex-col items-start gap-10 lg:w-[590px] lg:gap-[108px]">
           <ProductInfoSection

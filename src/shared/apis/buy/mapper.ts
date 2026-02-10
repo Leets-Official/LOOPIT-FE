@@ -91,6 +91,7 @@ export const mapBuyPostToItem = (item: BuyPostApiItem): BuyItem => {
     priceValue,
     dateLabel: createdAt ? formatRelativeTime(createdAt) : '',
     image: item.thumbnail ?? item.imageUrls?.[0] ?? '',
+    imageUrls: item.imageUrls ?? (item.thumbnail ? [item.thumbnail] : []),
     brand: normalizeBrand(item.brand, item.manufacturer, item.model, item.title),
     model: item.model ?? '',
     available: normalizeAvailability(undefined, item.status, item.postStatus),

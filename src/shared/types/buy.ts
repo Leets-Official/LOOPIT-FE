@@ -13,6 +13,7 @@ export type BuyItem = {
   priceValue: number;
   dateLabel: string;
   image: string;
+  imageUrls: string[];
   brand: 'apple' | 'samsung';
   model: string;
   available: boolean;

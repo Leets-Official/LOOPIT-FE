@@ -2,6 +2,7 @@ export {
   AlertDotIcon,
   ChatCircleCheckIcon,
   ChatCircleCloseIcon,
+  ChevronLeftIcon,
   ChevronLeftMdIcon,
   CloseIcon,
   EditPencilIcon,
