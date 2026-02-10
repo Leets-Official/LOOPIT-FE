@@ -1,7 +1,7 @@
-import { ChatCircleCheckIcon, ChatCircleCloseIcon, CloseIcon } from '@shared/assets/icons';
+import { ChatCircleCheckIcon, ChatCircleCloseIcon, CloseIcon, EditPencilIcon } from '@shared/assets/icons';
 import { toastVariants } from './Toast.variants';
 
-export type ToastTone = 'default' | 'success' | 'error';
+export type ToastTone = 'default' | 'success' | 'error' | 'edit';
 
 export interface ToastProps {
   message: string;
@@ -14,6 +14,7 @@ const TOAST_ICONS: Record<ToastTone, React.FC<React.SVGProps<SVGSVGElement>>> = 
   default: ChatCircleCloseIcon,
   success: ChatCircleCheckIcon,
   error: ChatCircleCloseIcon,
+  edit: EditPencilIcon,
 };
 
 export const Toast = ({ message, tone = 'default', dismissible = true, onDismiss }: ToastProps) => {
