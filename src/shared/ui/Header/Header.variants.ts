@@ -53,6 +53,10 @@ export const headerVariants = tv({
       'bg-white',
       'py-2',
       'shadow-lg',
+      'transition-all',
+      'duration-200',
+      'ease-out',
+      'origin-top',
     ],
     mobileNavItem: [
       ...baseButton,

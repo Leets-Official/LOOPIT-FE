@@ -6,6 +6,7 @@ import { headerVariants } from '@shared/ui/Header/Header.variants';
 import { UserMenu } from '@shared/ui/Header/UserMenu';
 import { Logo } from '@shared/ui/Logo';
 import { Modal } from '@shared/ui/Modal';
+import { cn } from '@shared/utils/cn';
 import { type ComponentPropsWithoutRef, useEffect, useRef, useState } from 'react';
 
 export type HeaderProps = Omit<ComponentPropsWithoutRef<'header'>, 'children'> & {
@@ -94,44 +95,47 @@ export const Header = ({
             <HamburgerIcon className={styles.mobileMenuIcon()} />
           </button>
 
-          {isMobileMenuOpen && (
-            <div className={styles.mobileDropdown()}>
-              <nav className="flex flex-col">
-                {NAV_ITEMS.map((item) => (
-                  <button
-                    type="button"
-                    key={item.id}
-                    onClick={() => handleNavClick(item.path)}
-                    className={styles.mobileNavItem()}
-                  >
-                    {item.label}
-                    {item.id === 'chat' && hasChatAlert && <AlertDotIcon className="ml-1" />}
-                  </button>
-                ))}
-              </nav>
-              <div className={styles.mobileDivider()} />
-              {isLoggedIn ? (
-                <>
-                  <button type="button" onClick={handleMyPageClick} className={styles.mobileNavItem()}>
-                    마이페이지
-                  </button>
-                  <button
-                    type="button"
-                    onClick={onLogoutClick}
-                    className={styles.mobileNavItem({ className: 'text-gray-500' })}
-                  >
-                    로그아웃
-                  </button>
-                </>
-              ) : (
-                <div className={styles.mobileLoginWrapper()}>
-                  <Button variant="fill" size="full" onClick={handleLoginClick}>
-                    로그인
-                  </Button>
-                </div>
-              )}
-            </div>
-          )}
+          <div
+            className={cn(
+              styles.mobileDropdown(),
+              isMobileMenuOpen ? 'scale-y-100 opacity-100' : 'pointer-events-none scale-y-95 opacity-0'
+            )}
+          >
+            <nav className="flex flex-col">
+              {NAV_ITEMS.map((item) => (
+                <button
+                  type="button"
+                  key={item.id}
+                  onClick={() => handleNavClick(item.path)}
+                  className={styles.mobileNavItem()}
+                >
+                  {item.label}
+                  {item.id === 'chat' && hasChatAlert && <AlertDotIcon className="ml-1" />}
+                </button>
+              ))}
+            </nav>
+            <div className={styles.mobileDivider()} />
+            {isLoggedIn ? (
+              <>
+                <button type="button" onClick={handleMyPageClick} className={styles.mobileNavItem()}>
+                  마이페이지
+                </button>
+                <button
+                  type="button"
+                  onClick={onLogoutClick}
+                  className={styles.mobileNavItem({ className: 'text-gray-500' })}
+                >
+                  로그아웃
+                </button>
+              </>
+            ) : (
+              <div className={styles.mobileLoginWrapper()}>
+                <Button variant="fill" size="full" onClick={handleLoginClick}>
+                  로그인
+                </Button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
