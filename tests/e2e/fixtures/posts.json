@@ -1,0 +1,59 @@
+{
+  "list": {
+    "content": [
+      {
+        "postId": 1,
+        "title": "iPhone 15 Pro 256GB",
+        "price": 1200000,
+        "status": "ACTIVE",
+        "imageUrl": "https://example.com/iphone15.jpg",
+        "createdAt": "2025-01-15T10:00:00Z"
+      },
+      {
+        "postId": 2,
+        "title": "Galaxy S24 Ultra 512GB",
+        "price": 1500000,
+        "status": "ACTIVE",
+        "imageUrl": "https://example.com/galaxy.jpg",
+        "createdAt": "2025-01-14T10:00:00Z"
+      },
+      {
+        "postId": 3,
+        "title": "MacBook Pro M3 14인치",
+        "price": 2500000,
+        "status": "RESERVED",
+        "imageUrl": "https://example.com/macbook.jpg",
+        "createdAt": "2025-01-13T10:00:00Z"
+      }
+    ],
+    "totalElements": 3,
+    "totalPages": 1,
+    "size": 20,
+    "number": 0,
+    "first": true,
+    "last": true
+  },
+  "detail": {
+    "postId": 1,
+    "title": "iPhone 15 Pro 256GB",
+    "price": 1200000,
+    "status": "ACTIVE",
+    "imageUrl": "https://example.com/iphone15.jpg",
+    "imageUrls": ["https://example.com/iphone15.jpg"],
+    "description": "깨끗하게 사용한 아이폰입니다.",
+    "manufacturer": "Apple",
+    "model": "iPhone 15 Pro",
+    "capacity": "256GB",
+    "condition": "A급",
+    "batteryCondition": "90%",
+    "seller": {
+      "id": 100,
+      "nickname": "판매자1",
+      "profileImage": null
+    },
+    "owner": false,
+    "liked": false,
+    "similarItems": [],
+    "createdAt": "2025-01-15T10:00:00Z"
+  }
+}
