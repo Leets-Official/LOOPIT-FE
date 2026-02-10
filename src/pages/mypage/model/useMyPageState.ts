@@ -111,26 +111,22 @@ export const useMyPageState = () => {
 
   const buyItems = useMemo(() => {
     const serverItems = buyHistory ?? (buyStatusQuery === 'ALL' ? buyAllHistory : undefined);
-    if (buyStatusQuery !== 'ALL' && serverItems && serverItems.length === 0 && buyAllHistory?.length) {
-      return buyAllHistory
-        .filter((item) => item.status === buyStatusQuery)
-        .map((item) => mapHistoryItem(item, { statusLabel: item.status === 'COMPLETED' ? '구매완료' : '구매중' }));
+    if (buyStatusQuery !== 'ALL' && serverItems && serverItems.length === 0 && buyItemsForCount.length) {
+      return filterTradeItems(buyItemsForCount, buyStatus);
     }
     const baseItems = serverItems ?? buyAllHistory ?? profileData?.buyList ?? [];
     return baseItems.map((item) =>
       mapHistoryItem(item, { statusLabel: item.status === 'COMPLETED' ? '구매완료' : '구매중' })
     );
-  }, [buyHistory, buyStatusQuery, buyAllHistory, profileData?.buyList]);
+  }, [buyHistory, buyStatusQuery, buyAllHistory, buyItemsForCount, buyStatus, profileData?.buyList]);
   const sellItems = useMemo(() => {
     const serverItems = sellHistory ?? (sellStatusQuery === 'ALL' ? sellAllHistory : undefined);
-    if (sellStatusQuery !== 'ALL' && serverItems && serverItems.length === 0 && sellAllHistory?.length) {
-      return sellAllHistory
-        .filter((item) => resolveSellStatus(item) === sellStatusQuery)
-        .map((item) => mapSellHistoryItem(item));
+    if (sellStatusQuery !== 'ALL' && serverItems && serverItems.length === 0 && sellItemsForCount.length) {
+      return filterTradeItems(sellItemsForCount, sellStatus);
     }
     const baseItems = serverItems ?? sellAllHistory ?? [];
     return baseItems.map((item) => mapSellHistoryItem(item));
-  }, [sellHistory, sellStatusQuery, sellAllHistory, mapSellHistoryItem, resolveSellStatus]);
+  }, [sellHistory, sellStatusQuery, sellAllHistory, sellItemsForCount, sellStatus, mapSellHistoryItem]);
 
   const buyStatusTabs = createStatusTabs(buyItemsForCount, { buying: '구매중', completed: '구매완료' });
   const sellStatusTabs = createStatusTabs(sellItemsForCount, { buying: '판매중', completed: '판매완료' });
