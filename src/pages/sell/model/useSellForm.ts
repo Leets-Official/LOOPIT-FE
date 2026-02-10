@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { uploadImage } from '@shared/apis/image';
+import { uploadImages } from '@shared/apis/image';
 import { useCreateSellPostMutation, useSellAutocompleteQuery, useUpdateSellPostMutation } from '@shared/apis/sell';
 import { ROUTES } from '@shared/constants';
 import { useClickOutside, useDebounce, useScrollToError, useToast } from '@shared/hooks';
@@ -19,12 +19,12 @@ export const useSellForm = () => {
   const createSellPostMutation = useCreateSellPostMutation();
   const locationState = useMemo(() => (location.state ?? {}) as SellState, [location.state]);
   const editPostId = locationState.postId ?? null;
-  const existingImageUrl = locationState.imageUrl ?? null;
+  const existingImageUrls = locationState.imageUrls ?? (locationState.imageUrl ? [locationState.imageUrl] : []);
   const updateSellPostMutation = useUpdateSellPostMutation(editPostId ?? '');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const isEditMode = Boolean(editPostId);
   const { scrollToFirstError } = useScrollToError<SellFormData>([
-    'imageFile',
+    'imageFiles',
     'title',
     'manufacturer',
     'modelName',
@@ -42,7 +42,6 @@ export const useSellForm = () => {
     control,
     handleSubmit,
     reset,
-    resetField,
     setError,
     setValue,
     watch,
@@ -74,10 +73,9 @@ export const useSellForm = () => {
     setIsModelAutocompleteOpen(false);
   };
 
-  const { previewUrl, setPreviewUrl, handleImageChange } = useSellImage({
+  const { images, handleImageChange, removeImage, setExistingImages, canAddMore } = useSellImage({
     showToast,
     setError,
-    resetField,
     setValue,
   });
 
@@ -113,34 +111,43 @@ export const useSellForm = () => {
       return;
     }
     reset(mapSellDraftToForm(locationState));
-    if (locationState.imageFile) {
-      setValue('imageFile', locationState.imageFile, { shouldValidate: true });
-    } else {
-      resetField('imageFile');
+    const urls = locationState.imageUrls ?? (locationState.imageUrl ? [locationState.imageUrl] : []);
+    if (urls.length > 0) {
+      setExistingImages(urls);
     }
-    setPreviewUrl(locationState.imageUrl ?? null);
     hasInitialized.current = true;
-  }, [locationState, reset, resetField, setValue, setPreviewUrl]);
+  }, [locationState, reset, setExistingImages]);
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      const imageFile = data.imageFile;
-      if (!imageFile && !existingImageUrl) {
+      // 새로 추가된 파일만 필터링
+      const newFiles = data.imageFiles.filter((file): file is File => file !== null);
+      const hasNewFiles = newFiles.length > 0;
+
+      // 기존 이미지 중 삭제 안된 것
+      const keptExistingUrls = existingImageUrls.filter((url: string) => images.some((img) => img.previewUrl === url));
+      const hasKeptExistingImages = keptExistingUrls.length > 0;
+
+      if (!hasNewFiles && !hasKeptExistingImages) {
         const message = '이미지를 업로드해 주세요.';
         showToast(message);
-        setError('imageFile', { type: 'validate', message });
+        setError('imageFiles', { type: 'validate', message });
         return;
       }
 
       setIsSubmitting(true);
 
-      let imageUrl = existingImageUrl ?? '';
-      if (imageFile) {
-        const uploaded = await uploadImage('PRODUCT', imageFile);
-        imageUrl = uploaded.fileUrl;
+      let imageUrls: string[] = [];
+
+      // 새 파일이 있으면 업로드
+      if (hasNewFiles) {
+        const uploaded = await uploadImages('PRODUCT', newFiles);
+        imageUrls = uploaded.fileUrls;
       }
 
-      const request = buildSellPostRequest(data, imageUrl);
+      imageUrls = [...keptExistingUrls, ...imageUrls];
+
+      const request = buildSellPostRequest(data, imageUrls);
 
       if (editPostId) {
         await updateSellPostMutation.mutateAsync(request);
@@ -161,7 +168,8 @@ export const useSellForm = () => {
   return {
     control,
     errors,
-    previewUrl,
+    images,
+    canAddMore,
     isDropdownOpen,
     dropdownRef,
     manufacturerValue,
@@ -177,6 +185,7 @@ export const useSellForm = () => {
     screenCondition,
     batteryCondition,
     handleImageChange,
+    removeImage,
     toggleDropdown,
     selectManufacturer,
     setConditionValue,

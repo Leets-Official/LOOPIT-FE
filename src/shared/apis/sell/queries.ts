@@ -44,8 +44,9 @@ export const useDeleteSellPostMutation = (postId: number | string) => {
   return useMutation({
     mutationFn: () => deleteSellPost(postId),
     onSuccess: () => {
+      queryClient.removeQueries({ queryKey: buyKeys.detail(postId) });
+      queryClient.removeQueries({ queryKey: buyKeys.lists() });
       queryClient.invalidateQueries({ queryKey: sellKeys.lists() });
-      queryClient.invalidateQueries({ queryKey: buyKeys.lists() });
     },
   });
 };

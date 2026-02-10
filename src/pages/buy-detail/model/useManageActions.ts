@@ -19,7 +19,7 @@ export const useManageActions = (item: BuyItem | undefined) => {
         postId: item.id,
         title: item.title,
         price: String(item.priceValue),
-        imageUrl: item.image,
+        imageUrls: item.imageUrls,
         manufacturer: item.specs.manufacturer,
         modelName: item.specs.model,
         colorName: item.specs.color,
