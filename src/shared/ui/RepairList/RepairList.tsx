@@ -18,7 +18,7 @@ export type RepairListProps = {
 
 export const RepairList = ({ items, emptyMessage, onContact, onFindRoute }: RepairListProps) => {
   if (items.length === 0) {
-    return <p className="typo-caption-2 mt-12 text-center text-gray-400">{emptyMessage}</p>;
+    return <p className="typo-title-3 mt-34.5 w-full text-center text-gray-400">{emptyMessage}</p>;
   }
 
   return (

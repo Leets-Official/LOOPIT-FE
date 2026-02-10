@@ -1,3 +1,4 @@
+import { wishlistKeys } from '@shared/apis/wishlist';
 import { useAuthStore } from '@shared/stores';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { checkShopWishlist, toggleShopWishlist } from './api';
@@ -48,6 +49,7 @@ export const useToggleShopWishlistMutation = () => {
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: repairKeys.all });
+      queryClient.invalidateQueries({ queryKey: wishlistKeys.all });
     },
   });
 };

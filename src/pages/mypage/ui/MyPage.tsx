@@ -18,8 +18,6 @@ const MAIN_TABS: Array<MyPageTab<MainTabId>> = [
 
 const MyPage = () => {
   const navigate = useNavigate();
-  const profileSummary = getProfileSummary();
-
   const {
     activeTab,
     setActiveTab,
@@ -32,7 +30,14 @@ const MyPage = () => {
     currentFilteredItems,
     favoriteProductItems,
     favoriteRepairItems,
+    profileData,
   } = useMyPageState();
+  const fallbackProfile = getProfileSummary();
+  const profileSummary = {
+    nickname: profileData?.nickname ?? fallbackProfile.nickname,
+    email: profileData?.email ?? fallbackProfile.email,
+    profileImage: profileData?.profileImageUrl ?? fallbackProfile.profileImage,
+  };
 
   const handleRepairContact = (_item: RepairListItem) => {
     // NOTE: 수리점 연락하기 기능 연동 후 처리 예정
@@ -72,6 +77,7 @@ const MyPage = () => {
               countClassName="typo-title-3"
               countActiveClassName="text-green-700"
               countInactiveClassName="text-gray-900"
+              countColorMode="positive"
               itemClassName="lg:first:justify-self-start lg:last:justify-self-end"
             />
             {favoriteCategory === 'product' ? (
@@ -79,7 +85,7 @@ const MyPage = () => {
             ) : (
               <RepairList
                 items={favoriteRepairItems}
-                emptyMessage="찜한 수리점이 아직 없어요."
+                emptyMessage="찜한 목록이 아직 없어요."
                 onContact={handleRepairContact}
                 onFindRoute={handleRepairFindRoute}
               />
@@ -97,6 +103,7 @@ const MyPage = () => {
               countClassName="typo-title-3"
               countActiveClassName="text-green-700"
               countInactiveClassName="text-gray-900"
+              countColorMode="positive"
               itemClassName="lg:first:justify-self-start lg:last:justify-self-end"
             />
             <TradeItemList items={currentFilteredItems} emptyMessage="선택한 조건에 해당하는 상품은 없어요." />
