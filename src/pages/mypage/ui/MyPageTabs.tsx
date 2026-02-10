@@ -13,7 +13,7 @@ export type MyPageTabsProps<TId extends string = string> = {
 
 export const MyPageTabs = <TId extends string>({ tabs, activeId, onChange }: MyPageTabsProps<TId>) => {
   return (
-    <div className="rounded-m bg-gray-50 px-[clamp(16px,10vw,274px)] py-7.5">
+    <div className="rounded-m bg-gray-50 py-7.5">
       <div className="grid h-6.75 grid-cols-3 items-center divide-x divide-gray-300">
         {tabs.map((tab) => (
           <button

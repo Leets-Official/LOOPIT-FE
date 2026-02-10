@@ -1,6 +1,6 @@
 import type { ApiResponse } from '../types';
 
-export type TradeHistoryStatus = 'RESERVED' | 'COMPLETED';
+export type TradeHistoryStatus = 'SALE' | 'RESERVED' | 'COMPLETED';
 
 export type TradeHistoryItem = {
   postId: number;

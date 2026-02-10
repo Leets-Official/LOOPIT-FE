@@ -11,26 +11,32 @@ export type CommonTabsProps<TId extends string = string> = {
   tabs: Array<CommonTabItem<TId>>;
   activeId: TId;
   onChange: (id: TId) => void;
-  gridClassName: string;
-  labelClassName: string;
-  countClassName: string;
-  countActiveClassName: string;
-  countInactiveClassName: string;
+  gridClassName?: string;
+  labelClassName?: string;
+  countClassName?: string;
+  countActiveClassName?: string;
+  countInactiveClassName?: string;
   countColorMode?: 'active' | 'positive';
   itemClassName?: string;
 };
+
+const DEFAULT_GRID_CLASS = 'w-full grid grid-cols-3';
+const DEFAULT_LABEL_CLASS = 'typo-body-1';
+const DEFAULT_COUNT_CLASS = 'typo-title-3';
+const DEFAULT_COUNT_ACTIVE_CLASS = 'text-green-700';
+const DEFAULT_COUNT_INACTIVE_CLASS = 'text-gray-900';
 
 export const CommonTabs = <TId extends string>({
   title,
   tabs,
   activeId,
   onChange,
-  gridClassName,
-  labelClassName,
-  countClassName,
-  countActiveClassName,
-  countInactiveClassName,
-  countColorMode = 'active',
+  gridClassName = DEFAULT_GRID_CLASS,
+  labelClassName = DEFAULT_LABEL_CLASS,
+  countClassName = DEFAULT_COUNT_CLASS,
+  countActiveClassName = DEFAULT_COUNT_ACTIVE_CLASS,
+  countInactiveClassName = DEFAULT_COUNT_INACTIVE_CLASS,
+  countColorMode = 'positive',
   itemClassName,
 }: CommonTabsProps<TId>) => {
   return (
