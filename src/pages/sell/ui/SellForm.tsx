@@ -33,6 +33,7 @@ export const SellForm = () => {
     dropdownRef,
     manufacturerValue,
     priceValue,
+    descriptionValue,
     modelSuggestions,
     isModelAutocompleteOpen,
     setIsModelAutocompleteOpen,
@@ -46,6 +47,8 @@ export const SellForm = () => {
     selectManufacturer,
     setConditionValue,
     onSubmit,
+    isSubmitting,
+    isEditMode,
   } = useSellForm();
 
   const showModelSuggestions = isModelAutocompleteOpen && modelSuggestions.length > 0;
@@ -60,7 +63,7 @@ export const SellForm = () => {
               <p className="typo-body-2 text-gray-900">(최대 1장)</p>
             </div>
 
-            <div className="gap-xxs flex flex-col items-center">
+            <div className="gap-xxs flex flex-col items-center" data-field="imageFile">
               <label
                 htmlFor="sell-photo"
                 className="flex h-[212px] w-[204px] cursor-pointer items-center justify-center overflow-hidden rounded-(--radius-s) bg-green-50"
@@ -100,19 +103,21 @@ export const SellForm = () => {
               />
             ))}
 
-            <DropDown
-              label="제조사"
-              value={manufacturerValue ?? ''}
-              options={MANUFACTURER_OPTIONS}
-              isOpen={isDropdownOpen}
-              dropdownRef={dropdownRef}
-              error={Boolean(errors.manufacturer)}
-              helperText={errors.manufacturer?.message}
-              onToggle={toggleDropdown}
-              onSelect={selectManufacturer}
-            />
+            <div data-field="manufacturer">
+              <DropDown
+                label="제조사"
+                value={manufacturerValue ?? ''}
+                options={MANUFACTURER_OPTIONS}
+                isOpen={isDropdownOpen}
+                dropdownRef={dropdownRef}
+                error={Boolean(errors.manufacturer)}
+                helperText={errors.manufacturer?.message}
+                onToggle={toggleDropdown}
+                onSelect={selectManufacturer}
+              />
+            </div>
 
-            <div className="gap-m relative flex flex-col">
+            <div className="gap-m relative flex flex-col" data-field="modelName">
               <span className="typo-body-2 text-gray-900">모델명</span>
               <Controller
                 name="modelName"
@@ -168,7 +173,7 @@ export const SellForm = () => {
               />
             ))}
 
-            <div className="gap-m flex flex-col">
+            <div className="gap-m flex flex-col" data-field="price">
               <span className="typo-body-2 text-gray-900">가격</span>
               <Controller
                 name="price"
@@ -228,8 +233,11 @@ export const SellForm = () => {
       <section className="w-full max-w-[1306px]">
         <div className="gap-xl flex w-full flex-col items-start md:flex-row md:gap-[130px]">
           <h2 className="typo-title-2 w-full text-gray-900 md:w-[120px]">상세 설명</h2>
-          <div className="gap-m flex w-full max-w-[981px] flex-col items-start">
-            <span className="typo-body-2 text-gray-900">설명</span>
+          <div className="gap-m flex w-full max-w-[981px] flex-col items-start" data-field="description">
+            <div className="flex w-full items-center justify-between">
+              <span className="typo-body-2 text-gray-900">설명</span>
+              <span className="typo-body-1 text-gray-500">{(descriptionValue ?? '').length}/5000</span>
+            </div>
             <Controller
               name="description"
               control={control}
@@ -252,8 +260,14 @@ export const SellForm = () => {
 
       <section className="mt-[58px] mb-[112px] flex w-full flex-col items-center">
         <div className="px-s flex w-full items-center justify-end">
-          <Button variant="fill" size="auto" className="px-xl py-m h-[44px] w-[213px]" onClick={onSubmit}>
-            저장
+          <Button
+            variant="fill"
+            size="auto"
+            className="px-xl py-m h-[44px] w-[213px]"
+            onClick={onSubmit}
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? (isEditMode ? '수정 중...' : '등록 중...') : isEditMode ? '수정' : '저장'}
           </Button>
         </div>
       </section>

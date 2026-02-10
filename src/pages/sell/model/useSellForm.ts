@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { uploadImage } from '@shared/apis/image';
 import { useCreateSellPostMutation, useSellAutocompleteQuery, useUpdateSellPostMutation } from '@shared/apis/sell';
 import { ROUTES } from '@shared/constants';
-import { useClickOutside, useDebounce, useToast } from '@shared/hooks';
+import { useClickOutside, useDebounce, useScrollToError, useToast } from '@shared/hooks';
 import { sellSchema, type SellFormData } from '@shared/utils/schemas';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -21,6 +21,22 @@ export const useSellForm = () => {
   const editPostId = locationState.postId ?? null;
   const existingImageUrl = locationState.imageUrl ?? null;
   const updateSellPostMutation = useUpdateSellPostMutation(editPostId ?? '');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const isEditMode = Boolean(editPostId);
+  const { scrollToFirstError } = useScrollToError<SellFormData>([
+    'imageFile',
+    'title',
+    'manufacturer',
+    'modelName',
+    'colorName',
+    'storageSize',
+    'price',
+    'productCondition',
+    'scratchCondition',
+    'screenCondition',
+    'batteryCondition',
+    'description',
+  ]);
 
   const {
     control,
@@ -43,12 +59,13 @@ export const useSellForm = () => {
   const manufacturerValue = watch('manufacturer');
   const priceValue = watch('price');
   const modelNameValue = watch('modelName');
+  const descriptionValue = watch('description');
   const productCondition = watch('productCondition');
   const scratchCondition = watch('scratchCondition');
   const screenCondition = watch('screenCondition');
   const batteryCondition = watch('batteryCondition');
 
-  const debouncedModelName = useDebounce(modelNameValue ?? '', 300);
+  const debouncedModelName = useDebounce(modelNameValue ?? '', 250);
   const { data: modelSuggestions = [] } = useSellAutocompleteQuery(debouncedModelName);
   const [isModelAutocompleteOpen, setIsModelAutocompleteOpen] = useState(false);
 
@@ -115,6 +132,8 @@ export const useSellForm = () => {
         return;
       }
 
+      setIsSubmitting(true);
+
       let imageUrl = existingImageUrl ?? '';
       if (imageFile) {
         const uploaded = await uploadImage('PRODUCT', imageFile);
@@ -125,7 +144,7 @@ export const useSellForm = () => {
 
       if (editPostId) {
         await updateSellPostMutation.mutateAsync(request);
-        showToast('수정되었습니다', 'success');
+        showToast('수정되었습니다', 'edit');
         navigate(`${ROUTES.BUY}/${editPostId}`);
       } else {
         const created = await createSellPostMutation.mutateAsync(request);
@@ -134,8 +153,10 @@ export const useSellForm = () => {
       }
     } catch {
       showToast('오류가 발생했습니다. 다시 시도해 주세요.', 'error');
+    } finally {
+      setIsSubmitting(false);
     }
-  });
+  }, scrollToFirstError);
 
   return {
     control,
@@ -146,6 +167,7 @@ export const useSellForm = () => {
     manufacturerValue,
     priceValue,
     modelNameValue,
+    descriptionValue,
     modelSuggestions,
     isModelAutocompleteOpen,
     setIsModelAutocompleteOpen,
@@ -159,5 +181,7 @@ export const useSellForm = () => {
     selectManufacturer,
     setConditionValue,
     onSubmit,
+    isSubmitting,
+    isEditMode,
   };
 };
