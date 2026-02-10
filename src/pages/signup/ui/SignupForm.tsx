@@ -22,11 +22,12 @@ export const SignupForm = () => {
     errors,
     handleSubmit,
     onSubmit,
+    scrollToFirstError,
     isSubmitting,
   } = useSignupForm();
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex w-full flex-col items-center">
+    <form onSubmit={handleSubmit(onSubmit, scrollToFirstError)} className="flex w-full flex-col items-center">
       <section className="mt-[80px] w-full">
         <div className="flex w-full flex-col items-start gap-[67px]">
           <section className="gap-m flex h-[214px] w-full flex-col">
@@ -49,7 +50,7 @@ export const SignupForm = () => {
           </section>
 
           {FORM_FIELDS.map((field) => (
-            <section key={field.name} className={sectionStyle}>
+            <section key={field.name} className={sectionStyle} data-field={field.name}>
               <span className={sectionLabel}>{field.label}</span>
               {field.type === 'date' ? (
                 <DateField

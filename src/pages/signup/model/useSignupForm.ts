@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useKakaoRegisterMutation } from '@shared/apis/auth';
 import { ROUTES } from '@shared/constants';
-import { useImagePreview, useS3ImageUpload, useToast } from '@shared/hooks';
+import { useImagePreview, useS3ImageUpload, useScrollToError, useToast } from '@shared/hooks';
 import { useAuthStore } from '@shared/stores';
 import { signupSchema, type SignupFormData } from '@shared/utils/schemas';
 import { useEffect, useState } from 'react';
@@ -22,6 +22,7 @@ export const useSignupForm = () => {
   } = useImagePreview();
   const { upload } = useS3ImageUpload();
   const { mutate } = useKakaoRegisterMutation();
+  const { scrollToFirstError } = useScrollToError<SignupFormData>(['email', 'name', 'birthDate', 'nickname']);
 
   // kakaoId 없으면 로그인 페이지로 리다이렉트
   useEffect(() => {
@@ -90,6 +91,7 @@ export const useSignupForm = () => {
     errors,
     handleSubmit,
     onSubmit,
+    scrollToFirstError,
     isSubmitting,
   };
 };
