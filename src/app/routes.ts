@@ -23,7 +23,7 @@ export default [
     route('repair', 'routes/(main)/repair/index.tsx'),
 
     // seller
-    route('seller/:userId', 'routes/(main)/seller/index.tsx'),
+    route('seller/:postId', 'routes/(main)/seller/index.tsx'),
 
     // 로그인 필요 페이지 (미로그인 시 /login 으로 리다이렉트)
     layout('layout/ProtectedLayout.tsx', [
