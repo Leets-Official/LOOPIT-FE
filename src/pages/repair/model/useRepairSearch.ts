@@ -1,4 +1,4 @@
-import { useCheckShopWishlistQuery } from '@shared/apis/repair';
+import { useCheckShopWishlistQuery } from '@shared/apis/wishlist';
 import { useState } from 'react';
 import { useRepairMap } from './useRepairMap';
 import type { KakaoAddressResult, KakaoMaps, KakaoPagination, KakaoPlace, RepairShop } from './types';

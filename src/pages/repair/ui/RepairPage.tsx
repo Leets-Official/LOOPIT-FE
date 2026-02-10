@@ -1,9 +1,10 @@
-import { useToggleShopWishlistMutation } from '@shared/apis/repair';
+import { useToggleShopWishlistMutation } from '@shared/apis/wishlist';
+import { useAuthStore, useUIStore } from '@shared/stores';
 import { EmptyState } from '@shared/ui/EmptyState';
 import { SearchBar } from '@shared/ui/SearchBar';
+import { ShopCard } from '@shared/ui/ShopCard';
 import { cn } from '@shared/utils/cn';
-import { RepairShopCard } from './RepairShopCard';
-import { RepairShopCardSkeleton } from './RepairShopCardSkeleton';
+import { ShopCardSkeleton } from './ShopCardSkeleton';
 import { useRepairSearch } from '../model/useRepairSearch';
 
 const containerClass = 'mx-auto w-full max-w-[1200px]';
@@ -11,6 +12,8 @@ const containerClass = 'mx-auto w-full max-w-[1200px]';
 const RepairPage = () => {
   const { mapRef, shops, favoriteMap, isLoading, hasSearched, errorMessage, handleSearch, openOverlayForShop } =
     useRepairSearch();
+  const { accessToken } = useAuthStore();
+  const { openLoginModal } = useUIStore();
   const toggleWishlistMutation = useToggleShopWishlistMutation();
 
   const renderShopList = () => {
@@ -23,7 +26,7 @@ const RepairPage = () => {
     }
 
     if (isLoading) {
-      return Array.from({ length: 3 }).map((_, index) => <RepairShopCardSkeleton key={index} />);
+      return Array.from({ length: 3 }).map((_, index) => <ShopCardSkeleton key={index} />);
     }
 
     if (shops.length === 0) {
@@ -31,7 +34,7 @@ const RepairPage = () => {
     }
 
     return shops.map((shop) => (
-      <RepairShopCard
+      <ShopCard
         key={shop.id}
         name={shop.name}
         address={shop.address}
@@ -41,6 +44,10 @@ const RepairPage = () => {
         placeUrl={shop.placeUrl}
         favoriteActive={favoriteMap.get(shop.name) ?? false}
         onFavoriteToggle={() => {
+          if (!accessToken) {
+            openLoginModal();
+            return;
+          }
           toggleWishlistMutation.mutate({
             shopName: shop.name,
             location: shop.address,

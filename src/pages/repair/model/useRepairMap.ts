@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { buildKakaoRouteUrl, getKakaoMaps } from './kakaoMapUtils';
+import { buildKakaoRouteUrl, getKakaoMaps, loadKakaoMapsSdk } from './kakaoMapUtils';
 import type { KakaoMapInstance, KakaoMarker, KakaoOverlay, RepairShop } from './types';
 
 const buildOverlayContent = (shop: RepairShop) => {
@@ -34,14 +34,15 @@ export const useRepairMap = () => {
   const [isMapReady, setIsMapReady] = useState(false);
 
   useEffect(() => {
-    const maps = getKakaoMaps();
-
     if (!mapRef.current) {
       return;
     }
 
+    let cancelled = false;
+
     const initMap = () => {
-      if (!maps || !mapRef.current) {
+      const maps = getKakaoMaps();
+      if (!maps || !mapRef.current || cancelled) {
         return;
       }
 
@@ -57,19 +58,20 @@ export const useRepairMap = () => {
       setIsMapReady(true);
     };
 
-    if (maps?.load) {
-      maps.load(initMap);
-      return;
-    }
+    loadKakaoMapsSdk()
+      .then(() => {
+        const maps = getKakaoMaps();
+        if (maps?.load) {
+          maps.load(initMap);
+        }
+      })
+      .catch((error) => {
+        console.error('Kakao Maps SDK load failed:', error);
+      });
 
-    const timer = window.setInterval(() => {
-      if (maps?.load) {
-        window.clearInterval(timer);
-        maps.load(initMap);
-      }
-    }, 50);
-
-    return () => window.clearInterval(timer);
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const clearMarkers = () => {
