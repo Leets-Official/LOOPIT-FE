@@ -1,6 +1,7 @@
 import { keepPreviousData, useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getBuyAutocomplete, getBuyItemById, getBuyItemsByCondition, togglePostWishlist } from './api';
 import { buyKeys } from './keys';
+import { wishlistKeys } from '@shared/apis/wishlist';
 import type { BuyListCondition } from './types';
 import type { BuyItem } from '@shared/types/buy';
 
@@ -59,6 +60,7 @@ export const useTogglePostWishlistMutation = () => {
     },
     onSettled: (_, __, postId) => {
       queryClient.invalidateQueries({ queryKey: buyKeys.detail(postId) });
+      queryClient.invalidateQueries({ queryKey: wishlistKeys.all });
     },
   });
 };
