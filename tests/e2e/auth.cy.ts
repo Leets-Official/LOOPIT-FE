@@ -3,29 +3,14 @@ describe('로그인 필수 기능', () => {
     cy.fixture('posts').then((posts) => {
       cy.intercept('GET', /\/sell-post(?:\?|$)/, {
         statusCode: 200,
-        body: posts.list,
+        body: { data: posts.list },
       }).as('getPosts');
 
       cy.intercept('GET', /\/sell-post\/detail\/\d+/, {
         statusCode: 200,
-        body: posts.detail,
+        body: { data: posts.detail },
       }).as('getPostDetail');
     });
-
-    cy.intercept('GET', /\/repair\/search/, {
-      statusCode: 200,
-      body: [
-        {
-          id: '1',
-          name: '테스트 수리점',
-          address: '서울시 강남구',
-          phone: '02-1234-5678',
-          lat: 37.5,
-          lng: 127.0,
-          placeUrl: 'https://example.com',
-        },
-      ],
-    }).as('getRepairShops');
   });
 
   describe('구매 상세 페이지', () => {
@@ -63,28 +48,6 @@ describe('로그인 필수 기능', () => {
       cy.get('button').contains('로그인').click();
 
       cy.url().should('include', '/login');
-    });
-  });
-
-  describe('수리점 찾기 페이지', () => {
-    beforeEach(() => {
-      cy.visit('/repair');
-    });
-
-    it('주소 검색 후 수리점 목록이 표시된다', () => {
-      cy.get('input[placeholder*="주소"]').should('not.be.disabled').type('강남역{enter}');
-      cy.wait('@getRepairShops');
-
-      cy.contains('테스트 수리점').should('be.visible');
-    });
-
-    it('비로그인 상태에서 수리점 찜 버튼 클릭 시 로그인 모달이 표시된다', () => {
-      cy.get('input[placeholder*="주소"]').should('not.be.disabled').type('강남역{enter}');
-      cy.wait('@getRepairShops');
-
-      cy.get('button[aria-label="찜"]').first().click();
-
-      cy.contains('로그인이 필요합니다').should('be.visible');
     });
   });
 

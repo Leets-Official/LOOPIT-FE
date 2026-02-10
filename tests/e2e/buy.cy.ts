@@ -3,17 +3,17 @@ describe('구매 플로우', () => {
     cy.fixture('posts').then((posts) => {
       cy.intercept('GET', /\/sell-post(?:\?|$)/, {
         statusCode: 200,
-        body: posts.list,
+        body: { data: posts.list },
       }).as('getPosts');
 
       cy.intercept('GET', /\/sell-post\/detail\/\d+/, {
         statusCode: 200,
-        body: posts.detail,
+        body: { data: posts.detail },
       }).as('getPostDetail');
 
       cy.intercept('GET', /\/search\/autocomplete\//, {
         statusCode: 200,
-        body: ['iPhone 15', 'iPhone 14', 'Galaxy S24'],
+        body: { data: ['iPhone 15', 'iPhone 14', 'Galaxy S24'] },
       }).as('getAutocomplete');
     });
   });
@@ -96,9 +96,11 @@ describe('구매 플로우', () => {
       cy.intercept('GET', /\/sell-post(?:\?|$)/, {
         statusCode: 200,
         body: {
-          content: [],
-          totalElements: 0,
-          totalPages: 0,
+          data: {
+            content: [],
+            totalElements: 0,
+            totalPages: 0,
+          },
         },
       }).as('getEmptyPosts');
 
