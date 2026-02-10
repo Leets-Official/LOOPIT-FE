@@ -42,7 +42,7 @@ export const cardVariants = tv({
       },
       seller: {
         root: ['w-[282px]', 'h-[399px]', 'shrink-0'],
-        imageWrapper: ['py-[10px]', 'px-[var(--padding-s)]', 'flex-[1_0_0]', 'bg-gray-300'],
+        imageWrapper: ['py-[10px]', 'px-[var(--padding-s)]', 'flex-[1_0_0]'],
         image: ['absolute', 'inset-0'],
         title: ['text-ellipsis', 'whitespace-nowrap', 'text-gray-900'],
         price: ['text-gray-900'],
