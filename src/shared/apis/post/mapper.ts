@@ -1,6 +1,6 @@
 import { formatPrice, formatRelativeTime } from '@shared/utils';
-import type { BuyPostApiItem, SimilarPost } from './types';
-import type { BuyItem, SimilarItem } from '@shared/types/buy';
+import type { PostApiItem, SimilarPost } from './types';
+import type { BuyItem, SimilarItem } from '@shared/types/post';
 
 const parsePrice = (value?: number | string) => {
   if (typeof value === 'number') {
@@ -72,7 +72,7 @@ const mapSimilarPost = (post: SimilarPost): SimilarItem => ({
   image: post.thumbnail,
 });
 
-export const mapBuyPostToItem = (item: BuyPostApiItem): BuyItem => {
+export const mapPostApiToItem = (item: PostApiItem): BuyItem => {
   const priceValue = parsePrice(item.price);
   const createdAt = item.createdAt;
   const modelName = item.model ?? '';
