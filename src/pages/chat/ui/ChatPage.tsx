@@ -24,7 +24,7 @@ const ChatPage = () => {
 
   return (
     <div className="w-full bg-white">
-      <div className="mx-auto flex min-h-screen w-full max-w-[1440px] flex-col bg-white xl:min-h-[1024px]">
+      <div className="mx-auto flex w-full max-w-[1440px] flex-col bg-white">
         <main className="md:px-xxxl flex flex-col px-(--margin-l) xl:flex-1 xl:px-0">
           <section className="mx-auto flex w-full max-w-[1200px] flex-col gap-8 xl:flex-1 xl:flex-row xl:gap-0">
             <div className={hasSelection ? 'hidden xl:block' : 'block h-fit'}>
