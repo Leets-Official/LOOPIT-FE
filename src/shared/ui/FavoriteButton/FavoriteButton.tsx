@@ -1,6 +1,6 @@
 import { HeartIcon } from '@shared/assets/icons';
 import { cn } from '@shared/utils/cn';
-import { useState, type ComponentPropsWithoutRef } from 'react';
+import { useEffect, useState, type ComponentPropsWithoutRef } from 'react';
 import { favoriteButtonVariants } from './FavoriteButton.variants';
 
 export interface FavoriteButtonProps {
@@ -19,6 +19,10 @@ export const FavoriteButton = ({
   onClick,
 }: FavoriteButtonProps) => {
   const [isActive, setActive] = useState<boolean>(defaultActive);
+
+  useEffect(() => {
+    setActive(defaultActive);
+  }, [defaultActive]);
 
   const styles = favoriteButtonVariants({ variant });
 
