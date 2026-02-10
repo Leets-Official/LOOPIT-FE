@@ -3,9 +3,11 @@ import {
   useMyPageProfileQuery,
   useMyPageSellHistoryQuery,
   type TradeHistoryItem,
+  type TradeHistoryQueryStatus,
+  type TradeHistoryStatus,
 } from '@shared/apis/mypage';
 import { FAVORITE_PRODUCT_ITEMS, FAVORITE_REPAIR_ITEMS } from '@shared/mocks/data/mypage';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { createStatusTabs } from './createStatusTabs';
 import { filterTradeItems } from './filterTradeItems';
 import type { FavoriteCategory, FavoriteTabs, MainTabId, StatusFilter } from './types';
@@ -28,33 +30,110 @@ const mapHistoryItem = (item: TradeHistoryItem, options?: { statusLabel?: string
   modelName: item.title,
   price: formatPrice(item.price),
   date: formatDate(item.createdAt),
-  status: item.status === 'COMPLETED' ? 'completed' : 'reserved',
+  status: item.status === 'COMPLETED' ? 'completed' : 'buying',
   statusLabel: options?.statusLabel,
   imageUrl: item.thumbnailUrl ?? undefined,
 });
 
 export const useMyPageState = () => {
   const { data: profileData } = useMyPageProfileQuery();
-  const { data: buyHistory } = useMyPageBuyHistoryQuery('ALL');
-  const { data: sellHistory } = useMyPageSellHistoryQuery('ALL');
   const [activeTab, setActiveTab] = useState<MainTabId>('buy');
   const [buyStatus, setBuyStatus] = useState<StatusFilter>('all');
   const [sellStatus, setSellStatus] = useState<StatusFilter>('all');
   const [favoriteCategory, setFavoriteCategory] = useState<FavoriteCategory>('product');
+  const [sellStatusOverrides, setSellStatusOverrides] = useState<Record<number, TradeHistoryStatus>>({});
 
-  const buyItems = useMemo(() => (buyHistory ?? []).map((item) => mapHistoryItem(item)), [buyHistory]);
-  const sellItems = useMemo(
-    () =>
-      (sellHistory ?? []).map((item) =>
-        mapHistoryItem(item, {
-          statusLabel: item.status === 'COMPLETED' ? '판매완료' : '판매중',
-        })
-      ),
-    [sellHistory]
+  const mapStatusToQuery = (status: StatusFilter): TradeHistoryQueryStatus => {
+    if (status === 'completed') {
+      return 'COMPLETED';
+    }
+    if (status === 'buying') {
+      return 'RESERVED';
+    }
+    return 'ALL';
+  };
+
+  const buyStatusQuery = mapStatusToQuery(buyStatus);
+  const sellStatusQuery = mapStatusToQuery(sellStatus);
+
+  const { data: buyAllHistory } = useMyPageBuyHistoryQuery('ALL');
+  const { data: sellAllHistory } = useMyPageSellHistoryQuery('ALL');
+  const { data: buyHistory } = useMyPageBuyHistoryQuery(buyStatusQuery);
+  const { data: sellHistory } = useMyPageSellHistoryQuery(sellStatusQuery);
+
+  const buyItemsForCount = useMemo(
+    () => (buyAllHistory ?? profileData?.buyList ?? []).map((item) => mapHistoryItem(item)),
+    [buyAllHistory, profileData?.buyList]
   );
 
-  const buyStatusTabs = createStatusTabs(buyItems, { buying: '구매중', completed: '구매완료' });
-  const sellStatusTabs = createStatusTabs(sellItems, { buying: '판매중', completed: '판매완료' });
+  const resolveSellStatus = useCallback(
+    (item: TradeHistoryItem): TradeHistoryStatus => {
+      return sellStatusOverrides[item.postId] ?? item.status;
+    },
+    [sellStatusOverrides]
+  );
+
+  const mapSellHistoryItem = useCallback(
+    (item: TradeHistoryItem): TradeListItem => {
+      const resolvedStatus = resolveSellStatus(item);
+      const mapped = mapHistoryItem(
+        {
+          ...item,
+          status: resolvedStatus,
+        },
+        { statusLabel: resolvedStatus === 'COMPLETED' ? '판매완료' : '판매중' }
+      );
+      const uiStatus = resolvedStatus === 'COMPLETED' ? 'completed' : 'buying';
+      return {
+        ...mapped,
+        status: uiStatus,
+        statusEditable: true,
+        statusOptions: [
+          { value: 'buying', label: '판매중' },
+          { value: 'completed', label: '판매완료' },
+        ],
+        onStatusChange: (nextStatus) => {
+          const nextHistoryStatus: TradeHistoryStatus = nextStatus === 'completed' ? 'COMPLETED' : 'RESERVED';
+          setSellStatusOverrides((prev) => ({
+            ...prev,
+            [item.postId]: nextHistoryStatus,
+          }));
+        },
+      };
+    },
+    [resolveSellStatus]
+  );
+
+  const sellItemsForCount = useMemo(
+    () => (sellAllHistory ?? []).map((item) => mapSellHistoryItem(item)),
+    [sellAllHistory, mapSellHistoryItem]
+  );
+
+  const buyItems = useMemo(() => {
+    const serverItems = buyHistory ?? (buyStatusQuery === 'ALL' ? buyAllHistory : undefined);
+    if (buyStatusQuery !== 'ALL' && serverItems && serverItems.length === 0 && buyAllHistory?.length) {
+      return buyAllHistory
+        .filter((item) => item.status === buyStatusQuery)
+        .map((item) => mapHistoryItem(item, { statusLabel: item.status === 'COMPLETED' ? '구매완료' : '구매중' }));
+    }
+    const baseItems = serverItems ?? buyAllHistory ?? profileData?.buyList ?? [];
+    return baseItems.map((item) =>
+      mapHistoryItem(item, { statusLabel: item.status === 'COMPLETED' ? '구매완료' : '구매중' })
+    );
+  }, [buyHistory, buyStatusQuery, buyAllHistory, profileData?.buyList]);
+  const sellItems = useMemo(() => {
+    const serverItems = sellHistory ?? (sellStatusQuery === 'ALL' ? sellAllHistory : undefined);
+    if (sellStatusQuery !== 'ALL' && serverItems && serverItems.length === 0 && sellAllHistory?.length) {
+      return sellAllHistory
+        .filter((item) => resolveSellStatus(item) === sellStatusQuery)
+        .map((item) => mapSellHistoryItem(item));
+    }
+    const baseItems = serverItems ?? sellAllHistory ?? [];
+    return baseItems.map((item) => mapSellHistoryItem(item));
+  }, [sellHistory, sellStatusQuery, sellAllHistory, mapSellHistoryItem, resolveSellStatus]);
+
+  const buyStatusTabs = createStatusTabs(buyItemsForCount, { buying: '구매중', completed: '구매완료' });
+  const sellStatusTabs = createStatusTabs(sellItemsForCount, { buying: '판매중', completed: '판매완료' });
 
   const favoriteTabs: FavoriteTabs = [
     { id: 'product', label: '상품', count: FAVORITE_PRODUCT_ITEMS.length },
