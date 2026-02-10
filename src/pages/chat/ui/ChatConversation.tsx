@@ -104,7 +104,7 @@ export const ChatConversation = ({
             })}
           </div>
 
-          <div className="mt-xs xl:mt-xl w-full max-w-[647px]">
+          <div className="mt-xs xl:mt-xl w-full max-w-[647px] xl:sticky xl:bottom-4">
             <ChatInput placeholder="메시지를 입력하세요." onSend={onSend} />
           </div>
         </>
