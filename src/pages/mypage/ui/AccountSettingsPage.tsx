@@ -1,17 +1,30 @@
+import { useMyPageProfileQuery } from '@shared/apis/mypage';
 import { ChevronRightIcon, PictureIcon } from '@shared/assets/icons';
 import { ROUTES } from '@shared/constants';
 import { MY_PAGE_PROFILE } from '@shared/mocks/data/mypage';
 import { Profile } from '@shared/ui/Profile';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { PageContainer } from './PageContainer';
 import { getProfileSummary, saveProfile } from '../model/profileStorage';
 
 const AccountSettingsPage = () => {
   const navigate = useNavigate();
-  const profileSummary = getProfileSummary();
-  const [profileImage, setProfileImage] = useState(profileSummary.profileImage ?? MY_PAGE_PROFILE.profileImage);
+  const { data: profileData } = useMyPageProfileQuery();
+  const storedProfileSummary = getProfileSummary();
+  const profileSummary = {
+    nickname: profileData?.nickname ?? storedProfileSummary.nickname,
+    email: profileData?.email ?? storedProfileSummary.email,
+    profileImage: profileData?.profileImageUrl ?? storedProfileSummary.profileImage ?? MY_PAGE_PROFILE.profileImage,
+  };
+  const [profileImage, setProfileImage] = useState(profileSummary.profileImage);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    if (profileData?.profileImageUrl) {
+      setProfileImage(profileData.profileImageUrl);
+    }
+  }, [profileData?.profileImageUrl]);
 
   const handleProfileClick = () => {
     fileInputRef.current?.click();
