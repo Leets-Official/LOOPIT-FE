@@ -85,7 +85,7 @@ const MyPage = () => {
             ) : (
               <RepairList
                 items={favoriteRepairItems}
-                emptyMessage="찜한 수리점이 아직 없어요."
+                emptyMessage="찜한 목록이 아직 없어요."
                 onContact={handleRepairContact}
                 onFindRoute={handleRepairFindRoute}
               />
