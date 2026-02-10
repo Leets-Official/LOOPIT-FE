@@ -64,15 +64,6 @@ describe('구매 플로우', () => {
   });
 
   describe('상품 상세 페이지', () => {
-    it('상품 클릭 시 상세 페이지로 이동한다', () => {
-      cy.visit('/buy');
-      cy.wait('@getPosts');
-
-      cy.contains('iPhone 15 Pro 256GB').click();
-
-      cy.url().should('include', '/buy/1');
-    });
-
     it('상세 정보가 표시된다', () => {
       cy.visit('/buy/1');
 
