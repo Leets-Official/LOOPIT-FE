@@ -58,12 +58,8 @@ const normalizeDescription = (value?: string | string[]) => {
 };
 
 const normalizeBatteryStatus = (value?: string): BuyItem['batteryStatus'] => {
-  if (!value) {
-    return 'GREAT';
-  }
-  const upper = value.toUpperCase();
-  if (upper === 'GREAT' || upper === 'GOOD' || upper === 'BAD') {
-    return upper;
+  if (value === 'GREAT' || value === 'GOOD' || value === 'BAD') {
+    return value;
   }
   return 'GREAT';
 };

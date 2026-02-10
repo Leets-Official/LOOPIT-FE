@@ -1,5 +1,6 @@
 export const buyKeys = {
   all: ['buy'] as const,
+  lists: () => [...buyKeys.all, 'infinite'] as const,
   list: (
     params?: {
       page?: number;

@@ -79,3 +79,10 @@ export interface BuyListPage<T> {
 export type BuyListResponseBody = ApiResponse<BuyListPage<BuyPostApiItem>>;
 export type BuyDetailResponseBody = ApiResponse<BuyPostApiItem>;
 export type BuyAutocompleteResponseBody = ApiResponse<string[]>;
+
+export interface TogglePostWishlistRequest {
+  postId: number;
+}
+
+export type TogglePostWishlistResult = 'Enabled' | 'Disabled';
+export type TogglePostWishlistResponseBody = ApiResponse<TogglePostWishlistResult>;

@@ -7,6 +7,9 @@ import type {
   BuyListPage,
   BuyListParams,
   BuyListResponseBody,
+  TogglePostWishlistRequest,
+  TogglePostWishlistResponseBody,
+  TogglePostWishlistResult,
 } from './types';
 import type { BuyItem } from '@shared/types/buy';
 
@@ -66,5 +69,10 @@ export const getBuyAutocomplete = async (keyword: string): Promise<string[]> => 
   const response = await axiosInstance.get<BuyAutocompleteResponseBody>(BUY_ENDPOINTS.AUTOCOMPLETE, {
     params: { keyword },
   });
+  return response.data.data;
+};
+
+export const togglePostWishlist = async (request: TogglePostWishlistRequest): Promise<TogglePostWishlistResult> => {
+  const response = await axiosInstance.post<TogglePostWishlistResponseBody>(BUY_ENDPOINTS.WISHLIST_TOGGLE, request);
   return response.data.data;
 };
