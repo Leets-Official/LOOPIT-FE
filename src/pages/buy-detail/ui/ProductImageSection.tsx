@@ -3,16 +3,16 @@ import { Profile } from '@shared/ui/Profile';
 import { Link } from 'react-router';
 
 type ProductImageSectionProps = {
+  postId: string;
   image: string;
   title: string;
   seller: {
-    id?: string;
     nickname: string;
     profileImage?: string;
   };
 };
 
-export const ProductImageSection = ({ image, title, seller }: ProductImageSectionProps) => {
+export const ProductImageSection = ({ postId, image, title, seller }: ProductImageSectionProps) => {
   const sellerContent = (
     <>
       <Profile size="chat" image={seller.profileImage} alt={`${seller.nickname} 프로필`} className="shrink-0" />
@@ -25,13 +25,13 @@ export const ProductImageSection = ({ image, title, seller }: ProductImageSectio
       <div className="aspect-square w-full overflow-hidden rounded-(--radius-s) bg-gray-50 lg:h-[568px] lg:w-[590px]">
         <img src={image} alt={title} className="h-full w-full object-cover" />
       </div>
-      {seller.id ? (
-        <Link to={`${ROUTES.SELLER_PROFILE}/${seller.id}`} className="flex items-center gap-[23px]">
-          {sellerContent}
-        </Link>
-      ) : (
-        <div className="flex items-center gap-[23px]">{sellerContent}</div>
-      )}
+      <Link
+        to={`${ROUTES.SELLER_PROFILE}/${postId}`}
+        state={{ nickname: seller.nickname, profileImage: seller.profileImage }}
+        className="flex items-center gap-[23px]"
+      >
+        {sellerContent}
+      </Link>
     </div>
   );
 };
