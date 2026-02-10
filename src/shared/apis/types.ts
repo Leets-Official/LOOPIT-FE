@@ -5,6 +5,7 @@ export interface ApiResponse<T> {
 }
 
 export interface UserProfile {
+  userId: number;
   nickname: string;
   kakaoId: string;
   name: string;

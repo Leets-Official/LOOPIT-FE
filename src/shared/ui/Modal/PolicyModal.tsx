@@ -1,7 +1,7 @@
 import { CloseIcon } from '@shared/assets/icons';
 import { useBodyScrollLock, useFocusTrap } from '@shared/hooks';
 import { Portal } from '@shared/ui/Portal';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { policyModalStyles } from './PolicyModal.styles';
 
 export interface PolicyModalProps {
@@ -24,7 +24,7 @@ export const PolicyModal = ({ isOpen, onClose, title, children }: PolicyModalPro
     }
   }, [isOpen]);
 
-  const handleClose = useCallback(() => {
+  const handleClose = () => {
     if (closing) {
       return;
     }
@@ -33,7 +33,7 @@ export const PolicyModal = ({ isOpen, onClose, title, children }: PolicyModalPro
       onClose();
       setClosing(false);
     }, 150);
-  }, [closing, onClose]);
+  };
 
   const handleOverlayMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {
@@ -44,13 +44,17 @@ export const PolicyModal = ({ isOpen, onClose, title, children }: PolicyModalPro
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) {
-        handleClose();
+        setClosing(true);
+        setTimeout(() => {
+          onClose();
+          setClosing(false);
+        }, 150);
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, handleClose]);
+  }, [isOpen, onClose]);
 
   if (!isOpen && !closing) {
     return null;

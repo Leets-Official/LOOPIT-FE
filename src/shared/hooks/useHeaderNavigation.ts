@@ -1,5 +1,5 @@
 import { PROTECTED_PATHS, ROUTES } from '@shared/constants';
-import { useState } from 'react';
+import { useUIStore } from '@shared/stores';
 import { useNavigate } from 'react-router';
 
 type UseHeaderNavigationParams = {
@@ -9,7 +9,7 @@ type UseHeaderNavigationParams = {
 
 export const useHeaderNavigation = ({ isLoggedIn, closeMobileMenu }: UseHeaderNavigationParams) => {
   const navigate = useNavigate();
-  const [showLoginModal, setShowLoginModal] = useState(false);
+  const { showLoginModal, openLoginModal, closeLoginModal } = useUIStore();
 
   const handleLoginClick = () => {
     navigate(ROUTES.LOGIN, { viewTransition: true });
@@ -18,7 +18,7 @@ export const useHeaderNavigation = ({ isLoggedIn, closeMobileMenu }: UseHeaderNa
 
   const handleMyPageClick = () => {
     if (!isLoggedIn) {
-      setShowLoginModal(true);
+      openLoginModal();
       closeMobileMenu();
       return;
     }
@@ -28,7 +28,7 @@ export const useHeaderNavigation = ({ isLoggedIn, closeMobileMenu }: UseHeaderNa
 
   const handleNavClick = (path: string) => {
     if (!isLoggedIn && PROTECTED_PATHS.includes(path)) {
-      setShowLoginModal(true);
+      openLoginModal();
       closeMobileMenu();
       return;
     }
@@ -37,12 +37,12 @@ export const useHeaderNavigation = ({ isLoggedIn, closeMobileMenu }: UseHeaderNa
   };
 
   const handleLoginModalConfirm = () => {
-    setShowLoginModal(false);
+    closeLoginModal();
     navigate(ROUTES.LOGIN, { viewTransition: true });
   };
 
   const handleLoginModalCancel = () => {
-    setShowLoginModal(false);
+    closeLoginModal();
   };
 
   return {
