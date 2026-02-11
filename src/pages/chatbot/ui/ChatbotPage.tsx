@@ -6,7 +6,7 @@ import { ChatMessageList } from './ChatMessageList';
 import { useChatMessages } from '../model/useChatMessages';
 
 const ChatbotPage = () => {
-  const { displayMessages, isHistoryLoading, errorMessage, handleSend } = useChatMessages();
+  const { displayMessages, isHistoryLoading, errorMessage, handleSend, handleTypingComplete } = useChatMessages();
   const endOfMessagesRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const ChatbotPage = () => {
               </div>
               <h1 className="typo-title-2 text-black">루핏봇</h1>
             </div>
-            <ChatMessageList messages={displayMessages} />
+            <ChatMessageList messages={displayMessages} onTypingComplete={handleTypingComplete} />
             {errorMessage && <div className="w-full text-center text-red-500">{errorMessage}</div>}
             <div ref={endOfMessagesRef} className="scroll-mb-[96px]" />
           </section>
