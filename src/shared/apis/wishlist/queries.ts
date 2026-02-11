@@ -80,24 +80,26 @@ export const useWishlistPostListQuery = () => {
 
 export const useTogglePostWishlistMutation = () => {
   const queryClient = useQueryClient();
+  const isAuthenticated = Boolean(useAuthStore.getState().accessToken);
 
   return useMutation({
     mutationFn: (postId: string) => togglePostWishlist({ postId: Number(postId) }),
     onMutate: async (postId) => {
-      await queryClient.cancelQueries({ queryKey: postKeys.detail(postId) });
-      const previous = queryClient.getQueryData<BuyItem>(postKeys.detail(postId));
+      const queryKey = postKeys.detail(postId, isAuthenticated);
+      await queryClient.cancelQueries({ queryKey });
+      const previous = queryClient.getQueryData<BuyItem>(queryKey);
 
-      queryClient.setQueryData<BuyItem>(postKeys.detail(postId), (old) => (old ? { ...old, liked: !old.liked } : old));
+      queryClient.setQueryData<BuyItem>(queryKey, (old) => (old ? { ...old, liked: !old.liked } : old));
 
       return { previous, postId };
     },
     onError: (_, __, context) => {
       if (context?.previous) {
-        queryClient.setQueryData(postKeys.detail(context.postId), context.previous);
+        queryClient.setQueryData(postKeys.detail(context.postId, isAuthenticated), context.previous);
       }
     },
     onSettled: (_, __, postId) => {
-      queryClient.invalidateQueries({ queryKey: postKeys.detail(postId) });
+      queryClient.invalidateQueries({ queryKey: postKeys.detailBase(postId) });
       queryClient.invalidateQueries({ queryKey: wishlistKeys.all });
     },
   });
