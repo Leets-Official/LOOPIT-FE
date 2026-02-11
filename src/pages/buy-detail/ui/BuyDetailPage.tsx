@@ -4,8 +4,10 @@ import { useCreateRoomMutation } from '@shared/apis/chat';
 import { usePostQuery } from '@shared/apis/post';
 import { useTogglePostWishlistMutation } from '@shared/apis/wishlist';
 import { ROUTES } from '@shared/constants';
+import { useToast } from '@shared/hooks';
 import { useAuthStore, useUIStore } from '@shared/stores';
 import { NotFoundFallback } from '@shared/ui/NotFoundFallback';
+import { AxiosError } from 'axios';
 import { useNavigate, useParams } from 'react-router';
 import { BuyDetailSkeleton } from './BuyDetailSkeleton';
 import { ContactActions } from './ContactActions';
@@ -17,8 +19,9 @@ import { SimilarItemsSection } from './SimilarItemsSection';
 const BuyDetailPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { accessToken } = useAuthStore();
+  const { accessToken, _hasHydrated } = useAuthStore();
   const { openLoginModal } = useUIStore();
+  const { showToast } = useToast();
 
   const { data: item, isLoading } = usePostQuery(id);
   const { deleteModal, isDeleting, handleEdit, handleDelete } = useManageActions(item);
@@ -37,10 +40,17 @@ const BuyDetailPage = () => {
       onSuccess: (room) => {
         navigate(`${ROUTES.CHAT}?roomId=${room.roomId}`);
       },
+      onError: (error) => {
+        if (error instanceof AxiosError && error.response?.data?.message) {
+          showToast(error.response.data.message, 'error');
+        } else {
+          showToast('채팅방 연결에 실패했습니다', 'error');
+        }
+      },
     });
   };
 
-  if (isLoading) {
+  if (!_hasHydrated || isLoading) {
     return <BuyDetailSkeleton />;
   }
 

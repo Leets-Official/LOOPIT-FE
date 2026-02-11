@@ -1,5 +1,6 @@
 import { chatKeys } from '@shared/apis/chat/keys';
 import { mypageKeys } from '@shared/apis/mypage/keys';
+import { useAuthStore } from '@shared/stores';
 import { keepPreviousData, useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   activePost,
@@ -43,8 +44,12 @@ export const useInfinitePostListQuery = (params: PostListCondition = {}) => {
 
 // 게시글 상세 조회
 export const usePostQuery = (id?: string | number) => {
+  const { accessToken, _hasHydrated } = useAuthStore();
+  // 하이드레이션 전에는 서버와 동일하게 false 사용
+  const isAuthenticated = _hasHydrated && Boolean(accessToken);
+
   return useQuery({
-    queryKey: postKeys.detail(id),
+    queryKey: postKeys.detail(id, isAuthenticated),
     queryFn: () => getPostById(id!),
     enabled: Boolean(id),
     staleTime: 60 * 1000,
@@ -69,7 +74,7 @@ export const useUpdatePostMutation = (postId: number | string) => {
     mutationFn: (request: UpdatePostRequest) => updatePost(postId, request),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: postKeys.lists() });
-      queryClient.invalidateQueries({ queryKey: postKeys.detail(postId) });
+      queryClient.invalidateQueries({ queryKey: postKeys.detailBase(postId) });
     },
   });
 };
@@ -80,7 +85,7 @@ export const useDeletePostMutation = (postId: number | string) => {
   return useMutation({
     mutationFn: () => deletePost(postId),
     onSuccess: () => {
-      queryClient.removeQueries({ queryKey: postKeys.detail(postId) });
+      queryClient.removeQueries({ queryKey: postKeys.detailBase(postId) });
       queryClient.removeQueries({ queryKey: postKeys.lists() });
       queryClient.invalidateQueries({ queryKey: postKeys.lists() });
     },
@@ -93,8 +98,8 @@ export const useReservePostMutation = () => {
   return useMutation({
     mutationFn: (request: ReservePostRequest) => reservePost(request),
     onSuccess: (_, variables) => {
-      queryClient.removeQueries({ queryKey: postKeys.lists() });
-      queryClient.invalidateQueries({ queryKey: postKeys.detail(variables.postId) });
+      queryClient.removeQueries({ queryKey: ['post', 'infinite'] });
+      queryClient.invalidateQueries({ queryKey: postKeys.detailBase(variables.postId) });
       queryClient.invalidateQueries({ queryKey: chatKeys.roomByPost(variables.postId) });
       queryClient.invalidateQueries({ queryKey: mypageKeys.all });
     },
@@ -107,8 +112,8 @@ export const useCompletePostMutation = () => {
   return useMutation({
     mutationFn: (request: CompletePostRequest) => completePost(request),
     onSuccess: (_, variables) => {
-      queryClient.removeQueries({ queryKey: postKeys.lists() });
-      queryClient.invalidateQueries({ queryKey: postKeys.detail(variables.postId) });
+      queryClient.removeQueries({ queryKey: ['post', 'infinite'] });
+      queryClient.invalidateQueries({ queryKey: postKeys.detailBase(variables.postId) });
       queryClient.invalidateQueries({ queryKey: chatKeys.roomByPost(variables.postId) });
       queryClient.invalidateQueries({ queryKey: mypageKeys.all });
     },
@@ -121,8 +126,8 @@ export const useActivePostMutation = () => {
   return useMutation({
     mutationFn: (request: ActivePostRequest) => activePost(request),
     onSuccess: (_, variables) => {
-      queryClient.removeQueries({ queryKey: postKeys.lists() });
-      queryClient.invalidateQueries({ queryKey: postKeys.detail(variables.postId) });
+      queryClient.removeQueries({ queryKey: ['post', 'infinite'] });
+      queryClient.invalidateQueries({ queryKey: postKeys.detailBase(variables.postId) });
       queryClient.invalidateQueries({ queryKey: chatKeys.roomByPost(variables.postId) });
       queryClient.invalidateQueries({ queryKey: mypageKeys.all });
     },
