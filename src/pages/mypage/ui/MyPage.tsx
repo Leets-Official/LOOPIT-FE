@@ -24,6 +24,7 @@ const MyPage = () => {
   const toggleShopWishlistMutation = useToggleShopWishlistMutation();
   const {
     isLoading,
+    isError,
     activeTab,
     setActiveTab,
     buyStatus,
@@ -50,6 +51,17 @@ const MyPage = () => {
 
   if (isLoading) {
     return <LoadingFallback />;
+  }
+
+  if (isError) {
+    return (
+      <main className="min-h-screen bg-white">
+        <PageContainer>
+          <h1 className="typo-title-2 text-gray-900">마이페이지</h1>
+          <EmptyState message="정보를 불러오지 못했어요." className="mt-8 min-h-[400px]" />
+        </PageContainer>
+      </main>
+    );
   }
 
   return (

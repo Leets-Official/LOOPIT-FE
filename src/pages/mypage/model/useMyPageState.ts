@@ -11,7 +11,7 @@ const BUY_STATUS_MAP: Record<Exclude<BuyStatusFilter, 'ALL'>, TradeHistoryStatus
 };
 
 export const useMyPageState = () => {
-  const { data: profileData } = useMyPageProfileQuery();
+  const { data: profileData, isError: isProfileError } = useMyPageProfileQuery();
   const { data: wishlistPosts = [] } = useWishlistPostListQuery();
   const { data: wishlistShops = [] } = useWishlistShopListQuery();
   const [activeTab, setActiveTab] = useState<MainTabId>('buy');
@@ -23,7 +23,11 @@ export const useMyPageState = () => {
   const buyAllHistory = profileData?.buyList ?? [];
 
   // sellHistory만 API 호출
-  const { data: sellAllHistory = [], isPending: isSellLoading } = useMyPageSellHistoryQuery('ALL');
+  const {
+    data: sellAllHistory = [],
+    isPending: isSellLoading,
+    isError: isSellError,
+  } = useMyPageSellHistoryQuery('ALL');
 
   // 탭 카운트용 (전체 데이터 기준)
   const buyHistoryForCount = buyAllHistory;
@@ -58,12 +62,14 @@ export const useMyPageState = () => {
   };
 
   // buyList는 profileData에서 오므로 별도 로딩 없음
-  // sellHistory만 로딩 상태 체크
+  // profile + sellHistory 로딩/에러 상태 체크
   const isLoading = isSellLoading;
+  const isError = isProfileError || isSellError;
 
   return {
-    // Loading state
+    // Loading & error state
     isLoading,
+    isError,
 
     // Tab state
     activeTab,
