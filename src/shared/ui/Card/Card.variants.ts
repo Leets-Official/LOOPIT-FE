@@ -11,6 +11,7 @@ export const cardVariants = tv({
       'self-stretch',
       'rounded-[var(--radius-l)]',
       'overflow-hidden',
+      'bg-gray-100',
     ],
     image: ['w-full', 'h-full', 'object-cover', 'rounded-[var(--radius-l)]'],
     overlay: [
