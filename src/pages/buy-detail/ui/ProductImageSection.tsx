@@ -107,8 +107,8 @@ export const ProductImageSection = ({ postId, images, title, seller }: ProductIm
                   type="button"
                   onClick={() => setCurrentIndex(index)}
                   className={cn(
-                    'h-2 w-2 rounded-full transition-colors',
-                    index === currentIndex ? 'bg-green-500' : 'bg-white/60'
+                    'h-2 w-2 rounded-full transition-opacity',
+                    index === currentIndex ? 'bg-white' : 'bg-white/60'
                   )}
                   aria-label={`${index + 1}번째 이미지로 이동`}
                 />
