@@ -61,11 +61,15 @@ export const mapWishlistPostItem = (item: WishlistPostItem): TradeListItem => ({
   imageUrl: item.imageUrl,
 });
 
-export type WishlistShopCardItem = Pick<ShopCardProps, 'name' | 'address' | 'favoriteActive'> & { id: string };
+export type WishlistShopCardItem = Pick<ShopCardProps, 'name' | 'address' | 'favoriteActive'> & {
+  id: string;
+  phone: string;
+};
 
 export const mapWishlistShopItem = (item: WishlistShopItem, index: number): WishlistShopCardItem => ({
   id: `${item.shopName}-${index}`,
   name: item.shopName,
   address: item.location,
+  phone: item.phone,
   favoriteActive: true,
 });

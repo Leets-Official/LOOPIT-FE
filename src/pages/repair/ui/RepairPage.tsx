@@ -51,6 +51,7 @@ const RepairPage = () => {
           toggleWishlistMutation.mutate({
             shopName: shop.name,
             location: shop.address,
+            phone: shop.phone ?? '',
           });
         }}
         onSelect={() => openOverlayForShop(shop)}

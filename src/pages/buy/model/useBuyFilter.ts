@@ -21,11 +21,11 @@ export const useBuyFilter = () => {
   const [showAllModels, setShowAllModels] = useState(false);
 
   const priceRangeMap: Record<string, PriceRangeEnum> = {
-    'under-100': 'UNDER_10',
-    '100-130': 'FROM_10_TO_30',
-    '130-160': 'FROM_30_TO_60',
-    '160-200': 'FROM_60_TO_90',
-    '200+': 'OVER_100',
+    'under-10': 'UNDER_10',
+    '10-30': 'FROM_10_TO_30',
+    '30-60': 'FROM_30_TO_60',
+    '60-90': 'FROM_60_TO_90',
+    '100+': 'OVER_100',
   };
   const selectedPriceRange = selectedPrices.length === 1 ? (priceRangeMap[selectedPrices[0]] ?? undefined) : undefined;
   const shouldClientManufacturerFilter = selectedManufacturers.length > 0;

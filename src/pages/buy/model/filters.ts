@@ -123,9 +123,9 @@ export const MODELS: Model[] = [
 ];
 
 export const PRICE_RANGES = [
-  { id: 'under-100', label: '100만원 이하', min: 0, max: 1000000 },
-  { id: '100-130', label: '100만원~130만원대', min: 1000000, max: 1300000 },
-  { id: '130-160', label: '130만원~160만원대', min: 1300000, max: 1600000 },
-  { id: '160-200', label: '160만원~200만원대', min: 1600000, max: 2000000 },
-  { id: '200+', label: '200만원 이상', min: 2000000, max: Infinity },
+  { id: 'under-10', label: '10만원이하', min: 0, max: 100000 },
+  { id: '10-30', label: '10만원~30만원대', min: 100000, max: 400000 },
+  { id: '30-60', label: '30만원~60만원대', min: 400000, max: 700000 },
+  { id: '60-90', label: '60만원~90만원대', min: 700000, max: 1000000 },
+  { id: '100+', label: '100만원대이상', min: 1000000, max: Infinity },
 ];

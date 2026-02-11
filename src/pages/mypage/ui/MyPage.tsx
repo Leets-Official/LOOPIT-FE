@@ -107,6 +107,7 @@ const MyPage = () => {
                       toggleShopWishlistMutation.mutate({
                         shopName: item.name,
                         location: item.address,
+                        phone: item.phone,
                       });
                     }}
                   />

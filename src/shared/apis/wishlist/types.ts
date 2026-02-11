@@ -4,11 +4,13 @@ import type { ApiResponse } from '../types';
 export interface WishlistShopItem {
   shopName: string;
   location: string;
+  phone: string;
 }
 
 export interface ToggleShopWishlistRequest {
   shopName: string;
   location: string;
+  phone: string;
 }
 
 export interface CheckShopWishlistRequest {
