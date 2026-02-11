@@ -12,8 +12,58 @@ import { useActivePostMutation, useCompletePostMutation, useReservePostMutation 
 import { useToast } from '@shared/hooks';
 import { useAuthStore } from '@shared/stores';
 import { differenceBy } from 'es-toolkit';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useReducer, useRef } from 'react';
 import { useSearchParams } from 'react-router';
+
+type ChatState = {
+  selectedRoomId: number | null;
+  localMessages: ChatMessageItem[];
+  statusByRoom: Record<number, PostStatus>;
+  isConnected: boolean;
+};
+
+type ChatAction =
+  | { type: 'SELECT_ROOM'; roomId: number | null }
+  | { type: 'ADD_MESSAGE'; message: ChatMessageItem }
+  | { type: 'MARK_MESSAGES_READ'; roomId: number }
+  | { type: 'UPDATE_STATUS'; roomId: number; status: PostStatus }
+  | { type: 'SET_CONNECTED'; connected: boolean };
+
+const chatReducer = (state: ChatState, action: ChatAction): ChatState => {
+  switch (action.type) {
+    case 'SELECT_ROOM':
+      if (action.roomId === state.selectedRoomId) {
+        return state;
+      }
+      return {
+        ...state,
+        selectedRoomId: action.roomId,
+        localMessages: [],
+      };
+    case 'ADD_MESSAGE':
+      return {
+        ...state,
+        localMessages: [...state.localMessages, action.message],
+      };
+    case 'MARK_MESSAGES_READ':
+      return {
+        ...state,
+        localMessages: state.localMessages.map((m) => (m.roomId === action.roomId ? { ...m, read: true } : m)),
+      };
+    case 'UPDATE_STATUS':
+      return {
+        ...state,
+        statusByRoom: { ...state.statusByRoom, [action.roomId]: action.status },
+      };
+    case 'SET_CONNECTED':
+      return {
+        ...state,
+        isConnected: action.connected,
+      };
+    default:
+      return state;
+  }
+};
 
 export const useChatState = () => {
   const { userId } = useAuthStore();
@@ -26,12 +76,14 @@ export const useChatState = () => {
 
   const initialRoomId = searchParams.get('roomId');
 
-  const [selectedRoomId, setSelectedRoomId] = useState<number | null>(() =>
-    initialRoomId ? Number(initialRoomId) : null
-  );
-  const [localMessages, setLocalMessages] = useState<ChatMessageItem[]>([]);
-  const [statusByRoom, setStatusByRoom] = useState<Record<number, PostStatus>>({});
-  const [isConnected, setIsConnected] = useState(false);
+  const [state, dispatch] = useReducer(chatReducer, {
+    selectedRoomId: initialRoomId ? Number(initialRoomId) : null,
+    localMessages: [],
+    statusByRoom: {},
+    isConnected: false,
+  });
+
+  const { selectedRoomId, localMessages, statusByRoom, isConnected } = state;
   const messageListRef = useRef<HTMLDivElement | null>(null);
 
   const { data: rooms = [], refetch: refetchRooms, isLoading: isRoomsLoading } = useChatRoomsQuery();
@@ -61,26 +113,22 @@ export const useChatState = () => {
 
     chatSocket.connect(
       () => {
-        setIsConnected(true);
+        dispatch({ type: 'SET_CONNECTED', connected: true });
       },
       () => {
-        setIsConnected(false);
+        dispatch({ type: 'SET_CONNECTED', connected: false });
       }
     );
 
     return () => {
       chatSocket.disconnect();
-      setIsConnected(false);
+      dispatch({ type: 'SET_CONNECTED', connected: false });
     };
   }, [userId]);
 
   // 방 선택 핸들러 (목록에서 클릭 시, null로 선택 해제)
   const handleSelectRoom = (roomId: number | null) => {
-    if (roomId === selectedRoomId) {
-      return;
-    }
-    setSelectedRoomId(roomId);
-    setLocalMessages([]);
+    dispatch({ type: 'SELECT_ROOM', roomId });
   };
 
   // 방 선택 시 구독 및 읽음 처리
@@ -102,7 +150,7 @@ export const useChatState = () => {
 
     const handleWebSocketMessage = (message: WebSocketMessage) => {
       if (isReadNotification(message)) {
-        setLocalMessages((prev) => prev.map((m) => (m.roomId === message.roomId ? { ...m, read: true } : m)));
+        dispatch({ type: 'MARK_MESSAGES_READ', roomId: message.roomId });
       } else {
         const newMessage: ChatMessageItem = {
           messageId: message.messageId,
@@ -115,7 +163,7 @@ export const useChatState = () => {
           sendTime: message.sendTime,
           read: message.isRead,
         };
-        setLocalMessages((prev) => [...prev, newMessage]);
+        dispatch({ type: 'ADD_MESSAGE', message: newMessage });
         debouncedRefetchRooms();
       }
     };
@@ -178,9 +226,10 @@ export const useChatState = () => {
 
     const postId = currentRoom.sellPostId;
     const buyerId = currentRoom.buyerId;
+    const roomId = selectedRoomId;
 
     const updateLocalStatus = () => {
-      setStatusByRoom((prev) => ({ ...prev, [selectedRoomId]: newStatus }));
+      dispatch({ type: 'UPDATE_STATUS', roomId, status: newStatus });
     };
 
     const handleError = () => {
