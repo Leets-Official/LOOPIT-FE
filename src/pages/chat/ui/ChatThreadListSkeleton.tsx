@@ -16,7 +16,7 @@ const ChatThreadItemSkeleton = () => {
 
 export const ChatThreadListSkeleton = () => {
   return (
-    <aside className="xl:px-xxs flex w-full flex-col gap-4 lg:gap-6 xl:h-[932px] xl:w-[510px] xl:max-w-[510px] xl:shrink-0">
+    <aside className="xl:px-xxs flex w-full flex-col gap-4 lg:gap-6 xl:h-full xl:w-[510px] xl:max-w-[510px] xl:shrink-0">
       <div className="h-7 w-24 animate-pulse rounded bg-gray-200" />
       <div className="gap-xs flex min-h-0 flex-1 flex-col overflow-y-auto pr-2">
         {Array.from({ length: 5 }).map((_, index) => (

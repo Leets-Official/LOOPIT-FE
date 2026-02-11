@@ -26,7 +26,7 @@ const ChatPage = () => {
     <div className="w-full bg-white">
       <div className="mx-auto flex w-full max-w-[1440px] flex-col bg-white">
         <main className="md:px-xxxl flex flex-col px-(--margin-l) xl:flex-1 xl:px-0">
-          <section className="mx-auto flex w-full max-w-[1200px] flex-col gap-8 xl:flex-1 xl:flex-row xl:gap-0">
+          <section className="mx-auto flex w-full max-w-[1200px] flex-col gap-8 xl:h-[min(932px,calc(100dvh-120px))] xl:flex-row xl:gap-0">
             <div className={hasSelection ? 'hidden xl:block' : 'block h-fit'}>
               {isRoomsLoading ? (
                 <ChatThreadListSkeleton />

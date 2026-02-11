@@ -41,7 +41,7 @@ export const ChatConversation = ({
     <section
       className={cn(
         'h-[calc(100dvh-120px)] w-full flex-col rounded-[24px] bg-gray-50 px-[22px] py-[22px]',
-        'xl:h-[932px] xl:w-[690px] xl:max-w-[690px] xl:flex-none xl:shrink-0',
+        'xl:h-full xl:w-[690px] xl:max-w-[690px] xl:flex-none xl:shrink-0',
         hasSelection ? 'flex' : 'hidden xl:flex'
       )}
     >
@@ -94,7 +94,7 @@ export const ChatConversation = ({
             })}
           </div>
 
-          <div className="mt-xs xl:mt-xl w-full max-w-[647px] xl:sticky xl:bottom-4">
+          <div className="mt-xs xl:mt-xl w-full max-w-[647px]">
             <ChatInput placeholder="메시지를 입력하세요." onSend={onSend} />
           </div>
         </>

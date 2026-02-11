@@ -11,6 +11,7 @@ import {
 import { useActivePostMutation, useCompletePostMutation, useReservePostMutation } from '@shared/apis/post';
 import { useToast } from '@shared/hooks';
 import { useAuthStore } from '@shared/stores';
+import { AxiosError } from 'axios';
 import { differenceBy } from 'es-toolkit';
 import { useEffect, useReducer, useRef } from 'react';
 import { useSearchParams } from 'react-router';
@@ -87,15 +88,41 @@ export const useChatState = () => {
   const messageListRef = useRef<HTMLDivElement | null>(null);
 
   const { data: rooms = [], refetch: refetchRooms, isLoading: isRoomsLoading } = useChatRoomsQuery();
-  const { data: serverMessages = [], isLoading: isMessagesLoading } = useChatMessagesQuery(selectedRoomId);
+  const {
+    data: serverMessages = [],
+    isLoading: isMessagesLoading,
+    error: messagesError,
+  } = useChatMessagesQuery(selectedRoomId);
 
   // rooms에서 선택된 방 정보 가져오기
   const selectedRoom = rooms.find((r) => r.roomId === selectedRoomId);
   const postId = selectedRoom?.postId ?? null;
   const partnerId = selectedRoom?.partnerId ?? null;
-  const { data: currentRoom, isLoading: isRoomLoading } = useChatRoomQuery(postId, partnerId);
+  const { data: currentRoom, isLoading: isRoomLoading, error: roomError } = useChatRoomQuery(postId, partnerId);
 
   const isLoading = isMessagesLoading || isRoomLoading;
+
+  // 채팅방 조회 에러 처리
+  useEffect(() => {
+    if (roomError) {
+      if (roomError instanceof AxiosError && roomError.response?.data?.message) {
+        showToast(roomError.response.data.message, 'error');
+      } else {
+        showToast('채팅방 정보를 불러오는데 실패했습니다', 'error');
+      }
+    }
+  }, [roomError, showToast]);
+
+  // 메시지 조회 에러 처리
+  useEffect(() => {
+    if (messagesError) {
+      if (messagesError instanceof AxiosError && messagesError.response?.data?.message) {
+        showToast(messagesError.response.data.message, 'error');
+      } else {
+        showToast('메시지를 불러오는데 실패했습니다', 'error');
+      }
+    }
+  }, [messagesError, showToast]);
 
   const messages = [...serverMessages, ...differenceBy(localMessages, serverMessages, (m) => m.messageId)];
 
@@ -232,8 +259,12 @@ export const useChatState = () => {
       dispatch({ type: 'UPDATE_STATUS', roomId, status: newStatus });
     };
 
-    const handleError = () => {
-      showToast('상태 변경에 실패했습니다. 다시 시도해 주세요.', 'error');
+    const handleError = (error: Error) => {
+      if (error instanceof AxiosError && error.response?.data?.message) {
+        showToast(error.response.data.message, 'error');
+      } else {
+        showToast('상태 변경에 실패했습니다. 다시 시도해 주세요.', 'error');
+      }
     };
 
     if (newStatus === '예약중') {
