@@ -25,8 +25,9 @@ describe('구매 플로우', () => {
     });
 
     it('상품 목록이 표시된다', () => {
-      cy.contains('iPhone 15 Pro 256GB').should('be.visible');
-      cy.contains('Galaxy S24 Ultra 512GB').should('be.visible');
+      // Card 컴포넌트의 이미지 로딩이 완료될 때까지 대기
+      cy.contains('iPhone 15 Pro 256GB', { timeout: 10000 }).should('be.visible');
+      cy.contains('Galaxy S24 Ultra 512GB', { timeout: 10000 }).should('be.visible');
     });
 
     it('검색바가 표시된다', () => {
