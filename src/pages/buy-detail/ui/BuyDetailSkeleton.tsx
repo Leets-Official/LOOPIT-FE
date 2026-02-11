@@ -45,10 +45,7 @@ export const BuyDetailSkeleton = () => {
           </div>
 
           {/* 액션 버튼 */}
-          <div className="flex w-full gap-4">
-            <div className="h-12 w-12 animate-pulse rounded-(--radius-l) bg-gray-200" />
-            <div className="h-12 flex-1 animate-pulse rounded-(--radius-l) bg-gray-200" />
-          </div>
+          <div className="h-12 w-full animate-pulse rounded-(--radius-l) bg-gray-200" />
         </div>
       </div>
     </main>
