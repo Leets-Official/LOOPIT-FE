@@ -11,8 +11,10 @@ export type CardProps = ComponentPropsWithoutRef<'div'> &
     date: string;
   };
 
+const isDataUrl = (url: string) => url.startsWith('data:');
+
 export const Card = ({ image, title, price, date, variant, className, ...props }: CardProps) => {
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(() => isDataUrl(image));
 
   const {
     root,
