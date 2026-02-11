@@ -1,6 +1,13 @@
 import { Card } from '@shared/ui/Card/Card';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+
+const triggerImageLoad = () => {
+  const hiddenImage = document.querySelector('img.hidden');
+  if (hiddenImage) {
+    fireEvent.load(hiddenImage);
+  }
+};
 
 describe('Card', () => {
   const defaultProps = {
@@ -13,6 +20,7 @@ describe('Card', () => {
   describe('Rendering', () => {
     it('기본 렌더링', () => {
       render(<Card {...defaultProps} />);
+      triggerImageLoad();
 
       expect(screen.getByText('테스트 상품')).toBeInTheDocument();
       expect(screen.getByText('10,000원')).toBeInTheDocument();
@@ -21,6 +29,7 @@ describe('Card', () => {
 
     it('이미지 렌더링', () => {
       render(<Card {...defaultProps} />);
+      triggerImageLoad();
 
       const image = screen.getByRole('img');
       expect(image).toHaveAttribute('src', '/test-image.png');
@@ -28,9 +37,26 @@ describe('Card', () => {
 
     it('이미지 alt 속성에 title 사용', () => {
       render(<Card {...defaultProps} />);
+      triggerImageLoad();
 
       const image = screen.getByRole('img');
       expect(image).toHaveAttribute('alt', '테스트 상품');
+    });
+  });
+
+  describe('Loading State', () => {
+    it('이미지 로딩 전 스켈레톤 표시', () => {
+      const { container } = render(<Card {...defaultProps} />);
+
+      const skeleton = container.querySelector('.animate-pulse');
+      expect(skeleton).toBeInTheDocument();
+    });
+
+    it('이미지 로딩 후 콘텐츠 표시', () => {
+      render(<Card {...defaultProps} />);
+      triggerImageLoad();
+
+      expect(screen.getByText('테스트 상품')).toBeInTheDocument();
     });
   });
 
@@ -38,6 +64,7 @@ describe('Card', () => {
     it('긴 제목 렌더링', () => {
       const longTitle = 'Title 인데 제목이 정말 길 경우에는 두줄 까지만 보이고, 뒤엔 점 처리';
       render(<Card {...defaultProps} title={longTitle} />);
+      triggerImageLoad();
 
       expect(screen.getByText(longTitle)).toBeInTheDocument();
     });
@@ -46,15 +73,17 @@ describe('Card', () => {
   describe('Variants', () => {
     it('default variant 적용 (기본값)', () => {
       const { container } = render(<Card {...defaultProps} />);
+      triggerImageLoad();
 
-      const card = container.firstChild;
+      const card = container.querySelector('div[class*="cursor-pointer"]');
       expect(card).toHaveClass('w-full', 'h-auto', 'lg:w-[180px]', 'lg:h-[299px]');
     });
 
     it('seller variant 적용', () => {
       const { container } = render(<Card {...defaultProps} variant="seller" />);
+      triggerImageLoad();
 
-      const card = container.firstChild;
+      const card = container.querySelector('div[class*="cursor-pointer"]');
       expect(card).toHaveClass('w-[282px]', 'h-[399px]');
     });
   });
@@ -62,13 +91,15 @@ describe('Card', () => {
   describe('Additional Props', () => {
     it('className prop 적용', () => {
       const { container } = render(<Card {...defaultProps} className="custom-class" />);
+      triggerImageLoad();
 
-      const card = container.firstChild;
+      const card = container.querySelector('div[class*="cursor-pointer"]');
       expect(card).toHaveClass('custom-class');
     });
 
     it('추가 HTML 속성 적용', () => {
       render(<Card {...defaultProps} data-testid="custom-card" />);
+      triggerImageLoad();
 
       expect(screen.getByTestId('custom-card')).toBeInTheDocument();
     });
@@ -77,6 +108,7 @@ describe('Card', () => {
       const user = userEvent.setup();
       const handleClick = vi.fn();
       render(<Card {...defaultProps} onClick={handleClick} />);
+      triggerImageLoad();
 
       const card = screen.getByText('테스트 상품').closest('div[class*="cursor-pointer"]') as HTMLElement;
       await user.click(card);
