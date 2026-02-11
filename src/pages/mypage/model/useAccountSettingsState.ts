@@ -1,14 +1,14 @@
 import { useLogoutMutation } from '@shared/apis/auth';
 import { uploadImages } from '@shared/apis/image';
 import { useMyPageProfileQuery } from '@shared/apis/mypage';
-import { useUpdateUserImageMutation, useUserInfo } from '@shared/apis/user';
+import { useAuth, useUpdateUserImageMutation } from '@shared/apis/user';
 import { useToast } from '@shared/hooks';
 import { useEffect, useRef, useState } from 'react';
 
 export const useAccountSettingsState = () => {
   const { showToast } = useToast();
   const { data: profileData, isPending: isProfileLoading } = useMyPageProfileQuery();
-  const { data: userData, isPending: isUserLoading } = useUserInfo();
+  const { user: userData, isLoading: isUserLoading, errorMessage: userErrorMessage } = useAuth();
   const updateImageMutation = useUpdateUserImageMutation();
   const logoutMutation = useLogoutMutation();
 
@@ -26,6 +26,12 @@ export const useAccountSettingsState = () => {
       setProfileImage(profileData.profileImageUrl);
     }
   }, [profileData?.profileImageUrl]);
+
+  useEffect(() => {
+    if (userErrorMessage) {
+      showToast(userErrorMessage, 'error');
+    }
+  }, [userErrorMessage, showToast]);
 
   const handleProfileClick = () => {
     fileInputRef.current?.click();
