@@ -13,7 +13,9 @@ export const postKeys = {
       params?.priceRange ?? '',
       params?.keyword ?? '',
     ] as const,
-  detail: (id?: string | number) => [...postKeys.all, 'detail', id] as const,
+  detailBase: (id?: string | number) => [...postKeys.all, 'detail', id] as const,
+  detail: (id?: string | number, isAuthenticated?: boolean) =>
+    [...postKeys.all, 'detail', id, isAuthenticated ?? false] as const,
 
   // 검색 자동완성
   buyAutocomplete: (keyword: string) => [...postKeys.all, 'buyAutocomplete', keyword] as const,
