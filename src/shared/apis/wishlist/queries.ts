@@ -1,6 +1,8 @@
 import { postKeys } from '@shared/apis/post';
+import { useToast } from '@shared/hooks';
 import { useAuthStore } from '@shared/stores';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import { checkShopWishlist, getWishlistPosts, getWishlistShops, togglePostWishlist, toggleShopWishlist } from './api';
 import { wishlistKeys } from './keys';
 import type { ShopWishlistStatus, ToggleShopWishlistRequest, WishlistPostItem, WishlistShopItem } from './types';
@@ -32,6 +34,7 @@ export const useCheckShopWishlistQuery = (shopNames: string[]) => {
 
 export const useToggleShopWishlistMutation = () => {
   const queryClient = useQueryClient();
+  const { showToast } = useToast();
 
   return useMutation({
     mutationFn: (request: ToggleShopWishlistRequest) => toggleShopWishlist(request),
@@ -53,11 +56,16 @@ export const useToggleShopWishlistMutation = () => {
 
       return { previousQueries };
     },
-    onError: (_error, _variables, context) => {
+    onError: (error, _, context) => {
       if (context?.previousQueries) {
         context.previousQueries.forEach(([queryKey, data]) => {
           queryClient.setQueryData(queryKey, data);
         });
+      }
+      if (error instanceof AxiosError && error.response?.data?.message) {
+        showToast(error.response.data.message, 'error');
+      } else {
+        showToast('찜하기에 실패했습니다', 'error');
       }
     },
     onSettled: () => {
@@ -80,6 +88,7 @@ export const useWishlistPostListQuery = () => {
 
 export const useTogglePostWishlistMutation = () => {
   const queryClient = useQueryClient();
+  const { showToast } = useToast();
   const isAuthenticated = Boolean(useAuthStore.getState().accessToken);
 
   return useMutation({
@@ -93,9 +102,14 @@ export const useTogglePostWishlistMutation = () => {
 
       return { previous, postId };
     },
-    onError: (_, __, context) => {
+    onError: (error, _, context) => {
       if (context?.previous) {
         queryClient.setQueryData(postKeys.detail(context.postId, isAuthenticated), context.previous);
+      }
+      if (error instanceof AxiosError && error.response?.data?.message) {
+        showToast(error.response.data.message, 'error');
+      } else {
+        showToast('찜하기에 실패했습니다', 'error');
       }
     },
     onSettled: (_, __, postId) => {
