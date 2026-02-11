@@ -83,7 +83,7 @@ export const ProductImageSection = ({ postId, images, title, seller }: ProductIm
               <button
                 type="button"
                 onClick={goToPrevious}
-                className="absolute top-1/2 left-4 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-gray-700 opacity-0 shadow-md transition-opacity group-hover:opacity-100"
+                className="absolute top-1/2 left-4 flex h-10 w-10 -translate-y-1/2 items-center justify-center text-white opacity-0 transition-opacity group-hover:opacity-100"
                 aria-label="이전 이미지"
               >
                 <ChevronLeftIcon className="h-6 w-6" />
@@ -93,7 +93,7 @@ export const ProductImageSection = ({ postId, images, title, seller }: ProductIm
               <button
                 type="button"
                 onClick={goToNext}
-                className="absolute top-1/2 right-4 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-gray-700 opacity-0 shadow-md transition-opacity group-hover:opacity-100"
+                className="absolute top-1/2 right-4 flex h-10 w-10 -translate-y-1/2 items-center justify-center text-white opacity-0 transition-opacity group-hover:opacity-100"
                 aria-label="다음 이미지"
               >
                 <ChevronRightIcon className="h-6 w-6" />
