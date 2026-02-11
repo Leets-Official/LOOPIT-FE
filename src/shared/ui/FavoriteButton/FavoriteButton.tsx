@@ -4,6 +4,7 @@ import { useEffect, useState, type ComponentPropsWithoutRef } from 'react';
 import { favoriteButtonVariants } from './FavoriteButton.variants';
 
 export interface FavoriteButtonProps {
+  active?: boolean;
   defaultActive?: boolean;
   onToggle?: (isActive: boolean) => void;
   ariaLabel?: string;
@@ -12,24 +13,31 @@ export interface FavoriteButtonProps {
 }
 
 export const FavoriteButton = ({
+  active,
   defaultActive = false,
   onToggle,
   ariaLabel = '찜',
   variant = 'default',
   onClick,
 }: FavoriteButtonProps) => {
-  const [isActive, setActive] = useState<boolean>(defaultActive);
+  const isControlled = active !== undefined;
+  const [internalActive, setInternalActive] = useState<boolean>(defaultActive);
+  const isActive = isControlled ? active : internalActive;
 
   useEffect(() => {
-    setActive(defaultActive);
-  }, [defaultActive]);
+    if (!isControlled) {
+      setInternalActive(defaultActive);
+    }
+  }, [defaultActive, isControlled]);
 
   const styles = favoriteButtonVariants({ variant });
 
   const handleClick: ComponentPropsWithoutRef<'button'>['onClick'] = (event) => {
     onClick?.(event);
     const nextActive = !isActive;
-    setActive(nextActive);
+    if (!isControlled) {
+      setInternalActive(nextActive);
+    }
     onToggle?.(nextActive);
   };
 
