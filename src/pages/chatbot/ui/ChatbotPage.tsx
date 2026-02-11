@@ -21,7 +21,7 @@ const ChatbotPage = () => {
     <div className="w-full bg-white">
       <div className="mx-auto flex min-h-screen w-full max-w-[1440px] flex-col bg-white xl:min-h-[1024px]">
         <main className="md:px-xxxl flex flex-1 flex-col px-(--margin-l) xl:px-0">
-          <section className="mx-auto flex w-full max-w-full flex-1 flex-col items-start gap-[36px] self-stretch xl:max-w-[1200px]">
+          <section className="mx-auto flex w-full max-w-full flex-1 flex-col items-start gap-[100px] self-stretch xl:max-w-[1200px]">
             <div className="gap-m md:gap-xl flex items-center xl:gap-[36px]">
               <div className="gap-xxs pt-xl pr-xxs pb-xl flex h-[64px] w-[64px] shrink-0 flex-col items-center justify-center rounded-full bg-black pl-[14px] md:h-[72px] md:w-[72px] md:pt-[26px] md:pr-[11px] md:pb-[28px] md:pl-[15px] xl:h-[80px] xl:w-[80px] xl:pt-[31px] xl:pr-[13px] xl:pb-[33px] xl:pl-[17px]">
                 <Logo4 className="h-[80px] w-[80px] shrink-0" aria-hidden="true" />
