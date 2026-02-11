@@ -1,7 +1,7 @@
-import type { CreateSellPostRequest } from '@shared/apis/sell';
+import type { CreatePostRequest } from '@shared/apis/post';
 import type { SellFormData } from '@shared/utils/schemas';
 
-export const buildSellPostRequest = (form: SellFormData, imageUrls: string[]): CreateSellPostRequest => ({
+export const buildSellPostRequest = (form: SellFormData, imageUrls: string[]): CreatePostRequest => ({
   title: form.title,
   manufacturer: form.manufacturer,
   model: form.modelName,

@@ -8,8 +8,12 @@ import type {
   ChatHistoryResponseBody,
 } from './types';
 
+const CHATBOT_TIMEOUT = 20000;
+
 export const postSendMessage = async (request: SendMessageRequest): Promise<SendMessageData> => {
-  const response = await axiosInstance.post<SendMessageResponseBody>(CHATBOT_ENDPOINTS.SEND, request);
+  const response = await axiosInstance.post<SendMessageResponseBody>(CHATBOT_ENDPOINTS.SEND, request, {
+    timeout: CHATBOT_TIMEOUT,
+  });
   return response.data.data;
 };
 

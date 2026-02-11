@@ -1,23 +1,25 @@
 import { ROUTES } from '@shared/constants';
-import { useAuthStore } from '@shared/stores';
+import { useAuthStore, useUIStore } from '@shared/stores';
 import { BannerCard } from '@shared/ui/BannerCard';
 import { Carousel3D } from '@shared/ui/Carousel3D';
-import { ChatbotFloatingButton } from '@shared/ui/ChatbotFloatingButton';
 import { ClientOnly } from '@shared/ui/ClientOnly';
-import { Modal } from '@shared/ui/Modal';
-import { useState } from 'react';
+import { lazy, Suspense } from 'react';
 import { useNavigate } from 'react-router';
 import { BANNER_CARDS } from './BannerCards';
 import { createCarouselSlides } from './CarouselSlides';
 
+const ChatbotFloatingButton = lazy(() =>
+  import('@shared/ui/ChatbotFloatingButton').then((m) => ({ default: m.ChatbotFloatingButton }))
+);
+
 const MainPage = () => {
   const navigate = useNavigate();
   const { accessToken } = useAuthStore();
-  const [showLoginModal, setShowLoginModal] = useState(false);
+  const { openLoginModal } = useUIStore();
 
   const handleProtectedClick = () => {
     if (!accessToken) {
-      setShowLoginModal(true);
+      openLoginModal();
       return false;
     }
     return true;
@@ -27,7 +29,7 @@ const MainPage = () => {
 
   const handleChatbotClick = () => {
     if (!accessToken) {
-      setShowLoginModal(true);
+      openLoginModal();
       return;
     }
     navigate(ROUTES.CHATBOT, { viewTransition: true });
@@ -58,24 +60,12 @@ const MainPage = () => {
         ))}
       </section>
 
-      <ChatbotFloatingButton
-        className="fixed right-[calc(1rem+var(--scrollbar-width))] bottom-4"
-        onClick={handleChatbotClick}
-      />
-
-      {showLoginModal && (
-        <Modal
-          title="로그인이 필요합니다"
-          subtitle="로그인 페이지로 이동하시겠습니까?"
-          cancelText="취소"
-          confirmText="로그인"
-          onCancel={() => setShowLoginModal(false)}
-          onConfirm={() => {
-            setShowLoginModal(false);
-            navigate(ROUTES.LOGIN, { viewTransition: true });
-          }}
+      <Suspense fallback={null}>
+        <ChatbotFloatingButton
+          className="fixed right-[calc(1rem+var(--scrollbar-width))] bottom-4"
+          onClick={handleChatbotClick}
         />
-      )}
+      </Suspense>
     </main>
   );
 };

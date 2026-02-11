@@ -1,6 +1,6 @@
 import { useBuyFilter } from '@pages/buy/model/useBuyFilter';
 import { BuyFilter } from '@pages/buy/ui/BuyFilter';
-import { useBuyAutocompleteQuery } from '@shared/apis/buy';
+import { useBuyAutocompleteQuery } from '@shared/apis/post';
 import { CloseIcon } from '@shared/assets/icons';
 import { ROUTES } from '@shared/constants';
 import { useDebounce } from '@shared/hooks';
@@ -8,7 +8,7 @@ import { Card, CardSkeleton } from '@shared/ui/Card';
 import { EmptyState } from '@shared/ui/EmptyState';
 import { SearchBar } from '@shared/ui/SearchBar';
 import { cn } from '@shared/utils/cn';
-import { type KeyboardEvent, useMemo, useState } from 'react';
+import { type KeyboardEvent, useState } from 'react';
 import { Link } from 'react-router';
 import { MANUFACTURERS, MODELS, PRICE_RANGES } from '../model/filters';
 
@@ -42,6 +42,7 @@ const BuyPage = () => {
     isLoading,
     isError,
     observerRef,
+    isFetchingNextPage,
   } = useBuyFilter();
 
   const [isSearchFocused, setIsSearchFocused] = useState(false);
@@ -51,13 +52,10 @@ const BuyPage = () => {
 
   const { data: suggestions = [] } = useBuyAutocompleteQuery(debouncedQuery);
 
-  const filteredSuggestions = useMemo(() => {
-    const normalized = debouncedQuery.trim();
-    if (!normalized) {
-      return [];
-    }
-    return suggestions.filter((item) => item.toLowerCase().includes(normalized.toLowerCase()));
-  }, [debouncedQuery, suggestions]);
+  const normalizedQuery = debouncedQuery.trim();
+  const filteredSuggestions = normalizedQuery
+    ? suggestions.filter((item) => item.toLowerCase().includes(normalizedQuery.toLowerCase()))
+    : [];
 
   const showSuggestions = isSearchFocused && filteredSuggestions.length > 0 && !hasSelected;
 
@@ -158,24 +156,28 @@ const BuyPage = () => {
 
           {isError ? (
             <EmptyState message="상품 목록을 불러오지 못했어요." className="min-h-[400px] lg:min-h-[992px]" />
+          ) : isLoading ? (
+            <div className="flex min-h-[400px] w-full items-center justify-center lg:min-h-[992px]">
+              <div className="border-brand-primary h-10 w-10 animate-spin rounded-full border-4 border-t-transparent" />
+            </div>
           ) : showEmpty ? (
             <EmptyState message="관련된 상품이 없어요." className="min-h-[400px] flex-1 lg:min-h-[992px]" />
           ) : (
             <>
               <div className="lg:gap-xl grid w-full grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 md:grid-cols-4 md:gap-6 lg:grid-cols-5">
-                {isLoading
-                  ? Array.from({ length: 10 }).map((_, index) => <CardSkeleton key={index} />)
-                  : filteredItems.map((item) => (
-                      <Link key={item.id} to={`${ROUTES.BUY}/${item.id}`} className="block focus-visible:outline-none">
-                        <Card
-                          image={item.image}
-                          title={item.title}
-                          price={item.priceLabel}
-                          date={item.dateLabel}
-                          className={cn(!item.available && 'opacity-50')}
-                        />
-                      </Link>
-                    ))}
+                {filteredItems.map((item) => (
+                  <Link key={item.id} to={`${ROUTES.BUY}/${item.id}`} className="block focus-visible:outline-none">
+                    <Card
+                      image={item.image}
+                      title={item.title}
+                      price={item.priceLabel}
+                      date={item.dateLabel}
+                      className={cn(!item.available && 'opacity-50')}
+                    />
+                  </Link>
+                ))}
+                {isFetchingNextPage &&
+                  Array.from({ length: 5 }).map((_, index) => <CardSkeleton key={`skeleton-${index}`} />)}
               </div>
               <div ref={observerRef} className="h-10 w-full" />
             </>

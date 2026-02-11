@@ -1,11 +1,13 @@
 import { ChatBubble } from '@shared/ui/ChatBubble';
+import { TypingBotMessage } from './TypingBotMessage';
 import type { ChatMessage } from '../model/types';
 
 type ChatMessageListProps = {
   messages: ChatMessage[];
+  onTypingComplete?: () => void;
 };
 
-export const ChatMessageList = ({ messages }: ChatMessageListProps) => {
+export const ChatMessageList = ({ messages, onTypingComplete }: ChatMessageListProps) => {
   if (messages.length === 0) {
     return null;
   }
@@ -23,6 +25,8 @@ export const ChatMessageList = ({ messages }: ChatMessageListProps) => {
                   <span className="h-[6px] w-[6px] animate-bounce rounded-full bg-gray-400 [animation-delay:-0.1s]" />
                   <span className="h-[6px] w-[6px] animate-bounce rounded-full bg-gray-400" />
                 </div>
+              ) : message.status === 'typing' && onTypingComplete ? (
+                <TypingBotMessage content={message.content} onComplete={onTypingComplete} />
               ) : (
                 <ChatBubble message={message.content} variant="chatbotNotice" />
               )}

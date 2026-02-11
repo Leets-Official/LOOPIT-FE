@@ -1,22 +1,14 @@
 import type { CommonTabItem } from '@pages/mypage/ui/CommonTabs';
-import type { TradeListItem } from '@pages/mypage/ui/TradeItemList';
+import type { BuyHistoryQueryStatus, SellHistoryQueryStatus } from '@shared/apis/mypage';
 
 export type MainTabId = 'buy' | 'sell' | 'favorite';
 
-export type StatusFilter = 'all' | 'buying' | 'completed';
+export type BuyStatusFilter = BuyHistoryQueryStatus;
+export type SellStatusFilter = SellHistoryQueryStatus;
 
 export type FavoriteCategory = 'product' | 'repair';
 
-export type StatusTabLabels = {
-  buying: string;
-  completed: string;
-};
-
-export type CreateStatusTabsParams = {
-  items: TradeListItem[];
-  labels: StatusTabLabels;
-};
-
-export type StatusTabs = Array<CommonTabItem<StatusFilter>>;
+export type BuyStatusTabs = Array<CommonTabItem<BuyStatusFilter>>;
+export type SellStatusTabs = Array<CommonTabItem<SellStatusFilter>>;
 
 export type FavoriteTabs = Array<CommonTabItem<FavoriteCategory>>;

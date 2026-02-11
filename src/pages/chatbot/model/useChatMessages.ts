@@ -1,5 +1,6 @@
 import { useChatHistoryQuery, useSendMessageMutation } from '@shared/apis/chatbot';
 import { AxiosError } from 'axios';
+import { useCallback, useState } from 'react';
 import { ERROR_MESSAGES, INITIAL_BOT_MESSAGE } from './constants';
 import type { ChatMessage } from './types';
 
@@ -28,6 +29,7 @@ const getErrorMessage = (error: unknown): string => {
 export const useChatMessages = () => {
   const { data: history, isLoading: isHistoryLoading } = useChatHistoryQuery();
   const sendMutation = useSendMessageMutation();
+  const [typingMessageId, setTypingMessageId] = useState<string | null>(null);
 
   const messages: ChatMessage[] = (() => {
     const initialMessage: ChatMessage = {
@@ -41,12 +43,16 @@ export const useChatMessages = () => {
       return [initialMessage];
     }
 
-    const historyMessages = history.map((item, index) => ({
-      id: `history-${index}`,
-      role: item.role === 'User' ? ('user' as const) : ('bot' as const),
-      content: item.message,
-      status: 'done' as const,
-    }));
+    const historyMessages = history.map((item, index) => {
+      const id = `history-${index}`;
+      const isTyping = id === typingMessageId;
+      return {
+        id,
+        role: item.role === 'User' ? ('user' as const) : ('bot' as const),
+        content: item.message,
+        status: isTyping ? ('typing' as const) : ('done' as const),
+      };
+    });
 
     return [initialMessage, ...historyMessages];
   })();
@@ -79,8 +85,17 @@ export const useChatMessages = () => {
       return;
     }
 
-    sendMutation.mutate(trimmed);
+    sendMutation.mutate(trimmed, {
+      onSuccess: () => {
+        const newMessageId = `history-${(history?.length ?? 0) + 1}`;
+        setTypingMessageId(newMessageId);
+      },
+    });
   };
+
+  const handleTypingComplete = useCallback(() => {
+    setTypingMessageId(null);
+  }, []);
 
   const errorMessage = sendMutation.isError ? getErrorMessage(sendMutation.error) : null;
 
@@ -89,5 +104,6 @@ export const useChatMessages = () => {
     isHistoryLoading,
     errorMessage,
     handleSend,
+    handleTypingComplete,
   };
 };

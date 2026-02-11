@@ -1,4 +1,5 @@
 import { Profile } from '@shared/ui/Profile';
+import { formatDateLabel } from '@shared/utils';
 import { cn } from '@shared/utils/cn';
 import type { ChatRoomListItem } from '@shared/apis/chat';
 
@@ -8,17 +9,9 @@ type ChatThreadListProps = {
   onSelect: (roomId: number) => void;
 };
 
-const formatDateLabel = (dateString: string | null) => {
-  if (!dateString) {
-    return '';
-  }
-  const date = new Date(dateString);
-  return `${date.getFullYear()}년 ${String(date.getMonth() + 1).padStart(2, '0')}월 ${String(date.getDate()).padStart(2, '0')}일`;
-};
-
 export const ChatThreadList = ({ rooms, selectedRoomId, onSelect }: ChatThreadListProps) => {
   return (
-    <aside className="xl:px-xxs flex w-full flex-col gap-4 lg:gap-6 xl:h-[932px] xl:w-[510px] xl:max-w-[510px] xl:shrink-0">
+    <aside className="xl:px-xxs flex w-full flex-col gap-4 lg:gap-6 xl:h-full xl:w-[510px] xl:max-w-[510px] xl:shrink-0">
       <h1 className="typo-title-2 text-gray-900">대화목록</h1>
       <div className="gap-xs flex min-h-0 flex-1 flex-col overflow-y-auto pr-2">
         {rooms.map((room) => {

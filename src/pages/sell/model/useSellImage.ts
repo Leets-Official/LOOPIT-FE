@@ -1,4 +1,4 @@
-import { validateImageFile } from '@shared/utils';
+import { generateUniqueId, validateImageFile } from '@shared/utils';
 import { MAX_IMAGE_BYTES, MAX_IMAGE_COUNT, type SellFormData } from '@shared/utils/schemas';
 import { useState } from 'react';
 import type { ToastTone } from '@shared/ui/Toast';
@@ -6,7 +6,7 @@ import type { UseFormSetError, UseFormSetValue } from 'react-hook-form';
 
 type ImageItem = {
   id: string;
-  file: File;
+  file: File | null;
   previewUrl: string;
 };
 
@@ -46,7 +46,7 @@ export const useSellImage = ({ showToast, setError, setValue }: UseSellImagePara
       }
 
       validFiles.push({
-        id: `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
+        id: generateUniqueId(),
         file,
         previewUrl: URL.createObjectURL(file),
       });
@@ -85,11 +85,10 @@ export const useSellImage = ({ showToast, setError, setValue }: UseSellImagePara
 
   const setExistingImages = (urls: string[]) => {
     // 수정 모드에서 기존 이미지 URL을 설정할 때 사용
-    // 실제 File 객체가 없으므로 프리뷰용으로만 사용
     setImages(
       urls.map((url) => ({
         id: `existing-${Math.random().toString(36).slice(2, 9)}`,
-        file: null as unknown as File,
+        file: null,
         previewUrl: url,
       }))
     );

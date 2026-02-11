@@ -19,18 +19,27 @@ describe('TradeItem', () => {
       expect(screen.getByText('2026.01.22')).toBeInTheDocument();
     });
 
-    it('기본 상태는 구매중', () => {
+    it('기본 상태는 판매중 (active)', () => {
       render(<TradeItem {...defaultProps} />);
 
-      expect(screen.getByText('구매중')).toBeInTheDocument();
+      expect(screen.getByText('판매중')).toBeInTheDocument();
     });
 
     it('상태별 텍스트 렌더링', () => {
-      const { rerender } = render(<TradeItem {...defaultProps} status="buying" />);
-      expect(screen.getByText('구매중')).toBeInTheDocument();
+      const { rerender } = render(<TradeItem {...defaultProps} status="active" />);
+      expect(screen.getByText('판매중')).toBeInTheDocument();
+
+      rerender(<TradeItem {...defaultProps} status="reserved" />);
+      expect(screen.getByText('예약중')).toBeInTheDocument();
 
       rerender(<TradeItem {...defaultProps} status="completed" />);
-      expect(screen.getByText('구매완료')).toBeInTheDocument();
+      expect(screen.getByText('판매완료')).toBeInTheDocument();
+    });
+
+    it('statusLabel로 커스텀 라벨 표시', () => {
+      render(<TradeItem {...defaultProps} status="active" statusLabel="구매중" />);
+
+      expect(screen.getByText('구매중')).toBeInTheDocument();
     });
 
     it('이미지 URL이 있을 때 img 렌더링', () => {

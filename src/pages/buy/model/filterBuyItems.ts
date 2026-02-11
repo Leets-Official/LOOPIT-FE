@@ -1,5 +1,5 @@
 import { MODELS, PRICE_RANGES } from './filters';
-import type { BuyItem } from '@shared/types/buy';
+import type { BuyItem } from '@shared/types/post';
 
 type FilterParams = {
   items: BuyItem[];

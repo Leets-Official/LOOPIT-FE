@@ -1,9 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { uploadImages } from '@shared/apis/image';
-import { useCreateSellPostMutation, useSellAutocompleteQuery, useUpdateSellPostMutation } from '@shared/apis/sell';
+import { useCreatePostMutation, useSellAutocompleteQuery, useUpdatePostMutation } from '@shared/apis/post';
 import { ROUTES } from '@shared/constants';
 import { useClickOutside, useDebounce, useScrollToError, useToast } from '@shared/hooks';
 import { sellSchema, type SellFormData } from '@shared/utils/schemas';
+import { AxiosError } from 'axios';
+import { isEmpty } from 'es-toolkit/compat';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router';
@@ -16,11 +18,11 @@ export const useSellForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { showToast } = useToast();
-  const createSellPostMutation = useCreateSellPostMutation();
+  const createSellPostMutation = useCreatePostMutation();
   const locationState = useMemo(() => (location.state ?? {}) as SellState, [location.state]);
   const editPostId = locationState.postId ?? null;
   const existingImageUrls = locationState.imageUrls ?? (locationState.imageUrl ? [locationState.imageUrl] : []);
-  const updateSellPostMutation = useUpdateSellPostMutation(editPostId ?? '');
+  const updateSellPostMutation = useUpdatePostMutation(editPostId ?? '');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const isEditMode = Boolean(editPostId);
   const { scrollToFirstError } = useScrollToError<SellFormData>([
@@ -107,7 +109,7 @@ export const useSellForm = () => {
     if (hasInitialized.current) {
       return;
     }
-    if (Object.keys(locationState).length === 0) {
+    if (isEmpty(locationState)) {
       return;
     }
     reset(mapSellDraftToForm(locationState));
@@ -158,8 +160,12 @@ export const useSellForm = () => {
         showToast('등록되었습니다', 'success');
         navigate(`${ROUTES.BUY}/${created.id}`);
       }
-    } catch {
-      showToast('오류가 발생했습니다. 다시 시도해 주세요.', 'error');
+    } catch (error) {
+      if (error instanceof AxiosError && error.response?.data?.message) {
+        showToast(error.response.data.message, 'error');
+      } else {
+        showToast('오류가 발생했습니다. 다시 시도해 주세요.', 'error');
+      }
     } finally {
       setIsSubmitting(false);
     }

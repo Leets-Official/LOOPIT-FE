@@ -36,10 +36,10 @@ describe('Profile', () => {
       expect(root).toHaveClass('w-[44px]', 'h-[44px]');
     });
 
-    it('size="lg" 적용', () => {
+    it('size="lg" 적용 (반응형)', () => {
       const { container } = render(<Profile size="lg" />);
       const root = container.firstChild as HTMLElement;
-      expect(root).toHaveClass('w-[180px]', 'h-[180px]');
+      expect(root).toHaveClass('w-[100px]', 'h-[100px]', 'md:w-[180px]', 'md:h-[180px]');
     });
   });
 

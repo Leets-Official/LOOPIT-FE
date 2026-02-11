@@ -16,7 +16,7 @@ export const ContactActions = ({ liked, onContact, onToggleFavorite }: BuyerActi
       >
         판매자와 연락하기
       </Button>
-      <FavoriteButton ariaLabel="찜하기" defaultActive={liked} onToggle={onToggleFavorite} />
+      <FavoriteButton ariaLabel="찜하기" active={liked} onToggle={onToggleFavorite} />
     </div>
   );
 };

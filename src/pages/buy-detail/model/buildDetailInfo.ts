@@ -1,5 +1,5 @@
 import { BATTERY_OPTIONS, PRODUCT_CONDITION_OPTIONS, SCRATCH_OPTIONS, SCREEN_OPTIONS } from '@shared/constants';
-import type { BuyItem } from '@shared/types/buy';
+import type { BuyItem } from '@shared/types/post';
 
 export const buildDetailInfo = (item: BuyItem) => {
   const conditionLabel =

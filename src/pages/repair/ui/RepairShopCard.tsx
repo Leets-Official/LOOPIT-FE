@@ -70,7 +70,7 @@ export const RepairShopCard = ({
 
       <div className="flex w-full items-center justify-between gap-4 md:w-auto md:gap-[31px]">
         <FavoriteButton
-          defaultActive={favoriteActive}
+          active={favoriteActive}
           variant="inverse"
           onClick={(e) => e.stopPropagation()}
           onToggle={onFavoriteToggle}

@@ -20,6 +20,7 @@ export * from './Profile';
 export * from './RadioButton';
 export * from './RepairList';
 export * from './SearchBar';
+export * from './ShopCard';
 export * from './TextField';
 export * from './Toast';
 export * from './TradeItem';

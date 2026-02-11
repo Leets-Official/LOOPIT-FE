@@ -2,9 +2,9 @@ import { CaretDownMdIcon } from '@shared/assets/icons';
 import { useClickOutside, useModal } from '@shared/hooks';
 import { FavoriteButton } from '@shared/ui/FavoriteButton/FavoriteButton';
 import { cn } from '@shared/utils/cn';
-import { useId, useRef } from 'react';
+import { useId, useRef, useState } from 'react';
 
-export type TradeStatus = 'buying' | 'completed' | 'favorite';
+export type TradeStatus = 'active' | 'reserved' | 'completed' | 'favorite';
 type NonFavoriteStatus = Exclude<TradeStatus, 'favorite'>;
 type StatusOption = { value: NonFavoriteStatus; label: string };
 
@@ -23,12 +23,16 @@ export interface TradeItemProps {
 }
 
 const statusConfigByStatus: Record<NonFavoriteStatus, { text: string; className: string }> = {
-  buying: {
-    text: '구매중',
+  active: {
+    text: '판매중',
+    className: 'typo-title-3 text-green-500',
+  },
+  reserved: {
+    text: '예약중',
     className: 'typo-title-3 text-green-500',
   },
   completed: {
-    text: '구매완료',
+    text: '판매완료',
     className: 'typo-title-3 text-gray-400',
   },
 } as const;
@@ -38,7 +42,7 @@ export const TradeItem = ({
   modelName,
   price,
   date,
-  status = 'buying',
+  status = 'active',
   statusLabel,
   statusEditable = false,
   statusOptions,
@@ -48,13 +52,15 @@ export const TradeItem = ({
 }: TradeItemProps) => {
   const dropdownId = useId();
   const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
   const { isOpen, toggle, close } = useModal();
   useClickOutside(dropdownRef, isOpen, close);
   const statusConfig = status === 'favorite' ? null : statusConfigByStatus[status];
   const resolvedStatusLabel = statusLabel ?? statusConfig?.text;
   const options = statusOptions ?? [
-    { value: 'buying', label: '구매중' },
-    { value: 'completed', label: '구매완료' },
+    { value: 'active', label: '판매중' },
+    { value: 'reserved', label: '예약중' },
+    { value: 'completed', label: '판매완료' },
   ];
   const statusToneClass = status === 'completed' ? 'text-gray-400' : 'text-brand-primary';
 
@@ -63,11 +69,19 @@ export const TradeItem = ({
       <div className="flex w-full items-center justify-between">
         <div className="flex items-center gap-4 md:gap-[36px]">
           {imageUrl ? (
-            <img
-              src={imageUrl}
-              alt={modelName}
-              className="rounded-m h-16 w-16 shrink-0 object-cover md:h-[79px] md:w-[79px]"
-            />
+            <div className="rounded-m relative h-16 w-16 shrink-0 md:h-[79px] md:w-[79px]">
+              {!isImageLoaded && <div className="absolute inset-0 animate-pulse rounded-[inherit] bg-gray-200" />}
+              <img
+                src={imageUrl}
+                alt={modelName}
+                loading="lazy"
+                onLoad={() => setIsImageLoaded(true)}
+                className={cn(
+                  'rounded-m h-full w-full object-cover transition-opacity duration-300',
+                  isImageLoaded ? 'opacity-100' : 'opacity-0'
+                )}
+              />
+            </div>
           ) : (
             <div
               role="img"

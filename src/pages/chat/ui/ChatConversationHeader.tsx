@@ -1,18 +1,10 @@
+import { formatDate, formatPrice } from '@shared/utils';
 import type { ChatRoomData } from '@shared/apis/chat';
 import type { ReactNode } from 'react';
 
 type ChatConversationHeaderProps = {
   room: ChatRoomData;
   statusDropdown: ReactNode;
-};
-
-const formatPrice = (price: number) => {
-  return `${price.toLocaleString()}원`;
-};
-
-const formatDate = (dateString: string) => {
-  const date = new Date(dateString);
-  return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
 };
 
 export const ChatConversationHeader = ({ room, statusDropdown }: ChatConversationHeaderProps) => {

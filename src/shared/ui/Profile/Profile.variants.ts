@@ -2,7 +2,7 @@ import { tv } from 'tailwind-variants';
 
 export const profileVariants = tv({
   slots: {
-    root: ['relative', 'flex', 'items-center', 'justify-center', 'overflow-hidden', 'rounded-full'],
+    root: ['relative', 'flex', 'shrink-0', 'items-center', 'justify-center', 'overflow-hidden', 'rounded-full'],
 
     image: ['w-full', 'h-full', 'object-cover'],
 
@@ -27,7 +27,7 @@ export const profileVariants = tv({
         root: ['w-[152px]', 'h-[152px]'],
       },
       lg: {
-        root: ['w-[180px]', 'h-[180px]'],
+        root: ['w-[100px]', 'h-[100px]', 'md:w-[180px]', 'md:h-[180px]'],
       },
     },
   },

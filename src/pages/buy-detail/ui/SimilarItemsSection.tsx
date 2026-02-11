@@ -2,7 +2,7 @@ import { ROUTES } from '@shared/constants';
 import { Card } from '@shared/ui/Card';
 import { EmptyState } from '@shared/ui/EmptyState';
 import { Link } from 'react-router';
-import type { SimilarItem } from '@shared/types/buy';
+import type { SimilarItem } from '@shared/types/post';
 
 type SimilarItemsSectionProps = {
   items: SimilarItem[];

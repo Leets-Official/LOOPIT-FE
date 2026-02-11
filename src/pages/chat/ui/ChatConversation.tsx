@@ -1,6 +1,7 @@
 import { ChevronLeftMdIcon } from '@shared/assets/icons';
 import { ChatBubble } from '@shared/ui/ChatBubble';
 import { ChatInput } from '@shared/ui/ChatInput';
+import { formatChatTime } from '@shared/utils';
 import { cn } from '@shared/utils/cn';
 import { type RefObject } from 'react';
 import { ChatConversationHeader } from './ChatConversationHeader';
@@ -22,17 +23,6 @@ type ChatConversationProps = {
   onBack: () => void;
 };
 
-const formatMeta = (sendTime: string, isRead: boolean, isSender: boolean) => {
-  const date = new Date(sendTime);
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
-  const meridiem = hours >= 12 ? '오후' : '오전';
-  const hourLabel = `${hours % 12 === 0 ? 12 : hours % 12}`.padStart(2, '0');
-  const minuteLabel = `${minutes}`.padStart(2, '0');
-  const timeStr = `${meridiem} ${hourLabel}:${minuteLabel}`;
-  return isSender && isRead ? `읽음 · ${timeStr}` : timeStr;
-};
-
 export const ChatConversation = ({
   room,
   messages,
@@ -51,7 +41,7 @@ export const ChatConversation = ({
     <section
       className={cn(
         'h-[calc(100dvh-120px)] w-full flex-col rounded-[24px] bg-gray-50 px-[22px] py-[22px]',
-        'xl:h-[932px] xl:w-[690px] xl:max-w-[690px] xl:flex-none xl:shrink-0',
+        'xl:h-full xl:w-[690px] xl:max-w-[690px] xl:flex-none xl:shrink-0',
         hasSelection ? 'flex' : 'hidden xl:flex'
       )}
     >
@@ -97,14 +87,14 @@ export const ChatConversation = ({
                   key={msg.messageId}
                   variant={isSender ? 'sender' : 'receiver'}
                   message={msg.content}
-                  meta={formatMeta(msg.sendTime, msg.read, isSender)}
+                  meta={formatChatTime(msg.sendTime, msg.read, isSender)}
                   metaDateTime={msg.sendTime}
                 />
               );
             })}
           </div>
 
-          <div className="mt-xs xl:mt-xl w-full max-w-[647px] xl:sticky xl:bottom-4">
+          <div className="mt-xs xl:mt-xl w-full max-w-[647px]">
             <ChatInput placeholder="메시지를 입력하세요." onSend={onSend} />
           </div>
         </>

@@ -1,16 +1,8 @@
-import type { StatusFilter } from './types';
-import type { TradeListItem } from '@pages/mypage/ui/TradeItemList';
+import type { TradeHistoryItem, TradeHistoryStatus } from '@shared/apis/mypage';
 
-export const filterTradeItems = (items: TradeListItem[], status: StatusFilter): TradeListItem[] => {
-  if (status === 'all') {
-    return items;
+export const getStatusCount = (items: TradeHistoryItem[], status: TradeHistoryStatus | 'ALL'): number => {
+  if (status === 'ALL') {
+    return items.length;
   }
-  if (status === 'buying') {
-    return items.filter((item) => item.status === 'buying');
-  }
-  return items.filter((item) => item.status === status);
-};
-
-export const getStatusCount = (items: TradeListItem[], status: StatusFilter): number => {
-  return filterTradeItems(items, status).length;
+  return items.filter((item) => item.status === status).length;
 };

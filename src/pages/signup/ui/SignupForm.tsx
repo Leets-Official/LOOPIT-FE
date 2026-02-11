@@ -1,4 +1,4 @@
-import pictureIcon from '@shared/assets/icons/common/picture.svg';
+import { PictureIcon } from '@shared/assets/icons';
 import { Button, DateField, Profile, TextField } from '@shared/ui';
 import { useSignupForm } from '../model';
 
@@ -28,15 +28,18 @@ export const SignupForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit, scrollToFirstError)} className="flex w-full flex-col items-center">
-      <section className="mt-[80px] w-full">
-        <div className="flex w-full flex-col items-start gap-[67px]">
+      <section className="mt-10 w-full md:mt-[80px]">
+        <div className="flex w-full flex-col items-start gap-10 md:gap-[67px]">
           <section className="gap-m flex h-[214px] w-full flex-col">
             <span className={sectionLabel}>프로필 사진</span>
             <div className="flex w-full justify-center">
               <button type="button" className="relative h-[182px] w-[182px] cursor-pointer" onClick={handleSelectImage}>
                 <Profile size="lg" image={profileImage} className="h-[182px] w-[182px]" />
-                <div className="h-xxxl w-xxxl absolute right-0 bottom-0 flex items-center justify-center rounded-full border border-gray-300 bg-white">
-                  <img src={pictureIcon} alt="사진 선택" className="h-xxxl w-xxxl" />
+                <div
+                  className="absolute right-0 bottom-0 flex items-center justify-center rounded-full border border-gray-300 bg-white p-1.5 md:p-2"
+                  aria-label="프로필 사진 변경"
+                >
+                  <PictureIcon className="h-[18px] w-[18px] text-gray-500 md:h-6 md:w-6" />
                 </div>
                 <input
                   ref={fileInputRef}
@@ -71,7 +74,7 @@ export const SignupForm = () => {
         </div>
       </section>
 
-      <section className="mt-[127px] flex w-full justify-center xl:justify-end">
+      <section className="mt-16 flex w-full justify-center md:mt-[127px] xl:justify-end">
         <Button variant="fill" size="auto" className="w-full max-w-[286px]" type="submit" disabled={isSubmitting}>
           {isSubmitting ? '처리중...' : '회원가입 완료'}
         </Button>

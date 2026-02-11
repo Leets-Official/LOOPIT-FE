@@ -1,5 +1,6 @@
+import { useState, type ComponentPropsWithoutRef } from 'react';
 import { cardVariants } from './Card.variants';
-import type { ComponentPropsWithoutRef } from 'react';
+import { CardSkeleton } from './CardSkeleton';
 import type { VariantProps } from 'tailwind-variants';
 
 export type CardProps = ComponentPropsWithoutRef<'div'> &
@@ -10,7 +11,11 @@ export type CardProps = ComponentPropsWithoutRef<'div'> &
     date: string;
   };
 
+const isDataUrl = (url: string) => url.startsWith('data:');
+
 export const Card = ({ image, title, price, date, variant, className, ...props }: CardProps) => {
+  const [isLoaded, setIsLoaded] = useState(() => isDataUrl(image));
+
   const {
     root,
     imageWrapper,
@@ -23,17 +28,25 @@ export const Card = ({ image, title, price, date, variant, className, ...props }
   } = cardVariants({ variant });
 
   return (
-    <div {...props} className={root({ className })}>
-      <div className={imageWrapper()}>
-        <img src={image} alt={title} className={imageStyle()} />
-        <div className={overlay()} />
-      </div>
+    <>
+      <img src={image} alt="" className="hidden" onLoad={() => setIsLoaded(true)} />
 
-      <div className={textWrapper()}>
-        <p className={titleStyle()}>{title}</p>
-        <p className={priceStyle()}>{price}</p>
-        <span className={dateStyle()}>{date}</span>
-      </div>
-    </div>
+      {!isLoaded ? (
+        <CardSkeleton variant={variant} className={className} {...props} />
+      ) : (
+        <div {...props} className={root({ className })}>
+          <div className={imageWrapper()}>
+            <img src={image} alt={title} className={imageStyle()} />
+            <div className={overlay()} />
+          </div>
+
+          <div className={textWrapper()}>
+            <p className={titleStyle()}>{title}</p>
+            <p className={priceStyle()}>{price}</p>
+            <span className={dateStyle()}>{date}</span>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
