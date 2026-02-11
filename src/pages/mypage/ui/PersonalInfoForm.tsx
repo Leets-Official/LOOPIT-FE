@@ -15,10 +15,10 @@ export const PersonalInfoForm = ({ defaultValues, onSave, isPending = false }: P
 
   return (
     <form
-      className="flex h-[760px] shrink-0 flex-col items-end justify-end gap-[127px] self-stretch"
+      className="flex w-full shrink-0 flex-col items-end justify-end gap-16 self-stretch md:gap-24 xl:gap-[127px]"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <div className="flex w-[1200px] flex-col items-stretch gap-[67px]">
+      <div className="flex w-full max-w-[1200px] flex-col items-stretch gap-10 md:gap-12 xl:gap-[67px]">
         <Controller
           name="nickname"
           control={control}
@@ -82,7 +82,13 @@ export const PersonalInfoForm = ({ defaultValues, onSave, isPending = false }: P
         />
       </div>
 
-      <Button variant="fill" size="auto" type="submit" className="min-w-[286px] shrink-0" disabled={isPending}>
+      <Button
+        variant="fill"
+        size="auto"
+        type="submit"
+        className="w-full shrink-0 md:w-auto md:min-w-[286px]"
+        disabled={isPending}
+      >
         {isPending ? '저장 중...' : '저장'}
       </Button>
     </form>
