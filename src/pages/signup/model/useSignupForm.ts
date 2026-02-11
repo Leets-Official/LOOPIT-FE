@@ -4,6 +4,7 @@ import { ROUTES } from '@shared/constants';
 import { useImagePreview, useS3ImageUpload, useScrollToError, useToast } from '@shared/hooks';
 import { useAuthStore } from '@shared/stores';
 import { signupSchema, type SignupFormData } from '@shared/utils/schemas';
+import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
@@ -74,8 +75,12 @@ export const useSignupForm = () => {
           showToast('회원가입이 완료되었습니다', 'success');
           navigate(ROUTES.MAIN, { replace: true });
         },
-        onError: () => {
-          showToast('회원가입에 실패했습니다');
+        onError: (error) => {
+          if (error instanceof AxiosError && error.response?.data?.message) {
+            showToast(error.response.data.message, 'error');
+          } else {
+            showToast('회원가입에 실패했습니다', 'error');
+          }
           setIsSubmitting(false);
         },
       }

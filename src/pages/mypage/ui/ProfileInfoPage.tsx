@@ -2,6 +2,7 @@ import { useUpdateUserMutation, useUserInfo } from '@shared/apis/user';
 import { ROUTES } from '@shared/constants';
 import { useToast } from '@shared/hooks';
 import { LoadingFallback } from '@shared/ui/LoadingFallback';
+import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router';
 import { PageContainer } from './PageContainer';
 import { PersonalInfoForm } from './PersonalInfoForm';
@@ -36,7 +37,11 @@ const ProfileInfoPage = () => {
       });
       showToast('저장되었습니다', 'success');
       navigate(ROUTES.MYPAGE, { viewTransition: true });
-    } catch {
+    } catch (error) {
+      if (error instanceof AxiosError && error.response?.data?.message) {
+        showToast(error.response.data.message, 'error');
+        return;
+      }
       showToast('저장에 실패했습니다', 'error');
     }
   };

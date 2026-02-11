@@ -4,6 +4,7 @@ import { useCreatePostMutation, useSellAutocompleteQuery, useUpdatePostMutation 
 import { ROUTES } from '@shared/constants';
 import { useClickOutside, useDebounce, useScrollToError, useToast } from '@shared/hooks';
 import { sellSchema, type SellFormData } from '@shared/utils/schemas';
+import { AxiosError } from 'axios';
 import { isEmpty } from 'es-toolkit/compat';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -159,8 +160,12 @@ export const useSellForm = () => {
         showToast('등록되었습니다', 'success');
         navigate(`${ROUTES.BUY}/${created.id}`);
       }
-    } catch {
-      showToast('오류가 발생했습니다. 다시 시도해 주세요.', 'error');
+    } catch (error) {
+      if (error instanceof AxiosError && error.response?.data?.message) {
+        showToast(error.response.data.message, 'error');
+      } else {
+        showToast('오류가 발생했습니다. 다시 시도해 주세요.', 'error');
+      }
     } finally {
       setIsSubmitting(false);
     }

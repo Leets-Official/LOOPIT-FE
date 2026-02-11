@@ -1,8 +1,22 @@
 import { useAuthStore } from '@shared/stores';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import { getUser, updateUser, updateUserImage } from './api';
 import { userKeys } from './keys';
 import type { UpdateUserRequest } from './types';
+
+const getErrorMessage = (error: unknown): string => {
+  if (error instanceof AxiosError) {
+    const status = error.response?.status;
+    if (status === 401) {
+      return '다시 로그인해주세요.';
+    }
+    if (status === 404) {
+      return '계정 정보를 확인할 수 없습니다. 다시 로그인해주세요.';
+    }
+  }
+  return '정보를 불러오는데 실패했습니다.';
+};
 
 export const useUserInfo = () => {
   const { accessToken, _hasHydrated } = useAuthStore();
@@ -49,5 +63,6 @@ export const useAuth = () => {
     isLoggedIn: Boolean(data),
     isLoading: !_hasHydrated || isLoading,
     error,
+    errorMessage: error ? getErrorMessage(error) : null,
   };
 };
