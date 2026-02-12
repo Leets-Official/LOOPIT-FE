@@ -87,7 +87,6 @@ export const useDeletePostMutation = (postId: number | string) => {
     onSuccess: () => {
       queryClient.removeQueries({ queryKey: postKeys.detailBase(postId) });
       queryClient.removeQueries({ queryKey: postKeys.lists() });
-      queryClient.invalidateQueries({ queryKey: postKeys.lists() });
     },
   });
 };
@@ -98,7 +97,7 @@ export const useReservePostMutation = () => {
   return useMutation({
     mutationFn: (request: ReservePostRequest) => reservePost(request),
     onSuccess: (_, variables) => {
-      queryClient.removeQueries({ queryKey: ['post', 'infinite'] });
+      queryClient.removeQueries({ queryKey: postKeys.infiniteBase() });
       queryClient.invalidateQueries({ queryKey: postKeys.detailBase(variables.postId) });
       queryClient.invalidateQueries({ queryKey: chatKeys.roomByPost(variables.postId) });
       queryClient.invalidateQueries({ queryKey: mypageKeys.all });
@@ -112,7 +111,7 @@ export const useCompletePostMutation = () => {
   return useMutation({
     mutationFn: (request: CompletePostRequest) => completePost(request),
     onSuccess: (_, variables) => {
-      queryClient.removeQueries({ queryKey: ['post', 'infinite'] });
+      queryClient.removeQueries({ queryKey: postKeys.infiniteBase() });
       queryClient.invalidateQueries({ queryKey: postKeys.detailBase(variables.postId) });
       queryClient.invalidateQueries({ queryKey: chatKeys.roomByPost(variables.postId) });
       queryClient.invalidateQueries({ queryKey: mypageKeys.all });
@@ -126,7 +125,7 @@ export const useActivePostMutation = () => {
   return useMutation({
     mutationFn: (request: ActivePostRequest) => activePost(request),
     onSuccess: (_, variables) => {
-      queryClient.removeQueries({ queryKey: ['post', 'infinite'] });
+      queryClient.removeQueries({ queryKey: postKeys.infiniteBase() });
       queryClient.invalidateQueries({ queryKey: postKeys.detailBase(variables.postId) });
       queryClient.invalidateQueries({ queryKey: chatKeys.roomByPost(variables.postId) });
       queryClient.invalidateQueries({ queryKey: mypageKeys.all });

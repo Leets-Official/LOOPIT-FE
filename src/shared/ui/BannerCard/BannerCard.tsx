@@ -59,7 +59,7 @@ export const BannerCard = ({
       </div>
 
       <div className={imageWrapper()}>
-        <img src={imageSrc} alt="" className={image()} />
+        <img src={imageSrc} alt="" loading="lazy" className={image()} />
       </div>
     </div>
   );

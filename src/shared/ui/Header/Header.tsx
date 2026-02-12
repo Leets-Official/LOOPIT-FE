@@ -8,6 +8,7 @@ import { Logo } from '@shared/ui/Logo';
 import { Modal } from '@shared/ui/Modal';
 import { cn } from '@shared/utils/cn';
 import { type ComponentPropsWithoutRef, useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router';
 
 export type HeaderProps = Omit<ComponentPropsWithoutRef<'header'>, 'children'> & {
   isLoading?: boolean;
@@ -29,6 +30,7 @@ export const Header = ({
   const { isOpen: isMobileMenuOpen, toggle: toggleMobileMenu, close: closeMobileMenu } = useModal();
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const [isScrolled, setIsScrolled] = useState(false);
+  const { pathname } = useLocation();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 0);
@@ -56,17 +58,21 @@ export const Header = ({
 
         <div className={styles.desktopNav()}>
           <nav className={styles.navList()}>
-            {NAV_ITEMS.map((item) => (
-              <button
-                type="button"
-                key={item.id}
-                onClick={() => handleNavClick(item.path)}
-                className={styles.navItem()}
-              >
-                {item.label}
-                {item.id === 'chat' && hasChatAlert && <AlertDotIcon className="absolute -top-1 -right-2" />}
-              </button>
-            ))}
+            {NAV_ITEMS.map((item) => {
+              const isCurrent = pathname.startsWith(item.path);
+              return (
+                <button
+                  type="button"
+                  key={item.id}
+                  onClick={() => handleNavClick(item.path)}
+                  className={styles.navItem()}
+                  aria-current={isCurrent ? 'page' : undefined}
+                >
+                  {item.label}
+                  {item.id === 'chat' && hasChatAlert && <AlertDotIcon className="absolute -top-1 -right-2" />}
+                </button>
+              );
+            })}
           </nav>
           {isLoading ? (
             <div className="h-[44px] w-[89px] animate-pulse rounded-(--radius-l) bg-gray-200" />
@@ -102,17 +108,21 @@ export const Header = ({
             )}
           >
             <nav className="flex flex-col">
-              {NAV_ITEMS.map((item) => (
-                <button
-                  type="button"
-                  key={item.id}
-                  onClick={() => handleNavClick(item.path)}
-                  className={styles.mobileNavItem()}
-                >
-                  {item.label}
-                  {item.id === 'chat' && hasChatAlert && <AlertDotIcon className="ml-1" />}
-                </button>
-              ))}
+              {NAV_ITEMS.map((item) => {
+                const isCurrent = pathname.startsWith(item.path);
+                return (
+                  <button
+                    type="button"
+                    key={item.id}
+                    onClick={() => handleNavClick(item.path)}
+                    className={styles.mobileNavItem()}
+                    aria-current={isCurrent ? 'page' : undefined}
+                  >
+                    {item.label}
+                    {item.id === 'chat' && hasChatAlert && <AlertDotIcon className="ml-1" />}
+                  </button>
+                );
+              })}
             </nav>
             <div className={styles.mobileDivider()} />
             {isLoggedIn ? (
