@@ -13,7 +13,7 @@ export const ChatThreadList = ({ rooms, selectedRoomId, onSelect }: ChatThreadLi
   return (
     <aside className="xl:px-xxs flex w-full flex-col gap-4 lg:gap-6 xl:h-full xl:w-[510px] xl:max-w-[510px] xl:shrink-0">
       <h1 className="typo-title-2 text-gray-900">대화목록</h1>
-      <div className="gap-xs flex min-h-0 flex-1 flex-col overflow-y-auto pr-2">
+      <div className="gap-xs flex min-h-0 flex-1 flex-col overflow-y-auto [scrollbar-gutter:stable]">
         {rooms.map((room) => {
           const isActive = room.roomId === selectedRoomId;
           const isUnread = room.hasUnreadMessages;

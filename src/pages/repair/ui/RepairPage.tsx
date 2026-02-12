@@ -72,7 +72,7 @@ const RepairPage = () => {
         <div className="top-xxl absolute left-1/2 z-10 w-[calc(100%-32px)] max-w-[790px] -translate-x-1/2 md:w-[calc(100%-96px)] xl:w-[790px]">
           <SearchBar
             className="w-full max-w-none"
-            placeholder="현재 위치하고 계신 곳의 주소를 적어주세요."
+            placeholder="현재 계신 곳의 주소를 적어주세요."
             onSearch={handleSearch}
           />
         </div>
