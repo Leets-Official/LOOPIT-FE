@@ -4,6 +4,7 @@ export const postKeys = {
 
   // 목록/상세
   lists: () => [...postKeys.all, 'list'] as const,
+  infiniteBase: () => [...postKeys.all, 'infinite'] as const,
   infinite: (params?: { manufacturer?: string; series?: string[]; priceRange?: string; keyword?: string }) =>
     [
       ...postKeys.all,
