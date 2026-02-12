@@ -29,7 +29,7 @@ export const ChatConversationHeader = ({ room, statusDropdown }: ChatConversatio
           </div>
         </div>
 
-        {statusDropdown}
+        <div className="shrink-0 whitespace-nowrap">{statusDropdown}</div>
       </div>
     </div>
   );
