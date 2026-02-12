@@ -24,11 +24,7 @@ export const filterBuyItems = ({
   applyPriceFilter = false,
   applyQueryFilter = false,
 }: FilterParams) => {
-  const normalizeQuery = (value: string) =>
-    value
-      .toLowerCase()
-      .replace(/\s+/g, ' ')
-      .trim();
+  const normalizeQuery = (value: string) => value.toLowerCase().replace(/\s+/g, ' ').trim();
   const compactQuery = (value: string) => normalizeQuery(value).replace(/\s+/g, '');
   const trimmedQuery = query.trim();
   const normalizedQuery = normalizeQuery(query);
