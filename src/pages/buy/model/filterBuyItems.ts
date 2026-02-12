@@ -24,13 +24,27 @@ export const filterBuyItems = ({
   applyPriceFilter = false,
   applyQueryFilter = false,
 }: FilterParams) => {
+  const normalizeQuery = (value: string) =>
+    value
+      .toLowerCase()
+      .replace(/\s+/g, ' ')
+      .trim();
+  const compactQuery = (value: string) => normalizeQuery(value).replace(/\s+/g, '');
   const trimmedQuery = query.trim();
+  const normalizedQuery = normalizeQuery(query);
+  const compactedQuery = compactQuery(query);
 
   return items.filter((item) => {
     if (skipServerSyncedFilters) {
       const matchesManufacturer =
         !applyManufacturerFilter || selectedManufacturers.length === 0 || selectedManufacturers.includes(item.brand);
-      const matchesQuery = !applyQueryFilter || trimmedQuery.length === 0 || item.title.includes(trimmedQuery);
+      const matchesQuery =
+        !applyQueryFilter ||
+        trimmedQuery.length === 0 ||
+        normalizeQuery(item.title).includes(normalizedQuery) ||
+        normalizeQuery(item.model).includes(normalizedQuery) ||
+        compactQuery(item.title).includes(compactedQuery) ||
+        compactQuery(item.model).includes(compactedQuery);
       if (!applyPriceFilter) {
         return matchesManufacturer && matchesQuery;
       }
@@ -62,7 +76,12 @@ export const filterBuyItems = ({
         }
         return item.priceValue >= range.min && item.priceValue < range.max;
       });
-    const matchesQuery = trimmedQuery.length === 0 || item.title.includes(trimmedQuery);
+    const matchesQuery =
+      trimmedQuery.length === 0 ||
+      normalizeQuery(item.title).includes(normalizedQuery) ||
+      normalizeQuery(item.model).includes(normalizedQuery) ||
+      compactQuery(item.title).includes(compactedQuery) ||
+      compactQuery(item.model).includes(compactedQuery);
 
     return matchesManufacturer && matchesModel && matchesPrice && matchesQuery;
   });
