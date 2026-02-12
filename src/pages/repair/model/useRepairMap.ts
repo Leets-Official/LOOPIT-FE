@@ -15,7 +15,7 @@ const buildOverlayContent = (shop: RepairShop) => {
   return `
     <div style="position:relative; transform:translateY(-8px);">
       <div style="padding:var(--padding-m) var(--spacing-s); font-size:12px; line-height:1.4; width:260px; background:var(--color-green-100); border-radius:var(--radius-m); border:2px solid var(--color-green-700); box-shadow:0 8px 20px rgba(17,203,176,0.18);">
-        <div style="font-weight:700; margin-bottom:var(--spacing-xxxxs); word-break:break-word; color:var(--color-green-900);">${shop.name}</div>
+        <div style="font-weight:700; margin-bottom:var(--spacing-xxxxs); word-break:break-word; overflow-wrap:anywhere; color:var(--color-green-900); white-space:normal;">${shop.name}</div>
         <div style="color:var(--color-green-800); margin-bottom:4px; word-break:break-word;">${shop.address}</div>
         ${phoneDisplay ? `<div style="color:var(--color-green-800); margin-bottom:6px; word-break:break-word;">${phoneDisplay}</div>` : '<div style="margin-bottom:6px;"></div>'}
         <div style="color:var(--color-green-900); font-weight:600; word-break:keep-all;">${actions}</div>
