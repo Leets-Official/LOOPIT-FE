@@ -13,7 +13,12 @@ export const ChatConversationHeader = ({ room, statusDropdown }: ChatConversatio
       <div className="flex items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           {room.thumbnail ? (
-            <img src={room.thumbnail} alt={room.postTitle} className="rounded-m h-[80px] w-[80px] object-cover" />
+            <img
+              src={room.thumbnail}
+              alt={room.postTitle}
+              loading="lazy"
+              className="rounded-m h-[80px] w-[80px] object-cover"
+            />
           ) : (
             <div className="rounded-m h-[80px] w-[80px] bg-gray-200" />
           )}

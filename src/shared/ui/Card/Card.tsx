@@ -36,7 +36,7 @@ export const Card = ({ image, title, price, date, variant, className, ...props }
       ) : (
         <div {...props} className={root({ className })}>
           <div className={imageWrapper()}>
-            <img src={image} alt={title} className={imageStyle()} />
+            <img src={image} alt={title} loading="lazy" className={imageStyle()} />
             <div className={overlay()} />
           </div>
 
