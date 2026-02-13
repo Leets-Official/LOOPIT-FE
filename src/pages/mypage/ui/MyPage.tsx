@@ -102,6 +102,7 @@ const MyPage = () => {
                     key={item.id}
                     name={item.name}
                     address={item.address}
+                    phone={item.phone}
                     favoriteActive={item.favoriteActive}
                     onFavoriteToggle={() => {
                       toggleShopWishlistMutation.mutate({
