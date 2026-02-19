@@ -103,6 +103,7 @@ LOOPIT은 중고 스마트 기기에 새로운 쓸모를 찾아줍니다.
 <img width="1920" height="1080" alt="UI7" src="https://github.com/user-attachments/assets/03e4f595-9138-4ad3-873d-b25609d6d393" />
 
 <br>
+<br>
 
 ## 📱 LOOPIT Tech Stack
 
