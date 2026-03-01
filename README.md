@@ -1,5 +1,6 @@
-# LOOPIT <img height="108" align=left alt="logo2" src="https://github.com/user-attachments/assets/78a6bc96-7746-4797-99c1-91a9403731ec" />
-![LOOPIT Logo](https://img.shields.io/badge/LOOPIT-중고%20스마트기기%20거래%20플랫폼-13FFD0?style=for-the-badge&logoColor=black)
+<img height="108" alt="logo2" src="https://github.com/user-attachments/assets/78a6bc96-7746-4797-99c1-91a9403731ec" />
+
+# LOOPIT ![LOOPIT Logo](https://img.shields.io/badge/LOOPIT-중고%20스마트기기%20거래%20플랫폼-13FFD0?style=for-the-badge&logoColor=black)
 
 <br>
 
@@ -21,47 +22,31 @@ LOOPIT은 중고 스마트 기기에 새로운 쓸모를 찾아줍니다.
 
 <br>
 
-## 📱 팀원 소개
+## 👥 팀원 소개
 
 <div align="center">
   <table>
-    <thead>
-      <tr>
-        <th>🔥Lead</th>
-        <th>Member</th>
-        <th>Member</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>
-          <img style="width: 220px;" alt="Frontend Lead" src="https://github.com/KyeongJooni.png" />
-        </td>
-        <td>
-          <img style="width: 220px;" alt="팀원" src="https://github.com/jwj0620gcu.png" />
-        </td>
-        <td>
-          <img style="width: 220px;" alt="팀원" src="https://github.com/YeBeenChoi.png" />
-        </td>
-      </tr>
-      <tr align="center">
-        <td>
-          <a href="https://github.com/KyeongJooni" target="_blank">이경준</a>
-        </td>
-        <td>
-          <a href="https://github.com/jwj0620gcu" target="_blank">정원준</a>
-        </td>
-        <td>
-          <a href="https://github.com/YeBeenChoi" target="_blank">최예빈</a>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+    <tr>
+    <th align="center">FrontEnd Lead</th>
+    <th align="center">FrontEnd</th>
+    <th align="center">FrontEnd</th>
+  </tr>
+  <tr>
+    <td align="center"><img style="width: 200px;" src="https://github.com/KyeongJooni.png"></td>
+    <td align="center"><img style="width: 200px;" src="https://github.com/jwj0620gcu.png"></td>
+    <td align="center"><img style="width: 200px;" src="https://github.com/YeBeenChoi.png"></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/KyeongJooni">이경준</td>
+    <td align="center"><a href="https://github.com/jwj0620gcu">정원준</td>
+    <td align="center"><a href="https://github.com/YeBeenChoi">최예빈</td>
+  </tr>
+</table>
 </div>
 
 <br>
 
-## 📱 LOOPIT 핵심 서비스
+## 📱 LOOPIT 주요 서비스
 
 ### 🏠 서비스 한눈에 보기 (홈)
 - 주요기능을 어디로든 바로 들어갈 수 있게
