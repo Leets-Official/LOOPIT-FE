@@ -32,9 +32,9 @@ LOOPIT은 중고 스마트 기기에 새로운 쓸모를 찾아줍니다.
     <th align="center">FrontEnd</th>
   </tr>
   <tr>
-    <td align="center"><img style="width: 200px;" src="https://github.com/KyeongJooni.png"></td>
-    <td align="center"><img style="width: 200px;" src="https://github.com/jwj0620gcu.png"></td>
-    <td align="center"><img style="width: 200px;" src="https://github.com/YeBeenChoi.png"></td>
+    <td align="center"><img src="https://github.com/KyeongJooni.png" width="160"></td>
+    <td align="center"><img src="https://github.com/jwj0620gcu.png" width= "160"></td>
+    <td align="center"><img src="https://github.com/YeBeenChoi.png" width= "160"></td>
   </tr>
   <tr>
     <td align="center"><a href="https://github.com/KyeongJooni">이경준</td>
