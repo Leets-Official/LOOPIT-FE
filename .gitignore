@@ -46,3 +46,7 @@ storybook-static
 # AI
 CLAUDE.md
 .claude/
+.omc/
+
+# Lighthouse
+lighthouse-result.json
